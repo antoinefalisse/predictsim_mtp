@@ -1,0 +1,8 @@
+__pycache__/
+err.log
+out.log
+
+**/OpenSimModel/subject1_3D_mtp/MA/ResultsMA/
+**/OpenSimModel/subject1_3D_no_mtp/MA/ResultsMA/
+**/Results
+
