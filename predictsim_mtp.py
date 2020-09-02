@@ -15,15 +15,12 @@ elif os.environ['COMPUTERNAME'] == 'GBW-D-W2711':
 import casadi as ca
 import numpy as np
 
-# User settings
-guessCase = 'dataDriven' # 'dataDriven' or 'quasiRandom'
-
-solveProblem = False
+solveProblem = True
 saveResults = True
 analyzeResults = True
 loadResults = True
-writeMotion = False
-saveTrajectories = False
+writeMotion = True
+saveTrajectories = True
 decomposeCost = True
 loadMTParameters = True
 loadPolynomialData = True
@@ -31,15 +28,10 @@ plotPolynomials = False
 subject = 'subject1_3D_mtp'
 model = 'subject1_mtp'
 
-targetSpeed = 1.33
-tol = 4
-d = 3
-N = 50
-NThreads = 8
-parallelMode = "thread" # 'openmp' or 'thread
+cases = ['1']
 
-cases = ['0']
-
+from settings_predictsim import getSettings_predictsim_mtp   
+settings = getSettings_predictsim_mtp() 
 for case in cases:
     # Weights in cost function
     weights = {'metabolicEnergyRateTerm' : 500,
@@ -48,7 +40,17 @@ for case in cases:
                'armExcitationTerm': 1000000, 
                'mtpExcitationTerm': 1000000,
                'passiveJointTorqueTerm': 1000, 
-               'controls': 0.001}            
+               'controls': 0.001}   
+
+    # Other settings
+    tol = settings[case]['tol']
+    N = settings[case]['N']
+    NThreads = 8
+    d = 3
+    parallelMode = "thread"
+    guessType = settings[case]['guessType']
+    targetSpeed = settings[case]['targetSpeed']    
+         
     # Paths
     pathMain = os.getcwd()
     pathData = os.path.join(pathMain, 'OpenSimModel', subject)
@@ -494,10 +496,10 @@ for case in cases:
     lBoundsFDtj = ca.vec(lBoundsFDt.to_numpy().T * np.ones((1, d*N))).full()
     
     # %% Guesses
-    if guessCase == 'quasiRandom':
+    if guessType == 'quasiRandom':
         from guesses import quasiRandomGuess
         guess = quasiRandomGuess(N, d, joints, bothSidesMuscles, targetSpeed)
-    elif guessCase == 'dataDriven':
+    elif guessType == 'dataDriven':
         from guesses import dataDrivenGuess
         guess = dataDrivenGuess(Qs_walk_filt, N, d, joints, bothSidesMuscles,
                                 targetSpeed, periodicQsJointsA, 
@@ -1331,6 +1333,7 @@ for case in cases:
                                                    np.ones((1, d*N)))
         normFDt_col_opt_nsc = normFDt_col_opt * (scalingFDt.to_numpy().T * 
                                                  np.ones((1, d*N)))
+        normFDt_opt_nsc = normFDt_col_opt_nsc[:,d-1::d]
         # Assert speed
         distTraveled_opt = (Qs_opt_nsc[joints.index('pelvis_tx'), -1] - 
                                        Qs_opt_nsc[joints.index('pelvis_tx'), 0])
@@ -1596,6 +1599,7 @@ for case in cases:
                          fiberVelocityj_opt, activeFiberForcej_opt,
                          passiveFiberForcej_opt, normActiveFiberLengthForcej_opt)
                     
+                    ###########################################################
                     # Motor control terms.
                     activationTerm_opt = f_NMusclesSum2(akj_opt[:, j+1])  
                     jointAccelerationTerm_opt = f_NNoArmJointsSum2(Qdotdotsj_opt[idxNoArmJoints, j])          
@@ -1617,7 +1621,6 @@ for case in cases:
                     forceDtTerm_opt_all += weights['controls'] * forceDtTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
                     armAccelerationTerm_opt_all += weights['controls'] * armAccelerationTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
 
-
         JAll_opt = (metabolicEnergyRateTerm_opt_all.full() +
                      activationTerm_opt_all.full() + 
                      armExcitationTerm_opt_all.full() + 
@@ -1630,7 +1633,7 @@ for case in cases:
         
         assert np.alltrue(
                 np.abs(JAll_opt[0][0] - stats['iterations']['obj'][-1]) 
-                <= 1e-5), "decomposition cost"
+                <= 1e-6), "decomposition cost"
         
         # %% Reconstruct gait cycle
         from variousFunctions import getIdxIC
@@ -1698,6 +1701,22 @@ for case in cases:
         if legIC == "left":
             A_GC = A_GC[idxPeriodicMuscles, :]
             
+        # Muscle force
+        F_GC = np.zeros((NMuscles, 2*N))
+        F_GC[:, :N-idxIC_s[0]] = normF_opt_nsc[:, idxIC_s[0]:-1]
+        F_GC[:, N-idxIC_s[0]:N-idxIC_s[0]+N] = normF_opt_nsc[idxPeriodicMuscles, :-1]
+        F_GC[:, N-idxIC_s[0]+N:2*N] = normF_opt_nsc[:,:idxIC_s[0]] 
+        if legIC == "left":
+            F_GC = F_GC[idxPeriodicMuscles, :]
+            
+        # Muscle force derivative
+        FDt_GC = np.zeros((NMuscles, 2*N))
+        FDt_GC[:, :N-idxIC_c[0]] = normFDt_opt_nsc[:, idxIC_c[0]:]
+        FDt_GC[:, N-idxIC_c[0]:N-idxIC_c[0]+N] = normFDt_opt_nsc[idxPeriodicMuscles, :]
+        FDt_GC[:, N-idxIC_c[0]+N:2*N] = normFDt_opt_nsc[:,:idxIC_c[0]] 
+        if legIC == "left":
+            FDt_GC = FDt_GC[idxPeriodicMuscles, :]
+            
         # MTP actuator activations
         aMtp_GC = np.zeros((NMtpJoints, 2*N))
         aMtp_GC[:, :N-idxIC_s[0]] = aMtp_opt[:, idxIC_s[0]:-1]
@@ -1748,21 +1767,81 @@ for case in cases:
         
         # %% Write motion file for visualization in OpenSim GUI
         if writeMotion:        
-            muscleLabels = [bothSidesMuscle + '/activation' for bothSidesMuscle in 
-                            bothSidesMuscles]        
+            muscleLabels = [bothSidesMuscle + '/activation' 
+                            for bothSidesMuscle in bothSidesMuscles]        
             labels = ['time'] + joints + muscleLabels
             data = np.concatenate((tgrid_GC.T, Qs_GC.T, A_GC.T), axis=1)             
             from variousFunctions import numpy2storage
-            numpy2storage(labels, data, os.path.join(pathResults, 'motion.mot'))
+            numpy2storage(labels, data, os.path.join(pathResults,'motion.mot'))
             
-         # %% Save trajectories for further analysis
+        # %% Compute metabolic cost of transport for whole gait cycle    
+        Qs_GC_deg = Qs_GC.copy()        
+        Qs_GC_deg[idxRotationalJoints, :] = (
+            Qs_GC_deg[idxRotationalJoints, :] * np.pi / 180)
+        Qdots_GC_deg = Qdots_GC.copy()        
+        Qdots_GC_deg[idxRotationalJoints, :] = (
+            Qdots_GC_deg[idxRotationalJoints, :] * np.pi / 180)     
+        basal_coef = 1.2
+        basal_exp = 1        
+        totalMetabolicEnergyRate = np.zeros((1,2*N))
+        for k in range(2*N):
+            ###################################################################
+            # Polynomial approximations
+            # Left leg
+            Qsk_GC_l = Qs_GC_deg[leftPolynomialJointIndices, k]
+            Qdotsk_GC_l = Qdots_GC_deg[leftPolynomialJointIndices, k]
+            [lMTk_GC_l, vMTk_GC_l, _] = f_polynomial(Qsk_GC_l, Qdotsk_GC_l)       
+            # Right leg
+            Qsk_GC_r = Qs_GC_deg[rightPolynomialJointIndices, k]
+            Qdotsk_GC_r = Qdots_GC_deg[rightPolynomialJointIndices, k]
+            [lMTk_GC_r, vMTk_GC_r, _] = f_polynomial(Qsk_GC_r, Qdotsk_GC_r)
+            # Both legs        
+            lMTk_GC_lr = ca.vertcat(lMTk_GC_l[leftPolynomialMuscleIndices], 
+                                     lMTk_GC_r[rightPolynomialMuscleIndices])
+            vMTk_GC_lr = ca.vertcat(vMTk_GC_l[leftPolynomialMuscleIndices], 
+                                     vMTk_GC_r[rightPolynomialMuscleIndices])                    
+            
+            ###################################################################
+            # Derive Hill-equilibrium        
+            [hillEquilibriumk_GC, Fk_GC, activeFiberForcek_GC, 
+             passiveFiberForcek_GC, normActiveFiberLengthForcek_GC, 
+             normFiberLengthk_GC, fiberVelocityk_GC] = (
+                 f_hillEquilibrium(A_GC[:, k], lMTk_GC_lr, vMTk_GC_lr,
+                                   F_GC[:, k], FDt_GC[:, k]))   
+            
+            ###################################################################
+            # Get metabolic energy rate
+            [activationHeatRatek_GC, maintenanceHeatRatek_GC, 
+             shorteningHeatRatek_GC, mechanicalWorkRatek_GC, _, 
+             metabolicEnergyRatek_GC] = f_metabolicsBhargava(
+                 A_GC[:, k], A_GC[:, k], normFiberLengthj_opt, 
+                 fiberVelocityj_opt, activeFiberForcej_opt,
+                 passiveFiberForcej_opt, normActiveFiberLengthForcej_opt)    
+            # Sum over all muscles                     
+            metabolicEnergyRatek_allMuscles = np.sum(
+                metabolicEnergyRatek_GC.full())
+            # Add basal rate
+            basalRatek = basal_coef*modelMass**basal_exp
+            totalMetabolicEnergyRate[0, k] = (metabolicEnergyRatek_allMuscles 
+                                              + basalRatek)      
+        # Integrate
+        totalMetabolicEnergyRate_int = np.trapz(totalMetabolicEnergyRate,
+                                                tgrid_GC)   
+        # Total distance traveled
+        distTraveled_opt_GC = (Qs_GC_deg[joints.index('pelvis_tx'),-1] - 
+                               Qs_GC_deg[joints.index('pelvis_tx'),0])
+        # Cost of transport (COT)
+        COT_GC = totalMetabolicEnergyRate_int / modelMass / distTraveled_opt_GC       
+            
+        # %% Save trajectories for further analysis
         if saveTrajectories: 
             if not os.path.exists(os.path.join(pathTrajectories,
                                                'optimaltrajectories.npy')): 
                     optimaltrajectories = {}
             else:  
                 optimaltrajectories = np.load(
-                        os.path.join(pathTrajectories, 'optimaltrajectories.npy'),
+                        os.path.join(pathTrajectories,
+                                     'optimaltrajectories.npy'),
                         allow_pickle=True)   
                 optimaltrajectories = optimaltrajectories.item()  
             
@@ -1777,6 +1856,8 @@ for case in cases:
                                 'GRF': GRF_GC,
                                 'time': tgrid_GC,
                                 'joints': joints,
-                                'muscles': bothSidesMuscles}              
+                                'muscles': bothSidesMuscles,
+                                'COT': COT_GC}              
             np.save(os.path.join(pathTrajectories, 'optimaltrajectories.npy'),
                     optimaltrajectories)
+            
