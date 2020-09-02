@@ -22,8 +22,9 @@ solveProblem = False
 saveResults = True
 analyzeResults = True
 loadResults = True
-writeMotion = True
-saveTrajectories = True
+writeMotion = False
+saveTrajectories = False
+decomposeCost = True
 loadMTParameters = True
 loadPolynomialData = True
 plotPolynomials = False
@@ -497,6 +498,10 @@ for case in cases:
     guessFDt = guess.getGuessForceDerivative(scalingFDt)
     guessFDtCol = guess.getGuessForceDerivativeCol()
     
+    # Missing matrix B, add manually
+    B = [-8.88178419700125e-16, 0.376403062700467, 0.512485826188421, 
+         0.111111111111111]
+    
     # %%Formulate ocp
     if solveProblem:
         ###########################################################################
@@ -630,7 +635,7 @@ for case in cases:
         aDtk = ca.MX.sym('aDtk', NMuscles)    
         eArmk = ca.MX.sym('eArmk', NArmJoints)  
         # Slack controls
-        normFDtj = ca.MX.sym('normFDtj', NMuscles, d);
+        normFDtj = ca.MX.sym('normFDtj', NMuscles, d)
         Qdotdotsj = ca.MX.sym('Qdotdotsj', NJoints, d)
         
         ###########################################################################
@@ -639,11 +644,8 @@ for case in cases:
         
         ###########################################################################
         # Collocation matrices
-        tau = ca.collocation_points(d,'radau');
-        [C,D] = ca.collocation_interpolators(tau);
-        # Missing matrix B, add manually
-        B = [-8.88178419700125e-16, 0.376403062700467, 0.512485826188421, 
-             0.111111111111111]
+        tau = ca.collocation_points(d,'radau')
+        [C,D] = ca.collocation_interpolators(tau)        
         
         ###########################################################################
         # Initialize cost function and constraint vectors
@@ -1160,7 +1162,7 @@ for case in cases:
         if loadResults:
             w_opt = np.load(os.path.join(pathResults, 'w_opt.npy'))
             stats = np.load(os.path.join(pathResults, 'stats.npy'), 
-                            allow_pickle=True)  
+                            allow_pickle=True).item()  
         NParameters = 1    
         finalTime_opt = w_opt[:NParameters]
         starti = NParameters    
@@ -1312,6 +1314,174 @@ for case in cases:
         torques_opt = F1_out[getJointIndices(joints, joints), :] 
         # Assert arm torques    
         assert np.alltrue(np.abs(armT) < 10**(-8)), "error in arm torques"  
+        
+        # %% Decompose cost
+        if decomposeCost:     
+            metabolicEnergyRateTerm_opt_all = 0
+            activationTerm_opt_all = 0
+            armExcitationTerm_opt_all = 0
+            jointAccelerationTerm_opt_all = 0
+            passiveJointTorqueTerm_opt_all = 0
+            activationDtTerm_opt_all = 0
+            forceDtTerm_opt_all = 0
+            armAccelerationTerm_opt_all = 0
+            h_opt = finalTime_opt / N
+            for k in range(N):
+                # States 
+                akj_opt = (ca.horzcat(a_opt[:, k], a_col_opt[:, k*d:(k+1)*d]))
+                normFkj_opt = (ca.horzcat(normF_opt[:, k], normF_col_opt[:, k*d:(k+1)*d]))
+                normFkj_opt_nsc = normFkj_opt * (scalingF.to_numpy().T * np.ones((1, d+1)))   
+                Qskj_opt = (ca.horzcat(Qs_opt[:, k], Qs_col_opt[:, k*d:(k+1)*d]))
+                Qskj_opt_nsc = Qskj_opt * (scalingQs.to_numpy().T * np.ones((1, d+1)))
+                Qdotskj_opt = (ca.horzcat(Qdots_opt[:, k], Qdots_col_opt[:, k*d:(k+1)*d]))
+                Qdotskj_opt_nsc = Qdotskj_opt * (scalingQdots.to_numpy().T * np.ones((1, d+1)))
+                # Controls
+                aDtk_opt = aDt_opt[:, k]
+                aDtk_opt_nsc = aDt_opt_nsc[:, k]
+                eArmk_opt = eArm_opt[:, k]
+                # Slack controls
+                Qdotdotsj_opt = Qdotdots_col_opt[:, k*d:(k+1)*d]
+                Qdotdotsj_opt_nsc = Qdotdotsj_opt * (scalingQdotdots.to_numpy().T * np.ones((1, d)))
+                normFDtj_opt = normFDt_col_opt[:, k*d:(k+1)*d] 
+                normFDtj_opt_nsc = normFDtj_opt * (scalingFDt.to_numpy().T * np.ones((1, d)))
+            
+                QsQdotskj_opt_nsc = ca.DM(NJoints*2, d+1)
+                QsQdotskj_opt_nsc[::2, :] = Qskj_opt_nsc
+                QsQdotskj_opt_nsc[1::2, :] = Qdotskj_opt_nsc
+                
+                for j in range(d):                                 
+                    passiveJointTorque_hip_flexion_rj_opt = f_passiveJointTorque_hip_flexion(
+                            Qskj_opt_nsc[joints.index('hip_flexion_r'), j+1], 
+                            Qdotskj_opt_nsc[joints.index('hip_flexion_r'), j+1])
+                    passiveJointTorque_hip_flexion_lj_opt = f_passiveJointTorque_hip_flexion(
+                            Qskj_opt_nsc[joints.index('hip_flexion_l'), j+1], 
+                            Qdotskj_opt_nsc[joints.index('hip_flexion_l'), j+1])   
+                    passiveJointTorque_hip_adduction_rj_opt = f_passiveJointTorque_hip_adduction(
+                            Qskj_opt_nsc[joints.index('hip_adduction_r'), j+1], 
+                            Qdotskj_opt_nsc[joints.index('hip_adduction_r'), j+1])
+                    passiveJointTorque_hip_adduction_lj_opt = f_passiveJointTorque_hip_adduction(
+                            Qskj_opt_nsc[joints.index('hip_adduction_l'), j+1], 
+                            Qdotskj_opt_nsc[joints.index('hip_adduction_l'), j+1])   
+                    passiveJointTorque_hip_rotation_rj_opt = f_passiveJointTorque_hip_rotation(
+                            Qskj_opt_nsc[joints.index('hip_rotation_r'), j+1], 
+                            Qdotskj_opt_nsc[joints.index('hip_rotation_r'), j+1])
+                    passiveJointTorque_hip_rotation_lj_opt = f_passiveJointTorque_hip_rotation(
+                            Qskj_opt_nsc[joints.index('hip_rotation_l'), j+1], 
+                            Qdotskj_opt_nsc[joints.index('hip_rotation_l'), j+1])   
+                    passiveJointTorque_knee_angle_rj_opt = f_passiveJointTorque_knee_angle(
+                            Qskj_opt_nsc[joints.index('knee_angle_r'), j+1], 
+                            Qdotskj_opt_nsc[joints.index('knee_angle_r'), j+1])
+                    passiveJointTorque_knee_angle_lj_opt = f_passiveJointTorque_knee_angle(
+                            Qskj_opt_nsc[joints.index('knee_angle_l'), j+1], 
+                            Qdotskj_opt_nsc[joints.index('knee_angle_l'), j+1])        
+                    passiveJointTorque_ankle_angle_rj_opt = f_passiveJointTorque_ankle_angle(
+                            Qskj_opt_nsc[joints.index('ankle_angle_r'), j+1], 
+                            Qdotskj_opt_nsc[joints.index('ankle_angle_r'), j+1])
+                    passiveJointTorque_ankle_angle_lj_opt = f_passiveJointTorque_ankle_angle(
+                            Qskj_opt_nsc[joints.index('ankle_angle_l'), j+1], 
+                            Qdotskj_opt_nsc[joints.index('ankle_angle_l'), j+1]) 
+                    passiveJointTorque_subtalar_angle_rj_opt = f_passiveJointTorque_subtalar_angle(
+                            Qskj_opt_nsc[joints.index('subtalar_angle_r'), j+1], 
+                            Qdotskj_opt_nsc[joints.index('subtalar_angle_r'), j+1])
+                    passiveJointTorque_subtalar_angle_lj_opt = f_passiveJointTorque_subtalar_angle(
+                            Qskj_opt_nsc[joints.index('subtalar_angle_l'), j+1], 
+                            Qdotskj_opt_nsc[joints.index('subtalar_angle_l'), j+1])
+                    passiveJointTorque_lumbar_extensionj_opt = (
+                            f_passiveJointTorque_lumbar_extension(
+                            Qskj_opt_nsc[joints.index('lumbar_extension'), j+1], 
+                            Qdotskj_opt_nsc[joints.index('lumbar_extension'), j+1])) 
+                    passiveJointTorque_lumbar_bendingj_opt = (
+                            f_passiveJointTorque_lumbar_bending(
+                            Qskj_opt_nsc[joints.index('lumbar_bending'), j+1], 
+                            Qdotskj_opt_nsc[joints.index('lumbar_bending'), j+1]))
+                    passiveJointTorque_lumbar_rotationj_opt = (
+                            f_passiveJointTorque_lumbar_rotation(
+                            Qskj_opt_nsc[joints.index('lumbar_rotation'), j+1], 
+                            Qdotskj_opt_nsc[joints.index('lumbar_rotation'), j+1]))                    
+                    passiveJointTorquesj_opt = ca.vertcat(
+                        passiveJointTorque_hip_flexion_rj_opt,
+                        passiveJointTorque_hip_flexion_lj_opt,
+                        passiveJointTorque_hip_adduction_rj_opt,
+                        passiveJointTorque_hip_adduction_lj_opt,
+                        passiveJointTorque_hip_rotation_rj_opt,
+                        passiveJointTorque_hip_rotation_lj_opt,
+                        passiveJointTorque_knee_angle_rj_opt,
+                        passiveJointTorque_knee_angle_lj_opt,
+                        passiveJointTorque_ankle_angle_rj_opt,
+                        passiveJointTorque_ankle_angle_lj_opt,
+                        passiveJointTorque_subtalar_angle_rj_opt,
+                        passiveJointTorque_subtalar_angle_lj_opt,
+                        passiveJointTorque_lumbar_extensionj_opt,
+                        passiveJointTorque_lumbar_bendingj_opt,
+                        passiveJointTorque_lumbar_rotationj_opt)
+                    
+                    #######################################################################
+                    # Polynomial approximations
+                    # Left leg
+                    Qsinj_opt_l = Qskj_opt_nsc[leftPolynomialJointIndices, j+1]
+                    Qdotsinj_opt_l = Qdotskj_opt_nsc[leftPolynomialJointIndices, j+1]
+                    [lMTj_opt_l, vMTj_opt_l, _] = f_polynomial(Qsinj_opt_l, Qdotsinj_opt_l)       
+                    # Right leg
+                    Qsinj_opt_r = Qskj_opt_nsc[rightPolynomialJointIndices, j+1]
+                    Qdotsinj_opt_r = Qdotskj_opt_nsc[rightPolynomialJointIndices, j+1]
+                    [lMTj_opt_r, vMTj_opt_r, _] = f_polynomial(Qsinj_opt_r, Qdotsinj_opt_r)
+                    # Both legs        
+                    lMTj_opt_lr = ca.vertcat(lMTj_opt_l[leftPolynomialMuscleIndices], 
+                                             lMTj_opt_r[rightPolynomialMuscleIndices])
+                    vMTj_opt_lr = ca.vertcat(vMTj_opt_l[leftPolynomialMuscleIndices], 
+                                             vMTj_opt_r[rightPolynomialMuscleIndices])                    
+                    
+                    #######################################################################
+                    # Derive Hill-equilibrium        
+                    [hillEquilibriumj_opt, Fj_opt, activeFiberForcej_opt, 
+                     passiveFiberForcej_opt, normActiveFiberLengthForcej_opt, 
+                     normFiberLengthj_opt, fiberVelocityj_opt] = (
+                         f_hillEquilibrium(akj_opt[:, j+1], lMTj_opt_lr, 
+                                           vMTj_opt_lr,
+                                           normFkj_opt_nsc[:, j+1], 
+                                           normFDtj_opt_nsc[:, j]))   
+                    
+                    #######################################################################
+                    # Get metabolic energy rate
+                    [activationHeatRatej_opt, maintenanceHeatRatej_opt, 
+                     shorteningHeatRatej_opt, mechanicalWorkRatej_opt, _, 
+                     metabolicEnergyRatej_opt] = f_metabolicsBhargava(
+                         akj_opt[:, j+1], akj_opt[:, j+1], normFiberLengthj_opt, 
+                         fiberVelocityj_opt, activeFiberForcej_opt,
+                         passiveFiberForcej_opt, normActiveFiberLengthForcej_opt)
+                    
+                    # Motor control terms.
+                    activationTerm_opt = f_NMusclesSum2(akj_opt[:, j+1])  
+                    jointAccelerationTerm_opt = f_NNoArmJointsSum2(Qdotdotsj_opt[idxNoArmJoints, j])          
+                    passiveJointTorqueTerm_opt = f_NPassiveTorqueJointsSum2(passiveJointTorquesj_opt)     
+                    activationDtTerm_opt = f_NMusclesSum2(aDtk_opt)
+                    forceDtTerm_opt = f_NMusclesSum2(normFDtj_opt[:, j])
+                    armAccelerationTerm_opt = f_NArmJointsSum2(Qdotdotsj_opt[idxArmJoints, j])
+                    armExcitationTerm_opt = f_NArmJointsSum2(eArmk_opt) 
+                    metabolicEnergyRateTerm_opt = (f_NMusclesSum2(metabolicEnergyRatej_opt) / modelMass)
+                    
+                    metabolicEnergyRateTerm_opt_all += weights['metabolicEnergyRateTerm'] * metabolicEnergyRateTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
+                    activationTerm_opt_all += weights['activationTerm'] * activationTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
+                    armExcitationTerm_opt_all += weights['armExcitationTerm'] * armExcitationTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
+                    jointAccelerationTerm_opt_all += weights['jointAccelerationTerm'] * jointAccelerationTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
+                    passiveJointTorqueTerm_opt_all += weights['passiveJointTorqueTerm'] * passiveJointTorqueTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
+                    activationDtTerm_opt_all += weights['controls'] * activationDtTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
+                    forceDtTerm_opt_all += weights['controls'] * forceDtTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
+                    armAccelerationTerm_opt_all += weights['controls'] * armAccelerationTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
+
+
+        JAll_opt = (metabolicEnergyRateTerm_opt_all.full() +
+                     activationTerm_opt_all.full() + 
+                     armExcitationTerm_opt_all.full() + 
+                     jointAccelerationTerm_opt_all.full() + 
+                     passiveJointTorqueTerm_opt_all.full() + 
+                     activationDtTerm_opt_all.full() + 
+                     forceDtTerm_opt_all.full() + 
+                     armAccelerationTerm_opt_all.full())
+        
+        assert np.alltrue(
+                np.abs(JAll_opt[0][0] - stats['iterations']['obj'][-1]) 
+                <= 1e-5), "decomposition cost"
         
         # %% Reconstruct gait cycle
         from variousFunctions import getIdxIC
