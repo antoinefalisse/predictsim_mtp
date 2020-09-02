@@ -545,14 +545,16 @@ for case in cases:
         Qs = opti.variable(NJoints, N+1)
         opti.subject_to(opti.bounded(lBoundsQsk, ca.vec(Qs), uBoundsQsk))
         opti.set_initial(Qs, guessQs.to_numpy().T)
-        assert np.alltrue(lBoundsQsk <= ca.vec(guessQs.to_numpy().T).full()), "lb Joint position"
-        assert np.alltrue(uBoundsQsk >= ca.vec(guessQs.to_numpy().T).full()), "ub Joint position"
+        if not guessType == 'quasiRandom':
+            assert np.alltrue(lBoundsQsk <= ca.vec(guessQs.to_numpy().T).full()), "lb Joint position"
+            assert np.alltrue(uBoundsQsk >= ca.vec(guessQs.to_numpy().T).full()), "ub Joint position"
         # Joint position at collocation points
         Qs_col = opti.variable(NJoints, d*N)
         opti.subject_to(opti.bounded(lBoundsQsj, ca.vec(Qs_col), uBoundsQsj))
         opti.set_initial(Qs_col, guessQsCol.to_numpy().T)
-        assert np.alltrue(lBoundsQsj <= ca.vec(guessQsCol.to_numpy().T).full()), "lb Joint position col"
-        assert np.alltrue(uBoundsQsj >= ca.vec(guessQsCol.to_numpy().T).full()), "ub Joint position col"
+        if not guessType == 'quasiRandom':
+            assert np.alltrue(lBoundsQsj <= ca.vec(guessQsCol.to_numpy().T).full()), "lb Joint position col"
+            assert np.alltrue(uBoundsQsj >= ca.vec(guessQsCol.to_numpy().T).full()), "ub Joint position col"
         # Joint velocity at mesh points
         Qdots = opti.variable(NJoints, N+1)
         opti.subject_to(opti.bounded(lBoundsQdotsk, ca.vec(Qdots), uBoundsQdotsk))
