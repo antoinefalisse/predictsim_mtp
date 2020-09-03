@@ -28,7 +28,7 @@ plotPolynomials = False
 subject = 'subject1_3D_no_mtp'
 model = 'subject1_no_mtp'
 
-cases = ['2']
+cases = ['6', '7']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
