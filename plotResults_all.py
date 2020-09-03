@@ -57,10 +57,12 @@ for i, ax in enumerate(axs.flat):
     color_no_mtp=iter(plt.cm.rainbow(np.linspace(0,1,len(cases_no_mtp))))  
     if i < NJointsToPlot:
         for case in cases_mtp:
-            ax.plot(optimaltrajectories[case]['coordinate_values'][idxJointsToPlot[i]:idxJointsToPlot[i]+1, :].T, c=next(color_mtp), label='case_' + case + '_mtp')                 
+            ax.plot(optimaltrajectories[case]['GC_percent'],
+                    optimaltrajectories[case]['coordinate_values'][idxJointsToPlot[i]:idxJointsToPlot[i]+1, :].T, c=next(color_mtp), label='case_' + case + '_mtp')                 
         if not i == jointToPlot.index("mtp_angle_r"):
             for case in cases_no_mtp:
-                ax.plot(optimaltrajectories_no_mtp[case]['coordinate_values'][idxJointsToPlot_no_mtp[count]:idxJointsToPlot_no_mtp[count]+1, :].T, c=next(color_no_mtp), linestyle='dashed', label='case_' + case + '_no_mtp')            
+                ax.plot(optimaltrajectories_no_mtp[case]['GC_percent'],
+                        optimaltrajectories_no_mtp[case]['coordinate_values'][idxJointsToPlot_no_mtp[count]:idxJointsToPlot_no_mtp[count]+1, :].T, c=next(color_no_mtp), linestyle='dashed', label='case_' + case + '_no_mtp')            
             count += 1                
         ax.set_title(joints[idxJointsToPlot[i]])
         # ax.set_ylim((kinematic_ylim_lb[i],kinematic_ylim_ub[i]))
@@ -93,9 +95,11 @@ for i, ax in enumerate(axs.flat):
     color_no_mtp=iter(plt.cm.rainbow(np.linspace(0,1,len(cases_no_mtp))))  
     if i < NMusclesToPlot:
         for case in cases_mtp:
-            ax.plot(optimaltrajectories[case]['muscle_activations'][idxMusclesToPlot[i]:idxMusclesToPlot[i]+1, :].T, c=next(color_mtp), label='case_' + case + '_mtp')  
+            ax.plot(optimaltrajectories[case]['GC_percent'],
+                    optimaltrajectories[case]['muscle_activations'][idxMusclesToPlot[i]:idxMusclesToPlot[i]+1, :].T, c=next(color_mtp), label='case_' + case + '_mtp')  
         for case in cases_no_mtp:
-            ax.plot(optimaltrajectories_no_mtp[case]['muscle_activations'][idxMusclesToPlot[i]:idxMusclesToPlot[i]+1, :].T, c=next(color_no_mtp), linestyle='dashed', label='case_' + case + '_no_mtp')            
+            ax.plot(optimaltrajectories_no_mtp[case]['GC_percent'],
+                    optimaltrajectories_no_mtp[case]['muscle_activations'][idxMusclesToPlot[i]:idxMusclesToPlot[i]+1, :].T, c=next(color_no_mtp), linestyle='dashed', label='case_' + case + '_no_mtp')            
         ax.set_title(muscles[idxMusclesToPlot[i]])
         ax.set_ylim((0,1))
     handles, labels = ax.get_legend_handles_labels()
@@ -115,17 +119,44 @@ for i, ax in enumerate(axs.flat):
     color_no_mtp=iter(plt.cm.rainbow(np.linspace(0,1,len(cases_no_mtp))))  
     if i < NJointsToPlot:
         for case in cases_mtp:
-            ax.plot(optimaltrajectories[case]['joint_torques'][idxJointsToPlot[i]:idxJointsToPlot[i]+1, :].T, c=next(color_mtp), label='case_' + case + '_mtp')  
+            ax.plot(optimaltrajectories[case]['GC_percent'],
+                    optimaltrajectories[case]['joint_torques'][idxJointsToPlot[i]:idxJointsToPlot[i]+1, :].T, c=next(color_mtp), label='case_' + case + '_mtp')  
         if not i == jointToPlot.index("mtp_angle_r"):
             for case in cases_no_mtp:
-                ax.plot(optimaltrajectories_no_mtp[case]['joint_torques'][idxJointsToPlot_no_mtp[count]:idxJointsToPlot_no_mtp[count]+1, :].T, c=next(color_no_mtp), linestyle='dashed', label='case_' + case + '_no_mtp')            
+                ax.plot(optimaltrajectories_no_mtp[case]['GC_percent'],
+                        optimaltrajectories_no_mtp[case]['joint_torques'][idxJointsToPlot_no_mtp[count]:idxJointsToPlot_no_mtp[count]+1, :].T, c=next(color_no_mtp), linestyle='dashed', label='case_' + case + '_no_mtp')            
             count += 1  
         ax.set_title(joints[idxJointsToPlot[i]])
-    # ax.set_ylim((kinetic_ylim_lb[i],kinetic_ylim_ub[i]))
+        # ax.set_ylim((kinetic_ylim_lb[i],kinetic_ylim_ub[i]))
         handles, labels = ax.get_legend_handles_labels()
         plt.legend(handles, labels, loc='upper right')
 plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
 plt.setp(axs[:, 0], ylabel='Torques [Nm]')
+fig.align_ylabels()
+
+# %% Ground reaction forces
+GRF_labels = optimaltrajectories[cases_mtp[0]]['GRF_labels']
+GRFToPlot = ['GRF_x_r', 'GRF_y_r', 'GRF_z_r', 'GRF_x_l','GRF_y_l', 'GRF_z_l']
+NGRFToPlot = len(GRFToPlot)
+idxGRFToPlot = getJointIndices(GRF_labels, GRFToPlot)
+fig, axs = plt.subplots(2, 3, sharex=True)    
+fig.suptitle('Ground reaction forces')
+for i, ax in enumerate(axs.flat):
+    color_mtp=iter(plt.cm.rainbow(np.linspace(0,1,len(cases_mtp))))  
+    color_no_mtp=iter(plt.cm.rainbow(np.linspace(0,1,len(cases_no_mtp))))  
+    if i < NJointsToPlot:
+        for case in cases_mtp:
+            ax.plot(optimaltrajectories[case]['GC_percent'],
+                    optimaltrajectories[case]['GRF'][idxGRFToPlot[i]:idxGRFToPlot[i]+1, :].T, c=next(color_mtp), label='case_' + case + '_mtp')  
+        for case in cases_no_mtp:
+            ax.plot(optimaltrajectories_no_mtp[case]['GC_percent'],
+                    optimaltrajectories_no_mtp[case]['GRF'][idxGRFToPlot[i]:idxGRFToPlot[i]+1, :].T, c=next(color_no_mtp), linestyle='dashed', label='case_' + case + '_no_mtp')            
+        ax.set_title(GRF_labels[idxGRFToPlot[i]])
+        # ax.set_ylim((kinetic_ylim_lb[i],kinetic_ylim_ub[i]))
+        handles, labels = ax.get_legend_handles_labels()
+        plt.legend(handles, labels, loc='upper right')
+plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
+plt.setp(axs[:, 0], ylabel='Ground reaction forces [N]')
 fig.align_ylabels()
 
 # # %% Kinematic tracking    

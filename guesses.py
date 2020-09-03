@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import scipy.interpolate as interpolate
+from scipy.interpolate import interp1d
 
 # %% Quasi-random initial guess    
 class quasiRandomGuess:    
@@ -215,6 +216,25 @@ class dataDrivenGuess:
             self.Qdots_spline[joint] = splineD1(self.Qs['time'])
             splineD2 = spline.derivative(n=2)
             self.Qdotdots_spline[joint] = splineD2(self.Qs['time'])
+            
+    def interpQs(self):
+        self.splineQs()            
+        tOut = np.linspace(self.Qs['time'].iloc[0], 
+                           self.Qs['time'].iloc[-1], 
+                           self.N + 1)    
+        
+        self.Qs_spline_interp = pd.DataFrame()  
+        self.Qdots_spline_interp = pd.DataFrame()  
+        self.Qdotdots_spline_interp = pd.DataFrame()  
+        for count, joint in enumerate(self.joints):  
+            set_interp = interp1d(self.Qs['time'], self.Qs_spline[joint])
+            self.Qs_spline_interp.insert(count, joint, set_interp(tOut))
+            
+            set_interp = interp1d(self.Qs['time'], self.Qdots_spline[joint])
+            self.Qdots_spline_interp.insert(count, joint, set_interp(tOut))
+            
+            set_interp = interp1d(self.Qs['time'], self.Qdotdots_spline[joint])
+            self.Qdotdots_spline_interp.insert(count, joint, set_interp(tOut))
         
     def getGuessFinalTime(self):
         allSpeeds = np.linspace(0.73, 2.73,  21)
@@ -225,8 +245,8 @@ class dataDrivenGuess:
         return self.guessFinalTime
     
     # Mesh points
-    def getGuessPosition(self, scaling, startNotAdjusted=0):
-        self.splineQs()
+    def getGuessPosition(self, scaling, adjustInitialStatePelvis_tx=True):
+        self.interpQs()
         self.guessPosition = pd.DataFrame()  
 #        g = [0] * self.N
         for count, joint in enumerate(self.joints): 
@@ -236,38 +256,38 @@ class dataDrivenGuess:
 #            else:
 #                self.guessPosition.insert(count, joint, self.Qs_spline[joint] / 
 #                                          scaling.iloc[0][joint])   
-            self.guessPosition.insert(count, joint, self.Qs_spline[joint] / 
+            self.guessPosition.insert(count, joint, self.Qs_spline_interp[joint] / 
                                       scaling.iloc[0][joint]) 
-        # Add last mesh point while accounting for periodicity      
-        self.guessPosition.loc[self.N] = np.NaN            
-        for joint in self.joints:                           
-            if joint in self.periodicQsJointsA:
-                if (joint[-2:] == '_r'):
-                    self.guessPosition.iloc[self.N][joint] = (
-                            self.guessPosition.iloc[0][joint[:-1] + 'l'])
-                elif (joint[-2:] == '_l'):
-                    self.guessPosition.iloc[self.N][joint] = (
-                            self.guessPosition.iloc[0][joint[:-1] + 'r'])
-                else:
-                    self.guessPosition.iloc[self.N][joint] = (
-                            self.guessPosition.iloc[0][joint])
-            elif joint in self.periodicOppositeJoints:
-                self.guessPosition.iloc[self.N][joint] = (
-                        -self.guessPosition.iloc[0][joint])       
+        # # Add last mesh point while accounting for periodicity      
+        # self.guessPosition.loc[self.N] = np.NaN            
+        # for joint in self.joints:                           
+        #     if joint in self.periodicQsJointsA:
+        #         if (joint[-2:] == '_r'):
+        #             self.guessPosition.iloc[self.N][joint] = (
+        #                     self.guessPosition.iloc[0][joint[:-1] + 'l'])
+        #         elif (joint[-2:] == '_l'):
+        #             self.guessPosition.iloc[self.N][joint] = (
+        #                     self.guessPosition.iloc[0][joint[:-1] + 'r'])
+        #         else:
+        #             self.guessPosition.iloc[self.N][joint] = (
+        #                     self.guessPosition.iloc[0][joint])
+        #     elif joint in self.periodicOppositeJoints:
+        #         self.guessPosition.iloc[self.N][joint] = (
+        #                 -self.guessPosition.iloc[0][joint])       
           
-        dx = (self.guessPosition.iloc[self.N-1]['pelvis_tx'] - 
-              self.guessPosition.iloc[self.N-2]['pelvis_tx'])          
-        self.guessPosition.iloc[self.N]['pelvis_tx'] = (
-                self.guessPosition.iloc[self.N-1]['pelvis_tx'] + dx)
+        # dx = (self.guessPosition.iloc[self.N-1]['pelvis_tx'] - 
+        #       self.guessPosition.iloc[self.N-2]['pelvis_tx'])          
+        # self.guessPosition.iloc[self.N]['pelvis_tx'] = (
+        #         self.guessPosition.iloc[self.N-1]['pelvis_tx'] + dx)
         
-        if startNotAdjusted == 0:        
+        if adjustInitialStatePelvis_tx:        
             self.guessPosition['pelvis_tx'] -= (
                     self.guessPosition.iloc[0]['pelvis_tx'])
         
         return self.guessPosition
     
     def getGuessVelocity(self, scaling):
-        self.splineQs()
+        self.interpQs()
         self.guessVelocity = pd.DataFrame()  
 #        g = [0] * self.N
         for count, joint in enumerate(self.joints): 
@@ -278,29 +298,29 @@ class dataDrivenGuess:
 #                self.guessVelocity.insert(count, joint, 
 #                                          self.Qdots_spline[joint] / 
 #                                          scaling.iloc[0][joint])
-            self.guessVelocity.insert(count, joint, self.Qdots_spline[joint] / 
+            self.guessVelocity.insert(count, joint, self.Qdots_spline_interp[joint] / 
                                       scaling.iloc[0][joint])
-        # Add last mesh point while accounting for periodicity      
-        self.guessVelocity.loc[self.N] = np.NaN            
-        for joint in self.joints:                           
-            if joint in self.periodicQdotsJointsA:
-                if (joint[-2:] == '_r'):
-                    self.guessVelocity.iloc[self.N][joint] = (
-                            self.guessVelocity.iloc[0][joint[:-1] + 'l'])
-                elif (joint[-2:] == '_l'):
-                    self.guessVelocity.iloc[self.N][joint] = (
-                            self.guessVelocity.iloc[0][joint[:-1] + 'r'])
-                else:
-                    self.guessVelocity.iloc[self.N][joint] = (
-                            self.guessVelocity.iloc[0][joint])
-            elif joint in self.periodicOppositeJoints:
-                self.guessVelocity.iloc[self.N][joint] = (
-                        -self.guessVelocity.iloc[0][joint]) 
+        # # Add last mesh point while accounting for periodicity      
+        # self.guessVelocity.loc[self.N] = np.NaN            
+        # for joint in self.joints:                           
+        #     if joint in self.periodicQdotsJointsA:
+        #         if (joint[-2:] == '_r'):
+        #             self.guessVelocity.iloc[self.N][joint] = (
+        #                     self.guessVelocity.iloc[0][joint[:-1] + 'l'])
+        #         elif (joint[-2:] == '_l'):
+        #             self.guessVelocity.iloc[self.N][joint] = (
+        #                     self.guessVelocity.iloc[0][joint[:-1] + 'r'])
+        #         else:
+        #             self.guessVelocity.iloc[self.N][joint] = (
+        #                     self.guessVelocity.iloc[0][joint])
+        #     elif joint in self.periodicOppositeJoints:
+        #         self.guessVelocity.iloc[self.N][joint] = (
+        #                 -self.guessVelocity.iloc[0][joint]) 
         
         return self.guessVelocity
     
-    def getGuessAcceleration(self, scaling, null='no'):
-        self.splineQs()
+    def getGuessAcceleration(self, scaling, nullGuessAcceleration=False):
+        self.interpQs()
         self.guessAcceleration = pd.DataFrame()  
         g = [0] * self.N
         for count, joint in enumerate(self.joints): 
@@ -310,14 +330,14 @@ class dataDrivenGuess:
 #            else:     
 #                self.guessAcceleration.insert(count, joint, 
 #                                              self.Qdotdots_spline[joint] / 
-#                                              scaling.iloc[0][joint])            
-            if null == 'no':
-                self.guessAcceleration.insert(count, joint, 
-                                              self.Qdotdots_spline[joint] /
-                                              scaling.iloc[0][joint])    
-            elif null == 'yes':
+#                                              scaling.iloc[0][joint])                               
+            if nullGuessAcceleration:
                 self.guessAcceleration.insert(count, joint,
-                                              g / scaling.iloc[0][joint])                    
+                                              g / scaling.iloc[0][joint])
+            else:
+                self.guessAcceleration.insert(count, joint, 
+                                              self.Qdotdots_spline_interp[joint] /
+                                              scaling.iloc[0][joint]) 
                     
         return self.guessAcceleration
     

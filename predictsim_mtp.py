@@ -15,7 +15,7 @@ elif os.environ['COMPUTERNAME'] == 'GBW-D-W2711':
 import casadi as ca
 import numpy as np
 
-solveProblem = True
+solveProblem = False
 saveResults = True
 analyzeResults = True
 loadResults = True
@@ -28,7 +28,7 @@ plotPolynomials = False
 subject = 'subject1_3D_mtp'
 model = 'subject1_mtp'
 
-cases = ['3']
+cases = ['0']
 
 from settings_predictsim import getSettings_predictsim_mtp   
 settings = getSettings_predictsim_mtp() 
@@ -127,15 +127,10 @@ for case in cases:
                                    loadMTParameters, pathMTParameters)
     mtParameters = np.concatenate((sideMtParameters, sideMtParameters), axis=1)
     
-    # TODO _2D is not useful
-    from muscleData import tendonCompliance_2D
-    sideTendonCompliance = tendonCompliance_2D(NSideMuscles)
+    from muscleData import tendonCompliance
+    sideTendonCompliance = tendonCompliance(NSideMuscles)
     tendonCompliance = np.concatenate((sideTendonCompliance, 
                                        sideTendonCompliance), axis=1)
-    
-    from muscleData import tendonShift_2D
-    sideTendonShift = tendonShift_2D(NSideMuscles)
-    tendonShift = np.concatenate((sideTendonShift, sideTendonShift), axis=1)
     
     from muscleData import specificTension_3D
     sideSpecificTension = specificTension_3D(rightSideMuscles)
@@ -144,7 +139,7 @@ for case in cases:
     
     from functionCasADi import hillEquilibrium
     f_hillEquilibrium = hillEquilibrium(mtParameters, tendonCompliance, 
-                                        tendonShift, specificTension)
+                                        specificTension)
     # Time constants
     activationTimeConstant = 0.015
     deactivationTimeConstant = 0.06
@@ -1638,9 +1633,9 @@ for case in cases:
                 <= 1e-6), "decomposition cost"
         
         # %% Reconstruct gait cycle
-        from variousFunctions import getIdxIC
+        from variousFunctions import getIdxIC_3D
         threshold = 30
-        idxIC, legIC = getIdxIC(GRF_opt, threshold)
+        idxIC, legIC = getIdxIC_3D(GRF_opt, threshold)
         if legIC == "undefined":
             np.disp("Problem with gait reconstruction")  
         idxIC_s = idxIC + 1 # GRF_opt obtained at mesh points starting at k=1
@@ -1846,6 +1841,8 @@ for case in cases:
                                      'optimaltrajectories.npy'),
                         allow_pickle=True)   
                 optimaltrajectories = optimaltrajectories.item()  
+                
+            GC_percent = np.linspace(1, 100, 2*N)
             
             optimaltrajectories[case] = {
                                 'coordinate_values': Qs_GC, 
@@ -1859,7 +1856,14 @@ for case in cases:
                                 'time': tgrid_GC,
                                 'joints': joints,
                                 'muscles': bothSidesMuscles,
-                                'COT': COT_GC}              
+                                'GRF_labels': GRFNames,
+                                'COT': COT_GC,
+                                'GC_percent': GC_percent}              
             np.save(os.path.join(pathTrajectories, 'optimaltrajectories.npy'),
                     optimaltrajectories)
+           
+        # %% Error message
+        if not stats['success'] == True:
+            print("WARNING: PROBLEM DID NOT CONVERGE - " 
+                  + stats['return_status']) 
             

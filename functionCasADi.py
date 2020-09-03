@@ -38,8 +38,7 @@ def polynomialApproximation(musclesPolynomials, polynomialData, NPolynomial):
     return f_polynomial
         
 
-def hillEquilibrium(mtParameters, tendonCompliance, tendonShift,
-                    specificTension):
+def hillEquilibrium(mtParameters, tendonCompliance, specificTension):
     
     NMuscles = mtParameters.shape[1]
     # Function variables
@@ -62,7 +61,7 @@ def hillEquilibrium(mtParameters, tendonCompliance, tendonShift,
         muscle = muscleModel(mtParameters[:, m], activation[m], mtLength[m],
                              mtVelocity[m], normTendonForce[m], 
                              normTendonForceDT[m], tendonCompliance[:, m],
-                             tendonShift[:, m], specificTension[:, m])
+                             specificTension[:, m])
         
         hillEquilibrium[m] = muscle.deriveHillEquilibrium()
         tendonForce[m] = muscle.getTendonForce()

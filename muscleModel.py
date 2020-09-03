@@ -4,7 +4,7 @@ class muscleModel:
     
     def __init__(self, mtParameters, activation, mtLength, mtVelocity,
                  normTendonForce, normTendonForceDT, tendonCompliance,
-                 tendonShift, specificTension):
+                 specificTension):
         self.mtParameters = mtParameters
         
         self.maximalIsometricForce = mtParameters[0]
@@ -19,7 +19,6 @@ class muscleModel:
         self.normTendonForce = normTendonForce
         self.normTendonForceDT = normTendonForceDT
         self.tendonCompliance = tendonCompliance
-        self.tendonShift = tendonShift
         self.specificTension = specificTension
         self.paramFLa = np.array([0.814483478343008, 1.05503342897057,
                                   0.162384573599574, 0.0633034484654646,
@@ -46,9 +45,37 @@ class muscleModel:
                                   self.maximalIsometricForce)  
         
         return tendonForce
+    
+    def getTendonShift(self):
+        
+        genericTendonCompliance = 35
+        genericTendonShift = 0  
+        referenceNormTendonLength = 1
+        
+        referenceNormTendonForce = (0.2 * np.exp(
+            genericTendonCompliance * (referenceNormTendonLength - 0.995)) 
+            - 0.25 + genericTendonShift)
+        
+        adjustedNormTendonForce = (0.2 * np.exp(
+            self.tendonCompliance * (referenceNormTendonLength - 0.995)) 
+            - 0.25 + genericTendonShift)
+        
+        self.tendonShift = referenceNormTendonForce - adjustedNormTendonForce
+        
+        adjustedNormTendonForce_afterShift = (0.2 * np.exp(
+            self.tendonCompliance * (referenceNormTendonLength - 0.995)) 
+            - 0.25 + self.tendonShift)
+        
+        assert np.alltrue(
+            np.abs(referenceNormTendonForce - 
+                   adjustedNormTendonForce_afterShift) 
+            < 1e12), "Error when shifting tendon curve"
+        
+        return self.tendonShift        
             
     def getTendonLength(self):          
         # Tendon force-length relationship
+        self.getTendonShift()
         self.normTendonLength = np.divide(
                 np.log(5*(self.normTendonForce + 0.25 - self.tendonShift)), 
                 self.tendonCompliance) + 0.995                                     

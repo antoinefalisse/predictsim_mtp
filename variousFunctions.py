@@ -375,11 +375,11 @@ def nSubplots(N):
             
     return ny_a, ny_b
 
-def getIdxIC(GRF_opt, threshold):    
+def getIdxIC_3D(GRF_opt, threshold):    
     idxIC = np.nan
     N = GRF_opt.shape[1]
     legIC = "undefined"    
-    GRF_opt_rl = np.concatenate((GRF_opt[1,:], GRF_opt[3,:]))
+    GRF_opt_rl = np.concatenate((GRF_opt[1,:], GRF_opt[4,:]))
     last_noContact = np.argwhere(GRF_opt_rl < threshold)[-1]
     if last_noContact == 2*N - 1:
         first_contact = np.argwhere(GRF_opt_rl > threshold)[0]
