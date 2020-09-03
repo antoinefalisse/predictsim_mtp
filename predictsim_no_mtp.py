@@ -133,14 +133,13 @@ for case in cases:
                                    loadMTParameters, pathMTParameters)
     mtParameters = np.concatenate((sideMtParameters, sideMtParameters), axis=1)
     
-    # TODO _2D is not useful
-    from muscleData import tendonCompliance_2D
-    sideTendonCompliance = tendonCompliance_2D(NSideMuscles)
+    from muscleData import tendonCompliance
+    sideTendonCompliance = tendonCompliance(NSideMuscles)
     tendonCompliance = np.concatenate((sideTendonCompliance, 
                                        sideTendonCompliance), axis=1)
     
-    from muscleData import tendonShift_2D
-    sideTendonShift = tendonShift_2D(NSideMuscles)
+    from muscleData import tendonShift
+    sideTendonShift = tendonShift(NSideMuscles)
     tendonShift = np.concatenate((sideTendonShift, sideTendonShift), axis=1)
     
     from muscleData import specificTension_3D

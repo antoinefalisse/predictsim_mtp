@@ -46,6 +46,31 @@ class muscleModel:
                                   self.maximalIsometricForce)  
         
         return tendonForce
+    
+    def getTendonShift(self):
+        
+        genericTendonCompliance = 35
+        genericTendonShift = 0  
+        referenceNormTendonLength = 1
+        
+        referenceNormTendonForce = (0.2 * np.exp(
+            genericTendonCompliance * (referenceNormTendonLength - 0.995)) 
+            - 0.25 + genericTendonShift)
+        
+        adjustedNormTendonForce = (0.2 * np.exp(
+            self.tendonCompliance * (referenceNormTendonLength - 0.995)) 
+            - 0.25 + genericTendonShift)
+        
+        self.tendonShift = referenceNormTendonForce - adjustedNormTendonForce
+        
+        adjustedNormTendonForce_afterShift = (0.2 * np.exp(
+            self.tendonCompliance * (referenceNormTendonLength - 0.995)) 
+            - 0.25 + self.tendonShift)
+        
+        assert np.alltrue(
+            np.abs(referenceNormTendonForce - adjustedNormTendonForce_afterShift) 
+            < 1e12), "Error when shifting tendon curve"
+        
             
     def getTendonLength(self):          
         # Tendon force-length relationship
