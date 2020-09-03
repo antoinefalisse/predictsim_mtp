@@ -28,7 +28,7 @@ plotPolynomials = False
 subject = 'subject1_3D_mtp'
 model = 'subject1_mtp'
 
-cases = ['0', '2']
+cases = ['6', '7']
 
 from settings_predictsim import getSettings_predictsim_mtp   
 settings = getSettings_predictsim_mtp() 
@@ -48,6 +48,7 @@ for case in cases:
     NThreads = 8
     d = 3
     parallelMode = "thread"
+    contactConfiguration = settings[case]['contactConfiguration']
     guessType = settings[case]['guessType']
     targetSpeed = settings[case]['targetSpeed']
     adjustAchillesTendonCompliance = settings[case]['adjustAchillesTendonCompliance']
@@ -67,9 +68,14 @@ for case in cases:
     # %% Load external function
     pathExternalFunction = os.path.join(pathMain, 'ExternalFunction')
     os.chdir(pathExternalFunction)
-    F = ca.external('F','PredSim_mtpPin_cm3.dll')
-    if analyzeResults:
-        F1 = ca.external('F','PredSim_mtpPin_pp_cm3.dll')
+    if contactConfiguration == 'generic':
+        F = ca.external('F','PredSim_mtpPin_cm0.dll')
+        if analyzeResults:
+            F1 = ca.external('F','PredSim_mtpPin_pp_cm0.dll')
+    elif contactConfiguration == 'specific':
+        F = ca.external('F','PredSim_mtpPin_cm3.dll')
+        if analyzeResults:
+            F1 = ca.external('F','PredSim_mtpPin_pp_cm3.dll')
     os.chdir(pathMain)
     #vec1 = -np.ones((93, 1))
     #res1 = (F(vec1))

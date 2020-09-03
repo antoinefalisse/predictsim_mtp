@@ -66,12 +66,12 @@ for case in cases:
     # %% Load external function
     pathExternalFunction = os.path.join(pathMain, 'ExternalFunction')
     os.chdir(pathExternalFunction)
-    if contactConfiguration == '0':
+    if contactConfiguration == 'generic':
         F = ca.external('F','PredSim_no_mtpPin_cm0.dll')
         if analyzeResults:
             F1 = ca.external('F','PredSim_no_mtpPin_pp_cm0.dll')
         os.chdir(pathMain)        
-    elif contactConfiguration == '3':
+    elif contactConfiguration == 'specific':
         F = ca.external('F','PredSim_no_mtpPin_cm3.dll')
         if analyzeResults:
             F1 = ca.external('F','PredSim_no_mtpPin_pp_cm3.dll')
