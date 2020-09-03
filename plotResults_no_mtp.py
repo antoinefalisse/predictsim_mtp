@@ -3,7 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt  
 
 # %% Settings 
-cases = ['0','1']
+# cases = ['0','2','6']
+cases = ['1','3','7']
 mainName = "predictsim_no_mtp"
 
 # %% Fixed settings
@@ -37,7 +38,8 @@ for i, ax in enumerate(axs.flat):
     color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
     if i < NJointsToPlot:
         for case in cases:
-            ax.plot(optimaltrajectories[case]['coordinate_values'][idxJointsToPlot[i]:idxJointsToPlot[i]+1, :].T, c=next(color), label='case_' + case)            
+            ax.plot(optimaltrajectories[case]['GC_percent'],
+                    optimaltrajectories[case]['coordinate_values'][idxJointsToPlot[i]:idxJointsToPlot[i]+1, :].T, c=next(color), label='case_' + case)            
         ax.set_title(joints[idxJointsToPlot[i]])
         # ax.set_ylim((kinematic_ylim_lb[i],kinematic_ylim_ub[i]))
         handles, labels = ax.get_legend_handles_labels()
@@ -68,7 +70,8 @@ for i, ax in enumerate(axs.flat):
     color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))  
     if i < NMusclesToPlot:
         for case in cases:
-            ax.plot(optimaltrajectories[case]['muscle_activations'][idxMusclesToPlot[i]:idxMusclesToPlot[i]+1, :].T, c=next(color), label='case_' + case)
+            ax.plot(optimaltrajectories[case]['GC_percent'],
+                    optimaltrajectories[case]['muscle_activations'][idxMusclesToPlot[i]:idxMusclesToPlot[i]+1, :].T, c=next(color), label='case_' + case)
         ax.set_title(muscles[idxMusclesToPlot[i]])
         ax.set_ylim((0,1))
         handles, labels = ax.get_legend_handles_labels()
@@ -86,13 +89,37 @@ for i, ax in enumerate(axs.flat):
     if i < NJointsToPlot:
         color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
         for case in cases:
-            ax.plot(optimaltrajectories[case]['joint_torques'][idxJointsToPlot[i]:idxJointsToPlot[i]+1, :].T, c=next(color), label='case_' + case)
+            ax.plot(optimaltrajectories[case]['GC_percent'],
+                    optimaltrajectories[case]['joint_torques'][idxJointsToPlot[i]:idxJointsToPlot[i]+1, :].T, c=next(color), label='case_' + case)
         ax.set_title(joints[idxJointsToPlot[i]])
-    # ax.set_ylim((kinetic_ylim_lb[i],kinetic_ylim_ub[i]))
+        # ax.set_ylim((kinetic_ylim_lb[i],kinetic_ylim_ub[i]))
         handles, labels = ax.get_legend_handles_labels()
         plt.legend(handles, labels, loc='upper right')
 plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
 plt.setp(axs[:, 0], ylabel='Torques [Nm]')
+fig.align_ylabels()
+
+# %% Contact forces 
+# contact_ylim_ub = [300, 1500, 300, 1200]
+# contact_ylim_lb = [-300, 0, -300, 0]
+GRF_labels = optimaltrajectories[cases[0]]['GRF_labels']
+GRFToPlot = ['GRF_x_r', 'GRF_y_r', 'GRF_z_r', 'GRF_x_l','GRF_y_l', 'GRF_z_l']
+NGRFToPlot = len(GRFToPlot)
+idxGRFToPlot = getJointIndices(GRF_labels, GRFToPlot)
+fig, axs = plt.subplots(2, 3, sharex=True)    
+fig.suptitle('Ground reaction forces')
+#color=iter(plt.cm.rainbow(np.linspace(0,1,len(trials))))
+for i, ax in enumerate(axs.flat):
+    color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
+    for case in cases:
+        ax.plot(optimaltrajectories[case]['GC_percent'],
+                optimaltrajectories[case]['GRF'][idxGRFToPlot[i]:idxGRFToPlot[i]+1, :].T, c=next(color), label='case_' + case)        
+    ax.set_title(GRF_labels[idxGRFToPlot[i]])
+    # ax.set_ylim((contact_ylim_lb[i],contact_ylim_ub[i]))
+    handles, labels = ax.get_legend_handles_labels()
+    plt.legend(handles, labels, loc='upper right')
+plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
+plt.setp(axs[:, 0], ylabel='Ground reaction forces (N)')
 fig.align_ylabels()
 
 # # %% Kinematic tracking    

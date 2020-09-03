@@ -28,7 +28,7 @@ plotPolynomials = False
 subject = 'subject1_3D_mtp'
 model = 'subject1_mtp'
 
-cases = ['3']
+cases = ['0','2']
 
 from settings_predictsim import getSettings_predictsim_mtp   
 settings = getSettings_predictsim_mtp() 
@@ -1638,9 +1638,9 @@ for case in cases:
                 <= 1e-6), "decomposition cost"
         
         # %% Reconstruct gait cycle
-        from variousFunctions import getIdxIC
+        from variousFunctions import getIdxIC_3D
         threshold = 30
-        idxIC, legIC = getIdxIC(GRF_opt, threshold)
+        idxIC, legIC = getIdxIC_3D(GRF_opt, threshold)
         if legIC == "undefined":
             np.disp("Problem with gait reconstruction")  
         idxIC_s = idxIC + 1 # GRF_opt obtained at mesh points starting at k=1
@@ -1846,6 +1846,8 @@ for case in cases:
                                      'optimaltrajectories.npy'),
                         allow_pickle=True)   
                 optimaltrajectories = optimaltrajectories.item()  
+                
+            GC_percent = np.linspace(1, 100, 2*N)
             
             optimaltrajectories[case] = {
                                 'coordinate_values': Qs_GC, 
@@ -1859,7 +1861,14 @@ for case in cases:
                                 'time': tgrid_GC,
                                 'joints': joints,
                                 'muscles': bothSidesMuscles,
-                                'COT': COT_GC}              
+                                'GRF_labels': GRFNames,
+                                'COT': COT_GC,
+                                'GC_percent': GC_percent}              
             np.save(os.path.join(pathTrajectories, 'optimaltrajectories.npy'),
                     optimaltrajectories)
+           
+        # %% Error message
+        if not stats['success'] == True:
+            print("WARNING: PROBLEM DID NOT CONVERGE - " 
+                  + stats['return_status']) 
             
