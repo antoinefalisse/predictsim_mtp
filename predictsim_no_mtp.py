@@ -138,10 +138,6 @@ for case in cases:
     tendonCompliance = np.concatenate((sideTendonCompliance, 
                                        sideTendonCompliance), axis=1)
     
-    from muscleData import tendonShift
-    sideTendonShift = tendonShift(NSideMuscles)
-    tendonShift = np.concatenate((sideTendonShift, sideTendonShift), axis=1)
-    
     from muscleData import specificTension_3D
     sideSpecificTension = specificTension_3D(rightSideMuscles)
     specificTension = np.concatenate((sideSpecificTension, 
@@ -149,7 +145,7 @@ for case in cases:
     
     from functionCasADi import hillEquilibrium
     f_hillEquilibrium = hillEquilibrium(mtParameters, tendonCompliance, 
-                                        tendonShift, specificTension)
+                                        specificTension)
     # Time constants
     activationTimeConstant = 0.015
     deactivationTimeConstant = 0.06

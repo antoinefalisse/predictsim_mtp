@@ -15,7 +15,7 @@ elif os.environ['COMPUTERNAME'] == 'GBW-D-W2711':
 import casadi as ca
 import numpy as np
 
-solveProblem = True
+solveProblem = False
 saveResults = True
 analyzeResults = True
 loadResults = True
@@ -28,7 +28,7 @@ plotPolynomials = False
 subject = 'subject1_3D_mtp'
 model = 'subject1_mtp'
 
-cases = ['0','2']
+cases = ['0']
 
 from settings_predictsim import getSettings_predictsim_mtp   
 settings = getSettings_predictsim_mtp() 
@@ -132,10 +132,6 @@ for case in cases:
     tendonCompliance = np.concatenate((sideTendonCompliance, 
                                        sideTendonCompliance), axis=1)
     
-    from muscleData import tendonShift
-    sideTendonShift = tendonShift(NSideMuscles)
-    tendonShift = np.concatenate((sideTendonShift, sideTendonShift), axis=1)
-    
     from muscleData import specificTension_3D
     sideSpecificTension = specificTension_3D(rightSideMuscles)
     specificTension = np.concatenate((sideSpecificTension, 
@@ -143,7 +139,7 @@ for case in cases:
     
     from functionCasADi import hillEquilibrium
     f_hillEquilibrium = hillEquilibrium(mtParameters, tendonCompliance, 
-                                        tendonShift, specificTension)
+                                        specificTension)
     # Time constants
     activationTimeConstant = 0.015
     deactivationTimeConstant = 0.06
