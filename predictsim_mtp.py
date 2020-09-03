@@ -15,7 +15,7 @@ elif os.environ['COMPUTERNAME'] == 'GBW-D-W2711':
 import casadi as ca
 import numpy as np
 
-solveProblem = False
+solveProblem = True
 saveResults = True
 analyzeResults = True
 loadResults = True
@@ -28,7 +28,7 @@ plotPolynomials = False
 subject = 'subject1_3D_mtp'
 model = 'subject1_mtp'
 
-cases = ['0']
+cases = ['0', '2']
 
 from settings_predictsim import getSettings_predictsim_mtp   
 settings = getSettings_predictsim_mtp() 
@@ -49,7 +49,8 @@ for case in cases:
     d = 3
     parallelMode = "thread"
     guessType = settings[case]['guessType']
-    targetSpeed = settings[case]['targetSpeed']    
+    targetSpeed = settings[case]['targetSpeed']
+    adjustAchillesTendonCompliance = settings[case]['adjustAchillesTendonCompliance']
          
     # Paths
     pathMain = os.getcwd()
@@ -129,6 +130,15 @@ for case in cases:
     
     from muscleData import tendonCompliance
     sideTendonCompliance = tendonCompliance(NSideMuscles)
+    # Allow adjusting the Achilles tendon stiffness (triceps surae)
+    if adjustAchillesTendonCompliance:
+        AchillesTendonCompliance = settings[case]['AchillesTendonCompliance']
+        musclesAchillesTendon = ['med_gas_r', 'lat_gas_r', 'soleus_r']
+        idxMusclesAchillesTendon = [
+            rightSideMuscles.index(muscleAchillesTendon) 
+            for muscleAchillesTendon in musclesAchillesTendon]
+        sideTendonCompliance[0, idxMusclesAchillesTendon] = (
+            AchillesTendonCompliance)                
     tendonCompliance = np.concatenate((sideTendonCompliance, 
                                        sideTendonCompliance), axis=1)
     

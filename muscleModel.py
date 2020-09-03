@@ -71,6 +71,8 @@ class muscleModel:
                    adjustedNormTendonForce_afterShift) 
             < 1e12), "Error when shifting tendon curve"
         
+        print(self.tendonShift)
+        
         return self.tendonShift        
             
     def getTendonLength(self):          
