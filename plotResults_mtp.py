@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt  
 
 # %% Settings 
-cases = ['0','1','3']
+cases = ['0','4']
 mainName = "predictsim_mtp"
 
 # %% Fixed settings
