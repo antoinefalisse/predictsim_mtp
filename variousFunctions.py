@@ -55,7 +55,7 @@ def storage2numpy(storage_file, excess_header_entries=0):
 
     return data
 
-def getIK(storage_file, joints):
+def getIK(storage_file, joints, degrees=False):
     # Extract data
     data = storage2numpy(storage_file)
     Qs = pd.DataFrame(data=data['time'], columns=['time'])    
@@ -64,7 +64,10 @@ def getIK(storage_file, joints):
             (joint == 'pelvis_tz')):
             Qs.insert(count + 1, joint, data[joint])         
         else:
-            Qs.insert(count + 1, joint, data[joint] * np.pi / 180)              
+            if degrees == True:
+                Qs.insert(count + 1, joint, data[joint])                  
+            else:
+                Qs.insert(count + 1, joint, data[joint] * np.pi / 180)              
             
     # Filter data    
     fs=1/np.mean(np.diff(Qs['time']))    
@@ -423,3 +426,15 @@ def getMetrics(predictions, targets):
 def eulerIntegration(xk_0, xk_1, uk, delta_t):
     
     return (xk_1 - xk_0) - uk * delta_t
+
+def getInitialContact(GRF_y, time, threshold):
+    
+    idxIC = np.argwhere(GRF_y >= threshold)[0]
+    timeIC = time[idxIC]
+    
+    timeIC_round2 = np.round(timeIC, 2)
+    idxIC_round2 = np.argwhere(time >= timeIC_round2)[0]
+    
+    return idxIC, timeIC, idxIC_round2, timeIC_round2
+    
+    
