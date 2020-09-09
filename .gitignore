@@ -5,5 +5,18 @@ out.log
 **/Results
 
 OpenSimModel/*
+!OpenSimModel/subject1_mtp
+OpenSimModel/subject1_mtp/*
+!OpenSimModel/subject1_mtp/experimentalData.npy
+!OpenSimModel/subject1_mtp/Model
+!OpenSimModel/subject1_mtp/IK
+OpenSimModel/subject1_mtp/IK/*
+!OpenSimModel/subject1_mtp/IK/IK_average_walking_HGC_mtp.mot
 
-
+!OpenSimModel/subject1_no_mtp
+OpenSimModel/subject1_no_mtp/*
+!OpenSimModel/subject1_no_mtp/experimentalData.npy
+!OpenSimModel/subject1_no_mtp/Model
+!OpenSimModel/subject1_no_mtp/IK
+OpenSimModel/subject1_no_mtp/IK/*
+!OpenSimModel/subject1_no_mtp/IK/IK_average_walking_HGC_mtp.mot
