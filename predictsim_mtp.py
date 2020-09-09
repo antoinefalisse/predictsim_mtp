@@ -15,7 +15,7 @@ elif os.environ['COMPUTERNAME'] == 'GBW-D-W2711':
 import casadi as ca
 import numpy as np
 
-solveProblem = False
+solveProblem = True
 saveResults = True
 analyzeResults = True
 loadResults = True
@@ -25,10 +25,9 @@ decomposeCost = True
 loadMTParameters = True
 loadPolynomialData = True
 plotPolynomials = False
-subject = 'subject1_3D_mtp'
-model = 'subject1_mtp'
+subject = 'subject1_mtp'
 
-cases = ['11']
+cases = ['12', '13']
 
 from settings_predictsim import getSettings_predictsim_mtp   
 settings = getSettings_predictsim_mtp() 
@@ -56,7 +55,7 @@ for case in cases:
     # Paths
     pathMain = os.getcwd()
     pathData = os.path.join(pathMain, 'OpenSimModel', subject)
-    pathModel = os.path.join(pathData, 'Model', model + ".osim")
+    pathModel = os.path.join(pathData, 'Model', subject + ".osim")
     pathMTParameters = os.path.join(pathData, 'Model')
     filename = os.path.basename(__file__)
     pathCase = 'Case_' + case    
@@ -1874,7 +1873,8 @@ for case in cases:
                                 'muscles': bothSidesMuscles,
                                 'GRF_labels': GRFNames,
                                 'COT': COT_GC,
-                                'GC_percent': GC_percent}              
+                                'GC_percent': GC_percent,
+                                'objective': stats['iterations']['obj'][-1]}              
             np.save(os.path.join(pathTrajectories, 'optimaltrajectories.npy'),
                     optimaltrajectories)
            

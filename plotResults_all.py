@@ -3,8 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt  
 
 # %% Settings 
-cases_mtp = ['0']
-cases_no_mtp = ['0', '1']
+cases_mtp = ['7', '0']
+cases_no_mtp = ['3', '0']
 subject = "subject1"
 model_mtp = "mtp"
 model_no_mtp = "no_mtp"
