@@ -3,3 +3,4 @@ EMG were
 - rectified
 - processed with a 2nd order dual-pass low-pass Butterworth filer with a 10Hz cutoff frequency
 - <0.001 = 0.001
+
