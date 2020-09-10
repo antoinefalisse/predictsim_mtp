@@ -27,7 +27,7 @@ loadPolynomialData = True
 plotPolynomials = False
 subject = 'subject1_mtp'
 
-cases = ['12', '13']
+cases = ['14']
 
 from settings_predictsim import getSettings_predictsim_mtp   
 settings = getSettings_predictsim_mtp() 
@@ -71,6 +71,10 @@ for case in cases:
         F = ca.external('F','PredSim_mtpPin_cm0.dll')
         if analyzeResults:
             F1 = ca.external('F','PredSim_mtpPin_pp_cm0.dll')
+    elif contactConfiguration == 'generic_cm4':
+        F = ca.external('F','PredSim_mtpPin_cm4.dll')
+        if analyzeResults:
+            F1 = ca.external('F','PredSim_mtpPin_pp_cm4.dll')
     elif contactConfiguration == 'specific':
         F = ca.external('F','PredSim_mtpPin_cm3.dll')
         if analyzeResults:

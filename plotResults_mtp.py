@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt  
 
 # %% Settings 
-cases = ['6','7']
+cases = ['7','13']
 mainName = "predictsim_mtp"
 subject = "subject1"
 model = "mtp"
@@ -53,7 +53,7 @@ for i, ax in enumerate(axs.flat):
         handles, labels = ax.get_legend_handles_labels()
         plt.legend(handles, labels, loc='upper right')
 plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
-plt.setp(axs[:, 0], ylabel='Coordinate values (deg or m)')
+plt.setp(axs[:, 0], ylabel='(deg or m)')
 fig.align_ylabels()
 
 # %% Muscle activations
@@ -132,7 +132,7 @@ for i, ax in enumerate(axs.flat):
         handles, labels = ax.get_legend_handles_labels()
         plt.legend(handles, labels, loc='upper right')
 plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
-plt.setp(axs[:, 0], ylabel='Activation []')
+plt.setp(axs[:, 0], ylabel='(-)')
 fig.align_ylabels()
 
 # %% Kinetics
@@ -154,7 +154,7 @@ for i, ax in enumerate(axs.flat):
         handles, labels = ax.get_legend_handles_labels()
         plt.legend(handles, labels, loc='upper right')
 plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
-plt.setp(axs[:, 0], ylabel='Torques [Nm]')
+plt.setp(axs[:, 0], ylabel='(Nm)')
 fig.align_ylabels()
 
 # %% Contact forces 
@@ -180,5 +180,22 @@ for i, ax in enumerate(axs.flat):
     handles, labels = ax.get_legend_handles_labels()
     plt.legend(handles, labels, loc='upper right')
 plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
-plt.setp(axs[:, 0], ylabel='Ground reaction forces (N)')
+plt.setp(axs[:, 0], ylabel='(N)')
 fig.align_ylabels()
+
+# %% Metabolic cost and cost function value
+fig, (ax1, ax2) = plt.subplots(1, 2)
+color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
+for count, case in enumerate(cases):
+    ax1.scatter(count, optimaltrajectories[case]["COT"][0], s=80)
+    ax2.scatter(count, optimaltrajectories[case]["objective"], s=80)
+ax1.set_title("Cost of Transport")
+ax1.set_ylabel("(J/Kg/m)")    
+ax2.set_title("Optimal cost value")
+ax2.set_ylabel("()")
+x_locations = np.linspace(0, len(cases)-1, len(cases))
+ax1.set_xticks(x_locations)
+xticklabels = ["Case_" + case for case in cases]
+ax1.set_xticklabels(xticklabels)
+ax2.set_xticks(x_locations)
+ax2.set_xticklabels(xticklabels)

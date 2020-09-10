@@ -3,8 +3,16 @@ import numpy as np
 import matplotlib.pyplot as plt  
 
 # %% Settings 
-cases_mtp = ['7', '0']
-cases_no_mtp = ['3', '0']
+# N=50
+# MTP: 7-generic, 0-specific
+# NO-MTP: 3-generic, 0-specific
+# cases_mtp = ['7', '0']
+# cases_no_mtp = ['3', '0']
+# N=100
+# MTP: 13-generic, 3-specific
+# NO-MTP: 5-generic, 4-specific
+cases_mtp = ['13', '3']
+cases_no_mtp = ['5', '4']
 subject = "subject1"
 model_mtp = "mtp"
 model_no_mtp = "no_mtp"
@@ -89,7 +97,7 @@ for i, ax in enumerate(axs.flat):
         handles, labels = ax.get_legend_handles_labels()
         plt.legend(handles, labels, loc='upper right')
 plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
-plt.setp(axs[:, 0], ylabel='Coordinate values (deg or m)')
+plt.setp(axs[:, 0], ylabel='(deg or m)')
 fig.align_ylabels()
 
 # %% Muscle activations
@@ -188,7 +196,7 @@ for i, ax in enumerate(axs.flat):
     handles, labels = ax.get_legend_handles_labels()
     plt.legend(handles, labels, loc='upper right')
 plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
-plt.setp(axs[:, 0], ylabel='Activation []')
+plt.setp(axs[:, 0], ylabel='(-)')
 fig.align_ylabels()
 
 # %% Kinetics
@@ -222,7 +230,7 @@ for i, ax in enumerate(axs.flat):
         handles, labels = ax.get_legend_handles_labels()
         plt.legend(handles, labels, loc='upper right')
 plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
-plt.setp(axs[:, 0], ylabel='Torques [Nm]')
+plt.setp(axs[:, 0], ylabel='(Nm)')
 fig.align_ylabels()
 
 # %% Ground reaction forces
@@ -255,5 +263,26 @@ for i, ax in enumerate(axs.flat):
         handles, labels = ax.get_legend_handles_labels()
         plt.legend(handles, labels, loc='upper right')
 plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
-plt.setp(axs[:, 0], ylabel='Ground reaction forces [N]')
+plt.setp(axs[:, 0], ylabel='(N)')
 fig.align_ylabels()
+
+# %% Metabolic cost and cost function value
+fig, (ax1, ax2) = plt.subplots(1, 2)
+color_mtp=plt.cm.rainbow(np.linspace(0,1,len(cases_mtp))) 
+for count, case in enumerate(cases_mtp):
+    ax1.scatter(count, optimaltrajectories[case]["COT"][0], s=80, c=color_mtp[count, :].reshape(1,-1))
+    ax2.scatter(count, optimaltrajectories[case]["objective"], s=80, c=color_mtp[count, :].reshape(1,-1))
+color_no_mtp=plt.cm.rainbow(np.linspace(0,1,len(cases_mtp))) 
+for count, case in enumerate(cases_no_mtp):
+    ax1.scatter(count+len(cases_mtp), optimaltrajectories_no_mtp[case]["COT"][0], s=80, c=color_mtp[count, :].reshape(1,-1), marker="^")
+    ax2.scatter(count+len(cases_mtp), optimaltrajectories_no_mtp[case]["objective"], s=80, c=color_no_mtp[count, :].reshape(1,-1), marker="^")      
+ax1.set_title("Cost of Transport")
+ax1.set_ylabel("(J/Kg/m)")    
+ax2.set_title("Optimal cost value")
+ax2.set_ylabel("()")
+x_locations = np.linspace(0, len(cases_mtp)+len(cases_no_mtp)-1, len(cases_mtp)+len(cases_no_mtp))
+ax1.set_xticks(x_locations)
+xticklabels = ["Case_" + case + "_mtp" for case in cases_mtp] + ["Case_" + case + "_no_mtp" for case in cases_no_mtp]
+ax1.set_xticklabels(xticklabels)
+ax2.set_xticks(x_locations)
+ax2.set_xticklabels(xticklabels)
