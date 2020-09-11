@@ -7,12 +7,16 @@ import matplotlib.pyplot as plt
 # cases = ['7', '13']
 # Effect of mesh density on specific_CM3
 # cases = ['0', '3']
+# Effect of mesh density on generic_CM4
+# cases = ['14', '17']
 # Effect of contact configuration (with N=50)
-cases = ['7', '0', '14']
+# cases = ['7', '0', '14']
 # Effect of contact configuration (with N=100)
 # cases = ['13', '3']
 # Effect of tendon compliance (with N=50)
 # cases = ['0','4','8','11']
+# Effect of weight on MTP excitation term (with N=50)
+cases = ['0','18']
 mainName = "predictsim_mtp"
 subject = "subject1"
 model = "mtp"

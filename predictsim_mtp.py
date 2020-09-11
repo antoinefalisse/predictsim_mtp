@@ -27,7 +27,7 @@ loadPolynomialData = True
 plotPolynomials = False
 subject = 'subject1_mtp'
 
-cases = ['18']
+cases = ['22']
 
 from settings_predictsim import getSettings_predictsim_mtp   
 settings = getSettings_predictsim_mtp() 
