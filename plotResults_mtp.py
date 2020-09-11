@@ -12,11 +12,11 @@ import matplotlib.pyplot as plt
 # Effect of contact configuration (with N=50)
 # cases = ['7', '0', '14']
 # Effect of contact configuration (with N=100)
-# cases = ['13', '3']
+cases = ['13', '3']
 # Effect of tendon compliance (with N=50)
 # cases = ['0','4','8','11']
 # Effect of weight on MTP excitation term (with N=50)
-cases = ['0','18']
+# cases = ['0','18','23']
 mainName = "predictsim_mtp"
 subject = "subject1"
 model = "mtp"
@@ -215,6 +215,7 @@ plt.legend(handles, labels, loc='upper right')
 fig, (ax1, ax2) = plt.subplots(1, 2)
 color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
 for count, case in enumerate(cases):
+    print(optimaltrajectories[case]["COT"])
     ax1.scatter(count, optimaltrajectories[case]["COT"], s=80)
     ax2.scatter(count, optimaltrajectories[case]["objective"], s=80)
 ax1.set_title("Cost of Transport")

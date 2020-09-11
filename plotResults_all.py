@@ -11,10 +11,13 @@ import matplotlib.pyplot as plt
 # cases_no_mtp = ['0']
 
 # Effect of mtp on generic_CMO (N=100)
-cases_mtp = ['13']
-cases_no_mtp = ['5']
+# cases_mtp = ['13']
+# cases_no_mtp = ['5']
 # # Effect of mtp on specific_CM3 (N=100)
-# cases_mtp = ['3']
+cases_mtp = ['3']
+cases_no_mtp = ['4']
+
+# cases_mtp = ['3','13']
 # cases_no_mtp = ['4']
 
 subject = "subject1"
@@ -274,10 +277,12 @@ fig.align_ylabels()
 fig, (ax1, ax2) = plt.subplots(1, 2)
 color_mtp=plt.cm.rainbow(np.linspace(0,1,len(cases_mtp))) 
 for count, case in enumerate(cases_mtp):
+    print(optimaltrajectories[case]["COT"])
     ax1.scatter(count, optimaltrajectories[case]["COT"], s=80, c=color_mtp[count, :].reshape(1,-1))
     ax2.scatter(count, optimaltrajectories[case]["objective"], s=80, c=color_mtp[count, :].reshape(1,-1))
 color_no_mtp=plt.cm.rainbow(np.linspace(0,1,len(cases_mtp))) 
 for count, case in enumerate(cases_no_mtp):
+    print(optimaltrajectories_no_mtp[case]["COT"])
     ax1.scatter(count+len(cases_mtp), optimaltrajectories_no_mtp[case]["COT"], s=80, c=color_mtp[count, :].reshape(1,-1), marker="^")
     ax2.scatter(count+len(cases_mtp), optimaltrajectories_no_mtp[case]["objective"], s=80, c=color_no_mtp[count, :].reshape(1,-1), marker="^")      
 ax1.set_title("Cost of Transport")

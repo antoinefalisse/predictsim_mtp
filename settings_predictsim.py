@@ -224,7 +224,8 @@ def getSettings_predictsim_mtp():
                   'N': 50,
                   'tol': 4,
                   'adjustAchillesTendonCompliance': False,
-                  'mtpExcitationTerm': 1},            
+                  'mtpExcitationTerm': 1},     
+            # lower cost than 22
             '23': {'contactConfiguration': 'specific',
                   'guessType': 'quasiRandom',
                   'targetSpeed': 1.33,
