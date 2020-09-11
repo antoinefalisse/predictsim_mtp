@@ -3,7 +3,16 @@ import numpy as np
 import matplotlib.pyplot as plt  
 
 # %% Settings 
-cases = ['7','13']
+# Effect of mesh density on generic_CM0
+# cases = ['7', '13']
+# Effect of mesh density on specific_CM3
+# cases = ['0', '3']
+# Effect of contact configuration (with N=50)
+cases = ['7', '0', '14']
+# Effect of contact configuration (with N=100)
+# cases = ['13', '3']
+# Effect of tendon compliance (with N=50)
+# cases = ['0','4','8','11']
 mainName = "predictsim_mtp"
 subject = "subject1"
 model = "mtp"
@@ -183,11 +192,26 @@ plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
 plt.setp(axs[:, 0], ylabel='(N)')
 fig.align_ylabels()
 
+# %% MTP actuators
+mtpJoints = optimaltrajectories[cases[0]]['mtp_joints']
+mtpJointsToPlot = ['mtp_angle_r']
+idxMTPJointsToPlot = getJointIndices(mtpJoints, mtpJointsToPlot)
+fig, ax = plt.subplots()     
+color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
+for case in cases:
+    ax.plot(optimaltrajectories[case]['GC_percent'],
+            optimaltrajectories[case]['mtp_activations'][idxMTPJointsToPlot[0]:idxMTPJointsToPlot[0]+1, :].T, c=next(color), label='case_' + case)  
+ax.set(xlabel='Gait cycle (%)', ylabel='(Nm)',
+       title='MTP activations')
+# ax.set_ylim((kinetic_ylim_lb[i],kinetic_ylim_ub[i]))
+handles, labels = ax.get_legend_handles_labels()
+plt.legend(handles, labels, loc='upper right')
+
 # %% Metabolic cost and cost function value
 fig, (ax1, ax2) = plt.subplots(1, 2)
 color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
 for count, case in enumerate(cases):
-    ax1.scatter(count, optimaltrajectories[case]["COT"][0], s=80)
+    ax1.scatter(count, optimaltrajectories[case]["COT"], s=80)
     ax2.scatter(count, optimaltrajectories[case]["objective"], s=80)
 ax1.set_title("Cost of Transport")
 ax1.set_ylabel("(J/Kg/m)")    

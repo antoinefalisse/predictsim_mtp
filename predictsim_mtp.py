@@ -27,7 +27,7 @@ loadPolynomialData = True
 plotPolynomials = False
 subject = 'subject1_mtp'
 
-cases = ['14']
+cases = ['18']
 
 from settings_predictsim import getSettings_predictsim_mtp   
 settings = getSettings_predictsim_mtp() 
@@ -37,9 +37,9 @@ for case in cases:
                'activationTerm': 2000,
                'jointAccelerationTerm': 50000,
                'armExcitationTerm': 1000000, 
-               'mtpExcitationTerm': 1000000,
+               'mtpExcitationTerm': settings[case]['mtpExcitationTerm'],
                'passiveJointTorqueTerm': 1000, 
-               'controls': 0.001}   
+               'controls': 0.001}     
 
     # Other settings
     tol = settings[case]['tol']
@@ -1350,6 +1350,11 @@ for case in cases:
         normFDt_col_opt_nsc = normFDt_col_opt * (scalingFDt.to_numpy().T * 
                                                  np.ones((1, d*N)))
         normFDt_opt_nsc = normFDt_col_opt_nsc[:,d-1::d]
+        
+        aMtp_opt_nsc = aMtp_opt * scalingMtpE.iloc[0]['mtp_angle_r']
+        # All arm DoFs have the same scaling factor
+        aArm_opt_nsc = aArm_opt * scalingArmE.iloc[0]['arm_rot_r']
+        
         # Assert speed
         distTraveled_opt = (Qs_opt_nsc[joints.index('pelvis_tx'), -1] - 
                                        Qs_opt_nsc[joints.index('pelvis_tx'), 0])
@@ -1735,19 +1740,19 @@ for case in cases:
             
         # MTP actuator activations
         aMtp_GC = np.zeros((NMtpJoints, 2*N))
-        aMtp_GC[:, :N-idxIC_s[0]] = aMtp_opt[:, idxIC_s[0]:-1]
+        aMtp_GC[:, :N-idxIC_s[0]] = aMtp_opt_nsc[:, idxIC_s[0]:-1]
         aMtp_GC[:, N-idxIC_s[0]:N-idxIC_s[0]+N] = (
-                aMtp_opt[idxPeriodicMtpJoints, :-1])
-        aMtp_GC[:, N-idxIC_s[0]+N:2*N] = aMtp_opt[:,:idxIC_s[0]] 
+                aMtp_opt_nsc[idxPeriodicMtpJoints, :-1])
+        aMtp_GC[:, N-idxIC_s[0]+N:2*N] = aMtp_opt_nsc[:,:idxIC_s[0]] 
         if legIC == "left":
             aMtp_GC = aMtp_GC[idxPeriodicMtpJoints, :]
             
         # Arm actuator activations
         aArm_GC = np.zeros((NArmJoints, 2*N))
-        aArm_GC[:, :N-idxIC_s[0]] = aArm_opt[:, idxIC_s[0]:-1]
+        aArm_GC[:, :N-idxIC_s[0]] = aArm_opt_nsc[:, idxIC_s[0]:-1]
         aArm_GC[:, N-idxIC_s[0]:N-idxIC_s[0]+N] = (
-                aArm_opt[idxPeriodicArmJoints, :-1])
-        aArm_GC[:, N-idxIC_s[0]+N:2*N] = aArm_opt[:,:idxIC_s[0]] 
+                aArm_opt_nsc[idxPeriodicArmJoints, :-1])
+        aArm_GC[:, N-idxIC_s[0]+N:2*N] = aArm_opt_nsc[:,:idxIC_s[0]] 
         if legIC == "left":
             aArm_GC = aArm_GC[idxPeriodicArmJoints, :]
             
@@ -1875,8 +1880,9 @@ for case in cases:
                                 'time': tgrid_GC,
                                 'joints': joints,
                                 'muscles': bothSidesMuscles,
+                                'mtp_joints': mtpJoints,
                                 'GRF_labels': GRFNames,
-                                'COT': COT_GC,
+                                'COT': COT_GC[0],
                                 'GC_percent': GC_percent,
                                 'objective': stats['iterations']['obj'][-1]}              
             np.save(os.path.join(pathTrajectories, 'optimaltrajectories.npy'),

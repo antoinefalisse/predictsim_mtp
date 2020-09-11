@@ -3,8 +3,14 @@ import numpy as np
 import matplotlib.pyplot as plt  
 
 # %% Settings 
-cases = ['0','2']
-# cases = ['1','3','7']
+# Effect of mesh density on generic_CM0
+# cases = ['3', '5']
+# Effect of mesh density on specific_CM3
+# cases = ['0', '4']
+# Effect of contact configuration (with N=50)
+# cases = ['3', '0']
+# Effect of contact configuration (with N=100)
+cases = ['5', '4']
 mainName = "predictsim_no_mtp"
 subject = "subject1"
 model = "mtp"
@@ -188,7 +194,7 @@ fig.align_ylabels()
 fig, (ax1, ax2) = plt.subplots(1, 2)
 color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
 for count, case in enumerate(cases):
-    ax1.scatter(count, optimaltrajectories[case]["COT"][0], s=80)
+    ax1.scatter(count, optimaltrajectories[case]["COT"], s=80)
     ax2.scatter(count, optimaltrajectories[case]["objective"], s=80)
 ax1.set_title("Cost of Transport")
 ax1.set_ylabel("(J/Kg/m)")    
