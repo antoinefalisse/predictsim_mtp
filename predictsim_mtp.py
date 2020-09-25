@@ -12,10 +12,14 @@ elif os.environ['COMPUTERNAME'] == 'GBW-D-W2711':
     path.append(r"C:/Users/Public/Documents/Software/casadi-windows-py37-v3.5.1-64bit")
     # Workaround to get OpenSim to work with Python
     pathOS = "C:/OpenSim_4.1/sdk/Python"
+elif os.environ['COMPUTERNAME'] == 'GBW-L-W0696':
+    # path.append(r"C:/Users/Public/Documents/Software/casadi-windows-py37-v3.5.1-64bit")
+    # Workaround to get OpenSim to work with Python
+    pathOS = "C:/OpenSim40/sdk/Python"
 import casadi as ca
 import numpy as np
 
-solveProblem = False
+solveProblem = True
 saveResults = True
 analyzeResults = True
 loadResults = True
@@ -27,7 +31,7 @@ loadPolynomialData = True
 plotPolynomials = False
 subject = 'subject1_mtp'
 
-cases = ['22', '23']
+cases = ['22', '23', '24', '25']
 
 from settings_predictsim import getSettings_predictsim_mtp   
 settings = getSettings_predictsim_mtp() 
