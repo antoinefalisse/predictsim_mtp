@@ -14,8 +14,12 @@ import matplotlib.pyplot as plt
 # cases_mtp = ['13']
 # cases_no_mtp = ['5']
 # # Effect of mtp on specific_CM3 (N=100)
-cases_mtp = ['3']
-cases_no_mtp = ['4']
+# cases_mtp = ['3']
+# cases_no_mtp = ['4']
+
+# Effect of mtp on generic_CM5 (N=100)
+cases_mtp = ['13']
+cases_no_mtp = ['8']
 
 # cases_mtp = ['3','13']
 # cases_no_mtp = ['4']

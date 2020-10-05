@@ -27,7 +27,7 @@ loadPolynomialData = True
 plotPolynomials = False
 subject = 'subject1_no_mtp'
 
-cases = ['8']
+cases = ['10']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
@@ -77,6 +77,10 @@ for case in cases:
         F = ca.external('F','PredSim_no_mtpPin_cm5.dll')
         if analyzeResults:
             F1 = ca.external('F','PredSim_no_mtpPin_pp_cm5.dll')
+    elif contactConfiguration == 'generic_cm6':
+        F = ca.external('F','PredSim_no_mtpPin_cm6.dll')
+        if analyzeResults:
+            F1 = ca.external('F','PredSim_no_mtpPin_pp_cm6.dll')
     os.chdir(pathMain)  
     # vec1 = -np.zeros((87, 1))
     # res1 = (F1(vec1)).full()

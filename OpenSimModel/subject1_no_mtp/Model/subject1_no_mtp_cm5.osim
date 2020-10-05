@@ -12708,7 +12708,7 @@
                     <body_name>calcn_r</body_name>
                     <location>0.148386399942063 -0.021859 -0.028713422052654</location>
                     <orientation>0 0 0</orientation>
-                    <radius>0.032</radius>
+                    <radius>0.025</radius>
                 </ContactSphere>
                 <ContactSphere name="s3_r">
                     <!--Body name to connect the contact geometry to-->
@@ -12717,7 +12717,7 @@
                     <body_name>calcn_r</body_name>
                     <location>0.133001170607051 -0.021859 0.0516362473449566</location>
                     <orientation>0 0 0</orientation>
-                    <radius>0.032</radius>
+                    <radius>0.025</radius>
                 </ContactSphere>
                 <ContactSphere name="s4_r">
                     <!--Body name to connect the contact geometry to-->
@@ -12726,7 +12726,7 @@
                     <body_name>toes_r</body_name>
                     <location>0.06 -0.0214476 -0.0187603084619177</location>
                     <orientation>0 0 0</orientation>
-                    <radius>0.032</radius>
+                    <radius>0.025</radius>
                 </ContactSphere>
                 <ContactSphere name="s5_r">
                     <!--Body name to connect the contact geometry to-->
@@ -12744,7 +12744,7 @@
                     <body_name>toes_r</body_name>
                     <location>0.045 -0.0214476 0.0618569567549652</location>
                     <orientation>0 0 0</orientation>
-                    <radius>0.032</radius>
+                    <radius>0.025</radius>
                 </ContactSphere>
                 <ContactSphere name="s1_l">
                     <!--Body name to connect the contact geometry to-->
@@ -12753,7 +12753,7 @@
                     <body_name>calcn_l</body_name>
                     <location>0.00190115788407966 -0.021859 0.00382630379623308</location>
                     <orientation>0 0 0</orientation>
-                    <radius>0.032</radius>
+                    <radius>0.025</radius>
                 </ContactSphere>
                 <ContactSphere name="s2_l">
                     <!--Body name to connect the contact geometry to-->
@@ -12771,7 +12771,7 @@
                     <body_name>calcn_l</body_name>
                     <location>0.133001170607051 -0.021859 -0.0516362473449566</location>
                     <orientation>0 0 0</orientation>
-                    <radius>0.032</radius>
+                    <radius>0.025</radius>
                 </ContactSphere>
                 <ContactSphere name="s4_l">
                     <!--Body name to connect the contact geometry to-->
@@ -12780,7 +12780,7 @@
                     <body_name>toes_l</body_name>
                     <location>0.06 -0.0214476 0.0187603084619177</location>
                     <orientation>0 0 0</orientation>
-                    <radius>0.032</radius>
+                    <radius>0.025</radius>
                 </ContactSphere>
                 <ContactSphere name="s5_l">
                     <!--Body name to connect the contact geometry to-->
@@ -12798,7 +12798,7 @@
                     <body_name>toes_l</body_name>
                     <location>0.045 -0.0214476 -0.0618569567549652</location>
                     <orientation>0 0 0</orientation>
-                    <radius>0.032</radius>
+                    <radius>0.025</radius>
                 </ContactSphere>
             </objects>
 			<groups />
