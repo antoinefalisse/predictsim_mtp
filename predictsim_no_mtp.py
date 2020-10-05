@@ -15,7 +15,7 @@ elif os.environ['COMPUTERNAME'] == 'GBW-D-W2711':
 import casadi as ca
 import numpy as np
 
-solveProblem = False
+solveProblem = True
 saveResults = True
 analyzeResults = True
 loadResults = True
@@ -27,7 +27,7 @@ loadPolynomialData = True
 plotPolynomials = False
 subject = 'subject1_no_mtp'
 
-cases = ['0','1','2','3','4','5','6','7']
+cases = ['8']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
@@ -69,12 +69,15 @@ for case in cases:
         F = ca.external('F','PredSim_no_mtpPin_cm0.dll')
         if analyzeResults:
             F1 = ca.external('F','PredSim_no_mtpPin_pp_cm0.dll')
-        os.chdir(pathMain)        
     elif contactConfiguration == 'specific':
         F = ca.external('F','PredSim_no_mtpPin_cm3.dll')
         if analyzeResults:
             F1 = ca.external('F','PredSim_no_mtpPin_pp_cm3.dll')
-        os.chdir(pathMain)
+    elif contactConfiguration == 'generic_cm5':
+        F = ca.external('F','PredSim_no_mtpPin_cm5.dll')
+        if analyzeResults:
+            F1 = ca.external('F','PredSim_no_mtpPin_pp_cm5.dll')
+    os.chdir(pathMain)  
     # vec1 = -np.zeros((87, 1))
     # res1 = (F1(vec1)).full()
     

@@ -43,6 +43,16 @@ def getSettings_predictsim_no_mtp():
                   'guessType': 'quasiRandom',
                   'targetSpeed': 1.33,
                   'N': 100,
+                  'tol': 4},
+            '8': {'contactConfiguration': 'generic_cm5',
+                  'guessType': 'quasiRandom',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4},
+            '9': {'contactConfiguration': 'generic_cm5',
+                  'guessType': 'dataDriven',
+                  'targetSpeed': 1.33,
+                  'N': 100,
                   'tol': 4}}
     return settings
 
