@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 
 # Effect of mtp on generic_CM5 (N=100)
 cases_mtp = ['13']
-cases_no_mtp = ['8']
+cases_no_mtp = ['10']
 
 # cases_mtp = ['3','13']
 # cases_no_mtp = ['4']

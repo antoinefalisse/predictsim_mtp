@@ -55,6 +55,7 @@ def getSettings_predictsim_no_mtp():
                   'targetSpeed': 1.33,
                   'N': 100,
                   'tol': 4},
+            # lower cost than "11" (almost =)
             '10': {'contactConfiguration': 'generic_cm6',
                   'guessType': 'quasiRandom',
                   'targetSpeed': 1.33,
