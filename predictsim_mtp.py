@@ -15,7 +15,7 @@ elif os.environ['COMPUTERNAME'] == 'GBW-D-W2711':
 import casadi as ca
 import numpy as np
 
-solveProblem = False
+solveProblem = True
 saveResults = True
 analyzeResults = True
 loadResults = True
@@ -27,7 +27,7 @@ loadPolynomialData = True
 plotPolynomials = False
 subject = 'subject1_mtp'
 
-cases = ['22', '23']
+cases = ['24']
 
 from settings_predictsim import getSettings_predictsim_mtp   
 settings = getSettings_predictsim_mtp() 
@@ -51,6 +51,7 @@ for case in cases:
     guessType = settings[case]['guessType']
     targetSpeed = settings[case]['targetSpeed']
     adjustAchillesTendonCompliance = settings[case]['adjustAchillesTendonCompliance']
+    activeMTP = settings[case]['activeMTP']
          
     # Paths
     pathMain = os.getcwd()
@@ -306,7 +307,8 @@ for case in cases:
     # %% Arm activation dynamics
     from functionCasADi import armActivationDynamics
     f_armActivationDynamics = armActivationDynamics(NArmJoints)
-    f_mtpActivationDynamics = armActivationDynamics(NMtpJoints)
+    if activeMTP:
+        f_mtpActivationDynamics = armActivationDynamics(NMtpJoints)
     
     # %% Polynomials
     from functionCasADi import polynomialApproximation
@@ -428,7 +430,8 @@ for case in cases:
     from functionCasADi import mySum
     f_NMusclesSum2 = normSumPow(NMuscles, 2)
     f_NArmJointsSum2 = normSumPow(NArmJoints, 2)
-    f_NMtpJointsSum2 = normSumPow(NMtpJoints, 2)
+    if activeMTP:
+        f_NMtpJointsSum2 = normSumPow(NMtpJoints, 2)
     f_NNoArmJointsSum2 = normSumPow(NNoArmJoints, 2)
     f_NPassiveTorqueJointsSum2 = normSumPow(NPassiveTorqueJoints, 2)
     f_diffTorques = diffTorques()
@@ -478,11 +481,12 @@ for case in cases:
     uBoundsArmAj = ca.vec(uBoundsArmA.to_numpy().T * np.ones((1, d*N))).full()
     lBoundsArmAj = ca.vec(lBoundsArmA.to_numpy().T * np.ones((1, d*N))).full()
     
-    uBoundsMtpA, lBoundsMtpA, scalingMtpA = bounds.getBoundsMtpActivation()
-    uBoundsMtpAk = ca.vec(uBoundsMtpA.to_numpy().T * np.ones((1, N+1))).full()
-    lBoundsMtpAk = ca.vec(lBoundsMtpA.to_numpy().T * np.ones((1, N+1))).full()
-    uBoundsMtpAj = ca.vec(uBoundsMtpA.to_numpy().T * np.ones((1, d*N))).full()
-    lBoundsMtpAj = ca.vec(lBoundsMtpA.to_numpy().T * np.ones((1, d*N))).full()
+    if activeMTP:
+        uBoundsMtpA, lBoundsMtpA, scalingMtpA = bounds.getBoundsMtpActivation()
+        uBoundsMtpAk = ca.vec(uBoundsMtpA.to_numpy().T * np.ones((1, N+1))).full()
+        lBoundsMtpAk = ca.vec(lBoundsMtpA.to_numpy().T * np.ones((1, N+1))).full()
+        uBoundsMtpAj = ca.vec(uBoundsMtpA.to_numpy().T * np.ones((1, d*N))).full()
+        lBoundsMtpAj = ca.vec(lBoundsMtpA.to_numpy().T * np.ones((1, d*N))).full()
     
     # Controls
     uBoundsADt, lBoundsADt, scalingADt = bounds.getBoundsActivationDerivative()
@@ -491,11 +495,12 @@ for case in cases:
     
     uBoundsArmE, lBoundsArmE, scalingArmE = bounds.getBoundsArmExcitation()
     uBoundsArmEk = ca.vec(uBoundsArmE.to_numpy().T * np.ones((1, N))).full()
-    lBoundsArmEk = ca.vec(lBoundsArmE.to_numpy().T * np.ones((1, N))).full()
+    lBoundsArmEk = ca.vec(lBoundsArmE.to_numpy().T * np.ones((1, N))).full()    
     
     uBoundsMtpE, lBoundsMtpE, scalingMtpE = bounds.getBoundsMtpExcitation()
-    uBoundsMtpEk = ca.vec(uBoundsMtpE.to_numpy().T * np.ones((1, N))).full()
-    lBoundsMtpEk = ca.vec(lBoundsMtpE.to_numpy().T * np.ones((1, N))).full()
+    if activeMTP:
+        uBoundsMtpEk = ca.vec(uBoundsMtpE.to_numpy().T * np.ones((1, N))).full()
+        lBoundsMtpEk = ca.vec(lBoundsMtpE.to_numpy().T * np.ones((1, N))).full()
     
     # Slack controls
     uBoundsQdotdots, lBoundsQdotdots, scalingQdotdots = (
@@ -531,12 +536,14 @@ for case in cases:
     guessQdotsCol = guess.getGuessVelocityCol()    
     guessArmA = guess.getGuessTorqueActuatorActivation(armJoints)
     guessArmACol = guess.getGuessTorqueActuatorActivationCol(armJoints)
-    guessMtpA = guess.getGuessTorqueActuatorActivation(mtpJoints)
-    guessMtpACol = guess.getGuessTorqueActuatorActivationCol(mtpJoints)
+    if activeMTP:
+        guessMtpA = guess.getGuessTorqueActuatorActivation(mtpJoints)
+        guessMtpACol = guess.getGuessTorqueActuatorActivationCol(mtpJoints)
     # Controls
     guessADt = guess.getGuessActivationDerivative(scalingADt)
     guessArmE = guess.getGuessTorqueActuatorExcitation(armJoints)
-    guessMtpE = guess.getGuessTorqueActuatorExcitation(mtpJoints)
+    if activeMTP:
+       guessMtpE = guess.getGuessTorqueActuatorExcitation(mtpJoints)
     # Slack controls
     guessQdotdots = guess.getGuessAcceleration(scalingQdotdots)
     guessQdotdotsCol = guess.getGuessAccelerationCol()
@@ -626,18 +633,19 @@ for case in cases:
         opti.set_initial(aArm_col, guessArmACol.to_numpy().T)
         assert np.alltrue(lBoundsArmAj <= ca.vec(guessArmACol.to_numpy().T).full()), "lb Arm activation col"
         assert np.alltrue(uBoundsArmAj >= ca.vec(guessArmACol.to_numpy().T).full()), "ub Arm activation col"
-        # Mtp activation at mesh points
-        aMtp = opti.variable(NMtpJoints, N+1)
-        opti.subject_to(opti.bounded(lBoundsMtpAk, ca.vec(aMtp), uBoundsMtpAk))
-        opti.set_initial(aMtp, guessMtpA.to_numpy().T)
-        assert np.alltrue(lBoundsMtpAk <= ca.vec(guessMtpA.to_numpy().T).full()), "lb Mtp activation"
-        assert np.alltrue(uBoundsMtpAk >= ca.vec(guessMtpA.to_numpy().T).full()), "ub Mtp activation"
-        # Mtp activation at collocation points
-        aMtp_col = opti.variable(NMtpJoints, d*N)
-        opti.subject_to(opti.bounded(lBoundsMtpAj, ca.vec(aMtp_col), uBoundsMtpAj))
-        opti.set_initial(aMtp_col, guessMtpACol.to_numpy().T)
-        assert np.alltrue(lBoundsMtpAj <= ca.vec(guessMtpACol.to_numpy().T).full()), "lb Mtp activation col"
-        assert np.alltrue(uBoundsMtpAj >= ca.vec(guessMtpACol.to_numpy().T).full()), "ub Mtp activation col"
+        if activeMTP:
+            # Mtp activation at mesh points
+            aMtp = opti.variable(NMtpJoints, N+1)
+            opti.subject_to(opti.bounded(lBoundsMtpAk, ca.vec(aMtp), uBoundsMtpAk))
+            opti.set_initial(aMtp, guessMtpA.to_numpy().T)
+            assert np.alltrue(lBoundsMtpAk <= ca.vec(guessMtpA.to_numpy().T).full()), "lb Mtp activation"
+            assert np.alltrue(uBoundsMtpAk >= ca.vec(guessMtpA.to_numpy().T).full()), "ub Mtp activation"
+            # Mtp activation at collocation points
+            aMtp_col = opti.variable(NMtpJoints, d*N)
+            opti.subject_to(opti.bounded(lBoundsMtpAj, ca.vec(aMtp_col), uBoundsMtpAj))
+            opti.set_initial(aMtp_col, guessMtpACol.to_numpy().T)
+            assert np.alltrue(lBoundsMtpAj <= ca.vec(guessMtpACol.to_numpy().T).full()), "lb Mtp activation col"
+            assert np.alltrue(uBoundsMtpAj >= ca.vec(guessMtpACol.to_numpy().T).full()), "ub Mtp activation col"
         
         ###########################################################################
         # Controls
@@ -653,12 +661,13 @@ for case in cases:
         opti.set_initial(eArm, guessArmE.to_numpy().T)
         assert np.alltrue(lBoundsArmEk <= ca.vec(guessArmE.to_numpy().T).full()), "lb Arm excitation"
         assert np.alltrue(uBoundsArmEk >= ca.vec(guessArmE.to_numpy().T).full()), "ub Arm excitation"
-        # Mtp excitation at mesh points
-        eMtp = opti.variable(NMtpJoints, N)
-        opti.subject_to(opti.bounded(lBoundsMtpEk, ca.vec(eMtp), uBoundsMtpEk))
-        opti.set_initial(eMtp, guessMtpE.to_numpy().T)
-        assert np.alltrue(lBoundsMtpEk <= ca.vec(guessMtpE.to_numpy().T).full()), "lb Mtp excitation"
-        assert np.alltrue(uBoundsMtpEk >= ca.vec(guessMtpE.to_numpy().T).full()), "ub Mtp excitation"
+        if activeMTP:
+            # Mtp excitation at mesh points
+            eMtp = opti.variable(NMtpJoints, N)
+            opti.subject_to(opti.bounded(lBoundsMtpEk, ca.vec(eMtp), uBoundsMtpEk))
+            opti.set_initial(eMtp, guessMtpE.to_numpy().T)
+            assert np.alltrue(lBoundsMtpEk <= ca.vec(guessMtpE.to_numpy().T).full()), "lb Mtp excitation"
+            assert np.alltrue(uBoundsMtpEk >= ca.vec(guessMtpE.to_numpy().T).full()), "ub Mtp excitation"
         
         ###########################################################################
         # Slack controls
@@ -696,13 +705,15 @@ for case in cases:
         aArmk = ca.MX.sym('aArmk', NArmJoints)
         aArmj = ca.MX.sym('aArmj', NArmJoints, d)
         aArmkj = ca.horzcat(aArmk, aArmj)    
-        aMtpk = ca.MX.sym('aMtpk', NMtpJoints)
-        aMtpj = ca.MX.sym('aMtpj', NMtpJoints, d)
-        aMtpkj = ca.horzcat(aMtpk, aMtpj)  
+        if activeMTP:
+            aMtpk = ca.MX.sym('aMtpk', NMtpJoints)
+            aMtpj = ca.MX.sym('aMtpj', NMtpJoints, d)
+            aMtpkj = ca.horzcat(aMtpk, aMtpj)  
         # Controls
         aDtk = ca.MX.sym('aDtk', NMuscles)    
         eArmk = ca.MX.sym('eArmk', NArmJoints)  
-        eMtpk = ca.MX.sym('eMtpk', NMtpJoints)
+        if activeMTP:
+            eMtpk = ca.MX.sym('eMtpk', NMtpJoints)
         # Slack controls
         normFDtj = ca.MX.sym('normFDtj', NMuscles, d);
         Qdotdotsj = ca.MX.sym('Qdotdotsj', NJoints, d)
@@ -886,30 +897,30 @@ for case in cases:
                 Qskj_nsc[joints.index('mtp_angle_r'), j+1],
                 Qdotskj_nsc[joints.index('mtp_angle_r'), j+1])   
             
-            passiveJointTorquesj = ca.vertcat(passiveJointTorque_hip_flexion_rj,
-                                              passiveJointTorque_hip_flexion_lj,
-                                              passiveJointTorque_hip_adduction_rj,
-                                              passiveJointTorque_hip_adduction_lj,
-                                              passiveJointTorque_hip_rotation_rj,
-                                              passiveJointTorque_hip_rotation_lj,
-                                              passiveJointTorque_knee_angle_rj,
-                                              passiveJointTorque_knee_angle_lj,
-                                              passiveJointTorque_ankle_angle_rj,
-                                              passiveJointTorque_ankle_angle_lj,
-                                              passiveJointTorque_subtalar_angle_rj,
-                                              passiveJointTorque_subtalar_angle_lj,
-                                              passiveJointTorque_lumbar_extensionj,
-                                              passiveJointTorque_lumbar_bendingj,
-                                              passiveJointTorque_lumbar_rotationj,                                         
-                                              passiveJointTorque_mtp_angle_lj,
-                                              passiveJointTorque_mtp_angle_rj)
+            passiveJointTorquesj = ca.vertcat(
+                passiveJointTorque_hip_flexion_rj,
+                passiveJointTorque_hip_flexion_lj,
+                passiveJointTorque_hip_adduction_rj,
+                passiveJointTorque_hip_adduction_lj,
+                passiveJointTorque_hip_rotation_rj,
+                passiveJointTorque_hip_rotation_lj,
+                passiveJointTorque_knee_angle_rj,
+                passiveJointTorque_knee_angle_lj,
+                passiveJointTorque_ankle_angle_rj,
+                passiveJointTorque_ankle_angle_lj,
+                passiveJointTorque_subtalar_angle_rj,
+                passiveJointTorque_subtalar_angle_lj,
+                passiveJointTorque_lumbar_extensionj,
+                passiveJointTorque_lumbar_bendingj,
+                passiveJointTorque_lumbar_rotationj,                                         
+                passiveJointTorque_mtp_angle_lj,
+                passiveJointTorque_mtp_angle_rj)
             #######################################################################
             # Cost function
             metabolicEnergyRateTerm = (f_NMusclesSum2(metabolicEnergyRatej) / 
                                        modelMass)
             activationTerm = f_NMusclesSum2(akj[:, j+1])
-            armExcitationTerm = f_NArmJointsSum2(eArmk)      
-            mtpExcitationTerm = f_NMtpJointsSum2(eMtpk) 
+            armExcitationTerm = f_NArmJointsSum2(eArmk)             
             jointAccelerationTerm = (
                     f_NNoArmJointsSum2(Qdotdotsj[idxNoArmJoints, j]))                
             passiveJointTorqueTerm = (
@@ -917,15 +928,24 @@ for case in cases:
             activationDtTerm = f_NMusclesSum2(aDtk)
             forceDtTerm = f_NMusclesSum2(normFDtj[:, j])
             armAccelerationTerm = f_NArmJointsSum2(Qdotdotsj[idxArmJoints, j])
-                    
-            J += ((weights['metabolicEnergyRateTerm'] * metabolicEnergyRateTerm +
-                   weights['activationTerm'] * activationTerm + 
-                   weights['armExcitationTerm'] * armExcitationTerm + 
-                   weights['mtpExcitationTerm'] * mtpExcitationTerm + 
-                   weights['jointAccelerationTerm'] * jointAccelerationTerm +                
-                   weights['passiveJointTorqueTerm'] * passiveJointTorqueTerm + 
-                   weights['controls'] * (forceDtTerm + activationDtTerm 
-                          + armAccelerationTerm)) * h * B[j + 1])
+            if activeMTP:
+                mtpExcitationTerm = f_NMtpJointsSum2(eMtpk) 
+                J += ((weights['metabolicEnergyRateTerm'] * metabolicEnergyRateTerm +
+                       weights['activationTerm'] * activationTerm + 
+                       weights['armExcitationTerm'] * armExcitationTerm + 
+                       weights['mtpExcitationTerm'] * mtpExcitationTerm + 
+                       weights['jointAccelerationTerm'] * jointAccelerationTerm +                
+                       weights['passiveJointTorqueTerm'] * passiveJointTorqueTerm + 
+                       weights['controls'] * (forceDtTerm + activationDtTerm 
+                              + armAccelerationTerm)) * h * B[j + 1])
+            else:
+                J += ((weights['metabolicEnergyRateTerm'] * metabolicEnergyRateTerm +
+                       weights['activationTerm'] * activationTerm + 
+                       weights['armExcitationTerm'] * armExcitationTerm + 
+                       weights['jointAccelerationTerm'] * jointAccelerationTerm +                
+                       weights['passiveJointTorqueTerm'] * passiveJointTorqueTerm + 
+                       weights['controls'] * (forceDtTerm + activationDtTerm 
+                              + armAccelerationTerm)) * h * B[j + 1])
             
             #######################################################################
             # Expression for the state derivatives at the collocation points
@@ -934,7 +954,8 @@ for case in cases:
             Qsp_nsc = ca.mtimes(Qskj_nsc, C[j+1])
             Qdotsp_nsc = ca.mtimes(Qdotskj_nsc, C[j+1])        
             aArmp = ca.mtimes(aArmkj, C[j+1])
-            aMtpp = ca.mtimes(aMtpkj, C[j+1])
+            if activeMTP:
+                aMtpp = ca.mtimes(aMtpkj, C[j+1])
             # Append collocation equations
             # Muscle activation dynamics (implicit formulation)
             eq_constr.append((h*aDtk_nsc - ap))
@@ -951,9 +972,10 @@ for case in cases:
             # Arm activation dynamics (implicit formulation) 
             aArmDtj = f_armActivationDynamics(eArmk, aArmkj[:, j+1])
             eq_constr.append(h*aArmDtj - aArmp)
-            # Mtp activation dynamics (implicit formulation) 
-            aMtpDtj = f_mtpActivationDynamics(eMtpk, aMtpkj[:, j+1])
-            eq_constr.append(h*aMtpDtj - aMtpp)
+            if activeMTP:
+                # Mtp activation dynamics (implicit formulation) 
+                aMtpDtj = f_mtpActivationDynamics(eMtpk, aMtpkj[:, j+1])
+                eq_constr.append(h*aMtpDtj - aMtpp)
             
             #######################################################################
             # Path constraints        
@@ -1133,23 +1155,42 @@ for case in cases:
             eq_constr.append(diffTJ_elbow_flex_r)     
                 
             #######################################################################
-            # Torque-driven joint torques (mtp joints)     
-            diffTj_mtp_angle_l = f_diffTorques(
-                    Tj[joints.index('mtp_angle_l')] / 
-                    scalingMtpE.iloc[0]['mtp_angle_l'],
-                    aMtpkj[0, j+1], 
-                    (passiveJointTorque_mtp_angle_lj + 
-                     linearPassiveJointTorque_mtp_angle_lj) /
-                    scalingMtpE.iloc[0]['mtp_angle_l'])
-            eq_constr.append(diffTj_mtp_angle_l)
-            diffTj_mtp_angle_r = f_diffTorques(
-                    Tj[joints.index('mtp_angle_r')] / 
-                    scalingMtpE.iloc[0]['mtp_angle_r'], 
-                    aMtpkj[1, j+1], 
-                    (passiveJointTorque_mtp_angle_rj + 
-                     linearPassiveJointTorque_mtp_angle_rj) /
-                    scalingMtpE.iloc[0]['mtp_angle_r'])
-            eq_constr.append(diffTj_mtp_angle_r)
+            if activeMTP:
+                # Torque-driven joint torques (mtp joints)     
+                diffTj_mtp_angle_l = f_diffTorques(
+                        Tj[joints.index('mtp_angle_l')] / 
+                        scalingMtpE.iloc[0]['mtp_angle_l'],
+                        aMtpkj[0, j+1], 
+                        (passiveJointTorque_mtp_angle_lj + 
+                         linearPassiveJointTorque_mtp_angle_lj) /
+                        scalingMtpE.iloc[0]['mtp_angle_l'])
+                eq_constr.append(diffTj_mtp_angle_l)
+                diffTj_mtp_angle_r = f_diffTorques(
+                        Tj[joints.index('mtp_angle_r')] / 
+                        scalingMtpE.iloc[0]['mtp_angle_r'], 
+                        aMtpkj[1, j+1], 
+                        (passiveJointTorque_mtp_angle_rj + 
+                         linearPassiveJointTorque_mtp_angle_rj) /
+                        scalingMtpE.iloc[0]['mtp_angle_r'])
+                eq_constr.append(diffTj_mtp_angle_r)
+            else:
+                # Passive joint torques (mtp joints)     
+                diffTj_mtp_angle_l = f_diffTorques(
+                        Tj[joints.index('mtp_angle_l')] / 
+                        scalingMtpE.iloc[0]['mtp_angle_l'],
+                        0, 
+                        (passiveJointTorque_mtp_angle_lj + 
+                         linearPassiveJointTorque_mtp_angle_lj) /
+                        scalingMtpE.iloc[0]['mtp_angle_l'])
+                eq_constr.append(diffTj_mtp_angle_l)
+                diffTj_mtp_angle_r = f_diffTorques(
+                        Tj[joints.index('mtp_angle_r')] / 
+                        scalingMtpE.iloc[0]['mtp_angle_r'], 
+                        0, 
+                        (passiveJointTorque_mtp_angle_rj + 
+                         linearPassiveJointTorque_mtp_angle_rj) /
+                        scalingMtpE.iloc[0]['mtp_angle_r'])
+                eq_constr.append(diffTj_mtp_angle_r)                
             
             #######################################################################
             # Activation dynamics (implicit formulation)
@@ -1186,21 +1227,38 @@ for case in cases:
         ineq_constr5 = ca.vertcat(*ineq_constr5)
         ineq_constr6 = ca.vertcat(*ineq_constr6)
         # Create function for map construct (parallel computing)
-        f_coll = ca.Function('f_coll', [tf, ak, aj, normFk, normFj, Qsk, 
-                                        Qsj, Qdotsk, Qdotsj, aArmk, aArmj, aMtpk,
-                                        aMtpj, aDtk, eArmk, eMtpk, normFDtj, 
-                                        Qdotdotsj], 
-                [eq_constr, ineq_constr1, ineq_constr2, ineq_constr3, 
-                 ineq_constr4, ineq_constr5, ineq_constr6, J])     
-        # Create map construct
-        f_coll_map = f_coll.map(N, parallelMode, NThreads)   
-        # Call function with opti variables and set constraints
-        (coll_eq_constr, coll_ineq_constr1, coll_ineq_constr2, coll_ineq_constr3,
-         coll_ineq_constr4, coll_ineq_constr5, coll_ineq_constr6, Jall) = (
-                 f_coll_map(finalTime, a[:, :-1], a_col, normF[:, :-1], normF_col, 
-                            Qs[:, :-1], Qs_col, Qdots[:, :-1], Qdots_col, 
-                            aArm[:, :-1], aArm_col, aMtp[:, :-1], aMtp_col, aDt, 
-                            eArm, eMtp, normFDt_col, Qdotdots_col))       
+        if activeMTP:
+            f_coll = ca.Function('f_coll', [tf, ak, aj, normFk, normFj, Qsk, 
+                                            Qsj, Qdotsk, Qdotsj, aArmk, aArmj, aMtpk,
+                                            aMtpj, aDtk, eArmk, eMtpk, normFDtj, 
+                                            Qdotdotsj], 
+                    [eq_constr, ineq_constr1, ineq_constr2, ineq_constr3, 
+                     ineq_constr4, ineq_constr5, ineq_constr6, J])     
+            # Create map construct
+            f_coll_map = f_coll.map(N, parallelMode, NThreads)   
+            # Call function with opti variables and set constraints
+            (coll_eq_constr, coll_ineq_constr1, coll_ineq_constr2, coll_ineq_constr3,
+             coll_ineq_constr4, coll_ineq_constr5, coll_ineq_constr6, Jall) = (
+                     f_coll_map(finalTime, a[:, :-1], a_col, normF[:, :-1], normF_col, 
+                                Qs[:, :-1], Qs_col, Qdots[:, :-1], Qdots_col, 
+                                aArm[:, :-1], aArm_col, aMtp[:, :-1], aMtp_col, aDt, 
+                                eArm, eMtp, normFDt_col, Qdotdots_col))       
+        else:
+            f_coll = ca.Function('f_coll', [tf, ak, aj, normFk, normFj, Qsk, 
+                                            Qsj, Qdotsk, Qdotsj, aArmk, aArmj,
+                                            aDtk, eArmk, normFDtj, Qdotdotsj], 
+                    [eq_constr, ineq_constr1, ineq_constr2, ineq_constr3, 
+                     ineq_constr4, ineq_constr5, ineq_constr6, J])     
+            # Create map construct
+            f_coll_map = f_coll.map(N, parallelMode, NThreads)   
+            # Call function with opti variables and set constraints
+            (coll_eq_constr, coll_ineq_constr1, coll_ineq_constr2, coll_ineq_constr3,
+             coll_ineq_constr4, coll_ineq_constr5, coll_ineq_constr6, Jall) = (
+                     f_coll_map(finalTime, a[:, :-1], a_col, normF[:, :-1], normF_col, 
+                                Qs[:, :-1], Qs_col, Qdots[:, :-1], Qdots_col, 
+                                aArm[:, :-1], aArm_col, aDt, 
+                                eArm, normFDt_col, Qdotdots_col))     
+            
         opti.subject_to(ca.vec(coll_eq_constr) == 0)
         opti.subject_to(ca.vec(coll_ineq_constr1) >= 0)
         opti.subject_to(ca.vec(coll_ineq_constr2) <= 1 / activationTimeConstant)    
@@ -1218,14 +1276,16 @@ for case in cases:
             Qskj2 = (ca.horzcat(Qs[:, k], Qs_col[:, k*d:(k+1)*d]))
             Qdotskj2 = (ca.horzcat(Qdots[:, k], Qdots_col[:, k*d:(k+1)*d]))    
             aArmkj2 = (ca.horzcat(aArm[:, k], aArm_col[:, k*d:(k+1)*d]))
-            aMtpkj2 = (ca.horzcat(aMtp[:, k], aMtp_col[:, k*d:(k+1)*d]))
+            if activeMTP:
+                aMtpkj2 = (ca.horzcat(aMtp[:, k], aMtp_col[:, k*d:(k+1)*d]))
             
             opti.subject_to(a[:, k+1] == ca.mtimes(akj2, D))
             opti.subject_to(normF[:, k+1] == ca.mtimes(normFkj2, D))    
             opti.subject_to(Qs[:, k+1] == ca.mtimes(Qskj2, D))
             opti.subject_to(Qdots[:, k+1] == ca.mtimes(Qdotskj2, D))    
             opti.subject_to(aArm[:, k+1] == ca.mtimes(aArmkj2, D))  
-            opti.subject_to(aMtp[:, k+1] == ca.mtimes(aMtpkj2, D)) 
+            if activeMTP:
+                opti.subject_to(aMtp[:, k+1] == ca.mtimes(aMtpkj2, D)) 
             
         ###########################################################################
         # Periodic constraints 
@@ -1244,8 +1304,9 @@ for case in cases:
         opti.subject_to(normF[:, -1] - normF[idxPeriodicMuscles, 0] == 0)
         # Arm activations
         opti.subject_to(aArm[:, -1] - aArm[idxPeriodicArmJoints, 0] == 0)
-        # Mtp activations
-        opti.subject_to(aMtp[:, -1] - aMtp[idxPeriodicMtpJoints, 0] == 0)
+        if activeMTP:
+            # Mtp activations
+            opti.subject_to(aMtp[:, -1] - aMtp[idxPeriodicMtpJoints, 0] == 0)
         
         ###########################################################################
         # Average speed constraint
@@ -1309,22 +1370,24 @@ for case in cases:
         starti = starti + NArmJoints*(N+1)    
         aArm_col_opt = (np.reshape(w_opt[starti:starti+NArmJoints*(d*N)],
                                          (d*N, NArmJoints))).T
-        starti = starti + NArmJoints*(d*N)            
-        aMtp_opt = (np.reshape(w_opt[starti:starti+NMtpJoints*(N+1)],
-                                     (N+1, NMtpJoints))).T
-        starti = starti + NMtpJoints*(N+1)    
-        aMtp_col_opt = (np.reshape(w_opt[starti:starti+NMtpJoints*(d*N)],
-                                         (d*N, NMtpJoints))).T
-        starti = starti + NMtpJoints*(d*N)          
+        starti = starti + NArmJoints*(d*N)           
+        if activeMTP:
+            aMtp_opt = (np.reshape(w_opt[starti:starti+NMtpJoints*(N+1)],
+                                         (N+1, NMtpJoints))).T
+            starti = starti + NMtpJoints*(N+1)    
+            aMtp_col_opt = (np.reshape(w_opt[starti:starti+NMtpJoints*(d*N)],
+                                             (d*N, NMtpJoints))).T
+            starti = starti + NMtpJoints*(d*N)          
         aDt_opt = (np.reshape(w_opt[starti:starti+NMuscles*N],
                               (N, NMuscles))).T
         starti = starti + NMuscles*N
         eArm_opt = (np.reshape(w_opt[starti:starti+NArmJoints*N],
                                (N, NArmJoints))).T
         starti = starti + NArmJoints*N     
-        eMtp_opt = (np.reshape(w_opt[starti:starti+NMtpJoints*N],
-                               (N, NMtpJoints))).T
-        starti = starti + NMtpJoints*N     
+        if activeMTP:
+            eMtp_opt = (np.reshape(w_opt[starti:starti+NMtpJoints*N],
+                                   (N, NMtpJoints))).T
+            starti = starti + NMtpJoints*N     
         normFDt_col_opt = (np.reshape(w_opt[starti:starti+NMuscles*(d*N)],
                                             (d*N, NMuscles))).T
         starti = starti + NMuscles*(d*N)
@@ -1350,8 +1413,8 @@ for case in cases:
         normFDt_col_opt_nsc = normFDt_col_opt * (scalingFDt.to_numpy().T * 
                                                  np.ones((1, d*N)))
         normFDt_opt_nsc = normFDt_col_opt_nsc[:,d-1::d]
-        
-        aMtp_opt_nsc = aMtp_opt * scalingMtpE.iloc[0]['mtp_angle_r']
+        if activeMTP:
+            aMtp_opt_nsc = aMtp_opt * scalingMtpE.iloc[0]['mtp_angle_r']
         # All arm DoFs have the same scaling factor
         aArm_opt_nsc = aArm_opt * scalingArmE.iloc[0]['arm_rot_r']
         
@@ -1458,16 +1521,28 @@ for case in cases:
                     scalingArmE.iloc[0]['elbow_flex_r'], aArm_opt[7, k+1], 
                     linearPassiveJointTorque_elbow_flex_r_opt[0, k+1] / 
                     scalingArmE.iloc[0]['elbow_flex_r'])  
-            mtpT[0, k] = f_diffTorques(F1_out[joints.index('mtp_angle_l'), k] / 
-                    scalingMtpE.iloc[0]['mtp_angle_l'], aMtp_opt[0, k+1], 
-                    (linearPassiveJointTorque_mtp_angle_l_opt[0, k+1] + 
-                     passiveJointTorque_mtp_angle_l_opt[0, k+1])/
-                    scalingMtpE.iloc[0]['mtp_angle_l'])        
-            mtpT[1, k] = f_diffTorques(F1_out[joints.index('mtp_angle_r'), k] / 
-                    scalingMtpE.iloc[0]['mtp_angle_r'], aMtp_opt[1, k+1], 
-                    (linearPassiveJointTorque_mtp_angle_r_opt[0, k+1] + 
-                     passiveJointTorque_mtp_angle_r_opt[0, k+1]) /
-                    scalingMtpE.iloc[0]['mtp_angle_r'])                
+            if activeMTP:
+                mtpT[0, k] = f_diffTorques(F1_out[joints.index('mtp_angle_l'), k] / 
+                        scalingMtpE.iloc[0]['mtp_angle_l'], aMtp_opt[0, k+1], 
+                        (linearPassiveJointTorque_mtp_angle_l_opt[0, k+1] + 
+                         passiveJointTorque_mtp_angle_l_opt[0, k+1])/
+                        scalingMtpE.iloc[0]['mtp_angle_l'])        
+                mtpT[1, k] = f_diffTorques(F1_out[joints.index('mtp_angle_r'), k] / 
+                        scalingMtpE.iloc[0]['mtp_angle_r'], aMtp_opt[1, k+1], 
+                        (linearPassiveJointTorque_mtp_angle_r_opt[0, k+1] + 
+                         passiveJointTorque_mtp_angle_r_opt[0, k+1]) /
+                        scalingMtpE.iloc[0]['mtp_angle_r'])   
+            else:
+                mtpT[0, k] = f_diffTorques(F1_out[joints.index('mtp_angle_l'), k] / 
+                        scalingMtpE.iloc[0]['mtp_angle_l'], 0, 
+                        (linearPassiveJointTorque_mtp_angle_l_opt[0, k+1] + 
+                         passiveJointTorque_mtp_angle_l_opt[0, k+1])/
+                        scalingMtpE.iloc[0]['mtp_angle_l'])        
+                mtpT[1, k] = f_diffTorques(F1_out[joints.index('mtp_angle_r'), k] / 
+                        scalingMtpE.iloc[0]['mtp_angle_r'], 0, 
+                        (linearPassiveJointTorque_mtp_angle_r_opt[0, k+1] + 
+                         passiveJointTorque_mtp_angle_r_opt[0, k+1]) /
+                        scalingMtpE.iloc[0]['mtp_angle_r'])                 
         GRF_opt = F1_out[idxGRF, :]
         torques_opt = F1_out[getJointIndices(joints, joints), :] 
         # Assert arm torques    
@@ -1480,7 +1555,8 @@ for case in cases:
             metabolicEnergyRateTerm_opt_all = 0
             activationTerm_opt_all = 0
             armExcitationTerm_opt_all = 0
-            mtpExcitationTerm_opt_all = 0
+            if activeMTP:
+                mtpExcitationTerm_opt_all = 0
             jointAccelerationTerm_opt_all = 0
             passiveJointTorqueTerm_opt_all = 0
             activationDtTerm_opt_all = 0
@@ -1500,7 +1576,8 @@ for case in cases:
                 aDtk_opt = aDt_opt[:, k]
                 aDtk_opt_nsc = aDt_opt_nsc[:, k]
                 eArmk_opt = eArm_opt[:, k]
-                eMtpk_opt = eMtp_opt[:, k]
+                if activeMTP:
+                    eMtpk_opt = eMtp_opt[:, k]
                 # Slack controls
                 Qdotdotsj_opt = Qdotdots_col_opt[:, k*d:(k+1)*d]
                 Qdotdotsj_opt_nsc = Qdotdotsj_opt * (scalingQdotdots.to_numpy().T * np.ones((1, d)))
@@ -1629,28 +1706,39 @@ for case in cases:
                     forceDtTerm_opt = f_NMusclesSum2(normFDtj_opt[:, j])
                     armAccelerationTerm_opt = f_NArmJointsSum2(Qdotdotsj_opt[idxArmJoints, j])
                     armExcitationTerm_opt = f_NArmJointsSum2(eArmk_opt) 
-                    mtpExcitationTerm_opt = f_NMtpJointsSum2(eMtpk_opt) 
+                    if activeMTP:
+                        mtpExcitationTerm_opt = f_NMtpJointsSum2(eMtpk_opt) 
                     metabolicEnergyRateTerm_opt = (f_NMusclesSum2(metabolicEnergyRatej_opt) / modelMass)
                     
                     metabolicEnergyRateTerm_opt_all += weights['metabolicEnergyRateTerm'] * metabolicEnergyRateTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
                     activationTerm_opt_all += weights['activationTerm'] * activationTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
                     armExcitationTerm_opt_all += weights['armExcitationTerm'] * armExcitationTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
-                    mtpExcitationTerm_opt_all += weights['mtpExcitationTerm'] * mtpExcitationTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
+                    if activeMTP:
+                        mtpExcitationTerm_opt_all += weights['mtpExcitationTerm'] * mtpExcitationTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
                     jointAccelerationTerm_opt_all += weights['jointAccelerationTerm'] * jointAccelerationTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
                     passiveJointTorqueTerm_opt_all += weights['passiveJointTorqueTerm'] * passiveJointTorqueTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
                     activationDtTerm_opt_all += weights['controls'] * activationDtTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
                     forceDtTerm_opt_all += weights['controls'] * forceDtTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
                     armAccelerationTerm_opt_all += weights['controls'] * armAccelerationTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
-
-        JAll_opt = (metabolicEnergyRateTerm_opt_all.full() +
-                     activationTerm_opt_all.full() + 
-                     armExcitationTerm_opt_all.full() + 
-                     mtpExcitationTerm_opt_all.full() +
-                     jointAccelerationTerm_opt_all.full() + 
-                     passiveJointTorqueTerm_opt_all.full() + 
-                     activationDtTerm_opt_all.full() + 
-                     forceDtTerm_opt_all.full() + 
-                     armAccelerationTerm_opt_all.full())
+        if activeMTP:
+            JAll_opt = (metabolicEnergyRateTerm_opt_all.full() +
+                         activationTerm_opt_all.full() + 
+                         armExcitationTerm_opt_all.full() + 
+                         mtpExcitationTerm_opt_all.full() +
+                         jointAccelerationTerm_opt_all.full() + 
+                         passiveJointTorqueTerm_opt_all.full() + 
+                         activationDtTerm_opt_all.full() + 
+                         forceDtTerm_opt_all.full() + 
+                         armAccelerationTerm_opt_all.full())
+        else:
+            JAll_opt = (metabolicEnergyRateTerm_opt_all.full() +
+                         activationTerm_opt_all.full() + 
+                         armExcitationTerm_opt_all.full() +
+                         jointAccelerationTerm_opt_all.full() + 
+                         passiveJointTorqueTerm_opt_all.full() + 
+                         activationDtTerm_opt_all.full() + 
+                         forceDtTerm_opt_all.full() + 
+                         armAccelerationTerm_opt_all.full())            
         
         assert np.alltrue(
                 np.abs(JAll_opt[0][0] - stats['iterations']['obj'][-1]) 
@@ -1740,12 +1828,13 @@ for case in cases:
             
         # MTP actuator activations
         aMtp_GC = np.zeros((NMtpJoints, 2*N))
-        aMtp_GC[:, :N-idxIC_s[0]] = aMtp_opt_nsc[:, idxIC_s[0]:-1]
-        aMtp_GC[:, N-idxIC_s[0]:N-idxIC_s[0]+N] = (
-                aMtp_opt_nsc[idxPeriodicMtpJoints, :-1])
-        aMtp_GC[:, N-idxIC_s[0]+N:2*N] = aMtp_opt_nsc[:,:idxIC_s[0]] 
-        if legIC == "left":
-            aMtp_GC = aMtp_GC[idxPeriodicMtpJoints, :]
+        if activeMTP:
+            aMtp_GC[:, :N-idxIC_s[0]] = aMtp_opt_nsc[:, idxIC_s[0]:-1]
+            aMtp_GC[:, N-idxIC_s[0]:N-idxIC_s[0]+N] = (
+                    aMtp_opt_nsc[idxPeriodicMtpJoints, :-1])
+            aMtp_GC[:, N-idxIC_s[0]+N:2*N] = aMtp_opt_nsc[:,:idxIC_s[0]] 
+            if legIC == "left":
+                aMtp_GC = aMtp_GC[idxPeriodicMtpJoints, :]
             
         # Arm actuator activations
         aArm_GC = np.zeros((NArmJoints, 2*N))
