@@ -12,11 +12,13 @@ import matplotlib.pyplot as plt
 # Effect of contact configuration (with N=50)
 # cases = ['7', '0', '14']
 # Effect of contact configuration (with N=100)
-cases = ['13', '3']
+# cases = ['13', '3']
 # Effect of tendon compliance (with N=50)
 # cases = ['0','4','8','11']
 # Effect of weight on MTP excitation term (with N=50)
 # cases = ['0','18','23']
+# Effect of active vs passive MTP
+cases = ['24','25']
 mainName = "predictsim_mtp"
 subject = "subject1"
 model = "mtp"

@@ -279,6 +279,7 @@ def getSettings_predictsim_mtp():
                   'adjustAchillesTendonCompliance': False,
                   'mtpExcitationTerm': 1,
                   'activeMTP': True},
+            # lower cost than 25
             '24': {'contactConfiguration': 'generic',
                   'guessType': 'dataDriven',
                   'targetSpeed': 1.33,

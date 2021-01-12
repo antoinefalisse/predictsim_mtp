@@ -84,7 +84,7 @@ for i, ax in enumerate(axs[:, 0]):
     if i < NJointsToPlot:
         for case in cases_mtp:
             ax.plot(optimaltrajectories[case]['GC_percent'],
-                    optimaltrajectories[case]['coordinate_values'][idxJointsToPlot[i]:idxJointsToPlot[i]+1, :].T, c='blue', linewidth=3, label='case_' + case + '_mtp')
+                    optimaltrajectories[case]['coordinate_values'][idxJointsToPlot[i]:idxJointsToPlot[i]+1, :].T, c='black', linewidth=3, label='case_' + case + '_mtp')
             ax.fill_between(experimentalData_mtp[subject]["kinematics"]["positions"]["GC_percent"],
                         experimentalData_mtp[subject]["kinematics"]["positions"]["mean"][jointsToPlot[i]] + 2*experimentalData_mtp[subject]["kinematics"]["positions"]["std"][jointsToPlot[i]],
                         experimentalData_mtp[subject]["kinematics"]["positions"]["mean"][jointsToPlot[i]] - 2*experimentalData_mtp[subject]["kinematics"]["positions"]["std"][jointsToPlot[i]],
@@ -92,7 +92,7 @@ for i, ax in enumerate(axs[:, 0]):
         if not i == jointsToPlot.index("mtp_angle_r"):
             for case in cases_no_mtp:
                 ax.plot(optimaltrajectories_no_mtp[case]['GC_percent'],
-                        optimaltrajectories_no_mtp[case]['coordinate_values'][idxJointsToPlot_no_mtp[count]:idxJointsToPlot_no_mtp[count]+1, :].T, c='orange', linestyle=':', linewidth=3, label='case_' + case + '_no_mtp')   
+                        optimaltrajectories_no_mtp[case]['coordinate_values'][idxJointsToPlot_no_mtp[count]:idxJointsToPlot_no_mtp[count]+1, :].T, c='orange', linestyle='--', linewidth=3, label='case_' + case + '_no_mtp')   
                 # ax.fill_between(experimentalData_no_mtp[subject]["kinematics"]["positions"]["GC_percent"],
                 #         experimentalData_no_mtp[subject]["kinematics"]["positions"]["mean"][jointsToPlot_no_mtp[count]] + 2*experimentalData_no_mtp[subject]["kinematics"]["positions"]["std"][jointsToPlot_no_mtp[count]],
                 #         experimentalData_no_mtp[subject]["kinematics"]["positions"]["mean"][jointsToPlot_no_mtp[count]] - 2*experimentalData_no_mtp[subject]["kinematics"]["positions"]["std"][jointsToPlot_no_mtp[count]],
@@ -188,7 +188,7 @@ for i, ax in enumerate(axs[1:4,2:].flat):
     if i < NMusclesToPlot:
         for case in cases_mtp:
             ax.plot(optimaltrajectories[case]['GC_percent'],
-                    optimaltrajectories[case]['muscle_activations'][idxMusclesToPlot[i]:idxMusclesToPlot[i]+1, :].T, c='blue', linewidth=3, label='case_' + case + '_mtp')  
+                    optimaltrajectories[case]['muscle_activations'][idxMusclesToPlot[i]:idxMusclesToPlot[i]+1, :].T, c='black', linewidth=3, label='case_' + case + '_mtp')  
             if musclesToPlot[i] in mappingEMG:                
                 # Normalize EMG such that peak mean EMG = peak activation             
                 exp_mean = experimentalData_mtp[subject]["EMG"]["mean"][mappingEMG[musclesToPlot[i]]]
@@ -203,7 +203,7 @@ for i, ax in enumerate(axs[1:4,2:].flat):
             
         for case in cases_no_mtp:
             ax.plot(optimaltrajectories_no_mtp[case]['GC_percent'],
-                    optimaltrajectories_no_mtp[case]['muscle_activations'][idxMusclesToPlot[i]:idxMusclesToPlot[i]+1, :].T, c='orange', linestyle=':', linewidth=3, label='case_' + case + '_no_mtp')            
+                    optimaltrajectories_no_mtp[case]['muscle_activations'][idxMusclesToPlot[i]:idxMusclesToPlot[i]+1, :].T, c='orange', linestyle='--', linewidth=3, label='case_' + case + '_no_mtp')            
         
             # if musclesToPlot[i] in mappingEMG:                
             #     # Normalize EMG such that peak mean EMG = peak activation             
@@ -248,7 +248,7 @@ for i, ax in enumerate(axs[:,1]):
     if i < NJointsToPlot:
         for case in cases_mtp:
             ax.plot(optimaltrajectories[case]['GC_percent'],
-                    optimaltrajectories[case]['joint_torques'][idxJointsToPlot[i]:idxJointsToPlot[i]+1, :].T, c='blue', linewidth=3, label='case_' + case + '_mtp')  
+                    optimaltrajectories[case]['joint_torques'][idxJointsToPlot[i]:idxJointsToPlot[i]+1, :].T, c='black', linewidth=3, label='case_' + case + '_mtp')  
             ax.fill_between(experimentalData_mtp[subject]["kinetics"]["GC_percent"],
                             experimentalData_mtp[subject]["kinetics"]["mean"][jointsToPlot[i]] + 2*experimentalData_mtp[subject]["kinetics"]["std"][jointsToPlot[i]],
                             experimentalData_mtp[subject]["kinetics"]["mean"][jointsToPlot[i]] - 2*experimentalData_mtp[subject]["kinetics"]["std"][jointsToPlot[i]],
@@ -256,7 +256,7 @@ for i, ax in enumerate(axs[:,1]):
         if not i == jointsToPlot.index("mtp_angle_r"):
             for case in cases_no_mtp:
                 ax.plot(optimaltrajectories_no_mtp[case]['GC_percent'],
-                        optimaltrajectories_no_mtp[case]['joint_torques'][idxJointsToPlot_no_mtp[count]:idxJointsToPlot_no_mtp[count]+1, :].T, c='orange', linestyle=':', linewidth=3, label='case_' + case + '_no_mtp')            
+                        optimaltrajectories_no_mtp[case]['joint_torques'][idxJointsToPlot_no_mtp[count]:idxJointsToPlot_no_mtp[count]+1, :].T, c='orange', linestyle='--', linewidth=3, label='case_' + case + '_no_mtp')            
                 # ax.fill_between(experimentalData_no_mtp[subject]["kinetics"]["GC_percent"],
                 #             experimentalData_no_mtp[subject]["kinetics"]["mean"][jointsToPlot[i]] + 2*experimentalData_no_mtp[subject]["kinetics"]["std"][jointsToPlot[i]],
                 #             experimentalData_no_mtp[subject]["kinetics"]["mean"][jointsToPlot[i]] - 2*experimentalData_no_mtp[subject]["kinetics"]["std"][jointsToPlot[i]],
@@ -295,18 +295,18 @@ for i, ax in enumerate(axs[0,2:]):
     if i < NGRFToPlot:
         for case in cases_mtp:
             ax.plot(optimaltrajectories[case]['GC_percent'],
-                    optimaltrajectories[case]['GRF'][idxGRFToPlot[i]:idxGRFToPlot[i]+1, :].T, c='blue', linewidth=3, label='case_' + case + '_mtp')  
+                    optimaltrajectories[case]['GRF'][idxGRFToPlot[i]:idxGRFToPlot[i]+1, :].T, c='black', linewidth=3, label='case_' + case + '_mtp')  
             ax.fill_between(experimentalData_mtp[subject]["GRF"]["GC_percent"],
                             experimentalData_mtp[subject]["GRF"]["mean"][GRFToPlot[i]] + 2*experimentalData_mtp[subject]["GRF"]["std"][GRFToPlot[i]],
                             experimentalData_mtp[subject]["GRF"]["mean"][GRFToPlot[i]] - 2*experimentalData_mtp[subject]["GRF"]["std"][GRFToPlot[i]],
                             facecolor='grey', alpha=0.4)
         for case in cases_no_mtp:
             ax.plot(optimaltrajectories_no_mtp[case]['GC_percent'],
-                    optimaltrajectories_no_mtp[case]['GRF'][idxGRFToPlot[i]:idxGRFToPlot[i]+1, :].T, c='orange', linestyle=':', linewidth=3, label='case_' + case + '_no_mtp')  
+                    optimaltrajectories_no_mtp[case]['GRF'][idxGRFToPlot[i]:idxGRFToPlot[i]+1, :].T, c='orange', linestyle='--', linewidth=3, label='case_' + case + '_no_mtp')  
             # ax.fill_between(experimentalData_no_mtp[subject]["GRF"]["GC_percent"],
             #                 experimentalData_no_mtp[subject]["GRF"]["mean"][GRFToPlot[i]] + 2*experimentalData_no_mtp[subject]["GRF"]["std"][GRFToPlot[i]],
             #                 experimentalData_no_mtp[subject]["GRF"]["mean"][GRFToPlot[i]] - 2*experimentalData_no_mtp[subject]["GRF"]["std"][GRFToPlot[i]],
-            #                 facecolor='blue', alpha=0.4)
+            #                 facecolor='black', alpha=0.4)
         ax.set_title(GRFTitles[idxGRFToPlot[i]])
         ax.set_ylim((GRF_ylim_lb[i],GRF_ylim_ub[i]))
         ax.set_yticks([GRF_ylim_lb[i],0,GRF_ylim_ub[i]])
