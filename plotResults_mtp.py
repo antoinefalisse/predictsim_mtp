@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 # Effect of weight on MTP excitation term (with N=50)
 # cases = ['0','18','23']
 # Effect of active vs passive MTP
-cases = ['24','25']
+cases = ['0', '28']
 mainName = "predictsim_mtp"
 subject = "subject1"
 model = "mtp"

@@ -1,0 +1,2654 @@
+[2021-01-14 13:11:56.172] [info] Preparing to run InverseDynamicsTool.
+[2021-01-14 13:11:56.199] [info] Loaded model subject1_Scaled from file ../subject1_mtp_OS4_cm7.osim
+[2021-01-14 13:11:56.200] [warning] Couldn't find file 'treadmill.vtp'.
+[2021-01-14 13:11:56.200] [warning] Couldn't find file 'sacrum.vtp'.
+[2021-01-14 13:11:56.200] [warning] Couldn't find file 'pelvis.vtp'.
+[2021-01-14 13:11:56.201] [warning] Couldn't find file 'l_pelvis.vtp'.
+[2021-01-14 13:11:56.201] [warning] Couldn't find file 'femur_r.vtp'.
+[2021-01-14 13:11:56.201] [warning] Couldn't find file 'tibia_r.vtp'.
+[2021-01-14 13:11:56.201] [warning] Couldn't find file 'fibula.vtp'.
+[2021-01-14 13:11:56.201] [warning] Couldn't find file 'talus.vtp'.
+[2021-01-14 13:11:56.202] [warning] Couldn't find file 'foot.vtp'.
+[2021-01-14 13:11:56.202] [warning] Couldn't find file 'bofoot.vtp'.
+[2021-01-14 13:11:56.202] [warning] Couldn't find file 'femur_l.vtp'.
+[2021-01-14 13:11:56.202] [warning] Couldn't find file 'tibia_l.vtp'.
+[2021-01-14 13:11:56.202] [warning] Couldn't find file 'l_fibula.vtp'.
+[2021-01-14 13:11:56.202] [warning] Couldn't find file 'l_talus.vtp'.
+[2021-01-14 13:11:56.202] [warning] Couldn't find file 'l_foot.vtp'.
+[2021-01-14 13:11:56.202] [warning] Couldn't find file 'l_bofoot.vtp'.
+[2021-01-14 13:11:56.202] [warning] Couldn't find file 'hat_spine.vtp'.
+[2021-01-14 13:11:56.203] [warning] Couldn't find file 'hat_jaw.vtp'.
+[2021-01-14 13:11:56.203] [warning] Couldn't find file 'hat_skull.vtp'.
+[2021-01-14 13:11:56.203] [warning] Couldn't find file 'hat_ribs.vtp'.
+[2021-01-14 13:11:56.203] [warning] Couldn't find file 'arm_r_humerus.vtp'.
+[2021-01-14 13:11:56.203] [warning] Couldn't find file 'ulna_rv.vtp'.
+[2021-01-14 13:11:56.203] [warning] Couldn't find file 'radius_rv.vtp'.
+[2021-01-14 13:11:56.203] [warning] Couldn't find file 'pisiform_rvs.vtp'.
+[2021-01-14 13:11:56.204] [warning] Couldn't find file 'lunate_rvs.vtp'.
+[2021-01-14 13:11:56.204] [warning] Couldn't find file 'scaphoid_rvs.vtp'.
+[2021-01-14 13:11:56.204] [warning] Couldn't find file 'triquetrum_rvs.vtp'.
+[2021-01-14 13:11:56.204] [warning] Couldn't find file 'hamate_rvs.vtp'.
+[2021-01-14 13:11:56.204] [warning] Couldn't find file 'capitate_rvs.vtp'.
+[2021-01-14 13:11:56.205] [warning] Couldn't find file 'trapezoid_rvs.vtp'.
+[2021-01-14 13:11:56.205] [warning] Couldn't find file 'trapezium_rvs.vtp'.
+[2021-01-14 13:11:56.205] [warning] Couldn't find file 'metacarpal2_rvs.vtp'.
+[2021-01-14 13:11:56.205] [warning] Couldn't find file 'index_proximal_rvs.vtp'.
+[2021-01-14 13:11:56.205] [warning] Couldn't find file 'index_medial_rvs.vtp'.
+[2021-01-14 13:11:56.206] [warning] Couldn't find file 'index_distal_rvs.vtp'.
+[2021-01-14 13:11:56.206] [warning] Couldn't find file 'metacarpal3_rvs.vtp'.
+[2021-01-14 13:11:56.206] [warning] Couldn't find file 'middle_proximal_rvs.vtp'.
+[2021-01-14 13:11:56.206] [warning] Couldn't find file 'middle_medial_rvs.vtp'.
+[2021-01-14 13:11:56.206] [warning] Couldn't find file 'middle_distal_rvs.vtp'.
+[2021-01-14 13:11:56.206] [warning] Couldn't find file 'metacarpal4_rvs.vtp'.
+[2021-01-14 13:11:56.207] [warning] Couldn't find file 'ring_proximal_rvs.vtp'.
+[2021-01-14 13:11:56.207] [warning] Couldn't find file 'ring_medial_rvs.vtp'.
+[2021-01-14 13:11:56.207] [warning] Couldn't find file 'ring_distal_rvs.vtp'.
+[2021-01-14 13:11:56.207] [warning] Couldn't find file 'metacarpal5_rvs.vtp'.
+[2021-01-14 13:11:56.207] [warning] Couldn't find file 'little_proximal_rvs.vtp'.
+[2021-01-14 13:11:56.208] [warning] Couldn't find file 'little_medial_rvs.vtp'.
+[2021-01-14 13:11:56.208] [warning] Couldn't find file 'little_distal_rvs.vtp'.
+[2021-01-14 13:11:56.208] [warning] Couldn't find file 'metacarpal1_rvs.vtp'.
+[2021-01-14 13:11:56.208] [warning] Couldn't find file 'thumb_proximal_rvs.vtp'.
+[2021-01-14 13:11:56.208] [warning] Couldn't find file 'thumb_distal_rvs.vtp'.
+[2021-01-14 13:11:56.209] [warning] Couldn't find file 'humerus_lv.vtp'.
+[2021-01-14 13:11:56.209] [warning] Couldn't find file 'ulna_lv.vtp'.
+[2021-01-14 13:11:56.209] [warning] Couldn't find file 'radius_lv.vtp'.
+[2021-01-14 13:11:56.209] [warning] Couldn't find file 'pisiform_lvs.vtp'.
+[2021-01-14 13:11:56.209] [warning] Couldn't find file 'lunate_lvs.vtp'.
+[2021-01-14 13:11:56.209] [warning] Couldn't find file 'scaphoid_lvs.vtp'.
+[2021-01-14 13:11:56.210] [warning] Couldn't find file 'triquetrum_lvs.vtp'.
+[2021-01-14 13:11:56.210] [warning] Couldn't find file 'hamate_lvs.vtp'.
+[2021-01-14 13:11:56.210] [warning] Couldn't find file 'capitate_lvs.vtp'.
+[2021-01-14 13:11:56.210] [warning] Couldn't find file 'trapezoid_lvs.vtp'.
+[2021-01-14 13:11:56.210] [warning] Couldn't find file 'trapezium_lvs.vtp'.
+[2021-01-14 13:11:56.210] [warning] Couldn't find file 'metacarpal2_lvs.vtp'.
+[2021-01-14 13:11:56.211] [warning] Couldn't find file 'index_proximal_lvs.vtp'.
+[2021-01-14 13:11:56.211] [warning] Couldn't find file 'index_medial_lvs.vtp'.
+[2021-01-14 13:11:56.211] [warning] Couldn't find file 'index_distal_lvs.vtp'.
+[2021-01-14 13:11:56.211] [warning] Couldn't find file 'metacarpal3_lvs.vtp'.
+[2021-01-14 13:11:56.211] [warning] Couldn't find file 'middle_proximal_lvs.vtp'.
+[2021-01-14 13:11:56.212] [warning] Couldn't find file 'middle_medial_lvs.vtp'.
+[2021-01-14 13:11:56.212] [warning] Couldn't find file 'middle_distal_lvs.vtp'.
+[2021-01-14 13:11:56.212] [warning] Couldn't find file 'metacarpal4_lvs.vtp'.
+[2021-01-14 13:11:56.212] [warning] Couldn't find file 'ring_proximal_lvs.vtp'.
+[2021-01-14 13:11:56.212] [warning] Couldn't find file 'ring_medial_lvs.vtp'.
+[2021-01-14 13:11:56.212] [warning] Couldn't find file 'ring_distal_lvs.vtp'.
+[2021-01-14 13:11:56.213] [warning] Couldn't find file 'metacarpal5_lvs.vtp'.
+[2021-01-14 13:11:56.213] [warning] Couldn't find file 'little_proximal_lvs.vtp'.
+[2021-01-14 13:11:56.213] [warning] Couldn't find file 'little_medial_lvs.vtp'.
+[2021-01-14 13:11:56.213] [warning] Couldn't find file 'little_distal_lvs.vtp'.
+[2021-01-14 13:11:56.213] [warning] Couldn't find file 'metacarpal1_lvs.vtp'.
+[2021-01-14 13:11:56.213] [warning] Couldn't find file 'thumb_proximal_lvs.vtp'.
+[2021-01-14 13:11:56.214] [warning] Couldn't find file 'thumb_distal_lvs.vtp'.
+[2021-01-14 13:11:56.223] [cout] [info] 
+               MODEL: subject1_Scaled
+         coordinates: 37
+              forces: 128
+           actuators: 92
+             muscles: 92
+            analyses: 0
+              probes: 0
+              bodies: 20
+              joints: 20
+         constraints: 0
+             markers: 0
+         controllers: 0
+  contact geometries: 37
+misc modelcomponents: 0
+[2021-01-14 13:11:56.223] [info] Running tool DummyModel...
+[2021-01-14 13:11:56.223] [info] No external loads will be applied (external loads file not specified).
+[2021-01-14 13:11:56.236] [info] Storage: read data file = dummy_motion.mot (nr=10 nc=24)
+[2021-01-14 13:11:56.237] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'arm_flex_r'. Assuming default value.
+[2021-01-14 13:11:56.237] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'arm_add_r'. Assuming default value.
+[2021-01-14 13:11:56.238] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'arm_rot_r'. Assuming default value.
+[2021-01-14 13:11:56.238] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'arm_flex_l'. Assuming default value.
+[2021-01-14 13:11:56.238] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'arm_add_l'. Assuming default value.
+[2021-01-14 13:11:56.238] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'arm_rot_l'. Assuming default value.
+[2021-01-14 13:11:56.238] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'elbow_flex_r'. Assuming default value.
+[2021-01-14 13:11:56.239] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'elbow_flex_l'. Assuming default value.
+[2021-01-14 13:11:56.239] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'pro_sup_r'. Assuming default value.
+[2021-01-14 13:11:56.239] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'pro_sup_l'. Assuming default value.
+[2021-01-14 13:11:56.239] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_r'. Assuming default value.
+[2021-01-14 13:11:56.239] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_r'. Assuming default value.
+[2021-01-14 13:11:56.240] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_l'. Assuming default value.
+[2021-01-14 13:11:56.240] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_l'. Assuming default value.
+[2021-01-14 13:11:56.242] [info] InverseDynamicsTool: 10 time frames in 1 millisecond(s).
+[2021-01-14 13:58:02.291] [info] Preparing to run InverseDynamicsTool.
+[2021-01-14 13:58:02.319] [info] Loaded model subject1_Scaled from file ../subject1_mtp_OS4_cm7.osim
+[2021-01-14 13:58:02.319] [warning] Couldn't find file 'treadmill.vtp'.
+[2021-01-14 13:58:02.319] [warning] Couldn't find file 'sacrum.vtp'.
+[2021-01-14 13:58:02.320] [warning] Couldn't find file 'pelvis.vtp'.
+[2021-01-14 13:58:02.320] [warning] Couldn't find file 'l_pelvis.vtp'.
+[2021-01-14 13:58:02.320] [warning] Couldn't find file 'femur_r.vtp'.
+[2021-01-14 13:58:02.321] [warning] Couldn't find file 'tibia_r.vtp'.
+[2021-01-14 13:58:02.321] [warning] Couldn't find file 'fibula.vtp'.
+[2021-01-14 13:58:02.321] [warning] Couldn't find file 'talus.vtp'.
+[2021-01-14 13:58:02.321] [warning] Couldn't find file 'foot.vtp'.
+[2021-01-14 13:58:02.321] [warning] Couldn't find file 'bofoot.vtp'.
+[2021-01-14 13:58:02.322] [warning] Couldn't find file 'femur_l.vtp'.
+[2021-01-14 13:58:02.322] [warning] Couldn't find file 'tibia_l.vtp'.
+[2021-01-14 13:58:02.322] [warning] Couldn't find file 'l_fibula.vtp'.
+[2021-01-14 13:58:02.322] [warning] Couldn't find file 'l_talus.vtp'.
+[2021-01-14 13:58:02.322] [warning] Couldn't find file 'l_foot.vtp'.
+[2021-01-14 13:58:02.323] [warning] Couldn't find file 'l_bofoot.vtp'.
+[2021-01-14 13:58:02.323] [warning] Couldn't find file 'hat_spine.vtp'.
+[2021-01-14 13:58:02.323] [warning] Couldn't find file 'hat_jaw.vtp'.
+[2021-01-14 13:58:02.323] [warning] Couldn't find file 'hat_skull.vtp'.
+[2021-01-14 13:58:02.323] [warning] Couldn't find file 'hat_ribs.vtp'.
+[2021-01-14 13:58:02.324] [warning] Couldn't find file 'arm_r_humerus.vtp'.
+[2021-01-14 13:58:02.324] [warning] Couldn't find file 'ulna_rv.vtp'.
+[2021-01-14 13:58:02.324] [warning] Couldn't find file 'radius_rv.vtp'.
+[2021-01-14 13:58:02.324] [warning] Couldn't find file 'pisiform_rvs.vtp'.
+[2021-01-14 13:58:02.324] [warning] Couldn't find file 'lunate_rvs.vtp'.
+[2021-01-14 13:58:02.324] [warning] Couldn't find file 'scaphoid_rvs.vtp'.
+[2021-01-14 13:58:02.325] [warning] Couldn't find file 'triquetrum_rvs.vtp'.
+[2021-01-14 13:58:02.325] [warning] Couldn't find file 'hamate_rvs.vtp'.
+[2021-01-14 13:58:02.325] [warning] Couldn't find file 'capitate_rvs.vtp'.
+[2021-01-14 13:58:02.325] [warning] Couldn't find file 'trapezoid_rvs.vtp'.
+[2021-01-14 13:58:02.325] [warning] Couldn't find file 'trapezium_rvs.vtp'.
+[2021-01-14 13:58:02.326] [warning] Couldn't find file 'metacarpal2_rvs.vtp'.
+[2021-01-14 13:58:02.326] [warning] Couldn't find file 'index_proximal_rvs.vtp'.
+[2021-01-14 13:58:02.326] [warning] Couldn't find file 'index_medial_rvs.vtp'.
+[2021-01-14 13:58:02.326] [warning] Couldn't find file 'index_distal_rvs.vtp'.
+[2021-01-14 13:58:02.326] [warning] Couldn't find file 'metacarpal3_rvs.vtp'.
+[2021-01-14 13:58:02.326] [warning] Couldn't find file 'middle_proximal_rvs.vtp'.
+[2021-01-14 13:58:02.327] [warning] Couldn't find file 'middle_medial_rvs.vtp'.
+[2021-01-14 13:58:02.327] [warning] Couldn't find file 'middle_distal_rvs.vtp'.
+[2021-01-14 13:58:02.327] [warning] Couldn't find file 'metacarpal4_rvs.vtp'.
+[2021-01-14 13:58:02.327] [warning] Couldn't find file 'ring_proximal_rvs.vtp'.
+[2021-01-14 13:58:02.327] [warning] Couldn't find file 'ring_medial_rvs.vtp'.
+[2021-01-14 13:58:02.328] [warning] Couldn't find file 'ring_distal_rvs.vtp'.
+[2021-01-14 13:58:02.328] [warning] Couldn't find file 'metacarpal5_rvs.vtp'.
+[2021-01-14 13:58:02.328] [warning] Couldn't find file 'little_proximal_rvs.vtp'.
+[2021-01-14 13:58:02.328] [warning] Couldn't find file 'little_medial_rvs.vtp'.
+[2021-01-14 13:58:02.328] [warning] Couldn't find file 'little_distal_rvs.vtp'.
+[2021-01-14 13:58:02.328] [warning] Couldn't find file 'metacarpal1_rvs.vtp'.
+[2021-01-14 13:58:02.329] [warning] Couldn't find file 'thumb_proximal_rvs.vtp'.
+[2021-01-14 13:58:02.329] [warning] Couldn't find file 'thumb_distal_rvs.vtp'.
+[2021-01-14 13:58:02.329] [warning] Couldn't find file 'humerus_lv.vtp'.
+[2021-01-14 13:58:02.329] [warning] Couldn't find file 'ulna_lv.vtp'.
+[2021-01-14 13:58:02.329] [warning] Couldn't find file 'radius_lv.vtp'.
+[2021-01-14 13:58:02.330] [warning] Couldn't find file 'pisiform_lvs.vtp'.
+[2021-01-14 13:58:02.330] [warning] Couldn't find file 'lunate_lvs.vtp'.
+[2021-01-14 13:58:02.330] [warning] Couldn't find file 'scaphoid_lvs.vtp'.
+[2021-01-14 13:58:02.330] [warning] Couldn't find file 'triquetrum_lvs.vtp'.
+[2021-01-14 13:58:02.330] [warning] Couldn't find file 'hamate_lvs.vtp'.
+[2021-01-14 13:58:02.330] [warning] Couldn't find file 'capitate_lvs.vtp'.
+[2021-01-14 13:58:02.331] [warning] Couldn't find file 'trapezoid_lvs.vtp'.
+[2021-01-14 13:58:02.331] [warning] Couldn't find file 'trapezium_lvs.vtp'.
+[2021-01-14 13:58:02.331] [warning] Couldn't find file 'metacarpal2_lvs.vtp'.
+[2021-01-14 13:58:02.331] [warning] Couldn't find file 'index_proximal_lvs.vtp'.
+[2021-01-14 13:58:02.331] [warning] Couldn't find file 'index_medial_lvs.vtp'.
+[2021-01-14 13:58:02.332] [warning] Couldn't find file 'index_distal_lvs.vtp'.
+[2021-01-14 13:58:02.332] [warning] Couldn't find file 'metacarpal3_lvs.vtp'.
+[2021-01-14 13:58:02.332] [warning] Couldn't find file 'middle_proximal_lvs.vtp'.
+[2021-01-14 13:58:02.332] [warning] Couldn't find file 'middle_medial_lvs.vtp'.
+[2021-01-14 13:58:02.332] [warning] Couldn't find file 'middle_distal_lvs.vtp'.
+[2021-01-14 13:58:02.332] [warning] Couldn't find file 'metacarpal4_lvs.vtp'.
+[2021-01-14 13:58:02.333] [warning] Couldn't find file 'ring_proximal_lvs.vtp'.
+[2021-01-14 13:58:02.333] [warning] Couldn't find file 'ring_medial_lvs.vtp'.
+[2021-01-14 13:58:02.333] [warning] Couldn't find file 'ring_distal_lvs.vtp'.
+[2021-01-14 13:58:02.333] [warning] Couldn't find file 'metacarpal5_lvs.vtp'.
+[2021-01-14 13:58:02.333] [warning] Couldn't find file 'little_proximal_lvs.vtp'.
+[2021-01-14 13:58:02.333] [warning] Couldn't find file 'little_medial_lvs.vtp'.
+[2021-01-14 13:58:02.333] [warning] Couldn't find file 'little_distal_lvs.vtp'.
+[2021-01-14 13:58:02.334] [warning] Couldn't find file 'metacarpal1_lvs.vtp'.
+[2021-01-14 13:58:02.334] [warning] Couldn't find file 'thumb_proximal_lvs.vtp'.
+[2021-01-14 13:58:02.334] [warning] Couldn't find file 'thumb_distal_lvs.vtp'.
+[2021-01-14 13:58:02.344] [cout] [info] 
+               MODEL: subject1_Scaled
+         coordinates: 37
+              forces: 128
+           actuators: 92
+             muscles: 92
+            analyses: 0
+              probes: 0
+              bodies: 20
+              joints: 20
+         constraints: 0
+             markers: 0
+         controllers: 0
+  contact geometries: 37
+misc modelcomponents: 0
+[2021-01-14 13:58:02.345] [info] Running tool DummyModel...
+[2021-01-14 13:58:02.345] [info] No external loads will be applied (external loads file not specified).
+[2021-01-14 13:58:02.358] [info] Storage: read data file = dummy_motion_0.mot (nr=10 nc=34)
+[2021-01-14 13:58:02.359] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_r'. Assuming default value.
+[2021-01-14 13:58:02.359] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_r'. Assuming default value.
+[2021-01-14 13:58:02.360] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_l'. Assuming default value.
+[2021-01-14 13:58:02.360] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_l'. Assuming default value.
+[2021-01-14 13:58:02.363] [info] InverseDynamicsTool: 10 time frames in 2 millisecond(s).
+[2021-01-14 14:15:52.085] [info] Preparing to run InverseDynamicsTool.
+[2021-01-14 14:15:52.111] [info] Loaded model subject1_Scaled from file ../subject1_mtp_OS4_cm7.osim
+[2021-01-14 14:15:52.112] [warning] Couldn't find file 'treadmill.vtp'.
+[2021-01-14 14:15:52.112] [warning] Couldn't find file 'sacrum.vtp'.
+[2021-01-14 14:15:52.113] [warning] Couldn't find file 'pelvis.vtp'.
+[2021-01-14 14:15:52.113] [warning] Couldn't find file 'l_pelvis.vtp'.
+[2021-01-14 14:15:52.113] [warning] Couldn't find file 'femur_r.vtp'.
+[2021-01-14 14:15:52.114] [warning] Couldn't find file 'tibia_r.vtp'.
+[2021-01-14 14:15:52.114] [warning] Couldn't find file 'fibula.vtp'.
+[2021-01-14 14:15:52.114] [warning] Couldn't find file 'talus.vtp'.
+[2021-01-14 14:15:52.114] [warning] Couldn't find file 'foot.vtp'.
+[2021-01-14 14:15:52.114] [warning] Couldn't find file 'bofoot.vtp'.
+[2021-01-14 14:15:52.115] [warning] Couldn't find file 'femur_l.vtp'.
+[2021-01-14 14:15:52.115] [warning] Couldn't find file 'tibia_l.vtp'.
+[2021-01-14 14:15:52.115] [warning] Couldn't find file 'l_fibula.vtp'.
+[2021-01-14 14:15:52.115] [warning] Couldn't find file 'l_talus.vtp'.
+[2021-01-14 14:15:52.115] [warning] Couldn't find file 'l_foot.vtp'.
+[2021-01-14 14:15:52.116] [warning] Couldn't find file 'l_bofoot.vtp'.
+[2021-01-14 14:15:52.116] [warning] Couldn't find file 'hat_spine.vtp'.
+[2021-01-14 14:15:52.116] [warning] Couldn't find file 'hat_jaw.vtp'.
+[2021-01-14 14:15:52.116] [warning] Couldn't find file 'hat_skull.vtp'.
+[2021-01-14 14:15:52.116] [warning] Couldn't find file 'hat_ribs.vtp'.
+[2021-01-14 14:15:52.117] [warning] Couldn't find file 'arm_r_humerus.vtp'.
+[2021-01-14 14:15:52.117] [warning] Couldn't find file 'ulna_rv.vtp'.
+[2021-01-14 14:15:52.118] [warning] Couldn't find file 'radius_rv.vtp'.
+[2021-01-14 14:15:52.118] [warning] Couldn't find file 'pisiform_rvs.vtp'.
+[2021-01-14 14:15:52.118] [warning] Couldn't find file 'lunate_rvs.vtp'.
+[2021-01-14 14:15:52.118] [warning] Couldn't find file 'scaphoid_rvs.vtp'.
+[2021-01-14 14:15:52.119] [warning] Couldn't find file 'triquetrum_rvs.vtp'.
+[2021-01-14 14:15:52.119] [warning] Couldn't find file 'hamate_rvs.vtp'.
+[2021-01-14 14:15:52.119] [warning] Couldn't find file 'capitate_rvs.vtp'.
+[2021-01-14 14:15:52.119] [warning] Couldn't find file 'trapezoid_rvs.vtp'.
+[2021-01-14 14:15:52.119] [warning] Couldn't find file 'trapezium_rvs.vtp'.
+[2021-01-14 14:15:52.119] [warning] Couldn't find file 'metacarpal2_rvs.vtp'.
+[2021-01-14 14:15:52.119] [warning] Couldn't find file 'index_proximal_rvs.vtp'.
+[2021-01-14 14:15:52.120] [warning] Couldn't find file 'index_medial_rvs.vtp'.
+[2021-01-14 14:15:52.120] [warning] Couldn't find file 'index_distal_rvs.vtp'.
+[2021-01-14 14:15:52.120] [warning] Couldn't find file 'metacarpal3_rvs.vtp'.
+[2021-01-14 14:15:52.120] [warning] Couldn't find file 'middle_proximal_rvs.vtp'.
+[2021-01-14 14:15:52.120] [warning] Couldn't find file 'middle_medial_rvs.vtp'.
+[2021-01-14 14:15:52.120] [warning] Couldn't find file 'middle_distal_rvs.vtp'.
+[2021-01-14 14:15:52.121] [warning] Couldn't find file 'metacarpal4_rvs.vtp'.
+[2021-01-14 14:15:52.121] [warning] Couldn't find file 'ring_proximal_rvs.vtp'.
+[2021-01-14 14:15:52.121] [warning] Couldn't find file 'ring_medial_rvs.vtp'.
+[2021-01-14 14:15:52.121] [warning] Couldn't find file 'ring_distal_rvs.vtp'.
+[2021-01-14 14:15:52.121] [warning] Couldn't find file 'metacarpal5_rvs.vtp'.
+[2021-01-14 14:15:52.121] [warning] Couldn't find file 'little_proximal_rvs.vtp'.
+[2021-01-14 14:15:52.122] [warning] Couldn't find file 'little_medial_rvs.vtp'.
+[2021-01-14 14:15:52.122] [warning] Couldn't find file 'little_distal_rvs.vtp'.
+[2021-01-14 14:15:52.122] [warning] Couldn't find file 'metacarpal1_rvs.vtp'.
+[2021-01-14 14:15:52.122] [warning] Couldn't find file 'thumb_proximal_rvs.vtp'.
+[2021-01-14 14:15:52.123] [warning] Couldn't find file 'thumb_distal_rvs.vtp'.
+[2021-01-14 14:15:52.123] [warning] Couldn't find file 'humerus_lv.vtp'.
+[2021-01-14 14:15:52.123] [warning] Couldn't find file 'ulna_lv.vtp'.
+[2021-01-14 14:15:52.123] [warning] Couldn't find file 'radius_lv.vtp'.
+[2021-01-14 14:15:52.123] [warning] Couldn't find file 'pisiform_lvs.vtp'.
+[2021-01-14 14:15:52.123] [warning] Couldn't find file 'lunate_lvs.vtp'.
+[2021-01-14 14:15:52.124] [warning] Couldn't find file 'scaphoid_lvs.vtp'.
+[2021-01-14 14:15:52.124] [warning] Couldn't find file 'triquetrum_lvs.vtp'.
+[2021-01-14 14:15:52.124] [warning] Couldn't find file 'hamate_lvs.vtp'.
+[2021-01-14 14:15:52.124] [warning] Couldn't find file 'capitate_lvs.vtp'.
+[2021-01-14 14:15:52.124] [warning] Couldn't find file 'trapezoid_lvs.vtp'.
+[2021-01-14 14:15:52.124] [warning] Couldn't find file 'trapezium_lvs.vtp'.
+[2021-01-14 14:15:52.125] [warning] Couldn't find file 'metacarpal2_lvs.vtp'.
+[2021-01-14 14:15:52.125] [warning] Couldn't find file 'index_proximal_lvs.vtp'.
+[2021-01-14 14:15:52.125] [warning] Couldn't find file 'index_medial_lvs.vtp'.
+[2021-01-14 14:15:52.125] [warning] Couldn't find file 'index_distal_lvs.vtp'.
+[2021-01-14 14:15:52.125] [warning] Couldn't find file 'metacarpal3_lvs.vtp'.
+[2021-01-14 14:15:52.125] [warning] Couldn't find file 'middle_proximal_lvs.vtp'.
+[2021-01-14 14:15:52.126] [warning] Couldn't find file 'middle_medial_lvs.vtp'.
+[2021-01-14 14:15:52.126] [warning] Couldn't find file 'middle_distal_lvs.vtp'.
+[2021-01-14 14:15:52.126] [warning] Couldn't find file 'metacarpal4_lvs.vtp'.
+[2021-01-14 14:15:52.126] [warning] Couldn't find file 'ring_proximal_lvs.vtp'.
+[2021-01-14 14:15:52.126] [warning] Couldn't find file 'ring_medial_lvs.vtp'.
+[2021-01-14 14:15:52.126] [warning] Couldn't find file 'ring_distal_lvs.vtp'.
+[2021-01-14 14:15:52.127] [warning] Couldn't find file 'metacarpal5_lvs.vtp'.
+[2021-01-14 14:15:52.127] [warning] Couldn't find file 'little_proximal_lvs.vtp'.
+[2021-01-14 14:15:52.127] [warning] Couldn't find file 'little_medial_lvs.vtp'.
+[2021-01-14 14:15:52.127] [warning] Couldn't find file 'little_distal_lvs.vtp'.
+[2021-01-14 14:15:52.127] [warning] Couldn't find file 'metacarpal1_lvs.vtp'.
+[2021-01-14 14:15:52.127] [warning] Couldn't find file 'thumb_proximal_lvs.vtp'.
+[2021-01-14 14:15:52.127] [warning] Couldn't find file 'thumb_distal_lvs.vtp'.
+[2021-01-14 14:15:52.137] [cout] [info] 
+               MODEL: subject1_Scaled
+         coordinates: 37
+              forces: 92
+           actuators: 92
+             muscles: 92
+            analyses: 0
+              probes: 0
+              bodies: 20
+              joints: 20
+         constraints: 0
+             markers: 0
+         controllers: 0
+  contact geometries: 37
+misc modelcomponents: 0
+[2021-01-14 14:15:52.137] [info] Running tool DummyModel...
+[2021-01-14 14:15:52.137] [info] No external loads will be applied (external loads file not specified).
+[2021-01-14 14:15:52.150] [info] Storage: read data file = dummy_motion_0.mot (nr=10 nc=34)
+[2021-01-14 14:15:52.151] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_r'. Assuming default value.
+[2021-01-14 14:15:52.151] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_r'. Assuming default value.
+[2021-01-14 14:15:52.151] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_l'. Assuming default value.
+[2021-01-14 14:15:52.151] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_l'. Assuming default value.
+[2021-01-14 14:15:52.154] [info] InverseDynamicsTool: 10 time frames in 2 millisecond(s).
+[2021-01-14 14:20:08.177] [info] Preparing to run InverseDynamicsTool.
+[2021-01-14 14:20:08.203] [info] Loaded model subject1_Scaled from file ../subject1_mtp_OS4_cm7.osim
+[2021-01-14 14:20:08.204] [warning] Couldn't find file 'treadmill.vtp'.
+[2021-01-14 14:20:08.204] [warning] Couldn't find file 'sacrum.vtp'.
+[2021-01-14 14:20:08.204] [warning] Couldn't find file 'pelvis.vtp'.
+[2021-01-14 14:20:08.204] [warning] Couldn't find file 'l_pelvis.vtp'.
+[2021-01-14 14:20:08.204] [warning] Couldn't find file 'femur_r.vtp'.
+[2021-01-14 14:20:08.204] [warning] Couldn't find file 'tibia_r.vtp'.
+[2021-01-14 14:20:08.205] [warning] Couldn't find file 'fibula.vtp'.
+[2021-01-14 14:20:08.205] [warning] Couldn't find file 'talus.vtp'.
+[2021-01-14 14:20:08.205] [warning] Couldn't find file 'foot.vtp'.
+[2021-01-14 14:20:08.205] [warning] Couldn't find file 'bofoot.vtp'.
+[2021-01-14 14:20:08.205] [warning] Couldn't find file 'femur_l.vtp'.
+[2021-01-14 14:20:08.206] [warning] Couldn't find file 'tibia_l.vtp'.
+[2021-01-14 14:20:08.206] [warning] Couldn't find file 'l_fibula.vtp'.
+[2021-01-14 14:20:08.206] [warning] Couldn't find file 'l_talus.vtp'.
+[2021-01-14 14:20:08.206] [warning] Couldn't find file 'l_foot.vtp'.
+[2021-01-14 14:20:08.206] [warning] Couldn't find file 'l_bofoot.vtp'.
+[2021-01-14 14:20:08.206] [warning] Couldn't find file 'hat_spine.vtp'.
+[2021-01-14 14:20:08.206] [warning] Couldn't find file 'hat_jaw.vtp'.
+[2021-01-14 14:20:08.206] [warning] Couldn't find file 'hat_skull.vtp'.
+[2021-01-14 14:20:08.206] [warning] Couldn't find file 'hat_ribs.vtp'.
+[2021-01-14 14:20:08.206] [warning] Couldn't find file 'arm_r_humerus.vtp'.
+[2021-01-14 14:20:08.207] [warning] Couldn't find file 'ulna_rv.vtp'.
+[2021-01-14 14:20:08.207] [warning] Couldn't find file 'radius_rv.vtp'.
+[2021-01-14 14:20:08.207] [warning] Couldn't find file 'pisiform_rvs.vtp'.
+[2021-01-14 14:20:08.207] [warning] Couldn't find file 'lunate_rvs.vtp'.
+[2021-01-14 14:20:08.207] [warning] Couldn't find file 'scaphoid_rvs.vtp'.
+[2021-01-14 14:20:08.207] [warning] Couldn't find file 'triquetrum_rvs.vtp'.
+[2021-01-14 14:20:08.207] [warning] Couldn't find file 'hamate_rvs.vtp'.
+[2021-01-14 14:20:08.207] [warning] Couldn't find file 'capitate_rvs.vtp'.
+[2021-01-14 14:20:08.207] [warning] Couldn't find file 'trapezoid_rvs.vtp'.
+[2021-01-14 14:20:08.207] [warning] Couldn't find file 'trapezium_rvs.vtp'.
+[2021-01-14 14:20:08.208] [warning] Couldn't find file 'metacarpal2_rvs.vtp'.
+[2021-01-14 14:20:08.208] [warning] Couldn't find file 'index_proximal_rvs.vtp'.
+[2021-01-14 14:20:08.209] [warning] Couldn't find file 'index_medial_rvs.vtp'.
+[2021-01-14 14:20:08.210] [warning] Couldn't find file 'index_distal_rvs.vtp'.
+[2021-01-14 14:20:08.211] [warning] Couldn't find file 'metacarpal3_rvs.vtp'.
+[2021-01-14 14:20:08.211] [warning] Couldn't find file 'middle_proximal_rvs.vtp'.
+[2021-01-14 14:20:08.213] [warning] Couldn't find file 'middle_medial_rvs.vtp'.
+[2021-01-14 14:20:08.213] [warning] Couldn't find file 'middle_distal_rvs.vtp'.
+[2021-01-14 14:20:08.214] [warning] Couldn't find file 'metacarpal4_rvs.vtp'.
+[2021-01-14 14:20:08.214] [warning] Couldn't find file 'ring_proximal_rvs.vtp'.
+[2021-01-14 14:20:08.215] [warning] Couldn't find file 'ring_medial_rvs.vtp'.
+[2021-01-14 14:20:08.217] [warning] Couldn't find file 'ring_distal_rvs.vtp'.
+[2021-01-14 14:20:08.220] [warning] Couldn't find file 'metacarpal5_rvs.vtp'.
+[2021-01-14 14:20:08.220] [warning] Couldn't find file 'little_proximal_rvs.vtp'.
+[2021-01-14 14:20:08.221] [warning] Couldn't find file 'little_medial_rvs.vtp'.
+[2021-01-14 14:20:08.221] [warning] Couldn't find file 'little_distal_rvs.vtp'.
+[2021-01-14 14:20:08.222] [warning] Couldn't find file 'metacarpal1_rvs.vtp'.
+[2021-01-14 14:20:08.222] [warning] Couldn't find file 'thumb_proximal_rvs.vtp'.
+[2021-01-14 14:20:08.223] [warning] Couldn't find file 'thumb_distal_rvs.vtp'.
+[2021-01-14 14:20:08.224] [warning] Couldn't find file 'humerus_lv.vtp'.
+[2021-01-14 14:20:08.225] [warning] Couldn't find file 'ulna_lv.vtp'.
+[2021-01-14 14:20:08.225] [warning] Couldn't find file 'radius_lv.vtp'.
+[2021-01-14 14:20:08.226] [warning] Couldn't find file 'pisiform_lvs.vtp'.
+[2021-01-14 14:20:08.226] [warning] Couldn't find file 'lunate_lvs.vtp'.
+[2021-01-14 14:20:08.226] [warning] Couldn't find file 'scaphoid_lvs.vtp'.
+[2021-01-14 14:20:08.227] [warning] Couldn't find file 'triquetrum_lvs.vtp'.
+[2021-01-14 14:20:08.230] [warning] Couldn't find file 'hamate_lvs.vtp'.
+[2021-01-14 14:20:08.230] [warning] Couldn't find file 'capitate_lvs.vtp'.
+[2021-01-14 14:20:08.230] [warning] Couldn't find file 'trapezoid_lvs.vtp'.
+[2021-01-14 14:20:08.230] [warning] Couldn't find file 'trapezium_lvs.vtp'.
+[2021-01-14 14:20:08.231] [warning] Couldn't find file 'metacarpal2_lvs.vtp'.
+[2021-01-14 14:20:08.234] [warning] Couldn't find file 'index_proximal_lvs.vtp'.
+[2021-01-14 14:20:08.234] [warning] Couldn't find file 'index_medial_lvs.vtp'.
+[2021-01-14 14:20:08.235] [warning] Couldn't find file 'index_distal_lvs.vtp'.
+[2021-01-14 14:20:08.235] [warning] Couldn't find file 'metacarpal3_lvs.vtp'.
+[2021-01-14 14:20:08.236] [warning] Couldn't find file 'middle_proximal_lvs.vtp'.
+[2021-01-14 14:20:08.236] [warning] Couldn't find file 'middle_medial_lvs.vtp'.
+[2021-01-14 14:20:08.237] [warning] Couldn't find file 'middle_distal_lvs.vtp'.
+[2021-01-14 14:20:08.237] [warning] Couldn't find file 'metacarpal4_lvs.vtp'.
+[2021-01-14 14:20:08.238] [warning] Couldn't find file 'ring_proximal_lvs.vtp'.
+[2021-01-14 14:20:08.239] [warning] Couldn't find file 'ring_medial_lvs.vtp'.
+[2021-01-14 14:20:08.240] [warning] Couldn't find file 'ring_distal_lvs.vtp'.
+[2021-01-14 14:20:08.240] [warning] Couldn't find file 'metacarpal5_lvs.vtp'.
+[2021-01-14 14:20:08.241] [warning] Couldn't find file 'little_proximal_lvs.vtp'.
+[2021-01-14 14:20:08.241] [warning] Couldn't find file 'little_medial_lvs.vtp'.
+[2021-01-14 14:20:08.242] [warning] Couldn't find file 'little_distal_lvs.vtp'.
+[2021-01-14 14:20:08.242] [warning] Couldn't find file 'metacarpal1_lvs.vtp'.
+[2021-01-14 14:20:08.243] [warning] Couldn't find file 'thumb_proximal_lvs.vtp'.
+[2021-01-14 14:20:08.243] [warning] Couldn't find file 'thumb_distal_lvs.vtp'.
+[2021-01-14 14:20:08.255] [cout] [info] 
+               MODEL: subject1_Scaled
+         coordinates: 37
+              forces: 92
+           actuators: 92
+             muscles: 92
+            analyses: 0
+              probes: 0
+              bodies: 20
+              joints: 20
+         constraints: 0
+             markers: 0
+         controllers: 0
+  contact geometries: 37
+misc modelcomponents: 0
+[2021-01-14 14:20:08.255] [info] Running tool DummyModel...
+[2021-01-14 14:20:08.255] [info] No external loads will be applied (external loads file not specified).
+[2021-01-14 14:20:08.270] [info] Storage: read data file = dummy_motion_0.mot (nr=10 nc=34)
+[2021-01-14 14:20:08.271] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_r'. Assuming default value.
+[2021-01-14 14:20:08.271] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_r'. Assuming default value.
+[2021-01-14 14:20:08.272] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_l'. Assuming default value.
+[2021-01-14 14:20:08.272] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_l'. Assuming default value.
+[2021-01-14 14:20:08.275] [info] InverseDynamicsTool: 10 time frames in 2 millisecond(s).
+[2021-01-14 14:29:13.108] [info] Preparing to run InverseDynamicsTool.
+[2021-01-14 14:29:13.134] [info] Loaded model subject1_Scaled from file ../subject1_mtp_OS4_cm7.osim
+[2021-01-14 14:29:13.135] [warning] Couldn't find file 'treadmill.vtp'.
+[2021-01-14 14:29:13.135] [warning] Couldn't find file 'sacrum.vtp'.
+[2021-01-14 14:29:13.135] [warning] Couldn't find file 'pelvis.vtp'.
+[2021-01-14 14:29:13.136] [warning] Couldn't find file 'l_pelvis.vtp'.
+[2021-01-14 14:29:13.137] [warning] Couldn't find file 'femur_r.vtp'.
+[2021-01-14 14:29:13.137] [warning] Couldn't find file 'tibia_r.vtp'.
+[2021-01-14 14:29:13.138] [warning] Couldn't find file 'fibula.vtp'.
+[2021-01-14 14:29:13.142] [warning] Couldn't find file 'talus.vtp'.
+[2021-01-14 14:29:13.143] [warning] Couldn't find file 'foot.vtp'.
+[2021-01-14 14:29:13.143] [warning] Couldn't find file 'bofoot.vtp'.
+[2021-01-14 14:29:13.144] [warning] Couldn't find file 'femur_l.vtp'.
+[2021-01-14 14:29:13.145] [warning] Couldn't find file 'tibia_l.vtp'.
+[2021-01-14 14:29:13.146] [warning] Couldn't find file 'l_fibula.vtp'.
+[2021-01-14 14:29:13.146] [warning] Couldn't find file 'l_talus.vtp'.
+[2021-01-14 14:29:13.147] [warning] Couldn't find file 'l_foot.vtp'.
+[2021-01-14 14:29:13.147] [warning] Couldn't find file 'l_bofoot.vtp'.
+[2021-01-14 14:29:13.148] [warning] Couldn't find file 'hat_spine.vtp'.
+[2021-01-14 14:29:13.148] [warning] Couldn't find file 'hat_jaw.vtp'.
+[2021-01-14 14:29:13.149] [warning] Couldn't find file 'hat_skull.vtp'.
+[2021-01-14 14:29:13.149] [warning] Couldn't find file 'hat_ribs.vtp'.
+[2021-01-14 14:29:13.150] [warning] Couldn't find file 'arm_r_humerus.vtp'.
+[2021-01-14 14:29:13.150] [warning] Couldn't find file 'ulna_rv.vtp'.
+[2021-01-14 14:29:13.151] [warning] Couldn't find file 'radius_rv.vtp'.
+[2021-01-14 14:29:13.152] [warning] Couldn't find file 'pisiform_rvs.vtp'.
+[2021-01-14 14:29:13.153] [warning] Couldn't find file 'lunate_rvs.vtp'.
+[2021-01-14 14:29:13.153] [warning] Couldn't find file 'scaphoid_rvs.vtp'.
+[2021-01-14 14:29:13.154] [warning] Couldn't find file 'triquetrum_rvs.vtp'.
+[2021-01-14 14:29:13.154] [warning] Couldn't find file 'hamate_rvs.vtp'.
+[2021-01-14 14:29:13.155] [warning] Couldn't find file 'capitate_rvs.vtp'.
+[2021-01-14 14:29:13.157] [warning] Couldn't find file 'trapezoid_rvs.vtp'.
+[2021-01-14 14:29:13.158] [warning] Couldn't find file 'trapezium_rvs.vtp'.
+[2021-01-14 14:29:13.159] [warning] Couldn't find file 'metacarpal2_rvs.vtp'.
+[2021-01-14 14:29:13.159] [warning] Couldn't find file 'index_proximal_rvs.vtp'.
+[2021-01-14 14:29:13.159] [warning] Couldn't find file 'index_medial_rvs.vtp'.
+[2021-01-14 14:29:13.159] [warning] Couldn't find file 'index_distal_rvs.vtp'.
+[2021-01-14 14:29:13.159] [warning] Couldn't find file 'metacarpal3_rvs.vtp'.
+[2021-01-14 14:29:13.160] [warning] Couldn't find file 'middle_proximal_rvs.vtp'.
+[2021-01-14 14:29:13.160] [warning] Couldn't find file 'middle_medial_rvs.vtp'.
+[2021-01-14 14:29:13.160] [warning] Couldn't find file 'middle_distal_rvs.vtp'.
+[2021-01-14 14:29:13.160] [warning] Couldn't find file 'metacarpal4_rvs.vtp'.
+[2021-01-14 14:29:13.160] [warning] Couldn't find file 'ring_proximal_rvs.vtp'.
+[2021-01-14 14:29:13.161] [warning] Couldn't find file 'ring_medial_rvs.vtp'.
+[2021-01-14 14:29:13.161] [warning] Couldn't find file 'ring_distal_rvs.vtp'.
+[2021-01-14 14:29:13.161] [warning] Couldn't find file 'metacarpal5_rvs.vtp'.
+[2021-01-14 14:29:13.161] [warning] Couldn't find file 'little_proximal_rvs.vtp'.
+[2021-01-14 14:29:13.161] [warning] Couldn't find file 'little_medial_rvs.vtp'.
+[2021-01-14 14:29:13.162] [warning] Couldn't find file 'little_distal_rvs.vtp'.
+[2021-01-14 14:29:13.162] [warning] Couldn't find file 'metacarpal1_rvs.vtp'.
+[2021-01-14 14:29:13.162] [warning] Couldn't find file 'thumb_proximal_rvs.vtp'.
+[2021-01-14 14:29:13.162] [warning] Couldn't find file 'thumb_distal_rvs.vtp'.
+[2021-01-14 14:29:13.162] [warning] Couldn't find file 'humerus_lv.vtp'.
+[2021-01-14 14:29:13.163] [warning] Couldn't find file 'ulna_lv.vtp'.
+[2021-01-14 14:29:13.163] [warning] Couldn't find file 'radius_lv.vtp'.
+[2021-01-14 14:29:13.163] [warning] Couldn't find file 'pisiform_lvs.vtp'.
+[2021-01-14 14:29:13.163] [warning] Couldn't find file 'lunate_lvs.vtp'.
+[2021-01-14 14:29:13.163] [warning] Couldn't find file 'scaphoid_lvs.vtp'.
+[2021-01-14 14:29:13.164] [warning] Couldn't find file 'triquetrum_lvs.vtp'.
+[2021-01-14 14:29:13.164] [warning] Couldn't find file 'hamate_lvs.vtp'.
+[2021-01-14 14:29:13.164] [warning] Couldn't find file 'capitate_lvs.vtp'.
+[2021-01-14 14:29:13.164] [warning] Couldn't find file 'trapezoid_lvs.vtp'.
+[2021-01-14 14:29:13.164] [warning] Couldn't find file 'trapezium_lvs.vtp'.
+[2021-01-14 14:29:13.165] [warning] Couldn't find file 'metacarpal2_lvs.vtp'.
+[2021-01-14 14:29:13.165] [warning] Couldn't find file 'index_proximal_lvs.vtp'.
+[2021-01-14 14:29:13.165] [warning] Couldn't find file 'index_medial_lvs.vtp'.
+[2021-01-14 14:29:13.165] [warning] Couldn't find file 'index_distal_lvs.vtp'.
+[2021-01-14 14:29:13.165] [warning] Couldn't find file 'metacarpal3_lvs.vtp'.
+[2021-01-14 14:29:13.166] [warning] Couldn't find file 'middle_proximal_lvs.vtp'.
+[2021-01-14 14:29:13.167] [warning] Couldn't find file 'middle_medial_lvs.vtp'.
+[2021-01-14 14:29:13.168] [warning] Couldn't find file 'middle_distal_lvs.vtp'.
+[2021-01-14 14:29:13.168] [warning] Couldn't find file 'metacarpal4_lvs.vtp'.
+[2021-01-14 14:29:13.169] [warning] Couldn't find file 'ring_proximal_lvs.vtp'.
+[2021-01-14 14:29:13.169] [warning] Couldn't find file 'ring_medial_lvs.vtp'.
+[2021-01-14 14:29:13.170] [warning] Couldn't find file 'ring_distal_lvs.vtp'.
+[2021-01-14 14:29:13.170] [warning] Couldn't find file 'metacarpal5_lvs.vtp'.
+[2021-01-14 14:29:13.173] [warning] Couldn't find file 'little_proximal_lvs.vtp'.
+[2021-01-14 14:29:13.175] [warning] Couldn't find file 'little_medial_lvs.vtp'.
+[2021-01-14 14:29:13.177] [warning] Couldn't find file 'little_distal_lvs.vtp'.
+[2021-01-14 14:29:13.177] [warning] Couldn't find file 'metacarpal1_lvs.vtp'.
+[2021-01-14 14:29:13.178] [warning] Couldn't find file 'thumb_proximal_lvs.vtp'.
+[2021-01-14 14:29:13.179] [warning] Couldn't find file 'thumb_distal_lvs.vtp'.
+[2021-01-14 14:29:13.189] [cout] [info] 
+               MODEL: subject1_Scaled
+         coordinates: 37
+              forces: 92
+           actuators: 92
+             muscles: 92
+            analyses: 0
+              probes: 0
+              bodies: 20
+              joints: 20
+         constraints: 0
+             markers: 0
+         controllers: 0
+  contact geometries: 37
+misc modelcomponents: 0
+[2021-01-14 14:29:13.189] [info] Running tool DummyModel...
+[2021-01-14 14:29:13.190] [info] No external loads will be applied (external loads file not specified).
+[2021-01-14 14:29:13.204] [info] Storage: read data file = dummy_motion_0.mot (nr=10 nc=34)
+[2021-01-14 14:29:13.205] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_r'. Assuming default value.
+[2021-01-14 14:29:13.208] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_r'. Assuming default value.
+[2021-01-14 14:29:13.208] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_l'. Assuming default value.
+[2021-01-14 14:29:13.209] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_l'. Assuming default value.
+[2021-01-14 14:29:13.212] [info] InverseDynamicsTool: 10 time frames in 2 millisecond(s).
+[2021-01-14 14:51:55.700] [info] Preparing to run InverseDynamicsTool.
+[2021-01-14 14:51:55.728] [info] Loaded model subject1_Scaled from file ../subject1_mtp_OS4_cm7.osim
+[2021-01-14 14:51:55.729] [warning] Couldn't find file 'treadmill.vtp'.
+[2021-01-14 14:51:55.729] [warning] Couldn't find file 'sacrum.vtp'.
+[2021-01-14 14:51:55.729] [warning] Couldn't find file 'pelvis.vtp'.
+[2021-01-14 14:51:55.730] [warning] Couldn't find file 'l_pelvis.vtp'.
+[2021-01-14 14:51:55.731] [warning] Couldn't find file 'femur_r.vtp'.
+[2021-01-14 14:51:55.732] [warning] Couldn't find file 'tibia_r.vtp'.
+[2021-01-14 14:51:55.732] [warning] Couldn't find file 'fibula.vtp'.
+[2021-01-14 14:51:55.733] [warning] Couldn't find file 'talus.vtp'.
+[2021-01-14 14:51:55.734] [warning] Couldn't find file 'foot.vtp'.
+[2021-01-14 14:51:55.735] [warning] Couldn't find file 'bofoot.vtp'.
+[2021-01-14 14:51:55.735] [warning] Couldn't find file 'femur_l.vtp'.
+[2021-01-14 14:51:55.735] [warning] Couldn't find file 'tibia_l.vtp'.
+[2021-01-14 14:51:55.735] [warning] Couldn't find file 'l_fibula.vtp'.
+[2021-01-14 14:51:55.735] [warning] Couldn't find file 'l_talus.vtp'.
+[2021-01-14 14:51:55.736] [warning] Couldn't find file 'l_foot.vtp'.
+[2021-01-14 14:51:55.736] [warning] Couldn't find file 'l_bofoot.vtp'.
+[2021-01-14 14:51:55.736] [warning] Couldn't find file 'hat_spine.vtp'.
+[2021-01-14 14:51:55.736] [warning] Couldn't find file 'hat_jaw.vtp'.
+[2021-01-14 14:51:55.737] [warning] Couldn't find file 'hat_skull.vtp'.
+[2021-01-14 14:51:55.737] [warning] Couldn't find file 'hat_ribs.vtp'.
+[2021-01-14 14:51:55.737] [warning] Couldn't find file 'arm_r_humerus.vtp'.
+[2021-01-14 14:51:55.737] [warning] Couldn't find file 'ulna_rv.vtp'.
+[2021-01-14 14:51:55.737] [warning] Couldn't find file 'radius_rv.vtp'.
+[2021-01-14 14:51:55.738] [warning] Couldn't find file 'pisiform_rvs.vtp'.
+[2021-01-14 14:51:55.738] [warning] Couldn't find file 'lunate_rvs.vtp'.
+[2021-01-14 14:51:55.738] [warning] Couldn't find file 'scaphoid_rvs.vtp'.
+[2021-01-14 14:51:55.738] [warning] Couldn't find file 'triquetrum_rvs.vtp'.
+[2021-01-14 14:51:55.738] [warning] Couldn't find file 'hamate_rvs.vtp'.
+[2021-01-14 14:51:55.740] [warning] Couldn't find file 'capitate_rvs.vtp'.
+[2021-01-14 14:51:55.742] [warning] Couldn't find file 'trapezoid_rvs.vtp'.
+[2021-01-14 14:51:55.742] [warning] Couldn't find file 'trapezium_rvs.vtp'.
+[2021-01-14 14:51:55.745] [warning] Couldn't find file 'metacarpal2_rvs.vtp'.
+[2021-01-14 14:51:55.745] [warning] Couldn't find file 'index_proximal_rvs.vtp'.
+[2021-01-14 14:51:55.746] [warning] Couldn't find file 'index_medial_rvs.vtp'.
+[2021-01-14 14:51:55.746] [warning] Couldn't find file 'index_distal_rvs.vtp'.
+[2021-01-14 14:51:55.747] [warning] Couldn't find file 'metacarpal3_rvs.vtp'.
+[2021-01-14 14:51:55.747] [warning] Couldn't find file 'middle_proximal_rvs.vtp'.
+[2021-01-14 14:51:55.748] [warning] Couldn't find file 'middle_medial_rvs.vtp'.
+[2021-01-14 14:51:55.748] [warning] Couldn't find file 'middle_distal_rvs.vtp'.
+[2021-01-14 14:51:55.749] [warning] Couldn't find file 'metacarpal4_rvs.vtp'.
+[2021-01-14 14:51:55.750] [warning] Couldn't find file 'ring_proximal_rvs.vtp'.
+[2021-01-14 14:51:55.751] [warning] Couldn't find file 'ring_medial_rvs.vtp'.
+[2021-01-14 14:51:55.751] [warning] Couldn't find file 'ring_distal_rvs.vtp'.
+[2021-01-14 14:51:55.752] [warning] Couldn't find file 'metacarpal5_rvs.vtp'.
+[2021-01-14 14:51:55.752] [warning] Couldn't find file 'little_proximal_rvs.vtp'.
+[2021-01-14 14:51:55.753] [warning] Couldn't find file 'little_medial_rvs.vtp'.
+[2021-01-14 14:51:55.753] [warning] Couldn't find file 'little_distal_rvs.vtp'.
+[2021-01-14 14:51:55.754] [warning] Couldn't find file 'metacarpal1_rvs.vtp'.
+[2021-01-14 14:51:55.756] [warning] Couldn't find file 'thumb_proximal_rvs.vtp'.
+[2021-01-14 14:51:55.756] [warning] Couldn't find file 'thumb_distal_rvs.vtp'.
+[2021-01-14 14:51:55.757] [warning] Couldn't find file 'humerus_lv.vtp'.
+[2021-01-14 14:51:55.757] [warning] Couldn't find file 'ulna_lv.vtp'.
+[2021-01-14 14:51:55.757] [warning] Couldn't find file 'radius_lv.vtp'.
+[2021-01-14 14:51:55.757] [warning] Couldn't find file 'pisiform_lvs.vtp'.
+[2021-01-14 14:51:55.757] [warning] Couldn't find file 'lunate_lvs.vtp'.
+[2021-01-14 14:51:55.758] [warning] Couldn't find file 'scaphoid_lvs.vtp'.
+[2021-01-14 14:51:55.760] [warning] Couldn't find file 'triquetrum_lvs.vtp'.
+[2021-01-14 14:51:55.760] [warning] Couldn't find file 'hamate_lvs.vtp'.
+[2021-01-14 14:51:55.761] [warning] Couldn't find file 'capitate_lvs.vtp'.
+[2021-01-14 14:51:55.762] [warning] Couldn't find file 'trapezoid_lvs.vtp'.
+[2021-01-14 14:51:55.763] [warning] Couldn't find file 'trapezium_lvs.vtp'.
+[2021-01-14 14:51:55.763] [warning] Couldn't find file 'metacarpal2_lvs.vtp'.
+[2021-01-14 14:51:55.764] [warning] Couldn't find file 'index_proximal_lvs.vtp'.
+[2021-01-14 14:51:55.764] [warning] Couldn't find file 'index_medial_lvs.vtp'.
+[2021-01-14 14:51:55.765] [warning] Couldn't find file 'index_distal_lvs.vtp'.
+[2021-01-14 14:51:55.765] [warning] Couldn't find file 'metacarpal3_lvs.vtp'.
+[2021-01-14 14:51:55.766] [warning] Couldn't find file 'middle_proximal_lvs.vtp'.
+[2021-01-14 14:51:55.766] [warning] Couldn't find file 'middle_medial_lvs.vtp'.
+[2021-01-14 14:51:55.767] [warning] Couldn't find file 'middle_distal_lvs.vtp'.
+[2021-01-14 14:51:55.768] [warning] Couldn't find file 'metacarpal4_lvs.vtp'.
+[2021-01-14 14:51:55.769] [warning] Couldn't find file 'ring_proximal_lvs.vtp'.
+[2021-01-14 14:51:55.769] [warning] Couldn't find file 'ring_medial_lvs.vtp'.
+[2021-01-14 14:51:55.770] [warning] Couldn't find file 'ring_distal_lvs.vtp'.
+[2021-01-14 14:51:55.770] [warning] Couldn't find file 'metacarpal5_lvs.vtp'.
+[2021-01-14 14:51:55.771] [warning] Couldn't find file 'little_proximal_lvs.vtp'.
+[2021-01-14 14:51:55.772] [warning] Couldn't find file 'little_medial_lvs.vtp'.
+[2021-01-14 14:51:55.774] [warning] Couldn't find file 'little_distal_lvs.vtp'.
+[2021-01-14 14:51:55.774] [warning] Couldn't find file 'metacarpal1_lvs.vtp'.
+[2021-01-14 14:51:55.779] [warning] Couldn't find file 'thumb_proximal_lvs.vtp'.
+[2021-01-14 14:51:55.779] [warning] Couldn't find file 'thumb_distal_lvs.vtp'.
+[2021-01-14 14:51:55.790] [cout] [info] 
+               MODEL: subject1_Scaled
+         coordinates: 37
+              forces: 128
+           actuators: 92
+             muscles: 92
+            analyses: 0
+              probes: 0
+              bodies: 20
+              joints: 20
+         constraints: 0
+             markers: 0
+         controllers: 0
+  contact geometries: 37
+misc modelcomponents: 0
+[2021-01-14 14:51:55.790] [info] Running tool DummyModel...
+[2021-01-14 14:51:55.790] [info] No external loads will be applied (external loads file not specified).
+[2021-01-14 14:51:55.804] [info] Storage: read data file = dummy_motion_0.mot (nr=10 nc=34)
+[2021-01-14 14:51:55.805] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_r'. Assuming default value.
+[2021-01-14 14:51:55.805] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_r'. Assuming default value.
+[2021-01-14 14:51:55.806] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_l'. Assuming default value.
+[2021-01-14 14:51:55.807] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_l'. Assuming default value.
+[2021-01-14 14:51:55.810] [info] InverseDynamicsTool: 10 time frames in 2 millisecond(s).
+[2021-01-14 14:52:07.939] [info] Preparing to run InverseDynamicsTool.
+[2021-01-14 14:52:07.966] [info] Loaded model subject1_Scaled from file ../subject1_mtp_OS4_cm7.osim
+[2021-01-14 14:52:07.966] [warning] Couldn't find file 'treadmill.vtp'.
+[2021-01-14 14:52:07.966] [warning] Couldn't find file 'sacrum.vtp'.
+[2021-01-14 14:52:07.967] [warning] Couldn't find file 'pelvis.vtp'.
+[2021-01-14 14:52:07.967] [warning] Couldn't find file 'l_pelvis.vtp'.
+[2021-01-14 14:52:07.967] [warning] Couldn't find file 'femur_r.vtp'.
+[2021-01-14 14:52:07.968] [warning] Couldn't find file 'tibia_r.vtp'.
+[2021-01-14 14:52:07.968] [warning] Couldn't find file 'fibula.vtp'.
+[2021-01-14 14:52:07.968] [warning] Couldn't find file 'talus.vtp'.
+[2021-01-14 14:52:07.969] [warning] Couldn't find file 'foot.vtp'.
+[2021-01-14 14:52:07.969] [warning] Couldn't find file 'bofoot.vtp'.
+[2021-01-14 14:52:07.969] [warning] Couldn't find file 'femur_l.vtp'.
+[2021-01-14 14:52:07.970] [warning] Couldn't find file 'tibia_l.vtp'.
+[2021-01-14 14:52:07.970] [warning] Couldn't find file 'l_fibula.vtp'.
+[2021-01-14 14:52:07.970] [warning] Couldn't find file 'l_talus.vtp'.
+[2021-01-14 14:52:07.970] [warning] Couldn't find file 'l_foot.vtp'.
+[2021-01-14 14:52:07.971] [warning] Couldn't find file 'l_bofoot.vtp'.
+[2021-01-14 14:52:07.971] [warning] Couldn't find file 'hat_spine.vtp'.
+[2021-01-14 14:52:07.971] [warning] Couldn't find file 'hat_jaw.vtp'.
+[2021-01-14 14:52:07.971] [warning] Couldn't find file 'hat_skull.vtp'.
+[2021-01-14 14:52:07.971] [warning] Couldn't find file 'hat_ribs.vtp'.
+[2021-01-14 14:52:07.972] [warning] Couldn't find file 'arm_r_humerus.vtp'.
+[2021-01-14 14:52:07.972] [warning] Couldn't find file 'ulna_rv.vtp'.
+[2021-01-14 14:52:07.972] [warning] Couldn't find file 'radius_rv.vtp'.
+[2021-01-14 14:52:07.972] [warning] Couldn't find file 'pisiform_rvs.vtp'.
+[2021-01-14 14:52:07.972] [warning] Couldn't find file 'lunate_rvs.vtp'.
+[2021-01-14 14:52:07.973] [warning] Couldn't find file 'scaphoid_rvs.vtp'.
+[2021-01-14 14:52:07.973] [warning] Couldn't find file 'triquetrum_rvs.vtp'.
+[2021-01-14 14:52:07.973] [warning] Couldn't find file 'hamate_rvs.vtp'.
+[2021-01-14 14:52:07.973] [warning] Couldn't find file 'capitate_rvs.vtp'.
+[2021-01-14 14:52:07.973] [warning] Couldn't find file 'trapezoid_rvs.vtp'.
+[2021-01-14 14:52:07.974] [warning] Couldn't find file 'trapezium_rvs.vtp'.
+[2021-01-14 14:52:07.974] [warning] Couldn't find file 'metacarpal2_rvs.vtp'.
+[2021-01-14 14:52:07.974] [warning] Couldn't find file 'index_proximal_rvs.vtp'.
+[2021-01-14 14:52:07.974] [warning] Couldn't find file 'index_medial_rvs.vtp'.
+[2021-01-14 14:52:07.975] [warning] Couldn't find file 'index_distal_rvs.vtp'.
+[2021-01-14 14:52:07.975] [warning] Couldn't find file 'metacarpal3_rvs.vtp'.
+[2021-01-14 14:52:07.975] [warning] Couldn't find file 'middle_proximal_rvs.vtp'.
+[2021-01-14 14:52:07.977] [warning] Couldn't find file 'middle_medial_rvs.vtp'.
+[2021-01-14 14:52:07.977] [warning] Couldn't find file 'middle_distal_rvs.vtp'.
+[2021-01-14 14:52:07.977] [warning] Couldn't find file 'metacarpal4_rvs.vtp'.
+[2021-01-14 14:52:07.977] [warning] Couldn't find file 'ring_proximal_rvs.vtp'.
+[2021-01-14 14:52:07.978] [warning] Couldn't find file 'ring_medial_rvs.vtp'.
+[2021-01-14 14:52:07.978] [warning] Couldn't find file 'ring_distal_rvs.vtp'.
+[2021-01-14 14:52:07.978] [warning] Couldn't find file 'metacarpal5_rvs.vtp'.
+[2021-01-14 14:52:07.978] [warning] Couldn't find file 'little_proximal_rvs.vtp'.
+[2021-01-14 14:52:07.978] [warning] Couldn't find file 'little_medial_rvs.vtp'.
+[2021-01-14 14:52:07.979] [warning] Couldn't find file 'little_distal_rvs.vtp'.
+[2021-01-14 14:52:07.979] [warning] Couldn't find file 'metacarpal1_rvs.vtp'.
+[2021-01-14 14:52:07.979] [warning] Couldn't find file 'thumb_proximal_rvs.vtp'.
+[2021-01-14 14:52:07.979] [warning] Couldn't find file 'thumb_distal_rvs.vtp'.
+[2021-01-14 14:52:07.979] [warning] Couldn't find file 'humerus_lv.vtp'.
+[2021-01-14 14:52:07.980] [warning] Couldn't find file 'ulna_lv.vtp'.
+[2021-01-14 14:52:07.980] [warning] Couldn't find file 'radius_lv.vtp'.
+[2021-01-14 14:52:07.980] [warning] Couldn't find file 'pisiform_lvs.vtp'.
+[2021-01-14 14:52:07.980] [warning] Couldn't find file 'lunate_lvs.vtp'.
+[2021-01-14 14:52:07.980] [warning] Couldn't find file 'scaphoid_lvs.vtp'.
+[2021-01-14 14:52:07.981] [warning] Couldn't find file 'triquetrum_lvs.vtp'.
+[2021-01-14 14:52:07.981] [warning] Couldn't find file 'hamate_lvs.vtp'.
+[2021-01-14 14:52:07.981] [warning] Couldn't find file 'capitate_lvs.vtp'.
+[2021-01-14 14:52:07.981] [warning] Couldn't find file 'trapezoid_lvs.vtp'.
+[2021-01-14 14:52:07.981] [warning] Couldn't find file 'trapezium_lvs.vtp'.
+[2021-01-14 14:52:07.982] [warning] Couldn't find file 'metacarpal2_lvs.vtp'.
+[2021-01-14 14:52:07.982] [warning] Couldn't find file 'index_proximal_lvs.vtp'.
+[2021-01-14 14:52:07.982] [warning] Couldn't find file 'index_medial_lvs.vtp'.
+[2021-01-14 14:52:07.982] [warning] Couldn't find file 'index_distal_lvs.vtp'.
+[2021-01-14 14:52:07.982] [warning] Couldn't find file 'metacarpal3_lvs.vtp'.
+[2021-01-14 14:52:07.983] [warning] Couldn't find file 'middle_proximal_lvs.vtp'.
+[2021-01-14 14:52:07.983] [warning] Couldn't find file 'middle_medial_lvs.vtp'.
+[2021-01-14 14:52:07.983] [warning] Couldn't find file 'middle_distal_lvs.vtp'.
+[2021-01-14 14:52:07.983] [warning] Couldn't find file 'metacarpal4_lvs.vtp'.
+[2021-01-14 14:52:07.983] [warning] Couldn't find file 'ring_proximal_lvs.vtp'.
+[2021-01-14 14:52:07.983] [warning] Couldn't find file 'ring_medial_lvs.vtp'.
+[2021-01-14 14:52:07.984] [warning] Couldn't find file 'ring_distal_lvs.vtp'.
+[2021-01-14 14:52:07.984] [warning] Couldn't find file 'metacarpal5_lvs.vtp'.
+[2021-01-14 14:52:07.984] [warning] Couldn't find file 'little_proximal_lvs.vtp'.
+[2021-01-14 14:52:07.984] [warning] Couldn't find file 'little_medial_lvs.vtp'.
+[2021-01-14 14:52:07.984] [warning] Couldn't find file 'little_distal_lvs.vtp'.
+[2021-01-14 14:52:07.985] [warning] Couldn't find file 'metacarpal1_lvs.vtp'.
+[2021-01-14 14:52:07.985] [warning] Couldn't find file 'thumb_proximal_lvs.vtp'.
+[2021-01-14 14:52:07.985] [warning] Couldn't find file 'thumb_distal_lvs.vtp'.
+[2021-01-14 14:52:07.995] [cout] [info] 
+               MODEL: subject1_Scaled
+         coordinates: 37
+              forces: 128
+           actuators: 92
+             muscles: 92
+            analyses: 0
+              probes: 0
+              bodies: 20
+              joints: 20
+         constraints: 0
+             markers: 0
+         controllers: 0
+  contact geometries: 37
+misc modelcomponents: 0
+[2021-01-14 14:52:07.995] [info] Running tool DummyModel...
+[2021-01-14 14:52:07.995] [info] No external loads will be applied (external loads file not specified).
+[2021-01-14 14:52:08.009] [info] Storage: read data file = dummy_motion.mot (nr=10 nc=24)
+[2021-01-14 14:52:08.010] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'arm_flex_r'. Assuming default value.
+[2021-01-14 14:52:08.010] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'arm_add_r'. Assuming default value.
+[2021-01-14 14:52:08.010] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'arm_rot_r'. Assuming default value.
+[2021-01-14 14:52:08.011] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'arm_flex_l'. Assuming default value.
+[2021-01-14 14:52:08.011] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'arm_add_l'. Assuming default value.
+[2021-01-14 14:52:08.011] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'arm_rot_l'. Assuming default value.
+[2021-01-14 14:52:08.011] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'elbow_flex_r'. Assuming default value.
+[2021-01-14 14:52:08.012] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'elbow_flex_l'. Assuming default value.
+[2021-01-14 14:52:08.012] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'pro_sup_r'. Assuming default value.
+[2021-01-14 14:52:08.012] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'pro_sup_l'. Assuming default value.
+[2021-01-14 14:52:08.012] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_r'. Assuming default value.
+[2021-01-14 14:52:08.013] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_r'. Assuming default value.
+[2021-01-14 14:52:08.013] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_l'. Assuming default value.
+[2021-01-14 14:52:08.013] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_l'. Assuming default value.
+[2021-01-14 14:52:08.015] [info] InverseDynamicsTool: 10 time frames in 1 millisecond(s).
+[2021-01-14 14:52:19.045] [info] Preparing to run InverseDynamicsTool.
+[2021-01-14 14:52:19.072] [info] Loaded model subject1_Scaled from file ../subject1_mtp_OS4_cm7.osim
+[2021-01-14 14:52:19.072] [warning] Couldn't find file 'treadmill.vtp'.
+[2021-01-14 14:52:19.073] [warning] Couldn't find file 'sacrum.vtp'.
+[2021-01-14 14:52:19.073] [warning] Couldn't find file 'pelvis.vtp'.
+[2021-01-14 14:52:19.075] [warning] Couldn't find file 'l_pelvis.vtp'.
+[2021-01-14 14:52:19.075] [warning] Couldn't find file 'femur_r.vtp'.
+[2021-01-14 14:52:19.076] [warning] Couldn't find file 'tibia_r.vtp'.
+[2021-01-14 14:52:19.077] [warning] Couldn't find file 'fibula.vtp'.
+[2021-01-14 14:52:19.078] [warning] Couldn't find file 'talus.vtp'.
+[2021-01-14 14:52:19.078] [warning] Couldn't find file 'foot.vtp'.
+[2021-01-14 14:52:19.079] [warning] Couldn't find file 'bofoot.vtp'.
+[2021-01-14 14:52:19.079] [warning] Couldn't find file 'femur_l.vtp'.
+[2021-01-14 14:52:19.079] [warning] Couldn't find file 'tibia_l.vtp'.
+[2021-01-14 14:52:19.079] [warning] Couldn't find file 'l_fibula.vtp'.
+[2021-01-14 14:52:19.080] [warning] Couldn't find file 'l_talus.vtp'.
+[2021-01-14 14:52:19.080] [warning] Couldn't find file 'l_foot.vtp'.
+[2021-01-14 14:52:19.080] [warning] Couldn't find file 'l_bofoot.vtp'.
+[2021-01-14 14:52:19.080] [warning] Couldn't find file 'hat_spine.vtp'.
+[2021-01-14 14:52:19.081] [warning] Couldn't find file 'hat_jaw.vtp'.
+[2021-01-14 14:52:19.081] [warning] Couldn't find file 'hat_skull.vtp'.
+[2021-01-14 14:52:19.081] [warning] Couldn't find file 'hat_ribs.vtp'.
+[2021-01-14 14:52:19.082] [warning] Couldn't find file 'arm_r_humerus.vtp'.
+[2021-01-14 14:52:19.082] [warning] Couldn't find file 'ulna_rv.vtp'.
+[2021-01-14 14:52:19.083] [warning] Couldn't find file 'radius_rv.vtp'.
+[2021-01-14 14:52:19.084] [warning] Couldn't find file 'pisiform_rvs.vtp'.
+[2021-01-14 14:52:19.085] [warning] Couldn't find file 'lunate_rvs.vtp'.
+[2021-01-14 14:52:19.085] [warning] Couldn't find file 'scaphoid_rvs.vtp'.
+[2021-01-14 14:52:19.086] [warning] Couldn't find file 'triquetrum_rvs.vtp'.
+[2021-01-14 14:52:19.086] [warning] Couldn't find file 'hamate_rvs.vtp'.
+[2021-01-14 14:52:19.087] [warning] Couldn't find file 'capitate_rvs.vtp'.
+[2021-01-14 14:52:19.088] [warning] Couldn't find file 'trapezoid_rvs.vtp'.
+[2021-01-14 14:52:19.090] [warning] Couldn't find file 'trapezium_rvs.vtp'.
+[2021-01-14 14:52:19.090] [warning] Couldn't find file 'metacarpal2_rvs.vtp'.
+[2021-01-14 14:52:19.091] [warning] Couldn't find file 'index_proximal_rvs.vtp'.
+[2021-01-14 14:52:19.091] [warning] Couldn't find file 'index_medial_rvs.vtp'.
+[2021-01-14 14:52:19.093] [warning] Couldn't find file 'index_distal_rvs.vtp'.
+[2021-01-14 14:52:19.093] [warning] Couldn't find file 'metacarpal3_rvs.vtp'.
+[2021-01-14 14:52:19.094] [warning] Couldn't find file 'middle_proximal_rvs.vtp'.
+[2021-01-14 14:52:19.095] [warning] Couldn't find file 'middle_medial_rvs.vtp'.
+[2021-01-14 14:52:19.096] [warning] Couldn't find file 'middle_distal_rvs.vtp'.
+[2021-01-14 14:52:19.096] [warning] Couldn't find file 'metacarpal4_rvs.vtp'.
+[2021-01-14 14:52:19.097] [warning] Couldn't find file 'ring_proximal_rvs.vtp'.
+[2021-01-14 14:52:19.097] [warning] Couldn't find file 'ring_medial_rvs.vtp'.
+[2021-01-14 14:52:19.098] [warning] Couldn't find file 'ring_distal_rvs.vtp'.
+[2021-01-14 14:52:19.098] [warning] Couldn't find file 'metacarpal5_rvs.vtp'.
+[2021-01-14 14:52:19.099] [warning] Couldn't find file 'little_proximal_rvs.vtp'.
+[2021-01-14 14:52:19.100] [warning] Couldn't find file 'little_medial_rvs.vtp'.
+[2021-01-14 14:52:19.101] [warning] Couldn't find file 'little_distal_rvs.vtp'.
+[2021-01-14 14:52:19.101] [warning] Couldn't find file 'metacarpal1_rvs.vtp'.
+[2021-01-14 14:52:19.101] [warning] Couldn't find file 'thumb_proximal_rvs.vtp'.
+[2021-01-14 14:52:19.101] [warning] Couldn't find file 'thumb_distal_rvs.vtp'.
+[2021-01-14 14:52:19.102] [warning] Couldn't find file 'humerus_lv.vtp'.
+[2021-01-14 14:52:19.102] [warning] Couldn't find file 'ulna_lv.vtp'.
+[2021-01-14 14:52:19.102] [warning] Couldn't find file 'radius_lv.vtp'.
+[2021-01-14 14:52:19.102] [warning] Couldn't find file 'pisiform_lvs.vtp'.
+[2021-01-14 14:52:19.102] [warning] Couldn't find file 'lunate_lvs.vtp'.
+[2021-01-14 14:52:19.103] [warning] Couldn't find file 'scaphoid_lvs.vtp'.
+[2021-01-14 14:52:19.104] [warning] Couldn't find file 'triquetrum_lvs.vtp'.
+[2021-01-14 14:52:19.106] [warning] Couldn't find file 'hamate_lvs.vtp'.
+[2021-01-14 14:52:19.106] [warning] Couldn't find file 'capitate_lvs.vtp'.
+[2021-01-14 14:52:19.107] [warning] Couldn't find file 'trapezoid_lvs.vtp'.
+[2021-01-14 14:52:19.107] [warning] Couldn't find file 'trapezium_lvs.vtp'.
+[2021-01-14 14:52:19.111] [warning] Couldn't find file 'metacarpal2_lvs.vtp'.
+[2021-01-14 14:52:19.111] [warning] Couldn't find file 'index_proximal_lvs.vtp'.
+[2021-01-14 14:52:19.112] [warning] Couldn't find file 'index_medial_lvs.vtp'.
+[2021-01-14 14:52:19.112] [warning] Couldn't find file 'index_distal_lvs.vtp'.
+[2021-01-14 14:52:19.113] [warning] Couldn't find file 'metacarpal3_lvs.vtp'.
+[2021-01-14 14:52:19.115] [warning] Couldn't find file 'middle_proximal_lvs.vtp'.
+[2021-01-14 14:52:19.115] [warning] Couldn't find file 'middle_medial_lvs.vtp'.
+[2021-01-14 14:52:19.116] [warning] Couldn't find file 'middle_distal_lvs.vtp'.
+[2021-01-14 14:52:19.116] [warning] Couldn't find file 'metacarpal4_lvs.vtp'.
+[2021-01-14 14:52:19.117] [warning] Couldn't find file 'ring_proximal_lvs.vtp'.
+[2021-01-14 14:52:19.117] [warning] Couldn't find file 'ring_medial_lvs.vtp'.
+[2021-01-14 14:52:19.118] [warning] Couldn't find file 'ring_distal_lvs.vtp'.
+[2021-01-14 14:52:19.121] [warning] Couldn't find file 'metacarpal5_lvs.vtp'.
+[2021-01-14 14:52:19.121] [warning] Couldn't find file 'little_proximal_lvs.vtp'.
+[2021-01-14 14:52:19.122] [warning] Couldn't find file 'little_medial_lvs.vtp'.
+[2021-01-14 14:52:19.122] [warning] Couldn't find file 'little_distal_lvs.vtp'.
+[2021-01-14 14:52:19.122] [warning] Couldn't find file 'metacarpal1_lvs.vtp'.
+[2021-01-14 14:52:19.123] [warning] Couldn't find file 'thumb_proximal_lvs.vtp'.
+[2021-01-14 14:52:19.123] [warning] Couldn't find file 'thumb_distal_lvs.vtp'.
+[2021-01-14 14:52:19.133] [cout] [info] 
+               MODEL: subject1_Scaled
+         coordinates: 37
+              forces: 128
+           actuators: 92
+             muscles: 92
+            analyses: 0
+              probes: 0
+              bodies: 20
+              joints: 20
+         constraints: 0
+             markers: 0
+         controllers: 0
+  contact geometries: 37
+misc modelcomponents: 0
+[2021-01-14 14:52:19.133] [info] Running tool DummyModel...
+[2021-01-14 14:52:19.134] [info] No external loads will be applied (external loads file not specified).
+[2021-01-14 14:52:19.148] [info] Storage: read data file = dummy_motion.mot (nr=10 nc=24)
+[2021-01-14 14:52:19.149] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'arm_flex_r'. Assuming default value.
+[2021-01-14 14:52:19.149] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'arm_add_r'. Assuming default value.
+[2021-01-14 14:52:19.150] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'arm_rot_r'. Assuming default value.
+[2021-01-14 14:52:19.151] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'arm_flex_l'. Assuming default value.
+[2021-01-14 14:52:19.152] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'arm_add_l'. Assuming default value.
+[2021-01-14 14:52:19.153] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'arm_rot_l'. Assuming default value.
+[2021-01-14 14:52:19.153] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'elbow_flex_r'. Assuming default value.
+[2021-01-14 14:52:19.154] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'elbow_flex_l'. Assuming default value.
+[2021-01-14 14:52:19.154] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'pro_sup_r'. Assuming default value.
+[2021-01-14 14:52:19.155] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'pro_sup_l'. Assuming default value.
+[2021-01-14 14:52:19.155] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_r'. Assuming default value.
+[2021-01-14 14:52:19.156] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_r'. Assuming default value.
+[2021-01-14 14:52:19.156] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_l'. Assuming default value.
+[2021-01-14 14:52:19.157] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_l'. Assuming default value.
+[2021-01-14 14:52:19.159] [info] InverseDynamicsTool: 10 time frames in 1 millisecond(s).
+[2021-01-14 14:52:28.372] [info] Preparing to run InverseDynamicsTool.
+[2021-01-14 14:52:28.401] [info] Loaded model subject1_Scaled from file ../subject1_mtp_OS4_cm7.osim
+[2021-01-14 14:52:28.401] [warning] Couldn't find file 'treadmill.vtp'.
+[2021-01-14 14:52:28.401] [warning] Couldn't find file 'sacrum.vtp'.
+[2021-01-14 14:52:28.402] [warning] Couldn't find file 'pelvis.vtp'.
+[2021-01-14 14:52:28.403] [warning] Couldn't find file 'l_pelvis.vtp'.
+[2021-01-14 14:52:28.403] [warning] Couldn't find file 'femur_r.vtp'.
+[2021-01-14 14:52:28.404] [warning] Couldn't find file 'tibia_r.vtp'.
+[2021-01-14 14:52:28.404] [warning] Couldn't find file 'fibula.vtp'.
+[2021-01-14 14:52:28.405] [warning] Couldn't find file 'talus.vtp'.
+[2021-01-14 14:52:28.406] [warning] Couldn't find file 'foot.vtp'.
+[2021-01-14 14:52:28.406] [warning] Couldn't find file 'bofoot.vtp'.
+[2021-01-14 14:52:28.407] [warning] Couldn't find file 'femur_l.vtp'.
+[2021-01-14 14:52:28.407] [warning] Couldn't find file 'tibia_l.vtp'.
+[2021-01-14 14:52:28.408] [warning] Couldn't find file 'l_fibula.vtp'.
+[2021-01-14 14:52:28.410] [warning] Couldn't find file 'l_talus.vtp'.
+[2021-01-14 14:52:28.411] [warning] Couldn't find file 'l_foot.vtp'.
+[2021-01-14 14:52:28.411] [warning] Couldn't find file 'l_bofoot.vtp'.
+[2021-01-14 14:52:28.412] [warning] Couldn't find file 'hat_spine.vtp'.
+[2021-01-14 14:52:28.413] [warning] Couldn't find file 'hat_jaw.vtp'.
+[2021-01-14 14:52:28.413] [warning] Couldn't find file 'hat_skull.vtp'.
+[2021-01-14 14:52:28.413] [warning] Couldn't find file 'hat_ribs.vtp'.
+[2021-01-14 14:52:28.413] [warning] Couldn't find file 'arm_r_humerus.vtp'.
+[2021-01-14 14:52:28.413] [warning] Couldn't find file 'ulna_rv.vtp'.
+[2021-01-14 14:52:28.414] [warning] Couldn't find file 'radius_rv.vtp'.
+[2021-01-14 14:52:28.414] [warning] Couldn't find file 'pisiform_rvs.vtp'.
+[2021-01-14 14:52:28.414] [warning] Couldn't find file 'lunate_rvs.vtp'.
+[2021-01-14 14:52:28.414] [warning] Couldn't find file 'scaphoid_rvs.vtp'.
+[2021-01-14 14:52:28.414] [warning] Couldn't find file 'triquetrum_rvs.vtp'.
+[2021-01-14 14:52:28.415] [warning] Couldn't find file 'hamate_rvs.vtp'.
+[2021-01-14 14:52:28.415] [warning] Couldn't find file 'capitate_rvs.vtp'.
+[2021-01-14 14:52:28.415] [warning] Couldn't find file 'trapezoid_rvs.vtp'.
+[2021-01-14 14:52:28.415] [warning] Couldn't find file 'trapezium_rvs.vtp'.
+[2021-01-14 14:52:28.415] [warning] Couldn't find file 'metacarpal2_rvs.vtp'.
+[2021-01-14 14:52:28.416] [warning] Couldn't find file 'index_proximal_rvs.vtp'.
+[2021-01-14 14:52:28.416] [warning] Couldn't find file 'index_medial_rvs.vtp'.
+[2021-01-14 14:52:28.416] [warning] Couldn't find file 'index_distal_rvs.vtp'.
+[2021-01-14 14:52:28.416] [warning] Couldn't find file 'metacarpal3_rvs.vtp'.
+[2021-01-14 14:52:28.416] [warning] Couldn't find file 'middle_proximal_rvs.vtp'.
+[2021-01-14 14:52:28.417] [warning] Couldn't find file 'middle_medial_rvs.vtp'.
+[2021-01-14 14:52:28.417] [warning] Couldn't find file 'middle_distal_rvs.vtp'.
+[2021-01-14 14:52:28.417] [warning] Couldn't find file 'metacarpal4_rvs.vtp'.
+[2021-01-14 14:52:28.417] [warning] Couldn't find file 'ring_proximal_rvs.vtp'.
+[2021-01-14 14:52:28.417] [warning] Couldn't find file 'ring_medial_rvs.vtp'.
+[2021-01-14 14:52:28.418] [warning] Couldn't find file 'ring_distal_rvs.vtp'.
+[2021-01-14 14:52:28.418] [warning] Couldn't find file 'metacarpal5_rvs.vtp'.
+[2021-01-14 14:52:28.418] [warning] Couldn't find file 'little_proximal_rvs.vtp'.
+[2021-01-14 14:52:28.418] [warning] Couldn't find file 'little_medial_rvs.vtp'.
+[2021-01-14 14:52:28.418] [warning] Couldn't find file 'little_distal_rvs.vtp'.
+[2021-01-14 14:52:28.419] [warning] Couldn't find file 'metacarpal1_rvs.vtp'.
+[2021-01-14 14:52:28.419] [warning] Couldn't find file 'thumb_proximal_rvs.vtp'.
+[2021-01-14 14:52:28.419] [warning] Couldn't find file 'thumb_distal_rvs.vtp'.
+[2021-01-14 14:52:28.419] [warning] Couldn't find file 'humerus_lv.vtp'.
+[2021-01-14 14:52:28.419] [warning] Couldn't find file 'ulna_lv.vtp'.
+[2021-01-14 14:52:28.419] [warning] Couldn't find file 'radius_lv.vtp'.
+[2021-01-14 14:52:28.420] [warning] Couldn't find file 'pisiform_lvs.vtp'.
+[2021-01-14 14:52:28.420] [warning] Couldn't find file 'lunate_lvs.vtp'.
+[2021-01-14 14:52:28.420] [warning] Couldn't find file 'scaphoid_lvs.vtp'.
+[2021-01-14 14:52:28.420] [warning] Couldn't find file 'triquetrum_lvs.vtp'.
+[2021-01-14 14:52:28.420] [warning] Couldn't find file 'hamate_lvs.vtp'.
+[2021-01-14 14:52:28.421] [warning] Couldn't find file 'capitate_lvs.vtp'.
+[2021-01-14 14:52:28.421] [warning] Couldn't find file 'trapezoid_lvs.vtp'.
+[2021-01-14 14:52:28.421] [warning] Couldn't find file 'trapezium_lvs.vtp'.
+[2021-01-14 14:52:28.421] [warning] Couldn't find file 'metacarpal2_lvs.vtp'.
+[2021-01-14 14:52:28.421] [warning] Couldn't find file 'index_proximal_lvs.vtp'.
+[2021-01-14 14:52:28.422] [warning] Couldn't find file 'index_medial_lvs.vtp'.
+[2021-01-14 14:52:28.422] [warning] Couldn't find file 'index_distal_lvs.vtp'.
+[2021-01-14 14:52:28.422] [warning] Couldn't find file 'metacarpal3_lvs.vtp'.
+[2021-01-14 14:52:28.422] [warning] Couldn't find file 'middle_proximal_lvs.vtp'.
+[2021-01-14 14:52:28.422] [warning] Couldn't find file 'middle_medial_lvs.vtp'.
+[2021-01-14 14:52:28.423] [warning] Couldn't find file 'middle_distal_lvs.vtp'.
+[2021-01-14 14:52:28.423] [warning] Couldn't find file 'metacarpal4_lvs.vtp'.
+[2021-01-14 14:52:28.424] [warning] Couldn't find file 'ring_proximal_lvs.vtp'.
+[2021-01-14 14:52:28.429] [warning] Couldn't find file 'ring_medial_lvs.vtp'.
+[2021-01-14 14:52:28.429] [warning] Couldn't find file 'ring_distal_lvs.vtp'.
+[2021-01-14 14:52:28.430] [warning] Couldn't find file 'metacarpal5_lvs.vtp'.
+[2021-01-14 14:52:28.430] [warning] Couldn't find file 'little_proximal_lvs.vtp'.
+[2021-01-14 14:52:28.431] [warning] Couldn't find file 'little_medial_lvs.vtp'.
+[2021-01-14 14:52:28.431] [warning] Couldn't find file 'little_distal_lvs.vtp'.
+[2021-01-14 14:52:28.432] [warning] Couldn't find file 'metacarpal1_lvs.vtp'.
+[2021-01-14 14:52:28.432] [warning] Couldn't find file 'thumb_proximal_lvs.vtp'.
+[2021-01-14 14:52:28.432] [warning] Couldn't find file 'thumb_distal_lvs.vtp'.
+[2021-01-14 14:52:28.442] [cout] [info] 
+               MODEL: subject1_Scaled
+         coordinates: 37
+              forces: 128
+           actuators: 92
+             muscles: 92
+            analyses: 0
+              probes: 0
+              bodies: 20
+              joints: 20
+         constraints: 0
+             markers: 0
+         controllers: 0
+  contact geometries: 37
+misc modelcomponents: 0
+[2021-01-14 14:52:28.442] [info] Running tool DummyModel...
+[2021-01-14 14:52:28.443] [info] No external loads will be applied (external loads file not specified).
+[2021-01-14 14:52:28.456] [info] Storage: read data file = dummy_motion_0.mot (nr=10 nc=34)
+[2021-01-14 14:52:28.458] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_r'. Assuming default value.
+[2021-01-14 14:52:28.460] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_r'. Assuming default value.
+[2021-01-14 14:52:28.460] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_l'. Assuming default value.
+[2021-01-14 14:52:28.462] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_l'. Assuming default value.
+[2021-01-14 14:52:28.465] [info] InverseDynamicsTool: 10 time frames in 2 millisecond(s).
+[2021-01-14 14:55:48.964] [info] Preparing to run InverseDynamicsTool.
+[2021-01-14 14:55:48.992] [info] Loaded model subject1_Scaled from file ../subject1_mtp_OS4_cm7.osim
+[2021-01-14 14:55:48.993] [warning] Couldn't find file 'treadmill.vtp'.
+[2021-01-14 14:55:48.993] [warning] Couldn't find file 'sacrum.vtp'.
+[2021-01-14 14:55:48.993] [warning] Couldn't find file 'pelvis.vtp'.
+[2021-01-14 14:55:48.994] [warning] Couldn't find file 'l_pelvis.vtp'.
+[2021-01-14 14:55:48.995] [warning] Couldn't find file 'femur_r.vtp'.
+[2021-01-14 14:55:48.996] [warning] Couldn't find file 'tibia_r.vtp'.
+[2021-01-14 14:55:48.996] [warning] Couldn't find file 'fibula.vtp'.
+[2021-01-14 14:55:48.997] [warning] Couldn't find file 'talus.vtp'.
+[2021-01-14 14:55:48.997] [warning] Couldn't find file 'foot.vtp'.
+[2021-01-14 14:55:48.998] [warning] Couldn't find file 'bofoot.vtp'.
+[2021-01-14 14:55:48.998] [warning] Couldn't find file 'femur_l.vtp'.
+[2021-01-14 14:55:48.999] [warning] Couldn't find file 'tibia_l.vtp'.
+[2021-01-14 14:55:48.999] [warning] Couldn't find file 'l_fibula.vtp'.
+[2021-01-14 14:55:48.999] [warning] Couldn't find file 'l_talus.vtp'.
+[2021-01-14 14:55:48.999] [warning] Couldn't find file 'l_foot.vtp'.
+[2021-01-14 14:55:48.999] [warning] Couldn't find file 'l_bofoot.vtp'.
+[2021-01-14 14:55:49.000] [warning] Couldn't find file 'hat_spine.vtp'.
+[2021-01-14 14:55:49.000] [warning] Couldn't find file 'hat_jaw.vtp'.
+[2021-01-14 14:55:49.000] [warning] Couldn't find file 'hat_skull.vtp'.
+[2021-01-14 14:55:49.000] [warning] Couldn't find file 'hat_ribs.vtp'.
+[2021-01-14 14:55:49.001] [warning] Couldn't find file 'arm_r_humerus.vtp'.
+[2021-01-14 14:55:49.001] [warning] Couldn't find file 'ulna_rv.vtp'.
+[2021-01-14 14:55:49.001] [warning] Couldn't find file 'radius_rv.vtp'.
+[2021-01-14 14:55:49.001] [warning] Couldn't find file 'pisiform_rvs.vtp'.
+[2021-01-14 14:55:49.003] [warning] Couldn't find file 'lunate_rvs.vtp'.
+[2021-01-14 14:55:49.004] [warning] Couldn't find file 'scaphoid_rvs.vtp'.
+[2021-01-14 14:55:49.004] [warning] Couldn't find file 'triquetrum_rvs.vtp'.
+[2021-01-14 14:55:49.005] [warning] Couldn't find file 'hamate_rvs.vtp'.
+[2021-01-14 14:55:49.006] [warning] Couldn't find file 'capitate_rvs.vtp'.
+[2021-01-14 14:55:49.010] [warning] Couldn't find file 'trapezoid_rvs.vtp'.
+[2021-01-14 14:55:49.010] [warning] Couldn't find file 'trapezium_rvs.vtp'.
+[2021-01-14 14:55:49.011] [warning] Couldn't find file 'metacarpal2_rvs.vtp'.
+[2021-01-14 14:55:49.012] [warning] Couldn't find file 'index_proximal_rvs.vtp'.
+[2021-01-14 14:55:49.013] [warning] Couldn't find file 'index_medial_rvs.vtp'.
+[2021-01-14 14:55:49.013] [warning] Couldn't find file 'index_distal_rvs.vtp'.
+[2021-01-14 14:55:49.014] [warning] Couldn't find file 'metacarpal3_rvs.vtp'.
+[2021-01-14 14:55:49.014] [warning] Couldn't find file 'middle_proximal_rvs.vtp'.
+[2021-01-14 14:55:49.015] [warning] Couldn't find file 'middle_medial_rvs.vtp'.
+[2021-01-14 14:55:49.015] [warning] Couldn't find file 'middle_distal_rvs.vtp'.
+[2021-01-14 14:55:49.016] [warning] Couldn't find file 'metacarpal4_rvs.vtp'.
+[2021-01-14 14:55:49.016] [warning] Couldn't find file 'ring_proximal_rvs.vtp'.
+[2021-01-14 14:55:49.018] [warning] Couldn't find file 'ring_medial_rvs.vtp'.
+[2021-01-14 14:55:49.022] [warning] Couldn't find file 'ring_distal_rvs.vtp'.
+[2021-01-14 14:55:49.022] [warning] Couldn't find file 'metacarpal5_rvs.vtp'.
+[2021-01-14 14:55:49.022] [warning] Couldn't find file 'little_proximal_rvs.vtp'.
+[2021-01-14 14:55:49.026] [warning] Couldn't find file 'little_medial_rvs.vtp'.
+[2021-01-14 14:55:49.026] [warning] Couldn't find file 'little_distal_rvs.vtp'.
+[2021-01-14 14:55:49.027] [warning] Couldn't find file 'metacarpal1_rvs.vtp'.
+[2021-01-14 14:55:49.027] [warning] Couldn't find file 'thumb_proximal_rvs.vtp'.
+[2021-01-14 14:55:49.028] [warning] Couldn't find file 'thumb_distal_rvs.vtp'.
+[2021-01-14 14:55:49.028] [warning] Couldn't find file 'humerus_lv.vtp'.
+[2021-01-14 14:55:49.029] [warning] Couldn't find file 'ulna_lv.vtp'.
+[2021-01-14 14:55:49.029] [warning] Couldn't find file 'radius_lv.vtp'.
+[2021-01-14 14:55:49.030] [warning] Couldn't find file 'pisiform_lvs.vtp'.
+[2021-01-14 14:55:49.031] [warning] Couldn't find file 'lunate_lvs.vtp'.
+[2021-01-14 14:55:49.032] [warning] Couldn't find file 'scaphoid_lvs.vtp'.
+[2021-01-14 14:55:49.032] [warning] Couldn't find file 'triquetrum_lvs.vtp'.
+[2021-01-14 14:55:49.033] [warning] Couldn't find file 'hamate_lvs.vtp'.
+[2021-01-14 14:55:49.034] [warning] Couldn't find file 'capitate_lvs.vtp'.
+[2021-01-14 14:55:49.034] [warning] Couldn't find file 'trapezoid_lvs.vtp'.
+[2021-01-14 14:55:49.036] [warning] Couldn't find file 'trapezium_lvs.vtp'.
+[2021-01-14 14:55:49.036] [warning] Couldn't find file 'metacarpal2_lvs.vtp'.
+[2021-01-14 14:55:49.037] [warning] Couldn't find file 'index_proximal_lvs.vtp'.
+[2021-01-14 14:55:49.037] [warning] Couldn't find file 'index_medial_lvs.vtp'.
+[2021-01-14 14:55:49.037] [warning] Couldn't find file 'index_distal_lvs.vtp'.
+[2021-01-14 14:55:49.038] [warning] Couldn't find file 'metacarpal3_lvs.vtp'.
+[2021-01-14 14:55:49.038] [warning] Couldn't find file 'middle_proximal_lvs.vtp'.
+[2021-01-14 14:55:49.038] [warning] Couldn't find file 'middle_medial_lvs.vtp'.
+[2021-01-14 14:55:49.038] [warning] Couldn't find file 'middle_distal_lvs.vtp'.
+[2021-01-14 14:55:49.039] [warning] Couldn't find file 'metacarpal4_lvs.vtp'.
+[2021-01-14 14:55:49.039] [warning] Couldn't find file 'ring_proximal_lvs.vtp'.
+[2021-01-14 14:55:49.039] [warning] Couldn't find file 'ring_medial_lvs.vtp'.
+[2021-01-14 14:55:49.042] [warning] Couldn't find file 'ring_distal_lvs.vtp'.
+[2021-01-14 14:55:49.042] [warning] Couldn't find file 'metacarpal5_lvs.vtp'.
+[2021-01-14 14:55:49.043] [warning] Couldn't find file 'little_proximal_lvs.vtp'.
+[2021-01-14 14:55:49.043] [warning] Couldn't find file 'little_medial_lvs.vtp'.
+[2021-01-14 14:55:49.044] [warning] Couldn't find file 'little_distal_lvs.vtp'.
+[2021-01-14 14:55:49.045] [warning] Couldn't find file 'metacarpal1_lvs.vtp'.
+[2021-01-14 14:55:49.046] [warning] Couldn't find file 'thumb_proximal_lvs.vtp'.
+[2021-01-14 14:55:49.046] [warning] Couldn't find file 'thumb_distal_lvs.vtp'.
+[2021-01-14 14:55:49.056] [cout] [info] 
+               MODEL: subject1_Scaled
+         coordinates: 37
+              forces: 128
+           actuators: 92
+             muscles: 92
+            analyses: 0
+              probes: 0
+              bodies: 20
+              joints: 20
+         constraints: 0
+             markers: 0
+         controllers: 0
+  contact geometries: 37
+misc modelcomponents: 0
+[2021-01-14 14:55:49.057] [info] Running tool DummyModel...
+[2021-01-14 14:55:49.057] [info] No external loads will be applied (external loads file not specified).
+[2021-01-14 14:55:49.070] [info] Storage: read data file = dummy_motion_0.mot (nr=10 nc=34)
+[2021-01-14 14:55:49.071] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_r'. Assuming default value.
+[2021-01-14 14:55:49.072] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_r'. Assuming default value.
+[2021-01-14 14:55:49.072] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_l'. Assuming default value.
+[2021-01-14 14:55:49.072] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_l'. Assuming default value.
+[2021-01-14 14:55:49.078] [info] InverseDynamicsTool: 10 time frames in 2 millisecond(s).
+[2021-01-14 14:56:03.237] [info] Preparing to run InverseDynamicsTool.
+[2021-01-14 14:56:03.264] [info] Loaded model subject1_Scaled from file ../subject1_mtp_OS4_cm7.osim
+[2021-01-14 14:56:03.265] [warning] Couldn't find file 'treadmill.vtp'.
+[2021-01-14 14:56:03.265] [warning] Couldn't find file 'sacrum.vtp'.
+[2021-01-14 14:56:03.265] [warning] Couldn't find file 'pelvis.vtp'.
+[2021-01-14 14:56:03.267] [warning] Couldn't find file 'l_pelvis.vtp'.
+[2021-01-14 14:56:03.267] [warning] Couldn't find file 'femur_r.vtp'.
+[2021-01-14 14:56:03.268] [warning] Couldn't find file 'tibia_r.vtp'.
+[2021-01-14 14:56:03.270] [warning] Couldn't find file 'fibula.vtp'.
+[2021-01-14 14:56:03.270] [warning] Couldn't find file 'talus.vtp'.
+[2021-01-14 14:56:03.270] [warning] Couldn't find file 'foot.vtp'.
+[2021-01-14 14:56:03.271] [warning] Couldn't find file 'bofoot.vtp'.
+[2021-01-14 14:56:03.271] [warning] Couldn't find file 'femur_l.vtp'.
+[2021-01-14 14:56:03.271] [warning] Couldn't find file 'tibia_l.vtp'.
+[2021-01-14 14:56:03.271] [warning] Couldn't find file 'l_fibula.vtp'.
+[2021-01-14 14:56:03.272] [warning] Couldn't find file 'l_talus.vtp'.
+[2021-01-14 14:56:03.272] [warning] Couldn't find file 'l_foot.vtp'.
+[2021-01-14 14:56:03.272] [warning] Couldn't find file 'l_bofoot.vtp'.
+[2021-01-14 14:56:03.274] [warning] Couldn't find file 'hat_spine.vtp'.
+[2021-01-14 14:56:03.275] [warning] Couldn't find file 'hat_jaw.vtp'.
+[2021-01-14 14:56:03.276] [warning] Couldn't find file 'hat_skull.vtp'.
+[2021-01-14 14:56:03.276] [warning] Couldn't find file 'hat_ribs.vtp'.
+[2021-01-14 14:56:03.277] [warning] Couldn't find file 'arm_r_humerus.vtp'.
+[2021-01-14 14:56:03.278] [warning] Couldn't find file 'ulna_rv.vtp'.
+[2021-01-14 14:56:03.279] [warning] Couldn't find file 'radius_rv.vtp'.
+[2021-01-14 14:56:03.279] [warning] Couldn't find file 'pisiform_rvs.vtp'.
+[2021-01-14 14:56:03.280] [warning] Couldn't find file 'lunate_rvs.vtp'.
+[2021-01-14 14:56:03.280] [warning] Couldn't find file 'scaphoid_rvs.vtp'.
+[2021-01-14 14:56:03.281] [warning] Couldn't find file 'triquetrum_rvs.vtp'.
+[2021-01-14 14:56:03.281] [warning] Couldn't find file 'hamate_rvs.vtp'.
+[2021-01-14 14:56:03.282] [warning] Couldn't find file 'capitate_rvs.vtp'.
+[2021-01-14 14:56:03.282] [warning] Couldn't find file 'trapezoid_rvs.vtp'.
+[2021-01-14 14:56:03.283] [warning] Couldn't find file 'trapezium_rvs.vtp'.
+[2021-01-14 14:56:03.286] [warning] Couldn't find file 'metacarpal2_rvs.vtp'.
+[2021-01-14 14:56:03.286] [warning] Couldn't find file 'index_proximal_rvs.vtp'.
+[2021-01-14 14:56:03.287] [warning] Couldn't find file 'index_medial_rvs.vtp'.
+[2021-01-14 14:56:03.288] [warning] Couldn't find file 'index_distal_rvs.vtp'.
+[2021-01-14 14:56:03.289] [warning] Couldn't find file 'metacarpal3_rvs.vtp'.
+[2021-01-14 14:56:03.289] [warning] Couldn't find file 'middle_proximal_rvs.vtp'.
+[2021-01-14 14:56:03.293] [warning] Couldn't find file 'middle_medial_rvs.vtp'.
+[2021-01-14 14:56:03.293] [warning] Couldn't find file 'middle_distal_rvs.vtp'.
+[2021-01-14 14:56:03.294] [warning] Couldn't find file 'metacarpal4_rvs.vtp'.
+[2021-01-14 14:56:03.294] [warning] Couldn't find file 'ring_proximal_rvs.vtp'.
+[2021-01-14 14:56:03.295] [warning] Couldn't find file 'ring_medial_rvs.vtp'.
+[2021-01-14 14:56:03.295] [warning] Couldn't find file 'ring_distal_rvs.vtp'.
+[2021-01-14 14:56:03.296] [warning] Couldn't find file 'metacarpal5_rvs.vtp'.
+[2021-01-14 14:56:03.296] [warning] Couldn't find file 'little_proximal_rvs.vtp'.
+[2021-01-14 14:56:03.297] [warning] Couldn't find file 'little_medial_rvs.vtp'.
+[2021-01-14 14:56:03.298] [warning] Couldn't find file 'little_distal_rvs.vtp'.
+[2021-01-14 14:56:03.299] [warning] Couldn't find file 'metacarpal1_rvs.vtp'.
+[2021-01-14 14:56:03.299] [warning] Couldn't find file 'thumb_proximal_rvs.vtp'.
+[2021-01-14 14:56:03.300] [warning] Couldn't find file 'thumb_distal_rvs.vtp'.
+[2021-01-14 14:56:03.302] [warning] Couldn't find file 'humerus_lv.vtp'.
+[2021-01-14 14:56:03.303] [warning] Couldn't find file 'ulna_lv.vtp'.
+[2021-01-14 14:56:03.304] [warning] Couldn't find file 'radius_lv.vtp'.
+[2021-01-14 14:56:03.304] [warning] Couldn't find file 'pisiform_lvs.vtp'.
+[2021-01-14 14:56:03.305] [warning] Couldn't find file 'lunate_lvs.vtp'.
+[2021-01-14 14:56:03.305] [warning] Couldn't find file 'scaphoid_lvs.vtp'.
+[2021-01-14 14:56:03.305] [warning] Couldn't find file 'triquetrum_lvs.vtp'.
+[2021-01-14 14:56:03.309] [warning] Couldn't find file 'hamate_lvs.vtp'.
+[2021-01-14 14:56:03.309] [warning] Couldn't find file 'capitate_lvs.vtp'.
+[2021-01-14 14:56:03.310] [warning] Couldn't find file 'trapezoid_lvs.vtp'.
+[2021-01-14 14:56:03.310] [warning] Couldn't find file 'trapezium_lvs.vtp'.
+[2021-01-14 14:56:03.310] [warning] Couldn't find file 'metacarpal2_lvs.vtp'.
+[2021-01-14 14:56:03.311] [warning] Couldn't find file 'index_proximal_lvs.vtp'.
+[2021-01-14 14:56:03.311] [warning] Couldn't find file 'index_medial_lvs.vtp'.
+[2021-01-14 14:56:03.311] [warning] Couldn't find file 'index_distal_lvs.vtp'.
+[2021-01-14 14:56:03.311] [warning] Couldn't find file 'metacarpal3_lvs.vtp'.
+[2021-01-14 14:56:03.311] [warning] Couldn't find file 'middle_proximal_lvs.vtp'.
+[2021-01-14 14:56:03.312] [warning] Couldn't find file 'middle_medial_lvs.vtp'.
+[2021-01-14 14:56:03.312] [warning] Couldn't find file 'middle_distal_lvs.vtp'.
+[2021-01-14 14:56:03.312] [warning] Couldn't find file 'metacarpal4_lvs.vtp'.
+[2021-01-14 14:56:03.312] [warning] Couldn't find file 'ring_proximal_lvs.vtp'.
+[2021-01-14 14:56:03.312] [warning] Couldn't find file 'ring_medial_lvs.vtp'.
+[2021-01-14 14:56:03.313] [warning] Couldn't find file 'ring_distal_lvs.vtp'.
+[2021-01-14 14:56:03.313] [warning] Couldn't find file 'metacarpal5_lvs.vtp'.
+[2021-01-14 14:56:03.313] [warning] Couldn't find file 'little_proximal_lvs.vtp'.
+[2021-01-14 14:56:03.313] [warning] Couldn't find file 'little_medial_lvs.vtp'.
+[2021-01-14 14:56:03.313] [warning] Couldn't find file 'little_distal_lvs.vtp'.
+[2021-01-14 14:56:03.314] [warning] Couldn't find file 'metacarpal1_lvs.vtp'.
+[2021-01-14 14:56:03.314] [warning] Couldn't find file 'thumb_proximal_lvs.vtp'.
+[2021-01-14 14:56:03.314] [warning] Couldn't find file 'thumb_distal_lvs.vtp'.
+[2021-01-14 14:56:03.324] [cout] [info] 
+               MODEL: subject1_Scaled
+         coordinates: 37
+              forces: 128
+           actuators: 92
+             muscles: 92
+            analyses: 0
+              probes: 0
+              bodies: 20
+              joints: 20
+         constraints: 0
+             markers: 0
+         controllers: 0
+  contact geometries: 37
+misc modelcomponents: 0
+[2021-01-14 14:56:03.324] [info] Running tool DummyModel...
+[2021-01-14 14:56:03.325] [info] No external loads will be applied (external loads file not specified).
+[2021-01-14 14:56:03.338] [info] Storage: read data file = dummy_motion.mot (nr=10 nc=24)
+[2021-01-14 14:56:03.338] [warning] Storage: Inconsistent headers in file dummy_motion.mot. nColumns=24 but 34 were found
+[2021-01-14 14:56:03.340] [error] GCVSpline: there must be 6 or more data points.
+[2021-01-14 14:56:03.340] [error] SimTK Exception thrown at GCVSPLUtil.h:81:
+  Bad call to Simbody API method GCVSPLUtil::gcvspl(): Too few data points
+  (Required condition 'n >= 2*m' was not met.)
+[2021-01-14 14:56:39.171] [info] Preparing to run InverseDynamicsTool.
+[2021-01-14 14:56:39.199] [info] Loaded model subject1_Scaled from file ../subject1_mtp_OS4_cm7.osim
+[2021-01-14 14:56:39.199] [warning] Couldn't find file 'treadmill.vtp'.
+[2021-01-14 14:56:39.199] [warning] Couldn't find file 'sacrum.vtp'.
+[2021-01-14 14:56:39.200] [warning] Couldn't find file 'pelvis.vtp'.
+[2021-01-14 14:56:39.200] [warning] Couldn't find file 'l_pelvis.vtp'.
+[2021-01-14 14:56:39.200] [warning] Couldn't find file 'femur_r.vtp'.
+[2021-01-14 14:56:39.201] [warning] Couldn't find file 'tibia_r.vtp'.
+[2021-01-14 14:56:39.201] [warning] Couldn't find file 'fibula.vtp'.
+[2021-01-14 14:56:39.202] [warning] Couldn't find file 'talus.vtp'.
+[2021-01-14 14:56:39.202] [warning] Couldn't find file 'foot.vtp'.
+[2021-01-14 14:56:39.202] [warning] Couldn't find file 'bofoot.vtp'.
+[2021-01-14 14:56:39.202] [warning] Couldn't find file 'femur_l.vtp'.
+[2021-01-14 14:56:39.203] [warning] Couldn't find file 'tibia_l.vtp'.
+[2021-01-14 14:56:39.203] [warning] Couldn't find file 'l_fibula.vtp'.
+[2021-01-14 14:56:39.203] [warning] Couldn't find file 'l_talus.vtp'.
+[2021-01-14 14:56:39.203] [warning] Couldn't find file 'l_foot.vtp'.
+[2021-01-14 14:56:39.204] [warning] Couldn't find file 'l_bofoot.vtp'.
+[2021-01-14 14:56:39.204] [warning] Couldn't find file 'hat_spine.vtp'.
+[2021-01-14 14:56:39.204] [warning] Couldn't find file 'hat_jaw.vtp'.
+[2021-01-14 14:56:39.204] [warning] Couldn't find file 'hat_skull.vtp'.
+[2021-01-14 14:56:39.204] [warning] Couldn't find file 'hat_ribs.vtp'.
+[2021-01-14 14:56:39.205] [warning] Couldn't find file 'arm_r_humerus.vtp'.
+[2021-01-14 14:56:39.205] [warning] Couldn't find file 'ulna_rv.vtp'.
+[2021-01-14 14:56:39.205] [warning] Couldn't find file 'radius_rv.vtp'.
+[2021-01-14 14:56:39.206] [warning] Couldn't find file 'pisiform_rvs.vtp'.
+[2021-01-14 14:56:39.206] [warning] Couldn't find file 'lunate_rvs.vtp'.
+[2021-01-14 14:56:39.206] [warning] Couldn't find file 'scaphoid_rvs.vtp'.
+[2021-01-14 14:56:39.207] [warning] Couldn't find file 'triquetrum_rvs.vtp'.
+[2021-01-14 14:56:39.207] [warning] Couldn't find file 'hamate_rvs.vtp'.
+[2021-01-14 14:56:39.207] [warning] Couldn't find file 'capitate_rvs.vtp'.
+[2021-01-14 14:56:39.207] [warning] Couldn't find file 'trapezoid_rvs.vtp'.
+[2021-01-14 14:56:39.207] [warning] Couldn't find file 'trapezium_rvs.vtp'.
+[2021-01-14 14:56:39.208] [warning] Couldn't find file 'metacarpal2_rvs.vtp'.
+[2021-01-14 14:56:39.208] [warning] Couldn't find file 'index_proximal_rvs.vtp'.
+[2021-01-14 14:56:39.208] [warning] Couldn't find file 'index_medial_rvs.vtp'.
+[2021-01-14 14:56:39.208] [warning] Couldn't find file 'index_distal_rvs.vtp'.
+[2021-01-14 14:56:39.208] [warning] Couldn't find file 'metacarpal3_rvs.vtp'.
+[2021-01-14 14:56:39.209] [warning] Couldn't find file 'middle_proximal_rvs.vtp'.
+[2021-01-14 14:56:39.209] [warning] Couldn't find file 'middle_medial_rvs.vtp'.
+[2021-01-14 14:56:39.209] [warning] Couldn't find file 'middle_distal_rvs.vtp'.
+[2021-01-14 14:56:39.209] [warning] Couldn't find file 'metacarpal4_rvs.vtp'.
+[2021-01-14 14:56:39.209] [warning] Couldn't find file 'ring_proximal_rvs.vtp'.
+[2021-01-14 14:56:39.210] [warning] Couldn't find file 'ring_medial_rvs.vtp'.
+[2021-01-14 14:56:39.210] [warning] Couldn't find file 'ring_distal_rvs.vtp'.
+[2021-01-14 14:56:39.210] [warning] Couldn't find file 'metacarpal5_rvs.vtp'.
+[2021-01-14 14:56:39.210] [warning] Couldn't find file 'little_proximal_rvs.vtp'.
+[2021-01-14 14:56:39.210] [warning] Couldn't find file 'little_medial_rvs.vtp'.
+[2021-01-14 14:56:39.210] [warning] Couldn't find file 'little_distal_rvs.vtp'.
+[2021-01-14 14:56:39.211] [warning] Couldn't find file 'metacarpal1_rvs.vtp'.
+[2021-01-14 14:56:39.211] [warning] Couldn't find file 'thumb_proximal_rvs.vtp'.
+[2021-01-14 14:56:39.211] [warning] Couldn't find file 'thumb_distal_rvs.vtp'.
+[2021-01-14 14:56:39.211] [warning] Couldn't find file 'humerus_lv.vtp'.
+[2021-01-14 14:56:39.212] [warning] Couldn't find file 'ulna_lv.vtp'.
+[2021-01-14 14:56:39.212] [warning] Couldn't find file 'radius_lv.vtp'.
+[2021-01-14 14:56:39.212] [warning] Couldn't find file 'pisiform_lvs.vtp'.
+[2021-01-14 14:56:39.212] [warning] Couldn't find file 'lunate_lvs.vtp'.
+[2021-01-14 14:56:39.212] [warning] Couldn't find file 'scaphoid_lvs.vtp'.
+[2021-01-14 14:56:39.213] [warning] Couldn't find file 'triquetrum_lvs.vtp'.
+[2021-01-14 14:56:39.213] [warning] Couldn't find file 'hamate_lvs.vtp'.
+[2021-01-14 14:56:39.213] [warning] Couldn't find file 'capitate_lvs.vtp'.
+[2021-01-14 14:56:39.213] [warning] Couldn't find file 'trapezoid_lvs.vtp'.
+[2021-01-14 14:56:39.213] [warning] Couldn't find file 'trapezium_lvs.vtp'.
+[2021-01-14 14:56:39.214] [warning] Couldn't find file 'metacarpal2_lvs.vtp'.
+[2021-01-14 14:56:39.214] [warning] Couldn't find file 'index_proximal_lvs.vtp'.
+[2021-01-14 14:56:39.214] [warning] Couldn't find file 'index_medial_lvs.vtp'.
+[2021-01-14 14:56:39.214] [warning] Couldn't find file 'index_distal_lvs.vtp'.
+[2021-01-14 14:56:39.214] [warning] Couldn't find file 'metacarpal3_lvs.vtp'.
+[2021-01-14 14:56:39.215] [warning] Couldn't find file 'middle_proximal_lvs.vtp'.
+[2021-01-14 14:56:39.215] [warning] Couldn't find file 'middle_medial_lvs.vtp'.
+[2021-01-14 14:56:39.215] [warning] Couldn't find file 'middle_distal_lvs.vtp'.
+[2021-01-14 14:56:39.215] [warning] Couldn't find file 'metacarpal4_lvs.vtp'.
+[2021-01-14 14:56:39.215] [warning] Couldn't find file 'ring_proximal_lvs.vtp'.
+[2021-01-14 14:56:39.215] [warning] Couldn't find file 'ring_medial_lvs.vtp'.
+[2021-01-14 14:56:39.216] [warning] Couldn't find file 'ring_distal_lvs.vtp'.
+[2021-01-14 14:56:39.218] [warning] Couldn't find file 'metacarpal5_lvs.vtp'.
+[2021-01-14 14:56:39.218] [warning] Couldn't find file 'little_proximal_lvs.vtp'.
+[2021-01-14 14:56:39.219] [warning] Couldn't find file 'little_medial_lvs.vtp'.
+[2021-01-14 14:56:39.219] [warning] Couldn't find file 'little_distal_lvs.vtp'.
+[2021-01-14 14:56:39.219] [warning] Couldn't find file 'metacarpal1_lvs.vtp'.
+[2021-01-14 14:56:39.219] [warning] Couldn't find file 'thumb_proximal_lvs.vtp'.
+[2021-01-14 14:56:39.219] [warning] Couldn't find file 'thumb_distal_lvs.vtp'.
+[2021-01-14 14:56:39.229] [cout] [info] 
+               MODEL: subject1_Scaled
+         coordinates: 37
+              forces: 128
+           actuators: 92
+             muscles: 92
+            analyses: 0
+              probes: 0
+              bodies: 20
+              joints: 20
+         constraints: 0
+             markers: 0
+         controllers: 0
+  contact geometries: 37
+misc modelcomponents: 0
+[2021-01-14 14:56:39.229] [info] Running tool DummyModel...
+[2021-01-14 14:56:39.229] [info] No external loads will be applied (external loads file not specified).
+[2021-01-14 14:56:39.242] [info] Storage: read data file = dummy_motion.mot (nr=10 nc=34)
+[2021-01-14 14:56:39.243] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_r'. Assuming default value.
+[2021-01-14 14:56:39.244] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_r'. Assuming default value.
+[2021-01-14 14:56:39.244] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_l'. Assuming default value.
+[2021-01-14 14:56:39.244] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_l'. Assuming default value.
+[2021-01-14 14:56:39.247] [info] InverseDynamicsTool: 10 time frames in 2 millisecond(s).
+[2021-01-14 14:58:30.549] [info] Preparing to run InverseDynamicsTool.
+[2021-01-14 14:58:30.559] [info] Loaded model subject1_Scaled from file ../subject1_mtp_OS4_cm7.osim
+[2021-01-14 14:58:30.559] [warning] Couldn't find file 'treadmill.vtp'.
+[2021-01-14 14:58:30.559] [warning] Couldn't find file 'sacrum.vtp'.
+[2021-01-14 14:58:30.560] [warning] Couldn't find file 'pelvis.vtp'.
+[2021-01-14 14:58:30.561] [warning] Couldn't find file 'l_pelvis.vtp'.
+[2021-01-14 14:58:30.561] [warning] Couldn't find file 'femur_r.vtp'.
+[2021-01-14 14:58:30.562] [warning] Couldn't find file 'tibia_r.vtp'.
+[2021-01-14 14:58:30.562] [warning] Couldn't find file 'fibula.vtp'.
+[2021-01-14 14:58:30.563] [warning] Couldn't find file 'talus.vtp'.
+[2021-01-14 14:58:30.563] [warning] Couldn't find file 'foot.vtp'.
+[2021-01-14 14:58:30.565] [warning] Couldn't find file 'bofoot.vtp'.
+[2021-01-14 14:58:30.566] [warning] Couldn't find file 'femur_l.vtp'.
+[2021-01-14 14:58:30.566] [warning] Couldn't find file 'tibia_l.vtp'.
+[2021-01-14 14:58:30.567] [warning] Couldn't find file 'l_fibula.vtp'.
+[2021-01-14 14:58:30.568] [warning] Couldn't find file 'l_talus.vtp'.
+[2021-01-14 14:58:30.569] [warning] Couldn't find file 'l_foot.vtp'.
+[2021-01-14 14:58:30.569] [warning] Couldn't find file 'l_bofoot.vtp'.
+[2021-01-14 14:58:30.570] [warning] Couldn't find file 'hat_spine.vtp'.
+[2021-01-14 14:58:30.570] [warning] Couldn't find file 'hat_jaw.vtp'.
+[2021-01-14 14:58:30.570] [warning] Couldn't find file 'hat_skull.vtp'.
+[2021-01-14 14:58:30.571] [warning] Couldn't find file 'hat_ribs.vtp'.
+[2021-01-14 14:58:30.575] [warning] Couldn't find file 'arm_r_humerus.vtp'.
+[2021-01-14 14:58:30.575] [warning] Couldn't find file 'ulna_rv.vtp'.
+[2021-01-14 14:58:30.576] [warning] Couldn't find file 'radius_rv.vtp'.
+[2021-01-14 14:58:30.576] [warning] Couldn't find file 'pisiform_rvs.vtp'.
+[2021-01-14 14:58:30.577] [warning] Couldn't find file 'lunate_rvs.vtp'.
+[2021-01-14 14:58:30.577] [warning] Couldn't find file 'scaphoid_rvs.vtp'.
+[2021-01-14 14:58:30.578] [warning] Couldn't find file 'triquetrum_rvs.vtp'.
+[2021-01-14 14:58:30.578] [warning] Couldn't find file 'hamate_rvs.vtp'.
+[2021-01-14 14:58:30.578] [warning] Couldn't find file 'capitate_rvs.vtp'.
+[2021-01-14 14:58:30.579] [warning] Couldn't find file 'trapezoid_rvs.vtp'.
+[2021-01-14 14:58:30.579] [warning] Couldn't find file 'trapezium_rvs.vtp'.
+[2021-01-14 14:58:30.579] [warning] Couldn't find file 'metacarpal2_rvs.vtp'.
+[2021-01-14 14:58:30.579] [warning] Couldn't find file 'index_proximal_rvs.vtp'.
+[2021-01-14 14:58:30.580] [warning] Couldn't find file 'index_medial_rvs.vtp'.
+[2021-01-14 14:58:30.581] [warning] Couldn't find file 'index_distal_rvs.vtp'.
+[2021-01-14 14:58:30.582] [warning] Couldn't find file 'metacarpal3_rvs.vtp'.
+[2021-01-14 14:58:30.582] [warning] Couldn't find file 'middle_proximal_rvs.vtp'.
+[2021-01-14 14:58:30.582] [warning] Couldn't find file 'middle_medial_rvs.vtp'.
+[2021-01-14 14:58:30.582] [warning] Couldn't find file 'middle_distal_rvs.vtp'.
+[2021-01-14 14:58:30.583] [warning] Couldn't find file 'metacarpal4_rvs.vtp'.
+[2021-01-14 14:58:30.583] [warning] Couldn't find file 'ring_proximal_rvs.vtp'.
+[2021-01-14 14:58:30.583] [warning] Couldn't find file 'ring_medial_rvs.vtp'.
+[2021-01-14 14:58:30.583] [warning] Couldn't find file 'ring_distal_rvs.vtp'.
+[2021-01-14 14:58:30.583] [warning] Couldn't find file 'metacarpal5_rvs.vtp'.
+[2021-01-14 14:58:30.584] [warning] Couldn't find file 'little_proximal_rvs.vtp'.
+[2021-01-14 14:58:30.584] [warning] Couldn't find file 'little_medial_rvs.vtp'.
+[2021-01-14 14:58:30.584] [warning] Couldn't find file 'little_distal_rvs.vtp'.
+[2021-01-14 14:58:30.584] [warning] Couldn't find file 'metacarpal1_rvs.vtp'.
+[2021-01-14 14:58:30.584] [warning] Couldn't find file 'thumb_proximal_rvs.vtp'.
+[2021-01-14 14:58:30.585] [warning] Couldn't find file 'thumb_distal_rvs.vtp'.
+[2021-01-14 14:58:30.585] [warning] Couldn't find file 'humerus_lv.vtp'.
+[2021-01-14 14:58:30.585] [warning] Couldn't find file 'ulna_lv.vtp'.
+[2021-01-14 14:58:30.585] [warning] Couldn't find file 'radius_lv.vtp'.
+[2021-01-14 14:58:30.585] [warning] Couldn't find file 'pisiform_lvs.vtp'.
+[2021-01-14 14:58:30.586] [warning] Couldn't find file 'lunate_lvs.vtp'.
+[2021-01-14 14:58:30.586] [warning] Couldn't find file 'scaphoid_lvs.vtp'.
+[2021-01-14 14:58:30.586] [warning] Couldn't find file 'triquetrum_lvs.vtp'.
+[2021-01-14 14:58:30.586] [warning] Couldn't find file 'hamate_lvs.vtp'.
+[2021-01-14 14:58:30.586] [warning] Couldn't find file 'capitate_lvs.vtp'.
+[2021-01-14 14:58:30.587] [warning] Couldn't find file 'trapezoid_lvs.vtp'.
+[2021-01-14 14:58:30.587] [warning] Couldn't find file 'trapezium_lvs.vtp'.
+[2021-01-14 14:58:30.587] [warning] Couldn't find file 'metacarpal2_lvs.vtp'.
+[2021-01-14 14:58:30.587] [warning] Couldn't find file 'index_proximal_lvs.vtp'.
+[2021-01-14 14:58:30.592] [warning] Couldn't find file 'index_medial_lvs.vtp'.
+[2021-01-14 14:58:30.592] [warning] Couldn't find file 'index_distal_lvs.vtp'.
+[2021-01-14 14:58:30.593] [warning] Couldn't find file 'metacarpal3_lvs.vtp'.
+[2021-01-14 14:58:30.593] [warning] Couldn't find file 'middle_proximal_lvs.vtp'.
+[2021-01-14 14:58:30.594] [warning] Couldn't find file 'middle_medial_lvs.vtp'.
+[2021-01-14 14:58:30.595] [warning] Couldn't find file 'middle_distal_lvs.vtp'.
+[2021-01-14 14:58:30.598] [warning] Couldn't find file 'metacarpal4_lvs.vtp'.
+[2021-01-14 14:58:30.598] [warning] Couldn't find file 'ring_proximal_lvs.vtp'.
+[2021-01-14 14:58:30.599] [warning] Couldn't find file 'ring_medial_lvs.vtp'.
+[2021-01-14 14:58:30.599] [warning] Couldn't find file 'ring_distal_lvs.vtp'.
+[2021-01-14 14:58:30.600] [warning] Couldn't find file 'metacarpal5_lvs.vtp'.
+[2021-01-14 14:58:30.600] [warning] Couldn't find file 'little_proximal_lvs.vtp'.
+[2021-01-14 14:58:30.601] [warning] Couldn't find file 'little_medial_lvs.vtp'.
+[2021-01-14 14:58:30.602] [warning] Couldn't find file 'little_distal_lvs.vtp'.
+[2021-01-14 14:58:30.603] [warning] Couldn't find file 'metacarpal1_lvs.vtp'.
+[2021-01-14 14:58:30.603] [warning] Couldn't find file 'thumb_proximal_lvs.vtp'.
+[2021-01-14 14:58:30.603] [warning] Couldn't find file 'thumb_distal_lvs.vtp'.
+[2021-01-14 14:58:30.609] [cout] [info] 
+               MODEL: subject1_Scaled
+         coordinates: 37
+              forces: 36
+           actuators: 0
+             muscles: 0
+            analyses: 0
+              probes: 0
+              bodies: 20
+              joints: 20
+         constraints: 0
+             markers: 0
+         controllers: 0
+  contact geometries: 0
+misc modelcomponents: 0
+[2021-01-14 14:58:30.609] [info] Running tool DummyModel...
+[2021-01-14 14:58:30.609] [info] No external loads will be applied (external loads file not specified).
+[2021-01-14 14:58:30.655] [error] InverseDynamicsTool Failed: Failed to connect Socket 'half_space' of type ContactHalfSpace (details: Component 'subject1_Scaled' could not find '/contactgeometryset/plate' of type ContactHalfSpace. Make sure a component exists at this path and that it is of the correct type.
+	Thrown at Component.h:771 in getComponent().).
+	In Object 'contact_s1_r' of type SmoothSphereHalfSpaceForce.
+	Thrown at Component.cpp:313 in finalizeConnections().
+[2021-01-14 14:58:30.655] [error] InverseDynamicsTool Failed, please see messages window for details...
+[2021-01-14 14:59:03.941] [info] Preparing to run InverseDynamicsTool.
+[2021-01-14 14:59:03.952] [info] Loaded model subject1_Scaled from file ../subject1_mtp_OS4_cm7.osim
+[2021-01-14 14:59:03.952] [warning] Couldn't find file 'treadmill.vtp'.
+[2021-01-14 14:59:03.952] [warning] Couldn't find file 'sacrum.vtp'.
+[2021-01-14 14:59:03.954] [warning] Couldn't find file 'pelvis.vtp'.
+[2021-01-14 14:59:03.955] [warning] Couldn't find file 'l_pelvis.vtp'.
+[2021-01-14 14:59:03.956] [warning] Couldn't find file 'femur_r.vtp'.
+[2021-01-14 14:59:03.957] [warning] Couldn't find file 'tibia_r.vtp'.
+[2021-01-14 14:59:03.957] [warning] Couldn't find file 'fibula.vtp'.
+[2021-01-14 14:59:03.957] [warning] Couldn't find file 'talus.vtp'.
+[2021-01-14 14:59:03.958] [warning] Couldn't find file 'foot.vtp'.
+[2021-01-14 14:59:03.959] [warning] Couldn't find file 'bofoot.vtp'.
+[2021-01-14 14:59:03.959] [warning] Couldn't find file 'femur_l.vtp'.
+[2021-01-14 14:59:03.960] [warning] Couldn't find file 'tibia_l.vtp'.
+[2021-01-14 14:59:03.960] [warning] Couldn't find file 'l_fibula.vtp'.
+[2021-01-14 14:59:03.961] [warning] Couldn't find file 'l_talus.vtp'.
+[2021-01-14 14:59:03.961] [warning] Couldn't find file 'l_foot.vtp'.
+[2021-01-14 14:59:03.962] [warning] Couldn't find file 'l_bofoot.vtp'.
+[2021-01-14 14:59:03.962] [warning] Couldn't find file 'hat_spine.vtp'.
+[2021-01-14 14:59:03.963] [warning] Couldn't find file 'hat_jaw.vtp'.
+[2021-01-14 14:59:03.964] [warning] Couldn't find file 'hat_skull.vtp'.
+[2021-01-14 14:59:03.965] [warning] Couldn't find file 'hat_ribs.vtp'.
+[2021-01-14 14:59:03.965] [warning] Couldn't find file 'arm_r_humerus.vtp'.
+[2021-01-14 14:59:03.966] [warning] Couldn't find file 'ulna_rv.vtp'.
+[2021-01-14 14:59:03.966] [warning] Couldn't find file 'radius_rv.vtp'.
+[2021-01-14 14:59:03.967] [warning] Couldn't find file 'pisiform_rvs.vtp'.
+[2021-01-14 14:59:03.967] [warning] Couldn't find file 'lunate_rvs.vtp'.
+[2021-01-14 14:59:03.968] [warning] Couldn't find file 'scaphoid_rvs.vtp'.
+[2021-01-14 14:59:03.968] [warning] Couldn't find file 'triquetrum_rvs.vtp'.
+[2021-01-14 14:59:03.969] [warning] Couldn't find file 'hamate_rvs.vtp'.
+[2021-01-14 14:59:03.970] [warning] Couldn't find file 'capitate_rvs.vtp'.
+[2021-01-14 14:59:03.970] [warning] Couldn't find file 'trapezoid_rvs.vtp'.
+[2021-01-14 14:59:03.973] [warning] Couldn't find file 'trapezium_rvs.vtp'.
+[2021-01-14 14:59:03.974] [warning] Couldn't find file 'metacarpal2_rvs.vtp'.
+[2021-01-14 14:59:03.975] [warning] Couldn't find file 'index_proximal_rvs.vtp'.
+[2021-01-14 14:59:03.975] [warning] Couldn't find file 'index_medial_rvs.vtp'.
+[2021-01-14 14:59:03.976] [warning] Couldn't find file 'index_distal_rvs.vtp'.
+[2021-01-14 14:59:03.976] [warning] Couldn't find file 'metacarpal3_rvs.vtp'.
+[2021-01-14 14:59:03.976] [warning] Couldn't find file 'middle_proximal_rvs.vtp'.
+[2021-01-14 14:59:03.977] [warning] Couldn't find file 'middle_medial_rvs.vtp'.
+[2021-01-14 14:59:03.977] [warning] Couldn't find file 'middle_distal_rvs.vtp'.
+[2021-01-14 14:59:03.977] [warning] Couldn't find file 'metacarpal4_rvs.vtp'.
+[2021-01-14 14:59:03.977] [warning] Couldn't find file 'ring_proximal_rvs.vtp'.
+[2021-01-14 14:59:03.978] [warning] Couldn't find file 'ring_medial_rvs.vtp'.
+[2021-01-14 14:59:03.978] [warning] Couldn't find file 'ring_distal_rvs.vtp'.
+[2021-01-14 14:59:03.978] [warning] Couldn't find file 'metacarpal5_rvs.vtp'.
+[2021-01-14 14:59:03.978] [warning] Couldn't find file 'little_proximal_rvs.vtp'.
+[2021-01-14 14:59:03.978] [warning] Couldn't find file 'little_medial_rvs.vtp'.
+[2021-01-14 14:59:03.979] [warning] Couldn't find file 'little_distal_rvs.vtp'.
+[2021-01-14 14:59:03.979] [warning] Couldn't find file 'metacarpal1_rvs.vtp'.
+[2021-01-14 14:59:03.979] [warning] Couldn't find file 'thumb_proximal_rvs.vtp'.
+[2021-01-14 14:59:03.979] [warning] Couldn't find file 'thumb_distal_rvs.vtp'.
+[2021-01-14 14:59:03.979] [warning] Couldn't find file 'humerus_lv.vtp'.
+[2021-01-14 14:59:03.980] [warning] Couldn't find file 'ulna_lv.vtp'.
+[2021-01-14 14:59:03.980] [warning] Couldn't find file 'radius_lv.vtp'.
+[2021-01-14 14:59:03.980] [warning] Couldn't find file 'pisiform_lvs.vtp'.
+[2021-01-14 14:59:03.980] [warning] Couldn't find file 'lunate_lvs.vtp'.
+[2021-01-14 14:59:03.980] [warning] Couldn't find file 'scaphoid_lvs.vtp'.
+[2021-01-14 14:59:03.981] [warning] Couldn't find file 'triquetrum_lvs.vtp'.
+[2021-01-14 14:59:03.981] [warning] Couldn't find file 'hamate_lvs.vtp'.
+[2021-01-14 14:59:03.981] [warning] Couldn't find file 'capitate_lvs.vtp'.
+[2021-01-14 14:59:03.982] [warning] Couldn't find file 'trapezoid_lvs.vtp'.
+[2021-01-14 14:59:03.982] [warning] Couldn't find file 'trapezium_lvs.vtp'.
+[2021-01-14 14:59:03.983] [warning] Couldn't find file 'metacarpal2_lvs.vtp'.
+[2021-01-14 14:59:03.983] [warning] Couldn't find file 'index_proximal_lvs.vtp'.
+[2021-01-14 14:59:03.984] [warning] Couldn't find file 'index_medial_lvs.vtp'.
+[2021-01-14 14:59:03.985] [warning] Couldn't find file 'index_distal_lvs.vtp'.
+[2021-01-14 14:59:03.986] [warning] Couldn't find file 'metacarpal3_lvs.vtp'.
+[2021-01-14 14:59:03.986] [warning] Couldn't find file 'middle_proximal_lvs.vtp'.
+[2021-01-14 14:59:03.987] [warning] Couldn't find file 'middle_medial_lvs.vtp'.
+[2021-01-14 14:59:03.991] [warning] Couldn't find file 'middle_distal_lvs.vtp'.
+[2021-01-14 14:59:03.991] [warning] Couldn't find file 'metacarpal4_lvs.vtp'.
+[2021-01-14 14:59:03.992] [warning] Couldn't find file 'ring_proximal_lvs.vtp'.
+[2021-01-14 14:59:03.992] [warning] Couldn't find file 'ring_medial_lvs.vtp'.
+[2021-01-14 14:59:03.993] [warning] Couldn't find file 'ring_distal_lvs.vtp'.
+[2021-01-14 14:59:03.993] [warning] Couldn't find file 'metacarpal5_lvs.vtp'.
+[2021-01-14 14:59:03.994] [warning] Couldn't find file 'little_proximal_lvs.vtp'.
+[2021-01-14 14:59:03.994] [warning] Couldn't find file 'little_medial_lvs.vtp'.
+[2021-01-14 14:59:03.995] [warning] Couldn't find file 'little_distal_lvs.vtp'.
+[2021-01-14 14:59:03.996] [warning] Couldn't find file 'metacarpal1_lvs.vtp'.
+[2021-01-14 14:59:03.996] [warning] Couldn't find file 'thumb_proximal_lvs.vtp'.
+[2021-01-14 14:59:03.996] [warning] Couldn't find file 'thumb_distal_lvs.vtp'.
+[2021-01-14 14:59:04.002] [cout] [info] 
+               MODEL: subject1_Scaled
+         coordinates: 37
+              forces: 36
+           actuators: 0
+             muscles: 0
+            analyses: 0
+              probes: 0
+              bodies: 20
+              joints: 20
+         constraints: 0
+             markers: 0
+         controllers: 0
+  contact geometries: 37
+misc modelcomponents: 0
+[2021-01-14 14:59:04.002] [info] Running tool DummyModel...
+[2021-01-14 14:59:04.004] [info] No external loads will be applied (external loads file not specified).
+[2021-01-14 14:59:04.012] [info] Storage: read data file = dummy_motion.mot (nr=10 nc=34)
+[2021-01-14 14:59:04.013] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_r'. Assuming default value.
+[2021-01-14 14:59:04.013] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_r'. Assuming default value.
+[2021-01-14 14:59:04.014] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_l'. Assuming default value.
+[2021-01-14 14:59:04.015] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_l'. Assuming default value.
+[2021-01-14 14:59:04.017] [info] InverseDynamicsTool: 10 time frames in 1 millisecond(s).
+[2021-01-14 15:00:13.109] [info] Preparing to run InverseDynamicsTool.
+[2021-01-14 15:00:13.118] [info] Loaded model subject1_Scaled from file ../subject1_mtp_OS4_cm7.osim
+[2021-01-14 15:00:13.118] [warning] Couldn't find file 'treadmill.vtp'.
+[2021-01-14 15:00:13.118] [warning] Couldn't find file 'sacrum.vtp'.
+[2021-01-14 15:00:13.120] [warning] Couldn't find file 'pelvis.vtp'.
+[2021-01-14 15:00:13.120] [warning] Couldn't find file 'l_pelvis.vtp'.
+[2021-01-14 15:00:13.122] [warning] Couldn't find file 'femur_r.vtp'.
+[2021-01-14 15:00:13.123] [warning] Couldn't find file 'tibia_r.vtp'.
+[2021-01-14 15:00:13.124] [warning] Couldn't find file 'fibula.vtp'.
+[2021-01-14 15:00:13.124] [warning] Couldn't find file 'talus.vtp'.
+[2021-01-14 15:00:13.125] [warning] Couldn't find file 'foot.vtp'.
+[2021-01-14 15:00:13.126] [warning] Couldn't find file 'bofoot.vtp'.
+[2021-01-14 15:00:13.126] [warning] Couldn't find file 'femur_l.vtp'.
+[2021-01-14 15:00:13.127] [warning] Couldn't find file 'tibia_l.vtp'.
+[2021-01-14 15:00:13.127] [warning] Couldn't find file 'l_fibula.vtp'.
+[2021-01-14 15:00:13.127] [warning] Couldn't find file 'l_talus.vtp'.
+[2021-01-14 15:00:13.127] [warning] Couldn't find file 'l_foot.vtp'.
+[2021-01-14 15:00:13.128] [warning] Couldn't find file 'l_bofoot.vtp'.
+[2021-01-14 15:00:13.128] [warning] Couldn't find file 'hat_spine.vtp'.
+[2021-01-14 15:00:13.128] [warning] Couldn't find file 'hat_jaw.vtp'.
+[2021-01-14 15:00:13.128] [warning] Couldn't find file 'hat_skull.vtp'.
+[2021-01-14 15:00:13.128] [warning] Couldn't find file 'hat_ribs.vtp'.
+[2021-01-14 15:00:13.130] [warning] Couldn't find file 'arm_r_humerus.vtp'.
+[2021-01-14 15:00:13.130] [warning] Couldn't find file 'ulna_rv.vtp'.
+[2021-01-14 15:00:13.131] [warning] Couldn't find file 'radius_rv.vtp'.
+[2021-01-14 15:00:13.131] [warning] Couldn't find file 'pisiform_rvs.vtp'.
+[2021-01-14 15:00:13.132] [warning] Couldn't find file 'lunate_rvs.vtp'.
+[2021-01-14 15:00:13.132] [warning] Couldn't find file 'scaphoid_rvs.vtp'.
+[2021-01-14 15:00:13.133] [warning] Couldn't find file 'triquetrum_rvs.vtp'.
+[2021-01-14 15:00:13.133] [warning] Couldn't find file 'hamate_rvs.vtp'.
+[2021-01-14 15:00:13.134] [warning] Couldn't find file 'capitate_rvs.vtp'.
+[2021-01-14 15:00:13.135] [warning] Couldn't find file 'trapezoid_rvs.vtp'.
+[2021-01-14 15:00:13.136] [warning] Couldn't find file 'trapezium_rvs.vtp'.
+[2021-01-14 15:00:13.136] [warning] Couldn't find file 'metacarpal2_rvs.vtp'.
+[2021-01-14 15:00:13.139] [warning] Couldn't find file 'index_proximal_rvs.vtp'.
+[2021-01-14 15:00:13.140] [warning] Couldn't find file 'index_medial_rvs.vtp'.
+[2021-01-14 15:00:13.142] [warning] Couldn't find file 'index_distal_rvs.vtp'.
+[2021-01-14 15:00:13.142] [warning] Couldn't find file 'metacarpal3_rvs.vtp'.
+[2021-01-14 15:00:13.143] [warning] Couldn't find file 'middle_proximal_rvs.vtp'.
+[2021-01-14 15:00:13.143] [warning] Couldn't find file 'middle_medial_rvs.vtp'.
+[2021-01-14 15:00:13.144] [warning] Couldn't find file 'middle_distal_rvs.vtp'.
+[2021-01-14 15:00:13.144] [warning] Couldn't find file 'metacarpal4_rvs.vtp'.
+[2021-01-14 15:00:13.145] [warning] Couldn't find file 'ring_proximal_rvs.vtp'.
+[2021-01-14 15:00:13.145] [warning] Couldn't find file 'ring_medial_rvs.vtp'.
+[2021-01-14 15:00:13.145] [warning] Couldn't find file 'ring_distal_rvs.vtp'.
+[2021-01-14 15:00:13.145] [warning] Couldn't find file 'metacarpal5_rvs.vtp'.
+[2021-01-14 15:00:13.146] [warning] Couldn't find file 'little_proximal_rvs.vtp'.
+[2021-01-14 15:00:13.146] [warning] Couldn't find file 'little_medial_rvs.vtp'.
+[2021-01-14 15:00:13.146] [warning] Couldn't find file 'little_distal_rvs.vtp'.
+[2021-01-14 15:00:13.146] [warning] Couldn't find file 'metacarpal1_rvs.vtp'.
+[2021-01-14 15:00:13.146] [warning] Couldn't find file 'thumb_proximal_rvs.vtp'.
+[2021-01-14 15:00:13.147] [warning] Couldn't find file 'thumb_distal_rvs.vtp'.
+[2021-01-14 15:00:13.147] [warning] Couldn't find file 'humerus_lv.vtp'.
+[2021-01-14 15:00:13.147] [warning] Couldn't find file 'ulna_lv.vtp'.
+[2021-01-14 15:00:13.147] [warning] Couldn't find file 'radius_lv.vtp'.
+[2021-01-14 15:00:13.148] [warning] Couldn't find file 'pisiform_lvs.vtp'.
+[2021-01-14 15:00:13.148] [warning] Couldn't find file 'lunate_lvs.vtp'.
+[2021-01-14 15:00:13.148] [warning] Couldn't find file 'scaphoid_lvs.vtp'.
+[2021-01-14 15:00:13.148] [warning] Couldn't find file 'triquetrum_lvs.vtp'.
+[2021-01-14 15:00:13.148] [warning] Couldn't find file 'hamate_lvs.vtp'.
+[2021-01-14 15:00:13.149] [warning] Couldn't find file 'capitate_lvs.vtp'.
+[2021-01-14 15:00:13.150] [warning] Couldn't find file 'trapezoid_lvs.vtp'.
+[2021-01-14 15:00:13.150] [warning] Couldn't find file 'trapezium_lvs.vtp'.
+[2021-01-14 15:00:13.151] [warning] Couldn't find file 'metacarpal2_lvs.vtp'.
+[2021-01-14 15:00:13.151] [warning] Couldn't find file 'index_proximal_lvs.vtp'.
+[2021-01-14 15:00:13.152] [warning] Couldn't find file 'index_medial_lvs.vtp'.
+[2021-01-14 15:00:13.152] [warning] Couldn't find file 'index_distal_lvs.vtp'.
+[2021-01-14 15:00:13.156] [warning] Couldn't find file 'metacarpal3_lvs.vtp'.
+[2021-01-14 15:00:13.157] [warning] Couldn't find file 'middle_proximal_lvs.vtp'.
+[2021-01-14 15:00:13.159] [warning] Couldn't find file 'middle_medial_lvs.vtp'.
+[2021-01-14 15:00:13.159] [warning] Couldn't find file 'middle_distal_lvs.vtp'.
+[2021-01-14 15:00:13.160] [warning] Couldn't find file 'metacarpal4_lvs.vtp'.
+[2021-01-14 15:00:13.160] [warning] Couldn't find file 'ring_proximal_lvs.vtp'.
+[2021-01-14 15:00:13.161] [warning] Couldn't find file 'ring_medial_lvs.vtp'.
+[2021-01-14 15:00:13.161] [warning] Couldn't find file 'ring_distal_lvs.vtp'.
+[2021-01-14 15:00:13.162] [warning] Couldn't find file 'metacarpal5_lvs.vtp'.
+[2021-01-14 15:00:13.162] [warning] Couldn't find file 'little_proximal_lvs.vtp'.
+[2021-01-14 15:00:13.163] [warning] Couldn't find file 'little_medial_lvs.vtp'.
+[2021-01-14 15:00:13.164] [warning] Couldn't find file 'little_distal_lvs.vtp'.
+[2021-01-14 15:00:13.165] [warning] Couldn't find file 'metacarpal1_lvs.vtp'.
+[2021-01-14 15:00:13.165] [warning] Couldn't find file 'thumb_proximal_lvs.vtp'.
+[2021-01-14 15:00:13.166] [warning] Couldn't find file 'thumb_distal_lvs.vtp'.
+[2021-01-14 15:00:13.171] [cout] [info] 
+               MODEL: subject1_Scaled
+         coordinates: 37
+              forces: 0
+           actuators: 0
+             muscles: 0
+            analyses: 0
+              probes: 0
+              bodies: 20
+              joints: 20
+         constraints: 0
+             markers: 0
+         controllers: 0
+  contact geometries: 0
+misc modelcomponents: 0
+[2021-01-14 15:00:13.172] [info] Running tool DummyModel...
+[2021-01-14 15:00:13.172] [info] No external loads will be applied (external loads file not specified).
+[2021-01-14 15:00:13.180] [info] Storage: read data file = dummy_motion.mot (nr=10 nc=34)
+[2021-01-14 15:00:13.181] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_r'. Assuming default value.
+[2021-01-14 15:00:13.181] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_r'. Assuming default value.
+[2021-01-14 15:00:13.182] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_l'. Assuming default value.
+[2021-01-14 15:00:13.183] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_l'. Assuming default value.
+[2021-01-14 15:00:13.185] [info] InverseDynamicsTool: 10 time frames in 1 millisecond(s).
+[2021-01-14 15:11:27.990] [info] Preparing to run InverseDynamicsTool.
+[2021-01-14 15:11:28.017] [info] Loaded model subject1_Scaled from file ../subject1_mtp_OS4_cm7.osim
+[2021-01-14 15:11:28.018] [warning] Couldn't find file 'treadmill.vtp'.
+[2021-01-14 15:11:28.018] [warning] Couldn't find file 'sacrum.vtp'.
+[2021-01-14 15:11:28.018] [warning] Couldn't find file 'pelvis.vtp'.
+[2021-01-14 15:11:28.020] [warning] Couldn't find file 'l_pelvis.vtp'.
+[2021-01-14 15:11:28.020] [warning] Couldn't find file 'femur_r.vtp'.
+[2021-01-14 15:11:28.021] [warning] Couldn't find file 'tibia_r.vtp'.
+[2021-01-14 15:11:28.021] [warning] Couldn't find file 'fibula.vtp'.
+[2021-01-14 15:11:28.022] [warning] Couldn't find file 'talus.vtp'.
+[2021-01-14 15:11:28.022] [warning] Couldn't find file 'foot.vtp'.
+[2021-01-14 15:11:28.023] [warning] Couldn't find file 'bofoot.vtp'.
+[2021-01-14 15:11:28.024] [warning] Couldn't find file 'femur_l.vtp'.
+[2021-01-14 15:11:28.024] [warning] Couldn't find file 'tibia_l.vtp'.
+[2021-01-14 15:11:28.025] [warning] Couldn't find file 'l_fibula.vtp'.
+[2021-01-14 15:11:28.026] [warning] Couldn't find file 'l_talus.vtp'.
+[2021-01-14 15:11:28.026] [warning] Couldn't find file 'l_foot.vtp'.
+[2021-01-14 15:11:28.027] [warning] Couldn't find file 'l_bofoot.vtp'.
+[2021-01-14 15:11:28.027] [warning] Couldn't find file 'hat_spine.vtp'.
+[2021-01-14 15:11:28.027] [warning] Couldn't find file 'hat_jaw.vtp'.
+[2021-01-14 15:11:28.028] [warning] Couldn't find file 'hat_skull.vtp'.
+[2021-01-14 15:11:28.028] [warning] Couldn't find file 'hat_ribs.vtp'.
+[2021-01-14 15:11:28.028] [warning] Couldn't find file 'arm_r_humerus.vtp'.
+[2021-01-14 15:11:28.028] [warning] Couldn't find file 'ulna_rv.vtp'.
+[2021-01-14 15:11:28.028] [warning] Couldn't find file 'radius_rv.vtp'.
+[2021-01-14 15:11:28.029] [warning] Couldn't find file 'pisiform_rvs.vtp'.
+[2021-01-14 15:11:28.030] [warning] Couldn't find file 'lunate_rvs.vtp'.
+[2021-01-14 15:11:28.031] [warning] Couldn't find file 'scaphoid_rvs.vtp'.
+[2021-01-14 15:11:28.034] [warning] Couldn't find file 'triquetrum_rvs.vtp'.
+[2021-01-14 15:11:28.034] [warning] Couldn't find file 'hamate_rvs.vtp'.
+[2021-01-14 15:11:28.035] [warning] Couldn't find file 'capitate_rvs.vtp'.
+[2021-01-14 15:11:28.036] [warning] Couldn't find file 'trapezoid_rvs.vtp'.
+[2021-01-14 15:11:28.037] [warning] Couldn't find file 'trapezium_rvs.vtp'.
+[2021-01-14 15:11:28.037] [warning] Couldn't find file 'metacarpal2_rvs.vtp'.
+[2021-01-14 15:11:28.038] [warning] Couldn't find file 'index_proximal_rvs.vtp'.
+[2021-01-14 15:11:28.038] [warning] Couldn't find file 'index_medial_rvs.vtp'.
+[2021-01-14 15:11:28.039] [warning] Couldn't find file 'index_distal_rvs.vtp'.
+[2021-01-14 15:11:28.039] [warning] Couldn't find file 'metacarpal3_rvs.vtp'.
+[2021-01-14 15:11:28.040] [warning] Couldn't find file 'middle_proximal_rvs.vtp'.
+[2021-01-14 15:11:28.040] [warning] Couldn't find file 'middle_medial_rvs.vtp'.
+[2021-01-14 15:11:28.040] [warning] Couldn't find file 'middle_distal_rvs.vtp'.
+[2021-01-14 15:11:28.041] [warning] Couldn't find file 'metacarpal4_rvs.vtp'.
+[2021-01-14 15:11:28.041] [warning] Couldn't find file 'ring_proximal_rvs.vtp'.
+[2021-01-14 15:11:28.041] [warning] Couldn't find file 'ring_medial_rvs.vtp'.
+[2021-01-14 15:11:28.041] [warning] Couldn't find file 'ring_distal_rvs.vtp'.
+[2021-01-14 15:11:28.042] [warning] Couldn't find file 'metacarpal5_rvs.vtp'.
+[2021-01-14 15:11:28.042] [warning] Couldn't find file 'little_proximal_rvs.vtp'.
+[2021-01-14 15:11:28.042] [warning] Couldn't find file 'little_medial_rvs.vtp'.
+[2021-01-14 15:11:28.042] [warning] Couldn't find file 'little_distal_rvs.vtp'.
+[2021-01-14 15:11:28.042] [warning] Couldn't find file 'metacarpal1_rvs.vtp'.
+[2021-01-14 15:11:28.043] [warning] Couldn't find file 'thumb_proximal_rvs.vtp'.
+[2021-01-14 15:11:28.043] [warning] Couldn't find file 'thumb_distal_rvs.vtp'.
+[2021-01-14 15:11:28.043] [warning] Couldn't find file 'humerus_lv.vtp'.
+[2021-01-14 15:11:28.043] [warning] Couldn't find file 'ulna_lv.vtp'.
+[2021-01-14 15:11:28.043] [warning] Couldn't find file 'radius_lv.vtp'.
+[2021-01-14 15:11:28.044] [warning] Couldn't find file 'pisiform_lvs.vtp'.
+[2021-01-14 15:11:28.044] [warning] Couldn't find file 'lunate_lvs.vtp'.
+[2021-01-14 15:11:28.044] [warning] Couldn't find file 'scaphoid_lvs.vtp'.
+[2021-01-14 15:11:28.046] [warning] Couldn't find file 'triquetrum_lvs.vtp'.
+[2021-01-14 15:11:28.050] [warning] Couldn't find file 'hamate_lvs.vtp'.
+[2021-01-14 15:11:28.050] [warning] Couldn't find file 'capitate_lvs.vtp'.
+[2021-01-14 15:11:28.051] [warning] Couldn't find file 'trapezoid_lvs.vtp'.
+[2021-01-14 15:11:28.051] [warning] Couldn't find file 'trapezium_lvs.vtp'.
+[2021-01-14 15:11:28.052] [warning] Couldn't find file 'metacarpal2_lvs.vtp'.
+[2021-01-14 15:11:28.053] [warning] Couldn't find file 'index_proximal_lvs.vtp'.
+[2021-01-14 15:11:28.054] [warning] Couldn't find file 'index_medial_lvs.vtp'.
+[2021-01-14 15:11:28.054] [warning] Couldn't find file 'index_distal_lvs.vtp'.
+[2021-01-14 15:11:28.055] [warning] Couldn't find file 'metacarpal3_lvs.vtp'.
+[2021-01-14 15:11:28.055] [warning] Couldn't find file 'middle_proximal_lvs.vtp'.
+[2021-01-14 15:11:28.056] [warning] Couldn't find file 'middle_medial_lvs.vtp'.
+[2021-01-14 15:11:28.056] [warning] Couldn't find file 'middle_distal_lvs.vtp'.
+[2021-01-14 15:11:28.057] [warning] Couldn't find file 'metacarpal4_lvs.vtp'.
+[2021-01-14 15:11:28.057] [warning] Couldn't find file 'ring_proximal_lvs.vtp'.
+[2021-01-14 15:11:28.058] [warning] Couldn't find file 'ring_medial_lvs.vtp'.
+[2021-01-14 15:11:28.059] [warning] Couldn't find file 'ring_distal_lvs.vtp'.
+[2021-01-14 15:11:28.060] [warning] Couldn't find file 'metacarpal5_lvs.vtp'.
+[2021-01-14 15:11:28.061] [warning] Couldn't find file 'little_proximal_lvs.vtp'.
+[2021-01-14 15:11:28.062] [warning] Couldn't find file 'little_medial_lvs.vtp'.
+[2021-01-14 15:11:28.063] [warning] Couldn't find file 'little_distal_lvs.vtp'.
+[2021-01-14 15:11:28.063] [warning] Couldn't find file 'metacarpal1_lvs.vtp'.
+[2021-01-14 15:11:28.063] [warning] Couldn't find file 'thumb_proximal_lvs.vtp'.
+[2021-01-14 15:11:28.067] [warning] Couldn't find file 'thumb_distal_lvs.vtp'.
+[2021-01-14 15:11:28.077] [cout] [info] 
+               MODEL: subject1_Scaled
+         coordinates: 37
+              forces: 128
+           actuators: 92
+             muscles: 92
+            analyses: 0
+              probes: 0
+              bodies: 20
+              joints: 20
+         constraints: 0
+             markers: 0
+         controllers: 0
+  contact geometries: 37
+misc modelcomponents: 0
+[2021-01-14 15:11:28.077] [info] Running tool DummyModel...
+[2021-01-14 15:11:28.078] [info] No external loads will be applied (external loads file not specified).
+[2021-01-14 15:11:28.091] [info] Storage: read data file = dummy_motion_0.mot (nr=10 nc=34)
+[2021-01-14 15:11:28.093] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_r'. Assuming default value.
+[2021-01-14 15:11:28.093] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_r'. Assuming default value.
+[2021-01-14 15:11:28.093] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_l'. Assuming default value.
+[2021-01-14 15:11:28.094] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_l'. Assuming default value.
+[2021-01-14 15:11:28.097] [info] InverseDynamicsTool: 10 time frames in 2 millisecond(s).
+[2021-01-14 15:15:48.550] [info] Preparing to run InverseDynamicsTool.
+[2021-01-14 15:15:48.575] [info] Loaded model subject1_Scaled from file ../subject1_mtp_OS4_cm7.osim
+[2021-01-14 15:15:48.576] [warning] Couldn't find file 'treadmill.vtp'.
+[2021-01-14 15:15:48.576] [warning] Couldn't find file 'sacrum.vtp'.
+[2021-01-14 15:15:48.576] [warning] Couldn't find file 'pelvis.vtp'.
+[2021-01-14 15:15:48.580] [warning] Couldn't find file 'l_pelvis.vtp'.
+[2021-01-14 15:15:48.580] [warning] Couldn't find file 'femur_r.vtp'.
+[2021-01-14 15:15:48.580] [warning] Couldn't find file 'tibia_r.vtp'.
+[2021-01-14 15:15:48.581] [warning] Couldn't find file 'fibula.vtp'.
+[2021-01-14 15:15:48.581] [warning] Couldn't find file 'talus.vtp'.
+[2021-01-14 15:15:48.581] [warning] Couldn't find file 'foot.vtp'.
+[2021-01-14 15:15:48.581] [warning] Couldn't find file 'bofoot.vtp'.
+[2021-01-14 15:15:48.582] [warning] Couldn't find file 'femur_l.vtp'.
+[2021-01-14 15:15:48.582] [warning] Couldn't find file 'tibia_l.vtp'.
+[2021-01-14 15:15:48.583] [warning] Couldn't find file 'l_fibula.vtp'.
+[2021-01-14 15:15:48.583] [warning] Couldn't find file 'l_talus.vtp'.
+[2021-01-14 15:15:48.584] [warning] Couldn't find file 'l_foot.vtp'.
+[2021-01-14 15:15:48.584] [warning] Couldn't find file 'l_bofoot.vtp'.
+[2021-01-14 15:15:48.585] [warning] Couldn't find file 'hat_spine.vtp'.
+[2021-01-14 15:15:48.586] [warning] Couldn't find file 'hat_jaw.vtp'.
+[2021-01-14 15:15:48.587] [warning] Couldn't find file 'hat_skull.vtp'.
+[2021-01-14 15:15:48.588] [warning] Couldn't find file 'hat_ribs.vtp'.
+[2021-01-14 15:15:48.589] [warning] Couldn't find file 'arm_r_humerus.vtp'.
+[2021-01-14 15:15:48.589] [warning] Couldn't find file 'ulna_rv.vtp'.
+[2021-01-14 15:15:48.590] [warning] Couldn't find file 'radius_rv.vtp'.
+[2021-01-14 15:15:48.590] [warning] Couldn't find file 'pisiform_rvs.vtp'.
+[2021-01-14 15:15:48.591] [warning] Couldn't find file 'lunate_rvs.vtp'.
+[2021-01-14 15:15:48.591] [warning] Couldn't find file 'scaphoid_rvs.vtp'.
+[2021-01-14 15:15:48.592] [warning] Couldn't find file 'triquetrum_rvs.vtp'.
+[2021-01-14 15:15:48.592] [warning] Couldn't find file 'hamate_rvs.vtp'.
+[2021-01-14 15:15:48.594] [warning] Couldn't find file 'capitate_rvs.vtp'.
+[2021-01-14 15:15:48.594] [warning] Couldn't find file 'trapezoid_rvs.vtp'.
+[2021-01-14 15:15:48.598] [warning] Couldn't find file 'trapezium_rvs.vtp'.
+[2021-01-14 15:15:48.599] [warning] Couldn't find file 'metacarpal2_rvs.vtp'.
+[2021-01-14 15:15:48.600] [warning] Couldn't find file 'index_proximal_rvs.vtp'.
+[2021-01-14 15:15:48.600] [warning] Couldn't find file 'index_medial_rvs.vtp'.
+[2021-01-14 15:15:48.601] [warning] Couldn't find file 'index_distal_rvs.vtp'.
+[2021-01-14 15:15:48.601] [warning] Couldn't find file 'metacarpal3_rvs.vtp'.
+[2021-01-14 15:15:48.602] [warning] Couldn't find file 'middle_proximal_rvs.vtp'.
+[2021-01-14 15:15:48.603] [warning] Couldn't find file 'middle_medial_rvs.vtp'.
+[2021-01-14 15:15:48.604] [warning] Couldn't find file 'middle_distal_rvs.vtp'.
+[2021-01-14 15:15:48.604] [warning] Couldn't find file 'metacarpal4_rvs.vtp'.
+[2021-01-14 15:15:48.605] [warning] Couldn't find file 'ring_proximal_rvs.vtp'.
+[2021-01-14 15:15:48.605] [warning] Couldn't find file 'ring_medial_rvs.vtp'.
+[2021-01-14 15:15:48.606] [warning] Couldn't find file 'ring_distal_rvs.vtp'.
+[2021-01-14 15:15:48.606] [warning] Couldn't find file 'metacarpal5_rvs.vtp'.
+[2021-01-14 15:15:48.607] [warning] Couldn't find file 'little_proximal_rvs.vtp'.
+[2021-01-14 15:15:48.608] [warning] Couldn't find file 'little_medial_rvs.vtp'.
+[2021-01-14 15:15:48.609] [warning] Couldn't find file 'little_distal_rvs.vtp'.
+[2021-01-14 15:15:48.609] [warning] Couldn't find file 'metacarpal1_rvs.vtp'.
+[2021-01-14 15:15:48.610] [warning] Couldn't find file 'thumb_proximal_rvs.vtp'.
+[2021-01-14 15:15:48.610] [warning] Couldn't find file 'thumb_distal_rvs.vtp'.
+[2021-01-14 15:15:48.613] [warning] Couldn't find file 'humerus_lv.vtp'.
+[2021-01-14 15:15:48.613] [warning] Couldn't find file 'ulna_lv.vtp'.
+[2021-01-14 15:15:48.614] [warning] Couldn't find file 'radius_lv.vtp'.
+[2021-01-14 15:15:48.615] [warning] Couldn't find file 'pisiform_lvs.vtp'.
+[2021-01-14 15:15:48.615] [warning] Couldn't find file 'lunate_lvs.vtp'.
+[2021-01-14 15:15:48.615] [warning] Couldn't find file 'scaphoid_lvs.vtp'.
+[2021-01-14 15:15:48.615] [warning] Couldn't find file 'triquetrum_lvs.vtp'.
+[2021-01-14 15:15:48.615] [warning] Couldn't find file 'hamate_lvs.vtp'.
+[2021-01-14 15:15:48.616] [warning] Couldn't find file 'capitate_lvs.vtp'.
+[2021-01-14 15:15:48.616] [warning] Couldn't find file 'trapezoid_lvs.vtp'.
+[2021-01-14 15:15:48.616] [warning] Couldn't find file 'trapezium_lvs.vtp'.
+[2021-01-14 15:15:48.616] [warning] Couldn't find file 'metacarpal2_lvs.vtp'.
+[2021-01-14 15:15:48.616] [warning] Couldn't find file 'index_proximal_lvs.vtp'.
+[2021-01-14 15:15:48.617] [warning] Couldn't find file 'index_medial_lvs.vtp'.
+[2021-01-14 15:15:48.617] [warning] Couldn't find file 'index_distal_lvs.vtp'.
+[2021-01-14 15:15:48.617] [warning] Couldn't find file 'metacarpal3_lvs.vtp'.
+[2021-01-14 15:15:48.617] [warning] Couldn't find file 'middle_proximal_lvs.vtp'.
+[2021-01-14 15:15:48.619] [warning] Couldn't find file 'middle_medial_lvs.vtp'.
+[2021-01-14 15:15:48.620] [warning] Couldn't find file 'middle_distal_lvs.vtp'.
+[2021-01-14 15:15:48.620] [warning] Couldn't find file 'metacarpal4_lvs.vtp'.
+[2021-01-14 15:15:48.621] [warning] Couldn't find file 'ring_proximal_lvs.vtp'.
+[2021-01-14 15:15:48.621] [warning] Couldn't find file 'ring_medial_lvs.vtp'.
+[2021-01-14 15:15:48.622] [warning] Couldn't find file 'ring_distal_lvs.vtp'.
+[2021-01-14 15:15:48.622] [warning] Couldn't find file 'metacarpal5_lvs.vtp'.
+[2021-01-14 15:15:48.623] [warning] Couldn't find file 'little_proximal_lvs.vtp'.
+[2021-01-14 15:15:48.624] [warning] Couldn't find file 'little_medial_lvs.vtp'.
+[2021-01-14 15:15:48.624] [warning] Couldn't find file 'little_distal_lvs.vtp'.
+[2021-01-14 15:15:48.625] [warning] Couldn't find file 'metacarpal1_lvs.vtp'.
+[2021-01-14 15:15:48.626] [warning] Couldn't find file 'thumb_proximal_lvs.vtp'.
+[2021-01-14 15:15:48.626] [warning] Couldn't find file 'thumb_distal_lvs.vtp'.
+[2021-01-14 15:15:48.636] [cout] [info] 
+               MODEL: subject1_Scaled
+         coordinates: 37
+              forces: 96
+           actuators: 92
+             muscles: 92
+            analyses: 0
+              probes: 0
+              bodies: 20
+              joints: 20
+         constraints: 0
+             markers: 0
+         controllers: 0
+  contact geometries: 37
+misc modelcomponents: 0
+[2021-01-14 15:15:48.636] [info] Running tool DummyModel...
+[2021-01-14 15:15:48.637] [info] No external loads will be applied (external loads file not specified).
+[2021-01-14 15:15:48.651] [info] Storage: read data file = dummy_motion_0.mot (nr=10 nc=34)
+[2021-01-14 15:15:48.653] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_r'. Assuming default value.
+[2021-01-14 15:15:48.653] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_r'. Assuming default value.
+[2021-01-14 15:15:48.653] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_l'. Assuming default value.
+[2021-01-14 15:15:48.654] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_l'. Assuming default value.
+[2021-01-14 15:15:48.657] [info] InverseDynamicsTool: 10 time frames in 2 millisecond(s).
+[2021-01-14 15:19:52.918] [info] Preparing to run InverseDynamicsTool.
+[2021-01-14 15:19:52.944] [info] Loaded model subject1_Scaled from file ../subject1_mtp_OS4_cm7.osim
+[2021-01-14 15:19:52.945] [warning] Couldn't find file 'treadmill.vtp'.
+[2021-01-14 15:19:52.945] [warning] Couldn't find file 'sacrum.vtp'.
+[2021-01-14 15:19:52.945] [warning] Couldn't find file 'pelvis.vtp'.
+[2021-01-14 15:19:52.946] [warning] Couldn't find file 'l_pelvis.vtp'.
+[2021-01-14 15:19:52.947] [warning] Couldn't find file 'femur_r.vtp'.
+[2021-01-14 15:19:52.947] [warning] Couldn't find file 'tibia_r.vtp'.
+[2021-01-14 15:19:52.948] [warning] Couldn't find file 'fibula.vtp'.
+[2021-01-14 15:19:52.949] [warning] Couldn't find file 'talus.vtp'.
+[2021-01-14 15:19:52.949] [warning] Couldn't find file 'foot.vtp'.
+[2021-01-14 15:19:52.950] [warning] Couldn't find file 'bofoot.vtp'.
+[2021-01-14 15:19:52.950] [warning] Couldn't find file 'femur_l.vtp'.
+[2021-01-14 15:19:52.951] [warning] Couldn't find file 'tibia_l.vtp'.
+[2021-01-14 15:19:52.951] [warning] Couldn't find file 'l_fibula.vtp'.
+[2021-01-14 15:19:52.952] [warning] Couldn't find file 'l_talus.vtp'.
+[2021-01-14 15:19:52.952] [warning] Couldn't find file 'l_foot.vtp'.
+[2021-01-14 15:19:52.953] [warning] Couldn't find file 'l_bofoot.vtp'.
+[2021-01-14 15:19:52.954] [warning] Couldn't find file 'hat_spine.vtp'.
+[2021-01-14 15:19:52.955] [warning] Couldn't find file 'hat_jaw.vtp'.
+[2021-01-14 15:19:52.956] [warning] Couldn't find file 'hat_skull.vtp'.
+[2021-01-14 15:19:52.957] [warning] Couldn't find file 'hat_ribs.vtp'.
+[2021-01-14 15:19:52.958] [warning] Couldn't find file 'arm_r_humerus.vtp'.
+[2021-01-14 15:19:52.961] [warning] Couldn't find file 'ulna_rv.vtp'.
+[2021-01-14 15:19:52.961] [warning] Couldn't find file 'radius_rv.vtp'.
+[2021-01-14 15:19:52.962] [warning] Couldn't find file 'pisiform_rvs.vtp'.
+[2021-01-14 15:19:52.962] [warning] Couldn't find file 'lunate_rvs.vtp'.
+[2021-01-14 15:19:52.962] [warning] Couldn't find file 'scaphoid_rvs.vtp'.
+[2021-01-14 15:19:52.962] [warning] Couldn't find file 'triquetrum_rvs.vtp'.
+[2021-01-14 15:19:52.963] [warning] Couldn't find file 'hamate_rvs.vtp'.
+[2021-01-14 15:19:52.963] [warning] Couldn't find file 'capitate_rvs.vtp'.
+[2021-01-14 15:19:52.963] [warning] Couldn't find file 'trapezoid_rvs.vtp'.
+[2021-01-14 15:19:52.963] [warning] Couldn't find file 'trapezium_rvs.vtp'.
+[2021-01-14 15:19:52.964] [warning] Couldn't find file 'metacarpal2_rvs.vtp'.
+[2021-01-14 15:19:52.964] [warning] Couldn't find file 'index_proximal_rvs.vtp'.
+[2021-01-14 15:19:52.965] [warning] Couldn't find file 'index_medial_rvs.vtp'.
+[2021-01-14 15:19:52.965] [warning] Couldn't find file 'index_distal_rvs.vtp'.
+[2021-01-14 15:19:52.966] [warning] Couldn't find file 'metacarpal3_rvs.vtp'.
+[2021-01-14 15:19:52.966] [warning] Couldn't find file 'middle_proximal_rvs.vtp'.
+[2021-01-14 15:19:52.967] [warning] Couldn't find file 'middle_medial_rvs.vtp'.
+[2021-01-14 15:19:52.967] [warning] Couldn't find file 'middle_distal_rvs.vtp'.
+[2021-01-14 15:19:52.968] [warning] Couldn't find file 'metacarpal4_rvs.vtp'.
+[2021-01-14 15:19:52.969] [warning] Couldn't find file 'ring_proximal_rvs.vtp'.
+[2021-01-14 15:19:52.970] [warning] Couldn't find file 'ring_medial_rvs.vtp'.
+[2021-01-14 15:19:52.972] [warning] Couldn't find file 'ring_distal_rvs.vtp'.
+[2021-01-14 15:19:52.973] [warning] Couldn't find file 'metacarpal5_rvs.vtp'.
+[2021-01-14 15:19:52.974] [warning] Couldn't find file 'little_proximal_rvs.vtp'.
+[2021-01-14 15:19:52.974] [warning] Couldn't find file 'little_medial_rvs.vtp'.
+[2021-01-14 15:19:52.975] [warning] Couldn't find file 'little_distal_rvs.vtp'.
+[2021-01-14 15:19:52.975] [warning] Couldn't find file 'metacarpal1_rvs.vtp'.
+[2021-01-14 15:19:52.977] [warning] Couldn't find file 'thumb_proximal_rvs.vtp'.
+[2021-01-14 15:19:52.977] [warning] Couldn't find file 'thumb_distal_rvs.vtp'.
+[2021-01-14 15:19:52.979] [warning] Couldn't find file 'humerus_lv.vtp'.
+[2021-01-14 15:19:52.979] [warning] Couldn't find file 'ulna_lv.vtp'.
+[2021-01-14 15:19:52.980] [warning] Couldn't find file 'radius_lv.vtp'.
+[2021-01-14 15:19:52.980] [warning] Couldn't find file 'pisiform_lvs.vtp'.
+[2021-01-14 15:19:52.981] [warning] Couldn't find file 'lunate_lvs.vtp'.
+[2021-01-14 15:19:52.981] [warning] Couldn't find file 'scaphoid_lvs.vtp'.
+[2021-01-14 15:19:52.982] [warning] Couldn't find file 'triquetrum_lvs.vtp'.
+[2021-01-14 15:19:52.983] [warning] Couldn't find file 'hamate_lvs.vtp'.
+[2021-01-14 15:19:52.983] [warning] Couldn't find file 'capitate_lvs.vtp'.
+[2021-01-14 15:19:52.983] [warning] Couldn't find file 'trapezoid_lvs.vtp'.
+[2021-01-14 15:19:52.983] [warning] Couldn't find file 'trapezium_lvs.vtp'.
+[2021-01-14 15:19:52.984] [warning] Couldn't find file 'metacarpal2_lvs.vtp'.
+[2021-01-14 15:19:52.984] [warning] Couldn't find file 'index_proximal_lvs.vtp'.
+[2021-01-14 15:19:52.984] [warning] Couldn't find file 'index_medial_lvs.vtp'.
+[2021-01-14 15:19:52.984] [warning] Couldn't find file 'index_distal_lvs.vtp'.
+[2021-01-14 15:19:52.984] [warning] Couldn't find file 'metacarpal3_lvs.vtp'.
+[2021-01-14 15:19:52.986] [warning] Couldn't find file 'middle_proximal_lvs.vtp'.
+[2021-01-14 15:19:52.986] [warning] Couldn't find file 'middle_medial_lvs.vtp'.
+[2021-01-14 15:19:52.987] [warning] Couldn't find file 'middle_distal_lvs.vtp'.
+[2021-01-14 15:19:52.987] [warning] Couldn't find file 'metacarpal4_lvs.vtp'.
+[2021-01-14 15:19:52.987] [warning] Couldn't find file 'ring_proximal_lvs.vtp'.
+[2021-01-14 15:19:52.987] [warning] Couldn't find file 'ring_medial_lvs.vtp'.
+[2021-01-14 15:19:52.988] [warning] Couldn't find file 'ring_distal_lvs.vtp'.
+[2021-01-14 15:19:52.989] [warning] Couldn't find file 'metacarpal5_lvs.vtp'.
+[2021-01-14 15:19:52.990] [warning] Couldn't find file 'little_proximal_lvs.vtp'.
+[2021-01-14 15:19:52.990] [warning] Couldn't find file 'little_medial_lvs.vtp'.
+[2021-01-14 15:19:52.991] [warning] Couldn't find file 'little_distal_lvs.vtp'.
+[2021-01-14 15:19:52.991] [warning] Couldn't find file 'metacarpal1_lvs.vtp'.
+[2021-01-14 15:19:52.994] [warning] Couldn't find file 'thumb_proximal_lvs.vtp'.
+[2021-01-14 15:19:52.994] [warning] Couldn't find file 'thumb_distal_lvs.vtp'.
+[2021-01-14 15:19:53.005] [cout] [info] 
+               MODEL: subject1_Scaled
+         coordinates: 37
+              forces: 92
+           actuators: 92
+             muscles: 92
+            analyses: 0
+              probes: 0
+              bodies: 20
+              joints: 20
+         constraints: 0
+             markers: 0
+         controllers: 0
+  contact geometries: 37
+misc modelcomponents: 0
+[2021-01-14 15:19:53.005] [info] Running tool DummyModel...
+[2021-01-14 15:19:53.005] [info] No external loads will be applied (external loads file not specified).
+[2021-01-14 15:19:53.021] [info] Storage: read data file = dummy_motion_0.mot (nr=10 nc=34)
+[2021-01-14 15:19:53.023] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_r'. Assuming default value.
+[2021-01-14 15:19:53.023] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_r'. Assuming default value.
+[2021-01-14 15:19:53.023] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_l'. Assuming default value.
+[2021-01-14 15:19:53.024] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_l'. Assuming default value.
+[2021-01-14 15:19:53.027] [info] InverseDynamicsTool: 10 time frames in 2 millisecond(s).
+[2021-01-14 15:22:27.671] [info] Preparing to run InverseDynamicsTool.
+[2021-01-14 15:22:27.697] [info] Loaded model subject1_Scaled from file ../subject1_mtp_OS4_cm7.osim
+[2021-01-14 15:22:27.698] [warning] Couldn't find file 'treadmill.vtp'.
+[2021-01-14 15:22:27.698] [warning] Couldn't find file 'sacrum.vtp'.
+[2021-01-14 15:22:27.698] [warning] Couldn't find file 'pelvis.vtp'.
+[2021-01-14 15:22:27.700] [warning] Couldn't find file 'l_pelvis.vtp'.
+[2021-01-14 15:22:27.700] [warning] Couldn't find file 'femur_r.vtp'.
+[2021-01-14 15:22:27.701] [warning] Couldn't find file 'tibia_r.vtp'.
+[2021-01-14 15:22:27.701] [warning] Couldn't find file 'fibula.vtp'.
+[2021-01-14 15:22:27.702] [warning] Couldn't find file 'talus.vtp'.
+[2021-01-14 15:22:27.702] [warning] Couldn't find file 'foot.vtp'.
+[2021-01-14 15:22:27.703] [warning] Couldn't find file 'bofoot.vtp'.
+[2021-01-14 15:22:27.703] [warning] Couldn't find file 'femur_l.vtp'.
+[2021-01-14 15:22:27.704] [warning] Couldn't find file 'tibia_l.vtp'.
+[2021-01-14 15:22:27.705] [warning] Couldn't find file 'l_fibula.vtp'.
+[2021-01-14 15:22:27.706] [warning] Couldn't find file 'l_talus.vtp'.
+[2021-01-14 15:22:27.711] [warning] Couldn't find file 'l_foot.vtp'.
+[2021-01-14 15:22:27.711] [warning] Couldn't find file 'l_bofoot.vtp'.
+[2021-01-14 15:22:27.712] [warning] Couldn't find file 'hat_spine.vtp'.
+[2021-01-14 15:22:27.712] [warning] Couldn't find file 'hat_jaw.vtp'.
+[2021-01-14 15:22:27.712] [warning] Couldn't find file 'hat_skull.vtp'.
+[2021-01-14 15:22:27.713] [warning] Couldn't find file 'hat_ribs.vtp'.
+[2021-01-14 15:22:27.713] [warning] Couldn't find file 'arm_r_humerus.vtp'.
+[2021-01-14 15:22:27.713] [warning] Couldn't find file 'ulna_rv.vtp'.
+[2021-01-14 15:22:27.714] [warning] Couldn't find file 'radius_rv.vtp'.
+[2021-01-14 15:22:27.714] [warning] Couldn't find file 'pisiform_rvs.vtp'.
+[2021-01-14 15:22:27.714] [warning] Couldn't find file 'lunate_rvs.vtp'.
+[2021-01-14 15:22:27.714] [warning] Couldn't find file 'scaphoid_rvs.vtp'.
+[2021-01-14 15:22:27.715] [warning] Couldn't find file 'triquetrum_rvs.vtp'.
+[2021-01-14 15:22:27.716] [warning] Couldn't find file 'hamate_rvs.vtp'.
+[2021-01-14 15:22:27.716] [warning] Couldn't find file 'capitate_rvs.vtp'.
+[2021-01-14 15:22:27.717] [warning] Couldn't find file 'trapezoid_rvs.vtp'.
+[2021-01-14 15:22:27.717] [warning] Couldn't find file 'trapezium_rvs.vtp'.
+[2021-01-14 15:22:27.718] [warning] Couldn't find file 'metacarpal2_rvs.vtp'.
+[2021-01-14 15:22:27.718] [warning] Couldn't find file 'index_proximal_rvs.vtp'.
+[2021-01-14 15:22:27.719] [warning] Couldn't find file 'index_medial_rvs.vtp'.
+[2021-01-14 15:22:27.721] [warning] Couldn't find file 'index_distal_rvs.vtp'.
+[2021-01-14 15:22:27.722] [warning] Couldn't find file 'metacarpal3_rvs.vtp'.
+[2021-01-14 15:22:27.722] [warning] Couldn't find file 'middle_proximal_rvs.vtp'.
+[2021-01-14 15:22:27.723] [warning] Couldn't find file 'middle_medial_rvs.vtp'.
+[2021-01-14 15:22:27.723] [warning] Couldn't find file 'middle_distal_rvs.vtp'.
+[2021-01-14 15:22:27.726] [warning] Couldn't find file 'metacarpal4_rvs.vtp'.
+[2021-01-14 15:22:27.726] [warning] Couldn't find file 'ring_proximal_rvs.vtp'.
+[2021-01-14 15:22:27.727] [warning] Couldn't find file 'ring_medial_rvs.vtp'.
+[2021-01-14 15:22:27.727] [warning] Couldn't find file 'ring_distal_rvs.vtp'.
+[2021-01-14 15:22:27.728] [warning] Couldn't find file 'metacarpal5_rvs.vtp'.
+[2021-01-14 15:22:27.728] [warning] Couldn't find file 'little_proximal_rvs.vtp'.
+[2021-01-14 15:22:27.729] [warning] Couldn't find file 'little_medial_rvs.vtp'.
+[2021-01-14 15:22:27.729] [warning] Couldn't find file 'little_distal_rvs.vtp'.
+[2021-01-14 15:22:27.730] [warning] Couldn't find file 'metacarpal1_rvs.vtp'.
+[2021-01-14 15:22:27.730] [warning] Couldn't find file 'thumb_proximal_rvs.vtp'.
+[2021-01-14 15:22:27.730] [warning] Couldn't find file 'thumb_distal_rvs.vtp'.
+[2021-01-14 15:22:27.731] [warning] Couldn't find file 'humerus_lv.vtp'.
+[2021-01-14 15:22:27.731] [warning] Couldn't find file 'ulna_lv.vtp'.
+[2021-01-14 15:22:27.731] [warning] Couldn't find file 'radius_lv.vtp'.
+[2021-01-14 15:22:27.732] [warning] Couldn't find file 'pisiform_lvs.vtp'.
+[2021-01-14 15:22:27.732] [warning] Couldn't find file 'lunate_lvs.vtp'.
+[2021-01-14 15:22:27.732] [warning] Couldn't find file 'scaphoid_lvs.vtp'.
+[2021-01-14 15:22:27.732] [warning] Couldn't find file 'triquetrum_lvs.vtp'.
+[2021-01-14 15:22:27.732] [warning] Couldn't find file 'hamate_lvs.vtp'.
+[2021-01-14 15:22:27.733] [warning] Couldn't find file 'capitate_lvs.vtp'.
+[2021-01-14 15:22:27.733] [warning] Couldn't find file 'trapezoid_lvs.vtp'.
+[2021-01-14 15:22:27.733] [warning] Couldn't find file 'trapezium_lvs.vtp'.
+[2021-01-14 15:22:27.733] [warning] Couldn't find file 'metacarpal2_lvs.vtp'.
+[2021-01-14 15:22:27.733] [warning] Couldn't find file 'index_proximal_lvs.vtp'.
+[2021-01-14 15:22:27.734] [warning] Couldn't find file 'index_medial_lvs.vtp'.
+[2021-01-14 15:22:27.734] [warning] Couldn't find file 'index_distal_lvs.vtp'.
+[2021-01-14 15:22:27.734] [warning] Couldn't find file 'metacarpal3_lvs.vtp'.
+[2021-01-14 15:22:27.734] [warning] Couldn't find file 'middle_proximal_lvs.vtp'.
+[2021-01-14 15:22:27.736] [warning] Couldn't find file 'middle_medial_lvs.vtp'.
+[2021-01-14 15:22:27.736] [warning] Couldn't find file 'middle_distal_lvs.vtp'.
+[2021-01-14 15:22:27.737] [warning] Couldn't find file 'metacarpal4_lvs.vtp'.
+[2021-01-14 15:22:27.737] [warning] Couldn't find file 'ring_proximal_lvs.vtp'.
+[2021-01-14 15:22:27.738] [warning] Couldn't find file 'ring_medial_lvs.vtp'.
+[2021-01-14 15:22:27.738] [warning] Couldn't find file 'ring_distal_lvs.vtp'.
+[2021-01-14 15:22:27.739] [warning] Couldn't find file 'metacarpal5_lvs.vtp'.
+[2021-01-14 15:22:27.739] [warning] Couldn't find file 'little_proximal_lvs.vtp'.
+[2021-01-14 15:22:27.739] [warning] Couldn't find file 'little_medial_lvs.vtp'.
+[2021-01-14 15:22:27.740] [warning] Couldn't find file 'little_distal_lvs.vtp'.
+[2021-01-14 15:22:27.740] [warning] Couldn't find file 'metacarpal1_lvs.vtp'.
+[2021-01-14 15:22:27.744] [warning] Couldn't find file 'thumb_proximal_lvs.vtp'.
+[2021-01-14 15:22:27.745] [warning] Couldn't find file 'thumb_distal_lvs.vtp'.
+[2021-01-14 15:22:27.755] [cout] [info] 
+               MODEL: subject1_Scaled
+         coordinates: 37
+              forces: 94
+           actuators: 92
+             muscles: 92
+            analyses: 0
+              probes: 0
+              bodies: 20
+              joints: 20
+         constraints: 0
+             markers: 0
+         controllers: 0
+  contact geometries: 37
+misc modelcomponents: 0
+[2021-01-14 15:22:27.755] [info] Running tool DummyModel...
+[2021-01-14 15:22:27.756] [info] No external loads will be applied (external loads file not specified).
+[2021-01-14 15:22:27.773] [info] Storage: read data file = dummy_motion_0.mot (nr=10 nc=34)
+[2021-01-14 15:22:27.774] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_r'. Assuming default value.
+[2021-01-14 15:22:27.774] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_r'. Assuming default value.
+[2021-01-14 15:22:27.775] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_l'. Assuming default value.
+[2021-01-14 15:22:27.777] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_l'. Assuming default value.
+[2021-01-14 15:22:27.780] [info] InverseDynamicsTool: 10 time frames in 2 millisecond(s).
+[2021-01-14 15:22:50.975] [info] Preparing to run InverseDynamicsTool.
+[2021-01-14 15:22:51.002] [info] Loaded model subject1_Scaled from file ../subject1_mtp_OS4_cm7.osim
+[2021-01-14 15:22:51.002] [warning] Couldn't find file 'treadmill.vtp'.
+[2021-01-14 15:22:51.003] [warning] Couldn't find file 'sacrum.vtp'.
+[2021-01-14 15:22:51.004] [warning] Couldn't find file 'pelvis.vtp'.
+[2021-01-14 15:22:51.005] [warning] Couldn't find file 'l_pelvis.vtp'.
+[2021-01-14 15:22:51.006] [warning] Couldn't find file 'femur_r.vtp'.
+[2021-01-14 15:22:51.006] [warning] Couldn't find file 'tibia_r.vtp'.
+[2021-01-14 15:22:51.006] [warning] Couldn't find file 'fibula.vtp'.
+[2021-01-14 15:22:51.007] [warning] Couldn't find file 'talus.vtp'.
+[2021-01-14 15:22:51.007] [warning] Couldn't find file 'foot.vtp'.
+[2021-01-14 15:22:51.008] [warning] Couldn't find file 'bofoot.vtp'.
+[2021-01-14 15:22:51.009] [warning] Couldn't find file 'femur_l.vtp'.
+[2021-01-14 15:22:51.009] [warning] Couldn't find file 'tibia_l.vtp'.
+[2021-01-14 15:22:51.010] [warning] Couldn't find file 'l_fibula.vtp'.
+[2021-01-14 15:22:51.010] [warning] Couldn't find file 'l_talus.vtp'.
+[2021-01-14 15:22:51.011] [warning] Couldn't find file 'l_foot.vtp'.
+[2021-01-14 15:22:51.011] [warning] Couldn't find file 'l_bofoot.vtp'.
+[2021-01-14 15:22:51.011] [warning] Couldn't find file 'hat_spine.vtp'.
+[2021-01-14 15:22:51.011] [warning] Couldn't find file 'hat_jaw.vtp'.
+[2021-01-14 15:22:51.012] [warning] Couldn't find file 'hat_skull.vtp'.
+[2021-01-14 15:22:51.012] [warning] Couldn't find file 'hat_ribs.vtp'.
+[2021-01-14 15:22:51.012] [warning] Couldn't find file 'arm_r_humerus.vtp'.
+[2021-01-14 15:22:51.012] [warning] Couldn't find file 'ulna_rv.vtp'.
+[2021-01-14 15:22:51.013] [warning] Couldn't find file 'radius_rv.vtp'.
+[2021-01-14 15:22:51.013] [warning] Couldn't find file 'pisiform_rvs.vtp'.
+[2021-01-14 15:22:51.013] [warning] Couldn't find file 'lunate_rvs.vtp'.
+[2021-01-14 15:22:51.015] [warning] Couldn't find file 'scaphoid_rvs.vtp'.
+[2021-01-14 15:22:51.015] [warning] Couldn't find file 'triquetrum_rvs.vtp'.
+[2021-01-14 15:22:51.017] [warning] Couldn't find file 'hamate_rvs.vtp'.
+[2021-01-14 15:22:51.017] [warning] Couldn't find file 'capitate_rvs.vtp'.
+[2021-01-14 15:22:51.018] [warning] Couldn't find file 'trapezoid_rvs.vtp'.
+[2021-01-14 15:22:51.019] [warning] Couldn't find file 'trapezium_rvs.vtp'.
+[2021-01-14 15:22:51.021] [warning] Couldn't find file 'metacarpal2_rvs.vtp'.
+[2021-01-14 15:22:51.021] [warning] Couldn't find file 'index_proximal_rvs.vtp'.
+[2021-01-14 15:22:51.022] [warning] Couldn't find file 'index_medial_rvs.vtp'.
+[2021-01-14 15:22:51.022] [warning] Couldn't find file 'index_distal_rvs.vtp'.
+[2021-01-14 15:22:51.023] [warning] Couldn't find file 'metacarpal3_rvs.vtp'.
+[2021-01-14 15:22:51.023] [warning] Couldn't find file 'middle_proximal_rvs.vtp'.
+[2021-01-14 15:22:51.023] [warning] Couldn't find file 'middle_medial_rvs.vtp'.
+[2021-01-14 15:22:51.026] [warning] Couldn't find file 'middle_distal_rvs.vtp'.
+[2021-01-14 15:22:51.027] [warning] Couldn't find file 'metacarpal4_rvs.vtp'.
+[2021-01-14 15:22:51.027] [warning] Couldn't find file 'ring_proximal_rvs.vtp'.
+[2021-01-14 15:22:51.028] [warning] Couldn't find file 'ring_medial_rvs.vtp'.
+[2021-01-14 15:22:51.029] [warning] Couldn't find file 'ring_distal_rvs.vtp'.
+[2021-01-14 15:22:51.029] [warning] Couldn't find file 'metacarpal5_rvs.vtp'.
+[2021-01-14 15:22:51.030] [warning] Couldn't find file 'little_proximal_rvs.vtp'.
+[2021-01-14 15:22:51.030] [warning] Couldn't find file 'little_medial_rvs.vtp'.
+[2021-01-14 15:22:51.031] [warning] Couldn't find file 'little_distal_rvs.vtp'.
+[2021-01-14 15:22:51.031] [warning] Couldn't find file 'metacarpal1_rvs.vtp'.
+[2021-01-14 15:22:51.032] [warning] Couldn't find file 'thumb_proximal_rvs.vtp'.
+[2021-01-14 15:22:51.032] [warning] Couldn't find file 'thumb_distal_rvs.vtp'.
+[2021-01-14 15:22:51.033] [warning] Couldn't find file 'humerus_lv.vtp'.
+[2021-01-14 15:22:51.035] [warning] Couldn't find file 'ulna_lv.vtp'.
+[2021-01-14 15:22:51.036] [warning] Couldn't find file 'radius_lv.vtp'.
+[2021-01-14 15:22:51.036] [warning] Couldn't find file 'pisiform_lvs.vtp'.
+[2021-01-14 15:22:51.037] [warning] Couldn't find file 'lunate_lvs.vtp'.
+[2021-01-14 15:22:51.038] [warning] Couldn't find file 'scaphoid_lvs.vtp'.
+[2021-01-14 15:22:51.038] [warning] Couldn't find file 'triquetrum_lvs.vtp'.
+[2021-01-14 15:22:51.039] [warning] Couldn't find file 'hamate_lvs.vtp'.
+[2021-01-14 15:22:51.040] [warning] Couldn't find file 'capitate_lvs.vtp'.
+[2021-01-14 15:22:51.040] [warning] Couldn't find file 'trapezoid_lvs.vtp'.
+[2021-01-14 15:22:51.043] [warning] Couldn't find file 'trapezium_lvs.vtp'.
+[2021-01-14 15:22:51.043] [warning] Couldn't find file 'metacarpal2_lvs.vtp'.
+[2021-01-14 15:22:51.044] [warning] Couldn't find file 'index_proximal_lvs.vtp'.
+[2021-01-14 15:22:51.044] [warning] Couldn't find file 'index_medial_lvs.vtp'.
+[2021-01-14 15:22:51.045] [warning] Couldn't find file 'index_distal_lvs.vtp'.
+[2021-01-14 15:22:51.045] [warning] Couldn't find file 'metacarpal3_lvs.vtp'.
+[2021-01-14 15:22:51.045] [warning] Couldn't find file 'middle_proximal_lvs.vtp'.
+[2021-01-14 15:22:51.045] [warning] Couldn't find file 'middle_medial_lvs.vtp'.
+[2021-01-14 15:22:51.045] [warning] Couldn't find file 'middle_distal_lvs.vtp'.
+[2021-01-14 15:22:51.046] [warning] Couldn't find file 'metacarpal4_lvs.vtp'.
+[2021-01-14 15:22:51.046] [warning] Couldn't find file 'ring_proximal_lvs.vtp'.
+[2021-01-14 15:22:51.046] [warning] Couldn't find file 'ring_medial_lvs.vtp'.
+[2021-01-14 15:22:51.046] [warning] Couldn't find file 'ring_distal_lvs.vtp'.
+[2021-01-14 15:22:51.046] [warning] Couldn't find file 'metacarpal5_lvs.vtp'.
+[2021-01-14 15:22:51.047] [warning] Couldn't find file 'little_proximal_lvs.vtp'.
+[2021-01-14 15:22:51.047] [warning] Couldn't find file 'little_medial_lvs.vtp'.
+[2021-01-14 15:22:51.047] [warning] Couldn't find file 'little_distal_lvs.vtp'.
+[2021-01-14 15:22:51.047] [warning] Couldn't find file 'metacarpal1_lvs.vtp'.
+[2021-01-14 15:22:51.047] [warning] Couldn't find file 'thumb_proximal_lvs.vtp'.
+[2021-01-14 15:22:51.048] [warning] Couldn't find file 'thumb_distal_lvs.vtp'.
+[2021-01-14 15:22:51.058] [cout] [info] 
+               MODEL: subject1_Scaled
+         coordinates: 37
+              forces: 94
+           actuators: 92
+             muscles: 92
+            analyses: 0
+              probes: 0
+              bodies: 20
+              joints: 20
+         constraints: 0
+             markers: 0
+         controllers: 0
+  contact geometries: 37
+misc modelcomponents: 0
+[2021-01-14 15:22:51.058] [info] Running tool DummyModel...
+[2021-01-14 15:22:51.058] [info] No external loads will be applied (external loads file not specified).
+[2021-01-14 15:22:51.072] [info] Storage: read data file = dummy_motion_0.mot (nr=10 nc=34)
+[2021-01-14 15:22:51.074] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_r'. Assuming default value.
+[2021-01-14 15:22:51.074] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_r'. Assuming default value.
+[2021-01-14 15:22:51.074] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_l'. Assuming default value.
+[2021-01-14 15:22:51.077] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_l'. Assuming default value.
+[2021-01-14 15:22:51.079] [info] InverseDynamicsTool: 10 time frames in 2 millisecond(s).
+[2021-01-14 15:25:55.830] [info] Preparing to run InverseDynamicsTool.
+[2021-01-14 15:25:55.857] [info] Loaded model subject1_Scaled from file ../subject1_mtp_OS4_cm7.osim
+[2021-01-14 15:25:55.857] [warning] Couldn't find file 'treadmill.vtp'.
+[2021-01-14 15:25:55.857] [warning] Couldn't find file 'sacrum.vtp'.
+[2021-01-14 15:25:55.858] [warning] Couldn't find file 'pelvis.vtp'.
+[2021-01-14 15:25:55.859] [warning] Couldn't find file 'l_pelvis.vtp'.
+[2021-01-14 15:25:55.859] [warning] Couldn't find file 'femur_r.vtp'.
+[2021-01-14 15:25:55.860] [warning] Couldn't find file 'tibia_r.vtp'.
+[2021-01-14 15:25:55.861] [warning] Couldn't find file 'fibula.vtp'.
+[2021-01-14 15:25:55.861] [warning] Couldn't find file 'talus.vtp'.
+[2021-01-14 15:25:55.862] [warning] Couldn't find file 'foot.vtp'.
+[2021-01-14 15:25:55.863] [warning] Couldn't find file 'bofoot.vtp'.
+[2021-01-14 15:25:55.863] [warning] Couldn't find file 'femur_l.vtp'.
+[2021-01-14 15:25:55.864] [warning] Couldn't find file 'tibia_l.vtp'.
+[2021-01-14 15:25:55.864] [warning] Couldn't find file 'l_fibula.vtp'.
+[2021-01-14 15:25:55.864] [warning] Couldn't find file 'l_talus.vtp'.
+[2021-01-14 15:25:55.865] [warning] Couldn't find file 'l_foot.vtp'.
+[2021-01-14 15:25:55.865] [warning] Couldn't find file 'l_bofoot.vtp'.
+[2021-01-14 15:25:55.865] [warning] Couldn't find file 'hat_spine.vtp'.
+[2021-01-14 15:25:55.865] [warning] Couldn't find file 'hat_jaw.vtp'.
+[2021-01-14 15:25:55.865] [warning] Couldn't find file 'hat_skull.vtp'.
+[2021-01-14 15:25:55.866] [warning] Couldn't find file 'hat_ribs.vtp'.
+[2021-01-14 15:25:55.867] [warning] Couldn't find file 'arm_r_humerus.vtp'.
+[2021-01-14 15:25:55.867] [warning] Couldn't find file 'ulna_rv.vtp'.
+[2021-01-14 15:25:55.868] [warning] Couldn't find file 'radius_rv.vtp'.
+[2021-01-14 15:25:55.871] [warning] Couldn't find file 'pisiform_rvs.vtp'.
+[2021-01-14 15:25:55.872] [warning] Couldn't find file 'lunate_rvs.vtp'.
+[2021-01-14 15:25:55.872] [warning] Couldn't find file 'scaphoid_rvs.vtp'.
+[2021-01-14 15:25:55.875] [warning] Couldn't find file 'triquetrum_rvs.vtp'.
+[2021-01-14 15:25:55.875] [warning] Couldn't find file 'hamate_rvs.vtp'.
+[2021-01-14 15:25:55.876] [warning] Couldn't find file 'capitate_rvs.vtp'.
+[2021-01-14 15:25:55.877] [warning] Couldn't find file 'trapezoid_rvs.vtp'.
+[2021-01-14 15:25:55.878] [warning] Couldn't find file 'trapezium_rvs.vtp'.
+[2021-01-14 15:25:55.878] [warning] Couldn't find file 'metacarpal2_rvs.vtp'.
+[2021-01-14 15:25:55.879] [warning] Couldn't find file 'index_proximal_rvs.vtp'.
+[2021-01-14 15:25:55.879] [warning] Couldn't find file 'index_medial_rvs.vtp'.
+[2021-01-14 15:25:55.880] [warning] Couldn't find file 'index_distal_rvs.vtp'.
+[2021-01-14 15:25:55.880] [warning] Couldn't find file 'metacarpal3_rvs.vtp'.
+[2021-01-14 15:25:55.881] [warning] Couldn't find file 'middle_proximal_rvs.vtp'.
+[2021-01-14 15:25:55.881] [warning] Couldn't find file 'middle_medial_rvs.vtp'.
+[2021-01-14 15:25:55.882] [warning] Couldn't find file 'middle_distal_rvs.vtp'.
+[2021-01-14 15:25:55.885] [warning] Couldn't find file 'metacarpal4_rvs.vtp'.
+[2021-01-14 15:25:55.885] [warning] Couldn't find file 'ring_proximal_rvs.vtp'.
+[2021-01-14 15:25:55.885] [warning] Couldn't find file 'ring_medial_rvs.vtp'.
+[2021-01-14 15:25:55.885] [warning] Couldn't find file 'ring_distal_rvs.vtp'.
+[2021-01-14 15:25:55.886] [warning] Couldn't find file 'metacarpal5_rvs.vtp'.
+[2021-01-14 15:25:55.886] [warning] Couldn't find file 'little_proximal_rvs.vtp'.
+[2021-01-14 15:25:55.886] [warning] Couldn't find file 'little_medial_rvs.vtp'.
+[2021-01-14 15:25:55.886] [warning] Couldn't find file 'little_distal_rvs.vtp'.
+[2021-01-14 15:25:55.886] [warning] Couldn't find file 'metacarpal1_rvs.vtp'.
+[2021-01-14 15:25:55.887] [warning] Couldn't find file 'thumb_proximal_rvs.vtp'.
+[2021-01-14 15:25:55.887] [warning] Couldn't find file 'thumb_distal_rvs.vtp'.
+[2021-01-14 15:25:55.887] [warning] Couldn't find file 'humerus_lv.vtp'.
+[2021-01-14 15:25:55.887] [warning] Couldn't find file 'ulna_lv.vtp'.
+[2021-01-14 15:25:55.887] [warning] Couldn't find file 'radius_lv.vtp'.
+[2021-01-14 15:25:55.888] [warning] Couldn't find file 'pisiform_lvs.vtp'.
+[2021-01-14 15:25:55.888] [warning] Couldn't find file 'lunate_lvs.vtp'.
+[2021-01-14 15:25:55.890] [warning] Couldn't find file 'scaphoid_lvs.vtp'.
+[2021-01-14 15:25:55.891] [warning] Couldn't find file 'triquetrum_lvs.vtp'.
+[2021-01-14 15:25:55.892] [warning] Couldn't find file 'hamate_lvs.vtp'.
+[2021-01-14 15:25:55.892] [warning] Couldn't find file 'capitate_lvs.vtp'.
+[2021-01-14 15:25:55.893] [warning] Couldn't find file 'trapezoid_lvs.vtp'.
+[2021-01-14 15:25:55.893] [warning] Couldn't find file 'trapezium_lvs.vtp'.
+[2021-01-14 15:25:55.894] [warning] Couldn't find file 'metacarpal2_lvs.vtp'.
+[2021-01-14 15:25:55.894] [warning] Couldn't find file 'index_proximal_lvs.vtp'.
+[2021-01-14 15:25:55.895] [warning] Couldn't find file 'index_medial_lvs.vtp'.
+[2021-01-14 15:25:55.895] [warning] Couldn't find file 'index_distal_lvs.vtp'.
+[2021-01-14 15:25:55.896] [warning] Couldn't find file 'metacarpal3_lvs.vtp'.
+[2021-01-14 15:25:55.897] [warning] Couldn't find file 'middle_proximal_lvs.vtp'.
+[2021-01-14 15:25:55.898] [warning] Couldn't find file 'middle_medial_lvs.vtp'.
+[2021-01-14 15:25:55.898] [warning] Couldn't find file 'middle_distal_lvs.vtp'.
+[2021-01-14 15:25:55.899] [warning] Couldn't find file 'metacarpal4_lvs.vtp'.
+[2021-01-14 15:25:55.900] [warning] Couldn't find file 'ring_proximal_lvs.vtp'.
+[2021-01-14 15:25:55.902] [warning] Couldn't find file 'ring_medial_lvs.vtp'.
+[2021-01-14 15:25:55.902] [warning] Couldn't find file 'ring_distal_lvs.vtp'.
+[2021-01-14 15:25:55.902] [warning] Couldn't find file 'metacarpal5_lvs.vtp'.
+[2021-01-14 15:25:55.902] [warning] Couldn't find file 'little_proximal_lvs.vtp'.
+[2021-01-14 15:25:55.903] [warning] Couldn't find file 'little_medial_lvs.vtp'.
+[2021-01-14 15:25:55.903] [warning] Couldn't find file 'little_distal_lvs.vtp'.
+[2021-01-14 15:25:55.903] [warning] Couldn't find file 'metacarpal1_lvs.vtp'.
+[2021-01-14 15:25:55.903] [warning] Couldn't find file 'thumb_proximal_lvs.vtp'.
+[2021-01-14 15:25:55.903] [warning] Couldn't find file 'thumb_distal_lvs.vtp'.
+[2021-01-14 15:25:55.913] [cout] [info] 
+               MODEL: subject1_Scaled
+         coordinates: 37
+              forces: 94
+           actuators: 92
+             muscles: 92
+            analyses: 0
+              probes: 0
+              bodies: 20
+              joints: 20
+         constraints: 0
+             markers: 0
+         controllers: 0
+  contact geometries: 37
+misc modelcomponents: 0
+[2021-01-14 15:25:55.913] [info] Running tool DummyModel...
+[2021-01-14 15:25:55.913] [info] No external loads will be applied (external loads file not specified).
+[2021-01-14 15:25:55.927] [info] Storage: read data file = dummy_motion_0.mot (nr=10 nc=34)
+[2021-01-14 15:25:55.928] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_r'. Assuming default value.
+[2021-01-14 15:25:55.928] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_r'. Assuming default value.
+[2021-01-14 15:25:55.929] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_l'. Assuming default value.
+[2021-01-14 15:25:55.930] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_l'. Assuming default value.
+[2021-01-14 15:25:55.933] [info] InverseDynamicsTool: 10 time frames in 2 millisecond(s).
+[2021-01-14 15:26:11.015] [info] Preparing to run InverseDynamicsTool.
+[2021-01-14 15:26:11.041] [info] Loaded model subject1_Scaled from file ../subject1_mtp_OS4_cm7.osim
+[2021-01-14 15:26:11.042] [warning] Couldn't find file 'treadmill.vtp'.
+[2021-01-14 15:26:11.042] [warning] Couldn't find file 'sacrum.vtp'.
+[2021-01-14 15:26:11.042] [warning] Couldn't find file 'pelvis.vtp'.
+[2021-01-14 15:26:11.043] [warning] Couldn't find file 'l_pelvis.vtp'.
+[2021-01-14 15:26:11.043] [warning] Couldn't find file 'femur_r.vtp'.
+[2021-01-14 15:26:11.044] [warning] Couldn't find file 'tibia_r.vtp'.
+[2021-01-14 15:26:11.046] [warning] Couldn't find file 'fibula.vtp'.
+[2021-01-14 15:26:11.046] [warning] Couldn't find file 'talus.vtp'.
+[2021-01-14 15:26:11.047] [warning] Couldn't find file 'foot.vtp'.
+[2021-01-14 15:26:11.047] [warning] Couldn't find file 'bofoot.vtp'.
+[2021-01-14 15:26:11.048] [warning] Couldn't find file 'femur_l.vtp'.
+[2021-01-14 15:26:11.049] [warning] Couldn't find file 'tibia_l.vtp'.
+[2021-01-14 15:26:11.050] [warning] Couldn't find file 'l_fibula.vtp'.
+[2021-01-14 15:26:11.050] [warning] Couldn't find file 'l_talus.vtp'.
+[2021-01-14 15:26:11.051] [warning] Couldn't find file 'l_foot.vtp'.
+[2021-01-14 15:26:11.051] [warning] Couldn't find file 'l_bofoot.vtp'.
+[2021-01-14 15:26:11.052] [warning] Couldn't find file 'hat_spine.vtp'.
+[2021-01-14 15:26:11.052] [warning] Couldn't find file 'hat_jaw.vtp'.
+[2021-01-14 15:26:11.053] [warning] Couldn't find file 'hat_skull.vtp'.
+[2021-01-14 15:26:11.054] [warning] Couldn't find file 'hat_ribs.vtp'.
+[2021-01-14 15:26:11.055] [warning] Couldn't find file 'arm_r_humerus.vtp'.
+[2021-01-14 15:26:11.055] [warning] Couldn't find file 'ulna_rv.vtp'.
+[2021-01-14 15:26:11.057] [warning] Couldn't find file 'radius_rv.vtp'.
+[2021-01-14 15:26:11.057] [warning] Couldn't find file 'pisiform_rvs.vtp'.
+[2021-01-14 15:26:11.059] [warning] Couldn't find file 'lunate_rvs.vtp'.
+[2021-01-14 15:26:11.059] [warning] Couldn't find file 'scaphoid_rvs.vtp'.
+[2021-01-14 15:26:11.059] [warning] Couldn't find file 'triquetrum_rvs.vtp'.
+[2021-01-14 15:26:11.059] [warning] Couldn't find file 'hamate_rvs.vtp'.
+[2021-01-14 15:26:11.060] [warning] Couldn't find file 'capitate_rvs.vtp'.
+[2021-01-14 15:26:11.060] [warning] Couldn't find file 'trapezoid_rvs.vtp'.
+[2021-01-14 15:26:11.063] [warning] Couldn't find file 'trapezium_rvs.vtp'.
+[2021-01-14 15:26:11.063] [warning] Couldn't find file 'metacarpal2_rvs.vtp'.
+[2021-01-14 15:26:11.064] [warning] Couldn't find file 'index_proximal_rvs.vtp'.
+[2021-01-14 15:26:11.064] [warning] Couldn't find file 'index_medial_rvs.vtp'.
+[2021-01-14 15:26:11.066] [warning] Couldn't find file 'index_distal_rvs.vtp'.
+[2021-01-14 15:26:11.066] [warning] Couldn't find file 'metacarpal3_rvs.vtp'.
+[2021-01-14 15:26:11.067] [warning] Couldn't find file 'middle_proximal_rvs.vtp'.
+[2021-01-14 15:26:11.067] [warning] Couldn't find file 'middle_medial_rvs.vtp'.
+[2021-01-14 15:26:11.068] [warning] Couldn't find file 'middle_distal_rvs.vtp'.
+[2021-01-14 15:26:11.068] [warning] Couldn't find file 'metacarpal4_rvs.vtp'.
+[2021-01-14 15:26:11.069] [warning] Couldn't find file 'ring_proximal_rvs.vtp'.
+[2021-01-14 15:26:11.069] [warning] Couldn't find file 'ring_medial_rvs.vtp'.
+[2021-01-14 15:26:11.070] [warning] Couldn't find file 'ring_distal_rvs.vtp'.
+[2021-01-14 15:26:11.071] [warning] Couldn't find file 'metacarpal5_rvs.vtp'.
+[2021-01-14 15:26:11.074] [warning] Couldn't find file 'little_proximal_rvs.vtp'.
+[2021-01-14 15:26:11.074] [warning] Couldn't find file 'little_medial_rvs.vtp'.
+[2021-01-14 15:26:11.075] [warning] Couldn't find file 'little_distal_rvs.vtp'.
+[2021-01-14 15:26:11.075] [warning] Couldn't find file 'metacarpal1_rvs.vtp'.
+[2021-01-14 15:26:11.076] [warning] Couldn't find file 'thumb_proximal_rvs.vtp'.
+[2021-01-14 15:26:11.077] [warning] Couldn't find file 'thumb_distal_rvs.vtp'.
+[2021-01-14 15:26:11.078] [warning] Couldn't find file 'humerus_lv.vtp'.
+[2021-01-14 15:26:11.078] [warning] Couldn't find file 'ulna_lv.vtp'.
+[2021-01-14 15:26:11.079] [warning] Couldn't find file 'radius_lv.vtp'.
+[2021-01-14 15:26:11.080] [warning] Couldn't find file 'pisiform_lvs.vtp'.
+[2021-01-14 15:26:11.080] [warning] Couldn't find file 'lunate_lvs.vtp'.
+[2021-01-14 15:26:11.080] [warning] Couldn't find file 'scaphoid_lvs.vtp'.
+[2021-01-14 15:26:11.080] [warning] Couldn't find file 'triquetrum_lvs.vtp'.
+[2021-01-14 15:26:11.080] [warning] Couldn't find file 'hamate_lvs.vtp'.
+[2021-01-14 15:26:11.081] [warning] Couldn't find file 'capitate_lvs.vtp'.
+[2021-01-14 15:26:11.081] [warning] Couldn't find file 'trapezoid_lvs.vtp'.
+[2021-01-14 15:26:11.081] [warning] Couldn't find file 'trapezium_lvs.vtp'.
+[2021-01-14 15:26:11.081] [warning] Couldn't find file 'metacarpal2_lvs.vtp'.
+[2021-01-14 15:26:11.081] [warning] Couldn't find file 'index_proximal_lvs.vtp'.
+[2021-01-14 15:26:11.082] [warning] Couldn't find file 'index_medial_lvs.vtp'.
+[2021-01-14 15:26:11.082] [warning] Couldn't find file 'index_distal_lvs.vtp'.
+[2021-01-14 15:26:11.082] [warning] Couldn't find file 'metacarpal3_lvs.vtp'.
+[2021-01-14 15:26:11.082] [warning] Couldn't find file 'middle_proximal_lvs.vtp'.
+[2021-01-14 15:26:11.082] [warning] Couldn't find file 'middle_medial_lvs.vtp'.
+[2021-01-14 15:26:11.083] [warning] Couldn't find file 'middle_distal_lvs.vtp'.
+[2021-01-14 15:26:11.083] [warning] Couldn't find file 'metacarpal4_lvs.vtp'.
+[2021-01-14 15:26:11.083] [warning] Couldn't find file 'ring_proximal_lvs.vtp'.
+[2021-01-14 15:26:11.083] [warning] Couldn't find file 'ring_medial_lvs.vtp'.
+[2021-01-14 15:26:11.083] [warning] Couldn't find file 'ring_distal_lvs.vtp'.
+[2021-01-14 15:26:11.084] [warning] Couldn't find file 'metacarpal5_lvs.vtp'.
+[2021-01-14 15:26:11.084] [warning] Couldn't find file 'little_proximal_lvs.vtp'.
+[2021-01-14 15:26:11.084] [warning] Couldn't find file 'little_medial_lvs.vtp'.
+[2021-01-14 15:26:11.084] [warning] Couldn't find file 'little_distal_lvs.vtp'.
+[2021-01-14 15:26:11.084] [warning] Couldn't find file 'metacarpal1_lvs.vtp'.
+[2021-01-14 15:26:11.085] [warning] Couldn't find file 'thumb_proximal_lvs.vtp'.
+[2021-01-14 15:26:11.085] [warning] Couldn't find file 'thumb_distal_lvs.vtp'.
+[2021-01-14 15:26:11.095] [cout] [info] 
+               MODEL: subject1_Scaled
+         coordinates: 37
+              forces: 94
+           actuators: 92
+             muscles: 92
+            analyses: 0
+              probes: 0
+              bodies: 20
+              joints: 20
+         constraints: 0
+             markers: 0
+         controllers: 0
+  contact geometries: 37
+misc modelcomponents: 0
+[2021-01-14 15:26:11.095] [info] Running tool DummyModel...
+[2021-01-14 15:26:11.095] [info] No external loads will be applied (external loads file not specified).
+[2021-01-14 15:26:11.110] [info] Storage: read data file = dummy_motion_0.mot (nr=10 nc=34)
+[2021-01-14 15:26:11.111] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_r'. Assuming default value.
+[2021-01-14 15:26:11.111] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_r'. Assuming default value.
+[2021-01-14 15:26:11.112] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_l'. Assuming default value.
+[2021-01-14 15:26:11.113] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_l'. Assuming default value.
+[2021-01-14 15:26:11.115] [info] InverseDynamicsTool: 10 time frames in 2 millisecond(s).
+[2021-01-14 15:30:29.863] [info] Preparing to run InverseDynamicsTool.
+[2021-01-14 15:30:29.890] [info] Loaded model subject1_Scaled from file ../subject1_mtp_OS4_cm7.osim
+[2021-01-14 15:30:29.891] [warning] Couldn't find file 'treadmill.vtp'.
+[2021-01-14 15:30:29.891] [warning] Couldn't find file 'sacrum.vtp'.
+[2021-01-14 15:30:29.893] [warning] Couldn't find file 'pelvis.vtp'.
+[2021-01-14 15:30:29.893] [warning] Couldn't find file 'l_pelvis.vtp'.
+[2021-01-14 15:30:29.894] [warning] Couldn't find file 'femur_r.vtp'.
+[2021-01-14 15:30:29.895] [warning] Couldn't find file 'tibia_r.vtp'.
+[2021-01-14 15:30:29.896] [warning] Couldn't find file 'fibula.vtp'.
+[2021-01-14 15:30:29.896] [warning] Couldn't find file 'talus.vtp'.
+[2021-01-14 15:30:29.897] [warning] Couldn't find file 'foot.vtp'.
+[2021-01-14 15:30:29.897] [warning] Couldn't find file 'bofoot.vtp'.
+[2021-01-14 15:30:29.898] [warning] Couldn't find file 'femur_l.vtp'.
+[2021-01-14 15:30:29.898] [warning] Couldn't find file 'tibia_l.vtp'.
+[2021-01-14 15:30:29.899] [warning] Couldn't find file 'l_fibula.vtp'.
+[2021-01-14 15:30:29.899] [warning] Couldn't find file 'l_talus.vtp'.
+[2021-01-14 15:30:29.900] [warning] Couldn't find file 'l_foot.vtp'.
+[2021-01-14 15:30:29.901] [warning] Couldn't find file 'l_bofoot.vtp'.
+[2021-01-14 15:30:29.901] [warning] Couldn't find file 'hat_spine.vtp'.
+[2021-01-14 15:30:29.901] [warning] Couldn't find file 'hat_jaw.vtp'.
+[2021-01-14 15:30:29.901] [warning] Couldn't find file 'hat_skull.vtp'.
+[2021-01-14 15:30:29.902] [warning] Couldn't find file 'hat_ribs.vtp'.
+[2021-01-14 15:30:29.902] [warning] Couldn't find file 'arm_r_humerus.vtp'.
+[2021-01-14 15:30:29.902] [warning] Couldn't find file 'ulna_rv.vtp'.
+[2021-01-14 15:30:29.904] [warning] Couldn't find file 'radius_rv.vtp'.
+[2021-01-14 15:30:29.905] [warning] Couldn't find file 'pisiform_rvs.vtp'.
+[2021-01-14 15:30:29.906] [warning] Couldn't find file 'lunate_rvs.vtp'.
+[2021-01-14 15:30:29.907] [warning] Couldn't find file 'scaphoid_rvs.vtp'.
+[2021-01-14 15:30:29.907] [warning] Couldn't find file 'triquetrum_rvs.vtp'.
+[2021-01-14 15:30:29.908] [warning] Couldn't find file 'hamate_rvs.vtp'.
+[2021-01-14 15:30:29.909] [warning] Couldn't find file 'capitate_rvs.vtp'.
+[2021-01-14 15:30:29.909] [warning] Couldn't find file 'trapezoid_rvs.vtp'.
+[2021-01-14 15:30:29.910] [warning] Couldn't find file 'trapezium_rvs.vtp'.
+[2021-01-14 15:30:29.910] [warning] Couldn't find file 'metacarpal2_rvs.vtp'.
+[2021-01-14 15:30:29.911] [warning] Couldn't find file 'index_proximal_rvs.vtp'.
+[2021-01-14 15:30:29.911] [warning] Couldn't find file 'index_medial_rvs.vtp'.
+[2021-01-14 15:30:29.912] [warning] Couldn't find file 'index_distal_rvs.vtp'.
+[2021-01-14 15:30:29.912] [warning] Couldn't find file 'metacarpal3_rvs.vtp'.
+[2021-01-14 15:30:29.913] [warning] Couldn't find file 'middle_proximal_rvs.vtp'.
+[2021-01-14 15:30:29.914] [warning] Couldn't find file 'middle_medial_rvs.vtp'.
+[2021-01-14 15:30:29.915] [warning] Couldn't find file 'middle_distal_rvs.vtp'.
+[2021-01-14 15:30:29.918] [warning] Couldn't find file 'metacarpal4_rvs.vtp'.
+[2021-01-14 15:30:29.918] [warning] Couldn't find file 'ring_proximal_rvs.vtp'.
+[2021-01-14 15:30:29.921] [warning] Couldn't find file 'ring_medial_rvs.vtp'.
+[2021-01-14 15:30:29.922] [warning] Couldn't find file 'ring_distal_rvs.vtp'.
+[2021-01-14 15:30:29.922] [warning] Couldn't find file 'metacarpal5_rvs.vtp'.
+[2021-01-14 15:30:29.922] [warning] Couldn't find file 'little_proximal_rvs.vtp'.
+[2021-01-14 15:30:29.922] [warning] Couldn't find file 'little_medial_rvs.vtp'.
+[2021-01-14 15:30:29.923] [warning] Couldn't find file 'little_distal_rvs.vtp'.
+[2021-01-14 15:30:29.924] [warning] Couldn't find file 'metacarpal1_rvs.vtp'.
+[2021-01-14 15:30:29.924] [warning] Couldn't find file 'thumb_proximal_rvs.vtp'.
+[2021-01-14 15:30:29.925] [warning] Couldn't find file 'thumb_distal_rvs.vtp'.
+[2021-01-14 15:30:29.925] [warning] Couldn't find file 'humerus_lv.vtp'.
+[2021-01-14 15:30:29.926] [warning] Couldn't find file 'ulna_lv.vtp'.
+[2021-01-14 15:30:29.926] [warning] Couldn't find file 'radius_lv.vtp'.
+[2021-01-14 15:30:29.927] [warning] Couldn't find file 'pisiform_lvs.vtp'.
+[2021-01-14 15:30:29.927] [warning] Couldn't find file 'lunate_lvs.vtp'.
+[2021-01-14 15:30:29.928] [warning] Couldn't find file 'scaphoid_lvs.vtp'.
+[2021-01-14 15:30:29.929] [warning] Couldn't find file 'triquetrum_lvs.vtp'.
+[2021-01-14 15:30:29.930] [warning] Couldn't find file 'hamate_lvs.vtp'.
+[2021-01-14 15:30:29.931] [warning] Couldn't find file 'capitate_lvs.vtp'.
+[2021-01-14 15:30:29.932] [warning] Couldn't find file 'trapezoid_lvs.vtp'.
+[2021-01-14 15:30:29.932] [warning] Couldn't find file 'trapezium_lvs.vtp'.
+[2021-01-14 15:30:29.933] [warning] Couldn't find file 'metacarpal2_lvs.vtp'.
+[2021-01-14 15:30:29.933] [warning] Couldn't find file 'index_proximal_lvs.vtp'.
+[2021-01-14 15:30:29.934] [warning] Couldn't find file 'index_medial_lvs.vtp'.
+[2021-01-14 15:30:29.934] [warning] Couldn't find file 'index_distal_lvs.vtp'.
+[2021-01-14 15:30:29.935] [warning] Couldn't find file 'metacarpal3_lvs.vtp'.
+[2021-01-14 15:30:29.935] [warning] Couldn't find file 'middle_proximal_lvs.vtp'.
+[2021-01-14 15:30:29.939] [warning] Couldn't find file 'middle_medial_lvs.vtp'.
+[2021-01-14 15:30:29.940] [warning] Couldn't find file 'middle_distal_lvs.vtp'.
+[2021-01-14 15:30:29.941] [warning] Couldn't find file 'metacarpal4_lvs.vtp'.
+[2021-01-14 15:30:29.941] [warning] Couldn't find file 'ring_proximal_lvs.vtp'.
+[2021-01-14 15:30:29.942] [warning] Couldn't find file 'ring_medial_lvs.vtp'.
+[2021-01-14 15:30:29.942] [warning] Couldn't find file 'ring_distal_lvs.vtp'.
+[2021-01-14 15:30:29.942] [warning] Couldn't find file 'metacarpal5_lvs.vtp'.
+[2021-01-14 15:30:29.942] [warning] Couldn't find file 'little_proximal_lvs.vtp'.
+[2021-01-14 15:30:29.943] [warning] Couldn't find file 'little_medial_lvs.vtp'.
+[2021-01-14 15:30:29.943] [warning] Couldn't find file 'little_distal_lvs.vtp'.
+[2021-01-14 15:30:29.943] [warning] Couldn't find file 'metacarpal1_lvs.vtp'.
+[2021-01-14 15:30:29.943] [warning] Couldn't find file 'thumb_proximal_lvs.vtp'.
+[2021-01-14 15:30:29.943] [warning] Couldn't find file 'thumb_distal_lvs.vtp'.
+[2021-01-14 15:30:29.953] [cout] [info] 
+               MODEL: subject1_Scaled
+         coordinates: 37
+              forces: 128
+           actuators: 92
+             muscles: 92
+            analyses: 0
+              probes: 0
+              bodies: 20
+              joints: 20
+         constraints: 0
+             markers: 0
+         controllers: 0
+  contact geometries: 37
+misc modelcomponents: 0
+[2021-01-14 15:30:29.954] [info] Running tool DummyModel...
+[2021-01-14 15:30:29.954] [info] No external loads will be applied (external loads file not specified).
+[2021-01-14 15:30:29.968] [info] Storage: read data file = dummy_motion_0.mot (nr=10 nc=34)
+[2021-01-14 15:30:29.969] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_r'. Assuming default value.
+[2021-01-14 15:30:29.969] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_r'. Assuming default value.
+[2021-01-14 15:30:29.970] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_l'. Assuming default value.
+[2021-01-14 15:30:29.970] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_l'. Assuming default value.
+[2021-01-14 15:30:29.972] [info] InverseDynamicsTool: 10 time frames in 2 millisecond(s).
+[2021-01-14 15:30:42.119] [info] Preparing to run InverseDynamicsTool.
+[2021-01-14 15:30:42.146] [info] Loaded model subject1_Scaled from file ../subject1_mtp_OS4_cm7.osim
+[2021-01-14 15:30:42.147] [warning] Couldn't find file 'treadmill.vtp'.
+[2021-01-14 15:30:42.147] [warning] Couldn't find file 'sacrum.vtp'.
+[2021-01-14 15:30:42.147] [warning] Couldn't find file 'pelvis.vtp'.
+[2021-01-14 15:30:42.149] [warning] Couldn't find file 'l_pelvis.vtp'.
+[2021-01-14 15:30:42.149] [warning] Couldn't find file 'femur_r.vtp'.
+[2021-01-14 15:30:42.150] [warning] Couldn't find file 'tibia_r.vtp'.
+[2021-01-14 15:30:42.150] [warning] Couldn't find file 'fibula.vtp'.
+[2021-01-14 15:30:42.151] [warning] Couldn't find file 'talus.vtp'.
+[2021-01-14 15:30:42.151] [warning] Couldn't find file 'foot.vtp'.
+[2021-01-14 15:30:42.152] [warning] Couldn't find file 'bofoot.vtp'.
+[2021-01-14 15:30:42.152] [warning] Couldn't find file 'femur_l.vtp'.
+[2021-01-14 15:30:42.157] [warning] Couldn't find file 'tibia_l.vtp'.
+[2021-01-14 15:30:42.157] [warning] Couldn't find file 'l_fibula.vtp'.
+[2021-01-14 15:30:42.159] [warning] Couldn't find file 'l_talus.vtp'.
+[2021-01-14 15:30:42.160] [warning] Couldn't find file 'l_foot.vtp'.
+[2021-01-14 15:30:42.161] [warning] Couldn't find file 'l_bofoot.vtp'.
+[2021-01-14 15:30:42.162] [warning] Couldn't find file 'hat_spine.vtp'.
+[2021-01-14 15:30:42.162] [warning] Couldn't find file 'hat_jaw.vtp'.
+[2021-01-14 15:30:42.163] [warning] Couldn't find file 'hat_skull.vtp'.
+[2021-01-14 15:30:42.163] [warning] Couldn't find file 'hat_ribs.vtp'.
+[2021-01-14 15:30:42.164] [warning] Couldn't find file 'arm_r_humerus.vtp'.
+[2021-01-14 15:30:42.164] [warning] Couldn't find file 'ulna_rv.vtp'.
+[2021-01-14 15:30:42.165] [warning] Couldn't find file 'radius_rv.vtp'.
+[2021-01-14 15:30:42.165] [warning] Couldn't find file 'pisiform_rvs.vtp'.
+[2021-01-14 15:30:42.165] [warning] Couldn't find file 'lunate_rvs.vtp'.
+[2021-01-14 15:30:42.165] [warning] Couldn't find file 'scaphoid_rvs.vtp'.
+[2021-01-14 15:30:42.165] [warning] Couldn't find file 'triquetrum_rvs.vtp'.
+[2021-01-14 15:30:42.166] [warning] Couldn't find file 'hamate_rvs.vtp'.
+[2021-01-14 15:30:42.166] [warning] Couldn't find file 'capitate_rvs.vtp'.
+[2021-01-14 15:30:42.166] [warning] Couldn't find file 'trapezoid_rvs.vtp'.
+[2021-01-14 15:30:42.166] [warning] Couldn't find file 'trapezium_rvs.vtp'.
+[2021-01-14 15:30:42.167] [warning] Couldn't find file 'metacarpal2_rvs.vtp'.
+[2021-01-14 15:30:42.168] [warning] Couldn't find file 'index_proximal_rvs.vtp'.
+[2021-01-14 15:30:42.169] [warning] Couldn't find file 'index_medial_rvs.vtp'.
+[2021-01-14 15:30:42.169] [warning] Couldn't find file 'index_distal_rvs.vtp'.
+[2021-01-14 15:30:42.171] [warning] Couldn't find file 'metacarpal3_rvs.vtp'.
+[2021-01-14 15:30:42.171] [warning] Couldn't find file 'middle_proximal_rvs.vtp'.
+[2021-01-14 15:30:42.172] [warning] Couldn't find file 'middle_medial_rvs.vtp'.
+[2021-01-14 15:30:42.175] [warning] Couldn't find file 'middle_distal_rvs.vtp'.
+[2021-01-14 15:30:42.175] [warning] Couldn't find file 'metacarpal4_rvs.vtp'.
+[2021-01-14 15:30:42.177] [warning] Couldn't find file 'ring_proximal_rvs.vtp'.
+[2021-01-14 15:30:42.177] [warning] Couldn't find file 'ring_medial_rvs.vtp'.
+[2021-01-14 15:30:42.178] [warning] Couldn't find file 'ring_distal_rvs.vtp'.
+[2021-01-14 15:30:42.178] [warning] Couldn't find file 'metacarpal5_rvs.vtp'.
+[2021-01-14 15:30:42.179] [warning] Couldn't find file 'little_proximal_rvs.vtp'.
+[2021-01-14 15:30:42.179] [warning] Couldn't find file 'little_medial_rvs.vtp'.
+[2021-01-14 15:30:42.180] [warning] Couldn't find file 'little_distal_rvs.vtp'.
+[2021-01-14 15:30:42.180] [warning] Couldn't find file 'metacarpal1_rvs.vtp'.
+[2021-01-14 15:30:42.181] [warning] Couldn't find file 'thumb_proximal_rvs.vtp'.
+[2021-01-14 15:30:42.182] [warning] Couldn't find file 'thumb_distal_rvs.vtp'.
+[2021-01-14 15:30:42.183] [warning] Couldn't find file 'humerus_lv.vtp'.
+[2021-01-14 15:30:42.183] [warning] Couldn't find file 'ulna_lv.vtp'.
+[2021-01-14 15:30:42.184] [warning] Couldn't find file 'radius_lv.vtp'.
+[2021-01-14 15:30:42.184] [warning] Couldn't find file 'pisiform_lvs.vtp'.
+[2021-01-14 15:30:42.185] [warning] Couldn't find file 'lunate_lvs.vtp'.
+[2021-01-14 15:30:42.185] [warning] Couldn't find file 'scaphoid_lvs.vtp'.
+[2021-01-14 15:30:42.189] [warning] Couldn't find file 'triquetrum_lvs.vtp'.
+[2021-01-14 15:30:42.190] [warning] Couldn't find file 'hamate_lvs.vtp'.
+[2021-01-14 15:30:42.191] [warning] Couldn't find file 'capitate_lvs.vtp'.
+[2021-01-14 15:30:42.192] [warning] Couldn't find file 'trapezoid_lvs.vtp'.
+[2021-01-14 15:30:42.193] [warning] Couldn't find file 'trapezium_lvs.vtp'.
+[2021-01-14 15:30:42.193] [warning] Couldn't find file 'metacarpal2_lvs.vtp'.
+[2021-01-14 15:30:42.194] [warning] Couldn't find file 'index_proximal_lvs.vtp'.
+[2021-01-14 15:30:42.194] [warning] Couldn't find file 'index_medial_lvs.vtp'.
+[2021-01-14 15:30:42.195] [warning] Couldn't find file 'index_distal_lvs.vtp'.
+[2021-01-14 15:30:42.195] [warning] Couldn't find file 'metacarpal3_lvs.vtp'.
+[2021-01-14 15:30:42.196] [warning] Couldn't find file 'middle_proximal_lvs.vtp'.
+[2021-01-14 15:30:42.196] [warning] Couldn't find file 'middle_medial_lvs.vtp'.
+[2021-01-14 15:30:42.197] [warning] Couldn't find file 'middle_distal_lvs.vtp'.
+[2021-01-14 15:30:42.198] [warning] Couldn't find file 'metacarpal4_lvs.vtp'.
+[2021-01-14 15:30:42.199] [warning] Couldn't find file 'ring_proximal_lvs.vtp'.
+[2021-01-14 15:30:42.199] [warning] Couldn't find file 'ring_medial_lvs.vtp'.
+[2021-01-14 15:30:42.200] [warning] Couldn't find file 'ring_distal_lvs.vtp'.
+[2021-01-14 15:30:42.200] [warning] Couldn't find file 'metacarpal5_lvs.vtp'.
+[2021-01-14 15:30:42.201] [warning] Couldn't find file 'little_proximal_lvs.vtp'.
+[2021-01-14 15:30:42.201] [warning] Couldn't find file 'little_medial_lvs.vtp'.
+[2021-01-14 15:30:42.202] [warning] Couldn't find file 'little_distal_lvs.vtp'.
+[2021-01-14 15:30:42.202] [warning] Couldn't find file 'metacarpal1_lvs.vtp'.
+[2021-01-14 15:30:42.204] [warning] Couldn't find file 'thumb_proximal_lvs.vtp'.
+[2021-01-14 15:30:42.205] [warning] Couldn't find file 'thumb_distal_lvs.vtp'.
+[2021-01-14 15:30:42.217] [cout] [info] 
+               MODEL: subject1_Scaled
+         coordinates: 37
+              forces: 128
+           actuators: 92
+             muscles: 92
+            analyses: 0
+              probes: 0
+              bodies: 20
+              joints: 20
+         constraints: 0
+             markers: 0
+         controllers: 0
+  contact geometries: 37
+misc modelcomponents: 0
+[2021-01-14 15:30:42.217] [info] Running tool DummyModel...
+[2021-01-14 15:30:42.217] [info] No external loads will be applied (external loads file not specified).
+[2021-01-14 15:30:42.231] [info] Storage: read data file = dummy_motion.mot (nr=10 nc=34)
+[2021-01-14 15:30:42.232] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_r'. Assuming default value.
+[2021-01-14 15:30:42.232] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_r'. Assuming default value.
+[2021-01-14 15:30:42.233] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_l'. Assuming default value.
+[2021-01-14 15:30:42.233] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_l'. Assuming default value.
+[2021-01-14 15:30:42.237] [info] InverseDynamicsTool: 10 time frames in 2 millisecond(s).
+[2021-01-14 15:35:26.283] [info] Preparing to run InverseDynamicsTool.
+[2021-01-14 15:35:26.310] [info] Loaded model subject1_Scaled from file ../subject1_mtp_OS4_cm7.osim
+[2021-01-14 15:35:26.311] [warning] Couldn't find file 'treadmill.vtp'.
+[2021-01-14 15:35:26.311] [warning] Couldn't find file 'sacrum.vtp'.
+[2021-01-14 15:35:26.311] [warning] Couldn't find file 'pelvis.vtp'.
+[2021-01-14 15:35:26.312] [warning] Couldn't find file 'l_pelvis.vtp'.
+[2021-01-14 15:35:26.313] [warning] Couldn't find file 'femur_r.vtp'.
+[2021-01-14 15:35:26.315] [warning] Couldn't find file 'tibia_r.vtp'.
+[2021-01-14 15:35:26.315] [warning] Couldn't find file 'fibula.vtp'.
+[2021-01-14 15:35:26.316] [warning] Couldn't find file 'talus.vtp'.
+[2021-01-14 15:35:26.316] [warning] Couldn't find file 'foot.vtp'.
+[2021-01-14 15:35:26.319] [warning] Couldn't find file 'bofoot.vtp'.
+[2021-01-14 15:35:26.319] [warning] Couldn't find file 'femur_l.vtp'.
+[2021-01-14 15:35:26.319] [warning] Couldn't find file 'tibia_l.vtp'.
+[2021-01-14 15:35:26.319] [warning] Couldn't find file 'l_fibula.vtp'.
+[2021-01-14 15:35:26.320] [warning] Couldn't find file 'l_talus.vtp'.
+[2021-01-14 15:35:26.320] [warning] Couldn't find file 'l_foot.vtp'.
+[2021-01-14 15:35:26.320] [warning] Couldn't find file 'l_bofoot.vtp'.
+[2021-01-14 15:35:26.320] [warning] Couldn't find file 'hat_spine.vtp'.
+[2021-01-14 15:35:26.320] [warning] Couldn't find file 'hat_jaw.vtp'.
+[2021-01-14 15:35:26.321] [warning] Couldn't find file 'hat_skull.vtp'.
+[2021-01-14 15:35:26.321] [warning] Couldn't find file 'hat_ribs.vtp'.
+[2021-01-14 15:35:26.321] [warning] Couldn't find file 'arm_r_humerus.vtp'.
+[2021-01-14 15:35:26.321] [warning] Couldn't find file 'ulna_rv.vtp'.
+[2021-01-14 15:35:26.321] [warning] Couldn't find file 'radius_rv.vtp'.
+[2021-01-14 15:35:26.322] [warning] Couldn't find file 'pisiform_rvs.vtp'.
+[2021-01-14 15:35:26.322] [warning] Couldn't find file 'lunate_rvs.vtp'.
+[2021-01-14 15:35:26.322] [warning] Couldn't find file 'scaphoid_rvs.vtp'.
+[2021-01-14 15:35:26.322] [warning] Couldn't find file 'triquetrum_rvs.vtp'.
+[2021-01-14 15:35:26.322] [warning] Couldn't find file 'hamate_rvs.vtp'.
+[2021-01-14 15:35:26.323] [warning] Couldn't find file 'capitate_rvs.vtp'.
+[2021-01-14 15:35:26.323] [warning] Couldn't find file 'trapezoid_rvs.vtp'.
+[2021-01-14 15:35:26.323] [warning] Couldn't find file 'trapezium_rvs.vtp'.
+[2021-01-14 15:35:26.323] [warning] Couldn't find file 'metacarpal2_rvs.vtp'.
+[2021-01-14 15:35:26.323] [warning] Couldn't find file 'index_proximal_rvs.vtp'.
+[2021-01-14 15:35:26.324] [warning] Couldn't find file 'index_medial_rvs.vtp'.
+[2021-01-14 15:35:26.324] [warning] Couldn't find file 'index_distal_rvs.vtp'.
+[2021-01-14 15:35:26.324] [warning] Couldn't find file 'metacarpal3_rvs.vtp'.
+[2021-01-14 15:35:26.324] [warning] Couldn't find file 'middle_proximal_rvs.vtp'.
+[2021-01-14 15:35:26.324] [warning] Couldn't find file 'middle_medial_rvs.vtp'.
+[2021-01-14 15:35:26.326] [warning] Couldn't find file 'middle_distal_rvs.vtp'.
+[2021-01-14 15:35:26.326] [warning] Couldn't find file 'metacarpal4_rvs.vtp'.
+[2021-01-14 15:35:26.327] [warning] Couldn't find file 'ring_proximal_rvs.vtp'.
+[2021-01-14 15:35:26.327] [warning] Couldn't find file 'ring_medial_rvs.vtp'.
+[2021-01-14 15:35:26.328] [warning] Couldn't find file 'ring_distal_rvs.vtp'.
+[2021-01-14 15:35:26.330] [warning] Couldn't find file 'metacarpal5_rvs.vtp'.
+[2021-01-14 15:35:26.331] [warning] Couldn't find file 'little_proximal_rvs.vtp'.
+[2021-01-14 15:35:26.331] [warning] Couldn't find file 'little_medial_rvs.vtp'.
+[2021-01-14 15:35:26.331] [warning] Couldn't find file 'little_distal_rvs.vtp'.
+[2021-01-14 15:35:26.331] [warning] Couldn't find file 'metacarpal1_rvs.vtp'.
+[2021-01-14 15:35:26.332] [warning] Couldn't find file 'thumb_proximal_rvs.vtp'.
+[2021-01-14 15:35:26.332] [warning] Couldn't find file 'thumb_distal_rvs.vtp'.
+[2021-01-14 15:35:26.332] [warning] Couldn't find file 'humerus_lv.vtp'.
+[2021-01-14 15:35:26.332] [warning] Couldn't find file 'ulna_lv.vtp'.
+[2021-01-14 15:35:26.333] [warning] Couldn't find file 'radius_lv.vtp'.
+[2021-01-14 15:35:26.335] [warning] Couldn't find file 'pisiform_lvs.vtp'.
+[2021-01-14 15:35:26.335] [warning] Couldn't find file 'lunate_lvs.vtp'.
+[2021-01-14 15:35:26.337] [warning] Couldn't find file 'scaphoid_lvs.vtp'.
+[2021-01-14 15:35:26.337] [warning] Couldn't find file 'triquetrum_lvs.vtp'.
+[2021-01-14 15:35:26.338] [warning] Couldn't find file 'hamate_lvs.vtp'.
+[2021-01-14 15:35:26.338] [warning] Couldn't find file 'capitate_lvs.vtp'.
+[2021-01-14 15:35:26.339] [warning] Couldn't find file 'trapezoid_lvs.vtp'.
+[2021-01-14 15:35:26.339] [warning] Couldn't find file 'trapezium_lvs.vtp'.
+[2021-01-14 15:35:26.340] [warning] Couldn't find file 'metacarpal2_lvs.vtp'.
+[2021-01-14 15:35:26.341] [warning] Couldn't find file 'index_proximal_lvs.vtp'.
+[2021-01-14 15:35:26.342] [warning] Couldn't find file 'index_medial_lvs.vtp'.
+[2021-01-14 15:35:26.342] [warning] Couldn't find file 'index_distal_lvs.vtp'.
+[2021-01-14 15:35:26.343] [warning] Couldn't find file 'metacarpal3_lvs.vtp'.
+[2021-01-14 15:35:26.343] [warning] Couldn't find file 'middle_proximal_lvs.vtp'.
+[2021-01-14 15:35:26.344] [warning] Couldn't find file 'middle_medial_lvs.vtp'.
+[2021-01-14 15:35:26.345] [warning] Couldn't find file 'middle_distal_lvs.vtp'.
+[2021-01-14 15:35:26.347] [warning] Couldn't find file 'metacarpal4_lvs.vtp'.
+[2021-01-14 15:35:26.347] [warning] Couldn't find file 'ring_proximal_lvs.vtp'.
+[2021-01-14 15:35:26.348] [warning] Couldn't find file 'ring_medial_lvs.vtp'.
+[2021-01-14 15:35:26.349] [warning] Couldn't find file 'ring_distal_lvs.vtp'.
+[2021-01-14 15:35:26.349] [warning] Couldn't find file 'metacarpal5_lvs.vtp'.
+[2021-01-14 15:35:26.349] [warning] Couldn't find file 'little_proximal_lvs.vtp'.
+[2021-01-14 15:35:26.349] [warning] Couldn't find file 'little_medial_lvs.vtp'.
+[2021-01-14 15:35:26.352] [warning] Couldn't find file 'little_distal_lvs.vtp'.
+[2021-01-14 15:35:26.352] [warning] Couldn't find file 'metacarpal1_lvs.vtp'.
+[2021-01-14 15:35:26.352] [warning] Couldn't find file 'thumb_proximal_lvs.vtp'.
+[2021-01-14 15:35:26.352] [warning] Couldn't find file 'thumb_distal_lvs.vtp'.
+[2021-01-14 15:35:26.362] [cout] [info] 
+               MODEL: subject1_Scaled
+         coordinates: 37
+              forces: 128
+           actuators: 92
+             muscles: 92
+            analyses: 0
+              probes: 0
+              bodies: 20
+              joints: 20
+         constraints: 0
+             markers: 0
+         controllers: 0
+  contact geometries: 37
+misc modelcomponents: 0
+[2021-01-14 15:35:26.362] [info] Running tool DummyModel...
+[2021-01-14 15:35:26.363] [info] No external loads will be applied (external loads file not specified).
+[2021-01-14 15:35:26.377] [info] Storage: read data file = dummy_motion.mot (nr=10 nc=34)
+[2021-01-14 15:35:26.379] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_r'. Assuming default value.
+[2021-01-14 15:35:26.379] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_r'. Assuming default value.
+[2021-01-14 15:35:26.379] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_flex_l'. Assuming default value.
+[2021-01-14 15:35:26.380] [info] InverseDynamicsTool: coordinate file does not contain coordinate 'wrist_dev_l'. Assuming default value.
+[2021-01-14 15:35:26.383] [info] InverseDynamicsTool: 10 time frames in 2 millisecond(s).

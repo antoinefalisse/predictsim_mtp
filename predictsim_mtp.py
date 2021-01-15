@@ -12,6 +12,8 @@ elif os.environ['COMPUTERNAME'] == 'GBW-D-W2711':
     path.append(r"C:/Users/Public/Documents/Software/casadi-windows-py37-v3.5.1-64bit")
     # Workaround to get OpenSim to work with Python
     pathOS = "C:/OpenSim_4.1/sdk/Python"
+elif os.environ['COMPUTERNAME'] == 'DESKTOP-OC47A62':
+    pathOS = "C:/OpenSim-4.2-2021-01-09-fc62aad//sdk/Python"
 import casadi as ca
 import numpy as np
 
@@ -27,7 +29,7 @@ loadPolynomialData = True
 plotPolynomials = False
 subject = 'subject1_mtp'
 
-cases = ['24', '25']
+cases = ['29']
 
 from settings_predictsim import getSettings_predictsim_mtp   
 settings = getSettings_predictsim_mtp() 
@@ -80,6 +82,14 @@ for case in cases:
         F = ca.external('F','PredSim_mtpPin_cm3.dll')
         if analyzeResults:
             F1 = ca.external('F','PredSim_mtpPin_pp_cm3.dll')
+    elif contactConfiguration == 'specific7':
+        F = ca.external('F','PredSim_mtpPin_cm7.dll')
+        if analyzeResults:
+            F1 = ca.external('F','PredSim_mtpPin_pp_cm7.dll')
+    elif contactConfiguration == 'specific8':
+        F = ca.external('F','PredSim_mtpPin_cm8.dll')
+        if analyzeResults:
+            F1 = ca.external('F','PredSim_mtpPin_pp_cm8.dll')
     os.chdir(pathMain)
     #vec1 = -np.ones((93, 1))
     #res1 = (F(vec1))
@@ -1740,9 +1750,10 @@ for case in cases:
                          forceDtTerm_opt_all.full() + 
                          armAccelerationTerm_opt_all.full())            
         
-        assert np.alltrue(
-                np.abs(JAll_opt[0][0] - stats['iterations']['obj'][-1]) 
-                <= 1e-6), "decomposition cost"
+        if stats['success'] == True:
+            assert np.alltrue(
+                    np.abs(JAll_opt[0][0] - stats['iterations']['obj'][-1]) 
+                    <= 1e-6), "decomposition cost"
         
         # %% Reconstruct gait cycle
         from variousFunctions import getIdxIC_3D
