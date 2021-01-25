@@ -16,9 +16,9 @@ import matplotlib.pyplot as plt
 # Effect of tendon compliance (with N=50)
 # cases = ['0','4','8','11']
 # Effect of weight on MTP excitation term (with N=50)
-# cases = ['0','18','23']
+cases = ['23','18','0']
 # Effect of active vs passive MTP
-cases = ['24','25']
+# cases = ['13','24']
 mainName = "predictsim_mtp"
 subject = "subject1"
 model = "mtp"
