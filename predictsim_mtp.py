@@ -29,7 +29,7 @@ loadPolynomialData = True
 plotPolynomials = False
 subject = 'subject1_mtp'
 
-cases = ['30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45','46','47','48','49','50','51']
+cases = ['33','34','35','36','37','38','39','40','41','42','43','44','45','46','47','48','49','50','51']
 from settings_predictsim import getSettings_predictsim_mtp   
 settings = getSettings_predictsim_mtp() 
 for case in cases:
