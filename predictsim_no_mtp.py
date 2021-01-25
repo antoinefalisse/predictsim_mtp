@@ -15,9 +15,9 @@ elif os.environ['COMPUTERNAME'] == 'GBW-D-W2711':
 import casadi as ca
 import numpy as np
 
-solveProblem = False
+solveProblem = True
 saveResults = True
-analyzeResults = True
+analyzeResults = False
 loadResults = True
 writeMotion = True
 saveTrajectories = True
@@ -27,7 +27,7 @@ loadPolynomialData = True
 plotPolynomials = False
 subject = 'subject1_no_mtp'
 
-cases = ['10','11']
+cases = ['12','13','14','15']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 

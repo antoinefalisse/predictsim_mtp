@@ -234,7 +234,7 @@ def solve_with_bounds(opti, tolerance):
     s_opts["expand"] = False
     s_opts["ipopt.hessian_approximation"] = "limited-memory"
     s_opts["ipopt.mu_strategy"] = "adaptive"
-    s_opts["ipopt.max_iter"] = 5000
+    s_opts["ipopt.max_iter"] = 10000
     s_opts["ipopt.tol"] = 10**(-tolerance)
     s_opts["ipopt.print_frequency_iter"] = 100 
     solver = ca.nlpsol("solver", "ipopt", prob, s_opts)
