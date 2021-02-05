@@ -3,34 +3,29 @@ import numpy as np
 import matplotlib.pyplot as plt  
 
 # %% Settings 
-# Effect of mesh density on generic_CM0
-# cases = ['7', '13']
-# Effect of mesh density on specific_CM3
-# cases = ['0', '3']
-# Effect of mesh density on generic_CM4
-# cases = ['14', '17']
-# Effect of contact configuration (with N=50)
-# cases = ['7', '0', '14']
-# Effect of contact configuration (with N=100)
-# cases = ['13', '3']
-# Effect of tendon compliance (with N=50)
-# cases = ['0','4','8','11']
-# Effect of weight on MTP excitation term (with N=50)
-# cases = ['23','18','0']
-# Effect of active vs passive MTP
-# cases = ['13','24']
-# Effect of anybody configuration
-# cases = ['26','27','28','29']
-# cases = ['42','43']
 
-# Effect of tendon compliance (with N=100): specific
+# 1. Effect of generic vs specific (N=100)
+# cases = ['13', '3']
+
+# 2. Effect of tendon compliance (with N=100): specific
 # cases = ['3','31','32','34','36','38','41','43']
 
-# Effect of weight on MTP excitation term (with N=100): specific
-# cases = ['47', '45', '3']
+# 3. Effect of weight on MTP excitation term (with N=100): specific
+cases = ['48', '47', '45', '3']
 
-# Passive vs active (1e6) (with N=100): generic
-cases = ['24', '13']
+# 4. Effect of Passive vs active (1e6) (with N=100): specific
+# cases = ['48', '3']
+
+# 5. Effect of mesh density (with N=100): specific
+# cases = ['7', '13']
+
+# 5. Better knee (local optima): 6, 8, 12, 25
+# cases = ['4', '6']
+
+# 6. Effect of Passive vs active (1e6): generic
+# cases = ['24', '13']
+
+
 
 mainName = "predictsim_mtp"
 subject = "subject1"
@@ -87,16 +82,16 @@ fig.align_ylabels()
 # %% Muscle activations
 muscles = optimaltrajectories[cases[0]]['muscles']
 musclesToPlot = ['glut_med1_r', 'glut_med2_r', 'glut_med3_r', 'glut_min1_r', 
-                 'glut_min2_r', 'glut_min3_r', 'semimem_r', 'semiten_r', 
-                 'bifemlh_r', 'bifemsh_r', 'sar_r', 'add_long_r', 'add_brev_r',
-                 'add_mag1_r', 'add_mag2_r', 'add_mag3_r', 'tfl_r', 'pect_r',
-                 'grac_r', 'glut_max1_r', 'glut_max2_r', 'glut_max3_r',
-                 'iliacus_r', 'psoas_r', 'quad_fem_r', 'gem_r', 'peri_r',
-                 'rect_fem_r', 'vas_med_r', 'vas_int_r', 'vas_lat_r',
-                 'med_gas_r', 'lat_gas_r', 'soleus_r', 'tib_post_r',
-                 'flex_dig_r', 'flex_hal_r', 'tib_ant_r', 'per_brev_r',
-                 'per_long_r', 'per_tert_r', 'ext_dig_r', 'ext_hal_r',
-                 'ercspn_r', 'intobl_r', 'extobl_r']
+                  'glut_min2_r', 'glut_min3_r', 'semimem_r', 'semiten_r', 
+                  'bifemlh_r', 'bifemsh_r', 'sar_r', 'add_long_r', 'add_brev_r',
+                  'add_mag1_r', 'add_mag2_r', 'add_mag3_r', 'tfl_r', 'pect_r',
+                  'grac_r', 'glut_max1_r', 'glut_max2_r', 'glut_max3_r',
+                  'iliacus_r', 'psoas_r', 'quad_fem_r', 'gem_r', 'peri_r',
+                  'rect_fem_r', 'vas_med_r', 'vas_int_r', 'vas_lat_r',
+                  'med_gas_r', 'lat_gas_r', 'soleus_r', 'tib_post_r',
+                  'flex_dig_r', 'flex_hal_r', 'tib_ant_r', 'per_brev_r',
+                  'per_long_r', 'per_tert_r', 'ext_dig_r', 'ext_hal_r',
+                  'ercspn_r', 'intobl_r', 'extobl_r']
 mappingEMG = {'glut_med1_r': 'GluMed_r', 
               'glut_med2_r': 'GluMed_r', 
               'glut_med3_r': 'GluMed_r',
@@ -221,7 +216,7 @@ for case in cases:
     ax.plot(optimaltrajectories[case]['GC_percent'],
             optimaltrajectories[case]['mtp_activations'][idxMTPJointsToPlot[0]:idxMTPJointsToPlot[0]+1, :].T, c=next(color), label='case_' + case)  
 ax.set(xlabel='Gait cycle (%)', ylabel='(Nm)',
-       title='MTP activations')
+        title='MTP activations')
 # ax.set_ylim((kinetic_ylim_lb[i],kinetic_ylim_ub[i]))
 handles, labels = ax.get_legend_handles_labels()
 plt.legend(handles, labels, loc='upper right')
@@ -230,9 +225,10 @@ plt.legend(handles, labels, loc='upper right')
 fig, (ax1, ax2) = plt.subplots(1, 2)
 color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
 for count, case in enumerate(cases):
+    c_c = next(color)
     print(optimaltrajectories[case]["COT"])
-    ax1.scatter(count, optimaltrajectories[case]["COT"], s=80)
-    ax2.scatter(count, optimaltrajectories[case]["objective"], s=80)
+    ax1.scatter(count, optimaltrajectories[case]["COT"], s=80, color=c_c)
+    ax2.scatter(count, optimaltrajectories[case]["objective"], s=80, color=c_c)
 ax1.set_title("Cost of Transport")
 ax1.set_ylabel("(J/Kg/m)")    
 ax2.set_title("Optimal cost value")
@@ -244,91 +240,144 @@ ax1.set_xticklabels(xticklabels)
 ax2.set_xticks(x_locations)
 ax2.set_xticklabels(xticklabels)
 
-# # %% Metabolic cost and cost function value
-# fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(1, 5)
-# color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
-# for count, case in enumerate(cases):
-#     ax1.scatter(count, optimaltrajectories[case]["COT"], s=80)
-#     ax2.scatter(count, optimaltrajectories[case]["COT_activation"], s=80)
-#     ax3.scatter(count, optimaltrajectories[case]["COT_maintenance"], s=80)
-#     ax4.scatter(count, optimaltrajectories[case]["COT_shortening"], s=80)
-#     ax5.scatter(count, optimaltrajectories[case]["COT_mechanical"], s=80)
-# ax1.set_title("Cost of Transport")
-# ax1.set_ylabel("(J/Kg/m)")    
-# ax2.set_title("Cost of Transport: activation part")
-# ax2.set_ylabel("()")
-# ax3.set_title("Cost of Transport: maintenance part")
-# ax3.set_ylabel("()")
-# ax4.set_title("Cost of Transport: shortening part")
-# ax4.set_ylabel("()")
-# ax5.set_title("Cost of Transport: mechanical part")
-# ax5.set_ylabel("()")
-# x_locations = np.linspace(0, len(cases)-1, len(cases))
-# ax1.set_xticks(x_locations)
-# xticklabels = ["Case_" + case for case in cases]
-# ax1.set_xticklabels(xticklabels)
-# ax2.set_xticks(x_locations)
-# ax2.set_xticklabels(xticklabels)
-# ax3.set_xticks(x_locations)
-# ax3.set_xticklabels(xticklabels)
-# ax4.set_xticks(x_locations)
-# ax4.set_xticklabels(xticklabels)
-# ax5.set_xticks(x_locations)
-# ax5.set_xticklabels(xticklabels)
+# # # %% Metabolic cost and cost function value
+# # fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(1, 5)
+# # color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
+# # for count, case in enumerate(cases):
+# #     ax1.scatter(count, optimaltrajectories[case]["COT"], s=80)
+# #     ax2.scatter(count, optimaltrajectories[case]["COT_activation"], s=80)
+# #     ax3.scatter(count, optimaltrajectories[case]["COT_maintenance"], s=80)
+# #     ax4.scatter(count, optimaltrajectories[case]["COT_shortening"], s=80)
+# #     ax5.scatter(count, optimaltrajectories[case]["COT_mechanical"], s=80)
+# # ax1.set_title("Cost of Transport")
+# # ax1.set_ylabel("(J/Kg/m)")    
+# # ax2.set_title("Cost of Transport: activation part")
+# # ax2.set_ylabel("()")
+# # ax3.set_title("Cost of Transport: maintenance part")
+# # ax3.set_ylabel("()")
+# # ax4.set_title("Cost of Transport: shortening part")
+# # ax4.set_ylabel("()")
+# # ax5.set_title("Cost of Transport: mechanical part")
+# # ax5.set_ylabel("()")
+# # x_locations = np.linspace(0, len(cases)-1, len(cases))
+# # ax1.set_xticks(x_locations)
+# # xticklabels = ["Case_" + case for case in cases]
+# # ax1.set_xticklabels(xticklabels)
+# # ax2.set_xticks(x_locations)
+# # ax2.set_xticklabels(xticklabels)
+# # ax3.set_xticks(x_locations)
+# # ax3.set_xticklabels(xticklabels)
+# # ax4.set_xticks(x_locations)
+# # ax4.set_xticklabels(xticklabels)
+# # ax5.set_xticks(x_locations)
+# # ax5.set_xticklabels(xticklabels)
 
-# # %% Muscle fiber lengths
-# NMusclesToPlot = len(musclesToPlot)
-# idxMusclesToPlot = getJointIndices(muscles, musclesToPlot)
-# fig, axs = plt.subplots(8, 6, sharex=True)    
-# fig.suptitle('Normalized muscle fiber lengths')
-# for i, ax in enumerate(axs.flat):
-#     color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
-#     if i < NMusclesToPlot:
-#         for case in cases:
-#             ax.plot(optimaltrajectories[case]['GC_percent'],
-#                     optimaltrajectories[case]['norm_fiber_lengths'][idxMusclesToPlot[i]:idxMusclesToPlot[i]+1, :].T, c=next(color), label='case_' + case)
-#         ax.set_title(muscles[idxMusclesToPlot[i]])
-#         ax.set_ylim((0,2))
-#         handles, labels = ax.get_legend_handles_labels()
-#         plt.legend(handles, labels, loc='upper right')
-# plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
-# plt.setp(axs[:, 0], ylabel='(-)')
-# fig.align_ylabels()
+# # # %% Muscle fiber lengths
+# # NMusclesToPlot = len(musclesToPlot)
+# # idxMusclesToPlot = getJointIndices(muscles, musclesToPlot)
+# # fig, axs = plt.subplots(8, 6, sharex=True)    
+# # fig.suptitle('Normalized muscle fiber lengths')
+# # for i, ax in enumerate(axs.flat):
+# #     color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
+# #     if i < NMusclesToPlot:
+# #         for case in cases:
+# #             ax.plot(optimaltrajectories[case]['GC_percent'],
+# #                     optimaltrajectories[case]['norm_fiber_lengths'][idxMusclesToPlot[i]:idxMusclesToPlot[i]+1, :].T, c=next(color), label='case_' + case)
+# #         ax.set_title(muscles[idxMusclesToPlot[i]])
+# #         ax.set_ylim((0,2))
+# #         handles, labels = ax.get_legend_handles_labels()
+# #         plt.legend(handles, labels, loc='upper right')
+# # plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
+# # plt.setp(axs[:, 0], ylabel='(-)')
+# # fig.align_ylabels()
 
-# # %% Muscle fiber velocity
-# NMusclesToPlot = len(musclesToPlot)
-# idxMusclesToPlot = getJointIndices(muscles, musclesToPlot)
-# fig, axs = plt.subplots(8, 6, sharex=True)    
-# fig.suptitle('Muscle fiber velocities')
-# for i, ax in enumerate(axs.flat):
-#     color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
-#     if i < NMusclesToPlot:
-#         for case in cases:
-#             ax.plot(optimaltrajectories[case]['GC_percent'],
-#                     optimaltrajectories[case]['fiber_velocity'][idxMusclesToPlot[i]:idxMusclesToPlot[i]+1, :].T, c=next(color), label='case_' + case)
-#         ax.set_title(muscles[idxMusclesToPlot[i]])
-#         ax.set_ylim((-1,1))
-#         handles, labels = ax.get_legend_handles_labels()
-#         plt.legend(handles, labels, loc='upper right')
-# plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
-# plt.setp(axs[:, 0], ylabel='(-)')
-# fig.align_ylabels()
+# # # %% Muscle fiber velocity
+# # NMusclesToPlot = len(musclesToPlot)
+# # idxMusclesToPlot = getJointIndices(muscles, musclesToPlot)
+# # fig, axs = plt.subplots(8, 6, sharex=True)    
+# # fig.suptitle('Muscle fiber velocities')
+# # for i, ax in enumerate(axs.flat):
+# #     color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
+# #     if i < NMusclesToPlot:
+# #         for case in cases:
+# #             ax.plot(optimaltrajectories[case]['GC_percent'],
+# #                     optimaltrajectories[case]['fiber_velocity'][idxMusclesToPlot[i]:idxMusclesToPlot[i]+1, :].T, c=next(color), label='case_' + case)
+# #         ax.set_title(muscles[idxMusclesToPlot[i]])
+# #         ax.set_ylim((-1,1))
+# #         handles, labels = ax.get_legend_handles_labels()
+# #         plt.legend(handles, labels, loc='upper right')
+# # plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
+# # plt.setp(axs[:, 0], ylabel='(-)')
+# # fig.align_ylabels()
 
-# # %% Mechanical work muscles
-# NMusclesToPlot = len(musclesToPlot)
-# idxMusclesToPlot = getJointIndices(muscles, musclesToPlot)
-# fig, axs = plt.subplots(8, 6, sharex=True)    
-# fig.suptitle('Muscle mechanical work')
-# for i, ax in enumerate(axs.flat):
-#     color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
-#     if i < NMusclesToPlot:
-#         for case in cases:
-#             ax.plot(optimaltrajectories[case]['GC_percent'],
-#                     optimaltrajectories[case]['COT_mechanical_muscles'][idxMusclesToPlot[i]:idxMusclesToPlot[i]+1, :].T, c=next(color), label='case_' + case)
-#         ax.set_title(muscles[idxMusclesToPlot[i]])
-#         ax.set_ylim((-1,1))
-#         handles, labels = ax.get_legend_handles_labels()
-#         plt.legend(handles, labels, loc='upper right')
-# plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
-# plt.setp(axs[:, 0], ylabel='(-)')
-# fig.align_ylabels()
+# # # %% Mechanical work muscles
+# # NMusclesToPlot = len(musclesToPlot)
+# # idxMusclesToPlot = getJointIndices(muscles, musclesToPlot)
+# # fig, axs = plt.subplots(8, 6, sharex=True)    
+# # fig.suptitle('Muscle mechanical work')
+# # for i, ax in enumerate(axs.flat):
+# #     color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
+# #     if i < NMusclesToPlot:
+# #         for case in cases:
+# #             ax.plot(optimaltrajectories[case]['GC_percent'],
+# #                     optimaltrajectories[case]['COT_mechanical_muscles'][idxMusclesToPlot[i]:idxMusclesToPlot[i]+1, :].T, c=next(color), label='case_' + case)
+# #         ax.set_title(muscles[idxMusclesToPlot[i]])
+# #         ax.set_ylim((-1,1))
+# #         handles, labels = ax.get_legend_handles_labels()
+# #         plt.legend(handles, labels, loc='upper right')
+# # plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
+# # plt.setp(axs[:, 0], ylabel='(-)')
+# # fig.align_ylabels()
+
+# %% Cost terms
+fig, ((ax11, ax12, ax13), (ax21, ax22, ax23), (ax31, ax32, ax33)) = plt.subplots(3, 3)
+color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases)))) 
+for count, case in enumerate(cases):
+    c_c = next(color)
+    ax11.scatter(count, optimaltrajectories[case]["objective_terms"]["metabolicEnergyRateTerm"], s=80, color=c_c)
+    ax12.scatter(count, optimaltrajectories[case]["objective_terms"]["activationTerm"], s=80, color=c_c)
+    ax13.scatter(count, optimaltrajectories[case]["objective_terms"]["armExcitationTerm"], s=80, color=c_c)
+    ax21.scatter(count, optimaltrajectories[case]["objective_terms"]["jointAccelerationTerm"], s=80, color=c_c)
+    ax22.scatter(count, optimaltrajectories[case]["objective_terms"]["passiveJointTorqueTerm"], s=80, color=c_c)
+    ax23.scatter(count, optimaltrajectories[case]["objective_terms"]["activationDtTerm"], s=80, color=c_c)
+    ax31.scatter(count, optimaltrajectories[case]["objective_terms"]["forceDtTerm"], s=80, color=c_c)
+    ax32.scatter(count, optimaltrajectories[case]["objective_terms"]["armAccelerationTerm"], s=80, color=c_c)
+    ax33.scatter(count, optimaltrajectories[case]["objective_terms"]["mtpExcitationTerm"], s=80, color=c_c)   
+ax11.set_title("metabolicEnergyRateTerm")
+ax11.set_ylabel("(J/Kg/m)")    
+ax12.set_title("activationTerm")
+ax12.set_ylabel("()")
+ax13.set_title("armExcitationTerm")
+ax13.set_ylabel("()")
+ax21.set_title("jointAccelerationTerm")
+ax21.set_ylabel("()")
+ax22.set_title("passiveJointTorqueTerm")
+ax22.set_ylabel("()")
+ax23.set_title("activationDtTerm")
+ax23.set_ylabel("()")
+ax31.set_title("forceDtTerm")
+ax31.set_ylabel("()")
+ax32.set_title("armAccelerationTerm")
+ax32.set_ylabel("()")
+ax33.set_title("mtpExcitationTerm")
+ax33.set_ylabel("()")
+x_locations = np.linspace(0, len(cases)-1, len(cases))
+ax11.set_xticks(x_locations)
+xticklabels = ["Case_" + case for case in cases]
+ax11.set_xticklabels(xticklabels)
+ax12.set_xticks(x_locations)
+ax12.set_xticklabels(xticklabels)
+ax13.set_xticks(x_locations)
+ax13.set_xticklabels(xticklabels)
+ax21.set_xticks(x_locations)
+ax21.set_xticklabels(xticklabels)
+ax22.set_xticks(x_locations)
+ax22.set_xticklabels(xticklabels)
+ax23.set_xticks(x_locations)
+ax23.set_xticklabels(xticklabels)
+ax31.set_xticks(x_locations)
+ax31.set_xticklabels(xticklabels)
+ax32.set_xticks(x_locations)
+ax32.set_xticklabels(xticklabels)
+ax33.set_xticks(x_locations)
+ax33.set_xticklabels(xticklabels)

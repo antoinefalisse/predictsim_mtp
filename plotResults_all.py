@@ -17,9 +17,14 @@ import matplotlib.pyplot as plt
 # cases_mtp = ['3']
 # cases_no_mtp = ['4']
 
-# Effect of mtp on generic_CM5 (N=100)
-cases_mtp = ['13']
-cases_no_mtp = ['10']
+# # Effect of mtp on generic_CM5 (N=100)
+# cases_mtp = ['13', '3']
+# cases_no_mtp = ['5', '4']
+
+cases_mtp = ['48', '47', '45', '3']
+cases_no_mtp = ['5', '4']
+
+
 
 # cases_mtp = ['3','13']
 # cases_no_mtp = ['4']
@@ -284,10 +289,10 @@ for count, case in enumerate(cases_mtp):
     print(optimaltrajectories[case]["COT"])
     ax1.scatter(count, optimaltrajectories[case]["COT"], s=80, c=color_mtp[count, :].reshape(1,-1))
     ax2.scatter(count, optimaltrajectories[case]["objective"], s=80, c=color_mtp[count, :].reshape(1,-1))
-color_no_mtp=plt.cm.rainbow(np.linspace(0,1,len(cases_mtp))) 
+color_no_mtp=plt.cm.rainbow(np.linspace(0,1,len(cases_no_mtp))) 
 for count, case in enumerate(cases_no_mtp):
     print(optimaltrajectories_no_mtp[case]["COT"])
-    ax1.scatter(count+len(cases_mtp), optimaltrajectories_no_mtp[case]["COT"], s=80, c=color_mtp[count, :].reshape(1,-1), marker="^")
+    ax1.scatter(count+len(cases_mtp), optimaltrajectories_no_mtp[case]["COT"], s=80, c=color_no_mtp[count, :].reshape(1,-1), marker="^")
     ax2.scatter(count+len(cases_mtp), optimaltrajectories_no_mtp[case]["objective"], s=80, c=color_no_mtp[count, :].reshape(1,-1), marker="^")      
 ax1.set_title("Cost of Transport")
 ax1.set_ylabel("(J/Kg/m)")    
@@ -299,3 +304,66 @@ xticklabels = ["Case_" + case + "_mtp" for case in cases_mtp] + ["Case_" + case 
 ax1.set_xticklabels(xticklabels)
 ax2.set_xticks(x_locations)
 ax2.set_xticklabels(xticklabels)
+
+# %% Cost terms
+fig, ((ax11, ax12, ax13), (ax21, ax22, ax23), (ax31, ax32, ax33)) = plt.subplots(3, 3)
+color_mtp=plt.cm.rainbow(np.linspace(0,1,len(cases_mtp))) 
+for count, case in enumerate(cases_mtp):
+    ax11.scatter(count, optimaltrajectories[case]["objective_terms"]["metabolicEnergyRateTerm"], s=80, c=color_mtp[count, :].reshape(1,-1))
+    ax12.scatter(count, optimaltrajectories[case]["objective_terms"]["activationTerm"], s=80, c=color_mtp[count, :].reshape(1,-1))
+    ax13.scatter(count, optimaltrajectories[case]["objective_terms"]["armExcitationTerm"], s=80, c=color_mtp[count, :].reshape(1,-1))
+    ax21.scatter(count, optimaltrajectories[case]["objective_terms"]["jointAccelerationTerm"], s=80, c=color_mtp[count, :].reshape(1,-1))
+    ax22.scatter(count, optimaltrajectories[case]["objective_terms"]["passiveJointTorqueTerm"], s=80, c=color_mtp[count, :].reshape(1,-1))
+    ax23.scatter(count, optimaltrajectories[case]["objective_terms"]["activationDtTerm"], s=80, c=color_mtp[count, :].reshape(1,-1))
+    ax31.scatter(count, optimaltrajectories[case]["objective_terms"]["forceDtTerm"], s=80, c=color_mtp[count, :].reshape(1,-1))
+    ax32.scatter(count, optimaltrajectories[case]["objective_terms"]["armAccelerationTerm"], s=80, c=color_mtp[count, :].reshape(1,-1))
+    ax33.scatter(count, optimaltrajectories[case]["objective_terms"]["mtpExcitationTerm"], s=80, c=color_mtp[count, :].reshape(1,-1))
+color_no_mtp=plt.cm.rainbow(np.linspace(0,1,len(cases_no_mtp))) 
+for count, case in enumerate(cases_no_mtp):
+    ax11.scatter(count+len(cases_mtp), optimaltrajectories_no_mtp[case]["objective_terms"]["metabolicEnergyRateTerm"], s=80, c=color_no_mtp[count, :].reshape(1,-1), marker="^")
+    ax12.scatter(count+len(cases_mtp), optimaltrajectories_no_mtp[case]["objective_terms"]["activationTerm"], s=80, c=color_no_mtp[count, :].reshape(1,-1), marker="^")
+    ax13.scatter(count+len(cases_mtp), optimaltrajectories_no_mtp[case]["objective_terms"]["armExcitationTerm"], s=80, c=color_no_mtp[count, :].reshape(1,-1), marker="^")
+    ax21.scatter(count+len(cases_mtp), optimaltrajectories_no_mtp[case]["objective_terms"]["jointAccelerationTerm"], s=80, c=color_no_mtp[count, :].reshape(1,-1), marker="^")
+    ax22.scatter(count+len(cases_mtp), optimaltrajectories_no_mtp[case]["objective_terms"]["passiveJointTorqueTerm"], s=80, c=color_no_mtp[count, :].reshape(1,-1), marker="^")
+    ax23.scatter(count+len(cases_mtp), optimaltrajectories_no_mtp[case]["objective_terms"]["activationDtTerm"], s=80, c=color_no_mtp[count, :].reshape(1,-1), marker="^")
+    ax31.scatter(count+len(cases_mtp), optimaltrajectories_no_mtp[case]["objective_terms"]["forceDtTerm"], s=80, c=color_no_mtp[count, :].reshape(1,-1), marker="^")
+    ax32.scatter(count+len(cases_mtp), optimaltrajectories_no_mtp[case]["objective_terms"]["armAccelerationTerm"], s=80, c=color_no_mtp[count, :].reshape(1,-1), marker="^")
+    ax33.scatter(count+len(cases_mtp), optimaltrajectories_no_mtp[case]["objective_terms"]["mtpExcitationTerm"], s=80, c=color_no_mtp[count, :].reshape(1,-1), marker="^")     
+ax11.set_title("metabolicEnergyRateTerm")
+ax11.set_ylabel("(J/Kg/m)")    
+ax12.set_title("activationTerm")
+ax12.set_ylabel("()")
+ax13.set_title("armExcitationTerm")
+ax13.set_ylabel("()")
+ax21.set_title("jointAccelerationTerm")
+ax21.set_ylabel("()")
+ax22.set_title("passiveJointTorqueTerm")
+ax22.set_ylabel("()")
+ax23.set_title("activationDtTerm")
+ax23.set_ylabel("()")
+ax31.set_title("forceDtTerm")
+ax31.set_ylabel("()")
+ax32.set_title("armAccelerationTerm")
+ax32.set_ylabel("()")
+ax33.set_title("mtpExcitationTerm")
+ax33.set_ylabel("()")
+x_locations = np.linspace(0, len(cases_mtp)+len(cases_no_mtp)-1, len(cases_mtp)+len(cases_no_mtp))
+ax11.set_xticks(x_locations)
+xticklabels = ["Case_" + case + "_mtp" for case in cases_mtp] + ["Case_" + case + "_no_mtp" for case in cases_no_mtp]
+ax11.set_xticklabels(xticklabels)
+ax12.set_xticks(x_locations)
+ax12.set_xticklabels(xticklabels)
+ax13.set_xticks(x_locations)
+ax13.set_xticklabels(xticklabels)
+ax21.set_xticks(x_locations)
+ax21.set_xticklabels(xticklabels)
+ax22.set_xticks(x_locations)
+ax22.set_xticklabels(xticklabels)
+ax23.set_xticks(x_locations)
+ax23.set_xticklabels(xticklabels)
+ax31.set_xticks(x_locations)
+ax31.set_xticklabels(xticklabels)
+ax32.set_xticks(x_locations)
+ax32.set_xticklabels(xticklabels)
+ax33.set_xticks(x_locations)
+ax33.set_xticklabels(xticklabels)

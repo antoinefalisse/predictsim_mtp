@@ -29,11 +29,9 @@ loadPolynomialData = True
 plotPolynomials = False
 subject = 'subject1_mtp'
 
-# cases = [str(i) for i in range(48)]
+cases = [str(i) for i in range(50, 66)]
+# cases = [str(i) for i in range(66, 80)]
 
-cases = ['48']
-# cases = ['30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45','46','47']
-# cases = ['43']
 from settings_predictsim import getSettings_predictsim_mtp   
 settings = getSettings_predictsim_mtp() 
 for case in cases:
@@ -1733,6 +1731,24 @@ for case in cases:
                     activationDtTerm_opt_all += weights['controls'] * activationDtTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
                     forceDtTerm_opt_all += weights['controls'] * forceDtTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
                     armAccelerationTerm_opt_all += weights['controls'] * armAccelerationTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
+        
+        objective_terms = {"metabolicEnergyRateTerm": metabolicEnergyRateTerm_opt_all.full(),
+                           "activationTerm": activationTerm_opt_all.full(),
+                           "armExcitationTerm": armExcitationTerm_opt_all.full(),
+                           "jointAccelerationTerm": jointAccelerationTerm_opt_all.full(),
+                           "passiveJointTorqueTerm": passiveJointTorqueTerm_opt_all.full(),
+                           "activationDtTerm": activationDtTerm_opt_all.full(),
+                           "forceDtTerm": forceDtTerm_opt_all.full(),
+                           "armAccelerationTerm": armAccelerationTerm_opt_all.full()} 
+        objective_terms_nsc = {"metabolicEnergyRateTerm": metabolicEnergyRateTerm_opt_all.full() / weights['metabolicEnergyRateTerm'],
+                               "activationTerm": activationTerm_opt_all.full() / weights['activationTerm'],
+                               "armExcitationTerm": armExcitationTerm_opt_all.full() / weights['armExcitationTerm'],
+                               "jointAccelerationTerm": jointAccelerationTerm_opt_all.full() / weights['jointAccelerationTerm'],
+                               "passiveJointTorqueTerm": passiveJointTorqueTerm_opt_all.full() / weights['passiveJointTorqueTerm'],
+                               "activationDtTerm": activationDtTerm_opt_all.full() / weights['controls'],
+                               "forceDtTerm": forceDtTerm_opt_all.full() / weights['controls'],
+                               "armAccelerationTerm": armAccelerationTerm_opt_all.full() / weights['controls']}
+        
         if activeMTP:
             JAll_opt = (metabolicEnergyRateTerm_opt_all.full() +
                          activationTerm_opt_all.full() + 
@@ -1743,6 +1759,8 @@ for case in cases:
                          activationDtTerm_opt_all.full() + 
                          forceDtTerm_opt_all.full() + 
                          armAccelerationTerm_opt_all.full())
+            objective_terms["mtpExcitationTerm"] = mtpExcitationTerm_opt_all.full()
+            objective_terms_nsc = {"mtpExcitationTerm": mtpExcitationTerm_opt_all.full() / weights['mtpExcitationTerm']}
         else:
             JAll_opt = (metabolicEnergyRateTerm_opt_all.full() +
                          activationTerm_opt_all.full() + 
@@ -1751,7 +1769,11 @@ for case in cases:
                          passiveJointTorqueTerm_opt_all.full() + 
                          activationDtTerm_opt_all.full() + 
                          forceDtTerm_opt_all.full() + 
-                         armAccelerationTerm_opt_all.full())            
+                         armAccelerationTerm_opt_all.full())
+            objective_terms["mtpExcitationTerm"] = 0
+
+        
+            
         
         if stats['success'] == True:
             assert np.alltrue(
@@ -1945,7 +1967,7 @@ for case in cases:
                  
             if stats['success'] == True:
                 assert np.alltrue(
-                    np.abs(hillEquilibriumk_GC.full()) <= 1e-4), "Hill"
+                    np.abs(hillEquilibriumk_GC.full()) <= 1e-4), "Hill_" + case
                  
             normFiberLength_GC[:,k] = normFiberLengthk_GC.full().flatten()
             fiberVelocity_GC[:,k] = fiberVelocityk_GC.full().flatten()
@@ -1982,7 +2004,8 @@ for case in cases:
             activationHeatRate[0, k] = activationHeatRatek_allMuscles
             maintenanceHeatRate[0, k] = maintenanceHeatRatek_allMuscles
             shorteningHeatRate[0, k] = shorteningHeatRatek_allMuscles
-            mechanicalWorkRate[0, k] = mechanicalWorkRatek_allMuscles            
+            mechanicalWorkRate[0, k] = mechanicalWorkRatek_allMuscles     
+            
         # Integrate
         totalMetabolicEnergyRate_int = np.trapz(totalMetabolicEnergyRate,
                                                 tgrid_GC)
@@ -2037,6 +2060,8 @@ for case in cases:
                                 'COT': COT_GC[0],
                                 'GC_percent': GC_percent,
                                 'objective': stats['iterations']['obj'][-1],
+                                'objective_terms': objective_terms,
+                                'objective_terms_nsc': objective_terms_nsc,
                                 'iter_count': stats['iter_count']}              
             np.save(os.path.join(pathTrajectories, 'optimaltrajectories.npy'),
                     optimaltrajectories)

@@ -3,14 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt  
 
 # %% Settings 
-# Effect of mesh density on generic_CM0
-# cases = ['3', '5']
-# Effect of mesh density on specific_CM3
-# cases = ['0', '4']
-# Effect of contact configuration (with N=50)
-# cases = ['3', '0']
 # Effect of contact configuration (with N=100)
-cases = ['10','5']
+cases = ['5','4']
 mainName = "predictsim_no_mtp"
 subject = "subject1"
 model = "mtp"
@@ -194,8 +188,9 @@ fig.align_ylabels()
 fig, (ax1, ax2) = plt.subplots(1, 2)
 color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
 for count, case in enumerate(cases):
-    ax1.scatter(count, optimaltrajectories[case]["COT"], s=80)
-    ax2.scatter(count, optimaltrajectories[case]["objective"], s=80)
+    c_c = next(color)
+    ax1.scatter(count, optimaltrajectories[case]["COT"], s=80, color=c_c, label='case_' + case)
+    ax2.scatter(count, optimaltrajectories[case]["objective"], s=80, color=c_c, label='case_' + case)
 ax1.set_title("Cost of Transport")
 ax1.set_ylabel("(J/Kg/m)")    
 ax2.set_title("Optimal cost value")
@@ -206,4 +201,7 @@ xticklabels = ["Case_" + case for case in cases]
 ax1.set_xticklabels(xticklabels)
 ax2.set_xticks(x_locations)
 ax2.set_xticklabels(xticklabels)
- 
+# handles, labels = ax1.get_legend_handles_labels()
+# plt.legend(handles, labels, loc='upper right')
+# handles, labels = ax2.get_legend_handles_labels()
+# plt.legend(handles, labels, loc='upper right')
