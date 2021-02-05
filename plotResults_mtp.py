@@ -18,9 +18,20 @@ import matplotlib.pyplot as plt
 # Effect of weight on MTP excitation term (with N=50)
 # cases = ['23','18','0']
 # Effect of active vs passive MTP
-cases = ['13','24']
+# cases = ['13','24']
 # Effect of anybody configuration
 # cases = ['26','27','28','29']
+# cases = ['42','43']
+
+# Effect of tendon compliance (with N=100): specific
+# cases = ['3','31','32','34','36','38','41','43']
+
+# Effect of weight on MTP excitation term (with N=100): specific
+# cases = ['47', '45', '3']
+
+# Passive vs active (1e6) (with N=100): generic
+cases = ['24', '13']
+
 mainName = "predictsim_mtp"
 subject = "subject1"
 model = "mtp"
@@ -232,3 +243,92 @@ xticklabels = ["Case_" + case for case in cases]
 ax1.set_xticklabels(xticklabels)
 ax2.set_xticks(x_locations)
 ax2.set_xticklabels(xticklabels)
+
+# # %% Metabolic cost and cost function value
+# fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(1, 5)
+# color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
+# for count, case in enumerate(cases):
+#     ax1.scatter(count, optimaltrajectories[case]["COT"], s=80)
+#     ax2.scatter(count, optimaltrajectories[case]["COT_activation"], s=80)
+#     ax3.scatter(count, optimaltrajectories[case]["COT_maintenance"], s=80)
+#     ax4.scatter(count, optimaltrajectories[case]["COT_shortening"], s=80)
+#     ax5.scatter(count, optimaltrajectories[case]["COT_mechanical"], s=80)
+# ax1.set_title("Cost of Transport")
+# ax1.set_ylabel("(J/Kg/m)")    
+# ax2.set_title("Cost of Transport: activation part")
+# ax2.set_ylabel("()")
+# ax3.set_title("Cost of Transport: maintenance part")
+# ax3.set_ylabel("()")
+# ax4.set_title("Cost of Transport: shortening part")
+# ax4.set_ylabel("()")
+# ax5.set_title("Cost of Transport: mechanical part")
+# ax5.set_ylabel("()")
+# x_locations = np.linspace(0, len(cases)-1, len(cases))
+# ax1.set_xticks(x_locations)
+# xticklabels = ["Case_" + case for case in cases]
+# ax1.set_xticklabels(xticklabels)
+# ax2.set_xticks(x_locations)
+# ax2.set_xticklabels(xticklabels)
+# ax3.set_xticks(x_locations)
+# ax3.set_xticklabels(xticklabels)
+# ax4.set_xticks(x_locations)
+# ax4.set_xticklabels(xticklabels)
+# ax5.set_xticks(x_locations)
+# ax5.set_xticklabels(xticklabels)
+
+# # %% Muscle fiber lengths
+# NMusclesToPlot = len(musclesToPlot)
+# idxMusclesToPlot = getJointIndices(muscles, musclesToPlot)
+# fig, axs = plt.subplots(8, 6, sharex=True)    
+# fig.suptitle('Normalized muscle fiber lengths')
+# for i, ax in enumerate(axs.flat):
+#     color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
+#     if i < NMusclesToPlot:
+#         for case in cases:
+#             ax.plot(optimaltrajectories[case]['GC_percent'],
+#                     optimaltrajectories[case]['norm_fiber_lengths'][idxMusclesToPlot[i]:idxMusclesToPlot[i]+1, :].T, c=next(color), label='case_' + case)
+#         ax.set_title(muscles[idxMusclesToPlot[i]])
+#         ax.set_ylim((0,2))
+#         handles, labels = ax.get_legend_handles_labels()
+#         plt.legend(handles, labels, loc='upper right')
+# plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
+# plt.setp(axs[:, 0], ylabel='(-)')
+# fig.align_ylabels()
+
+# # %% Muscle fiber velocity
+# NMusclesToPlot = len(musclesToPlot)
+# idxMusclesToPlot = getJointIndices(muscles, musclesToPlot)
+# fig, axs = plt.subplots(8, 6, sharex=True)    
+# fig.suptitle('Muscle fiber velocities')
+# for i, ax in enumerate(axs.flat):
+#     color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
+#     if i < NMusclesToPlot:
+#         for case in cases:
+#             ax.plot(optimaltrajectories[case]['GC_percent'],
+#                     optimaltrajectories[case]['fiber_velocity'][idxMusclesToPlot[i]:idxMusclesToPlot[i]+1, :].T, c=next(color), label='case_' + case)
+#         ax.set_title(muscles[idxMusclesToPlot[i]])
+#         ax.set_ylim((-1,1))
+#         handles, labels = ax.get_legend_handles_labels()
+#         plt.legend(handles, labels, loc='upper right')
+# plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
+# plt.setp(axs[:, 0], ylabel='(-)')
+# fig.align_ylabels()
+
+# # %% Mechanical work muscles
+# NMusclesToPlot = len(musclesToPlot)
+# idxMusclesToPlot = getJointIndices(muscles, musclesToPlot)
+# fig, axs = plt.subplots(8, 6, sharex=True)    
+# fig.suptitle('Muscle mechanical work')
+# for i, ax in enumerate(axs.flat):
+#     color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
+#     if i < NMusclesToPlot:
+#         for case in cases:
+#             ax.plot(optimaltrajectories[case]['GC_percent'],
+#                     optimaltrajectories[case]['COT_mechanical_muscles'][idxMusclesToPlot[i]:idxMusclesToPlot[i]+1, :].T, c=next(color), label='case_' + case)
+#         ax.set_title(muscles[idxMusclesToPlot[i]])
+#         ax.set_ylim((-1,1))
+#         handles, labels = ax.get_legend_handles_labels()
+#         plt.legend(handles, labels, loc='upper right')
+# plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
+# plt.setp(axs[:, 0], ylabel='(-)')
+# fig.align_ylabels()

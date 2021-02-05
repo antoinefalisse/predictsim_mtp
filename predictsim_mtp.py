@@ -29,7 +29,11 @@ loadPolynomialData = True
 plotPolynomials = False
 subject = 'subject1_mtp'
 
-cases = ['33','34','35','36','37','38','39','40','41','42','43','44','45','46','47','48','49','50','51']
+# cases = [str(i) for i in range(48)]
+
+cases = ['48']
+# cases = ['30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45','46','47']
+# cases = ['43']
 from settings_predictsim import getSettings_predictsim_mtp   
 settings = getSettings_predictsim_mtp() 
 for case in cases:
@@ -1904,6 +1908,16 @@ for case in cases:
         basal_coef = 1.2
         basal_exp = 1        
         totalMetabolicEnergyRate = np.zeros((1,2*N))
+        activationHeatRate = np.zeros((1,2*N))
+        maintenanceHeatRate = np.zeros((1,2*N))
+        shorteningHeatRate = np.zeros((1,2*N))
+        mechanicalWorkRate = np.zeros((1,2*N))
+        normFiberLength_GC = np.zeros((NMuscles,2*N))
+        fiberVelocity_GC = np.zeros((NMuscles,2*N))
+        activationHeatRate_GC = np.zeros((NMuscles,2*N))
+        maintenanceHeatRate_GC = np.zeros((NMuscles,2*N))
+        shorteningHeatRate_GC = np.zeros((NMuscles,2*N))
+        mechanicalWorkRate_GC = np.zeros((NMuscles,2*N))
         for k in range(2*N):
             ###################################################################
             # Polynomial approximations
@@ -1927,31 +1941,68 @@ for case in cases:
              passiveFiberForcek_GC, normActiveFiberLengthForcek_GC, 
              normFiberLengthk_GC, fiberVelocityk_GC] = (
                  f_hillEquilibrium(A_GC[:, k], lMTk_GC_lr, vMTk_GC_lr,
-                                   F_GC[:, k], FDt_GC[:, k]))   
+                                   F_GC[:, k], FDt_GC[:, k]))  
+                 
+            if stats['success'] == True:
+                assert np.alltrue(
+                    np.abs(hillEquilibriumk_GC.full()) <= 1e-4), "Hill"
+                 
+            normFiberLength_GC[:,k] = normFiberLengthk_GC.full().flatten()
+            fiberVelocity_GC[:,k] = fiberVelocityk_GC.full().flatten()
             
             ###################################################################
             # Get metabolic energy rate
             [activationHeatRatek_GC, maintenanceHeatRatek_GC, 
              shorteningHeatRatek_GC, mechanicalWorkRatek_GC, _, 
              metabolicEnergyRatek_GC] = f_metabolicsBhargava(
-                 A_GC[:, k], A_GC[:, k], normFiberLengthj_opt, 
-                 fiberVelocityj_opt, activeFiberForcej_opt,
-                 passiveFiberForcej_opt, normActiveFiberLengthForcej_opt)    
+                 A_GC[:, k], A_GC[:, k], normFiberLengthk_GC, 
+                 fiberVelocityk_GC, activeFiberForcek_GC,
+                 passiveFiberForcek_GC, normActiveFiberLengthForcek_GC)
+                 
             # Sum over all muscles                     
             metabolicEnergyRatek_allMuscles = np.sum(
                 metabolicEnergyRatek_GC.full())
+            activationHeatRatek_allMuscles = np.sum(
+                activationHeatRatek_GC.full())
+            maintenanceHeatRatek_allMuscles = np.sum(
+                maintenanceHeatRatek_GC.full())
+            shorteningHeatRatek_allMuscles = np.sum(
+                shorteningHeatRatek_GC.full())
+            mechanicalWorkRatek_allMuscles = np.sum(
+                mechanicalWorkRatek_GC.full())
+            
+            activationHeatRate_GC[:,k] = activationHeatRatek_GC.full().flatten()
+            maintenanceHeatRate_GC[:,k] = maintenanceHeatRatek_GC.full().flatten()
+            shorteningHeatRate_GC[:,k] = shorteningHeatRatek_GC.full().flatten()
+            mechanicalWorkRate_GC[:,k] = mechanicalWorkRatek_GC.full().flatten()
             # Add basal rate
             basalRatek = basal_coef*modelMass**basal_exp
             totalMetabolicEnergyRate[0, k] = (metabolicEnergyRatek_allMuscles 
-                                              + basalRatek)      
+                                              + basalRatek) 
+            activationHeatRate[0, k] = activationHeatRatek_allMuscles
+            maintenanceHeatRate[0, k] = maintenanceHeatRatek_allMuscles
+            shorteningHeatRate[0, k] = shorteningHeatRatek_allMuscles
+            mechanicalWorkRate[0, k] = mechanicalWorkRatek_allMuscles            
         # Integrate
         totalMetabolicEnergyRate_int = np.trapz(totalMetabolicEnergyRate,
-                                                tgrid_GC)   
+                                                tgrid_GC)
+        activationHeatRate_int = np.trapz(activationHeatRate,
+                                                tgrid_GC)
+        maintenanceHeatRate_int = np.trapz(maintenanceHeatRate,
+                                                tgrid_GC)
+        shorteningHeatRate_int = np.trapz(shorteningHeatRate,
+                                                tgrid_GC)
+        mechanicalWorkRate_int = np.trapz(mechanicalWorkRate,
+                                                tgrid_GC)
         # Total distance traveled
         distTraveled_opt_GC = (Qs_GC_deg[joints.index('pelvis_tx'),-1] - 
                                Qs_GC_deg[joints.index('pelvis_tx'),0])
         # Cost of transport (COT)
-        COT_GC = totalMetabolicEnergyRate_int / modelMass / distTraveled_opt_GC       
+        COT_GC = totalMetabolicEnergyRate_int / modelMass / distTraveled_opt_GC
+        COT_activation_GC = activationHeatRate_int / modelMass / distTraveled_opt_GC
+        COT_maintenance_GC = maintenanceHeatRate_int / modelMass / distTraveled_opt_GC
+        COT_shortening_GC = shorteningHeatRate_int / modelMass / distTraveled_opt_GC
+        COT_mechanical_GC = mechanicalWorkRate_int / modelMass / distTraveled_opt_GC
             
         # %% Save trajectories for further analysis
         if saveTrajectories: 
@@ -1977,13 +2028,16 @@ for case in cases:
                                 'joint_torques': torques_GC,
                                 'GRF': GRF_GC,
                                 'time': tgrid_GC,
+                                'norm_fiber_lengths': normFiberLength_GC,
+                                'fiber_velocity': fiberVelocity_GC,
                                 'joints': joints,
                                 'muscles': bothSidesMuscles,
                                 'mtp_joints': mtpJoints,
                                 'GRF_labels': GRFNames,
                                 'COT': COT_GC[0],
                                 'GC_percent': GC_percent,
-                                'objective': stats['iterations']['obj'][-1]}              
+                                'objective': stats['iterations']['obj'][-1],
+                                'iter_count': stats['iter_count']}              
             np.save(os.path.join(pathTrajectories, 'optimaltrajectories.npy'),
                     optimaltrajectories)
            

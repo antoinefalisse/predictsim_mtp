@@ -65,31 +65,14 @@ def getSettings_predictsim_no_mtp():
                   'guessType': 'dataDriven',
                   'targetSpeed': 1.33,
                   'N': 100,
-                  'tol': 4},
-            '12': {'contactConfiguration': 'specific',
-                  'guessType': 'dataDriven',
-                  'targetSpeed': 1.33,
-                  'N': 150,
-                  'tol': 4},
-            '13': {'contactConfiguration': 'generic',
-                  'guessType': 'dataDriven',
-                  'targetSpeed': 1.33,
-                  'N': 150,
-                  'tol': 4},
-            '14': {'contactConfiguration': 'specific',
-                  'guessType': 'quasiRandom',
-                  'targetSpeed': 1.33,
-                  'N': 150,
-                  'tol': 4},
-            '15': {'contactConfiguration': 'generic',
-                  'guessType': 'quasiRandom',
-                  'targetSpeed': 1.33,
-                  'N': 150,
-                  'tol': 4},}
+                  'tol': 4}}
     return settings
 
 def getSettings_predictsim_mtp():
     settings = {
+            # Main - specific - N=100
+            ###################################################################
+            ################################################################### 
             # lower cost than "1"
             '0': {'contactConfiguration': 'specific',
                   'guessType': 'dataDriven',
@@ -106,7 +89,10 @@ def getSettings_predictsim_mtp():
                   'tol': 4,
                   'adjustAchillesTendonCompliance': False,
                   'mtpExcitationTerm': 1000000,
-                  'activeMTP': True},                  
+                  'activeMTP': True},      
+            # Main - specific - N=100
+            ###################################################################
+            ###################################################################            
             '2': {'contactConfiguration': 'specific',
                   'guessType': 'dataDriven',
                   'targetSpeed': 1.33,
@@ -124,6 +110,9 @@ def getSettings_predictsim_mtp():
                   'adjustAchillesTendonCompliance': False,
                   'mtpExcitationTerm': 1000000,
                   'activeMTP': True},
+            # Effect of tendon compliance (N=50)
+            ###################################################################
+            ###################################################################
             # lower cost than 5
             '4': {'contactConfiguration': 'specific',
                   'guessType': 'dataDriven',
@@ -143,6 +132,9 @@ def getSettings_predictsim_mtp():
                   'AchillesTendonCompliance': 0.8*35,
                   'mtpExcitationTerm': 1000000,
                   'activeMTP': True},
+            # Main - generic - N=50
+            ###################################################################
+            ###################################################################
             '6': {'contactConfiguration': 'generic',
                   'guessType': 'dataDriven',
                   'targetSpeed': 1.33,
@@ -160,6 +152,9 @@ def getSettings_predictsim_mtp():
                   'adjustAchillesTendonCompliance': False,
                   'mtpExcitationTerm': 1000000,
                   'activeMTP': True},
+            # Effect of tendon compliance (N=50)
+            ###################################################################
+            ###################################################################
             # lower cost than 9
             '8': {'contactConfiguration': 'specific',
                   'guessType': 'dataDriven',
@@ -198,6 +193,9 @@ def getSettings_predictsim_mtp():
                   'AchillesTendonCompliance': 0.4*35,
                   'mtpExcitationTerm': 1000000,
                   'activeMTP': True},
+            # Main - generic - N=100
+            ###################################################################
+            ###################################################################
             '12': {'contactConfiguration': 'generic',
                   'guessType': 'dataDriven',
                   'targetSpeed': 1.33,
@@ -215,6 +213,9 @@ def getSettings_predictsim_mtp():
                   'adjustAchillesTendonCompliance': False,
                   'mtpExcitationTerm': 1000000,
                   'activeMTP': True},
+            # Effect of contact configuration
+            ###################################################################
+            ###################################################################
             # lower cost than 15
             '14': {'contactConfiguration': 'generic_cm4',
                   'guessType': 'dataDriven',
@@ -249,6 +250,9 @@ def getSettings_predictsim_mtp():
                   'adjustAchillesTendonCompliance': False,
                   'mtpExcitationTerm': 1000000,
                   'activeMTP': True},
+            # Effect of mtpExcitationTerm (N=50)
+            ###################################################################
+            ###################################################################
             # lower cost than 19
             '18': {'contactConfiguration': 'specific',
                   'guessType': 'dataDriven',
@@ -299,6 +303,9 @@ def getSettings_predictsim_mtp():
                   'adjustAchillesTendonCompliance': False,
                   'mtpExcitationTerm': 1,
                   'activeMTP': True},
+            # Effect of passive MTP (generic)
+            ###################################################################
+            ###################################################################
             # lower cost than 25
             '24': {'contactConfiguration': 'generic',
                   'guessType': 'dataDriven',
@@ -316,6 +323,9 @@ def getSettings_predictsim_mtp():
                   'adjustAchillesTendonCompliance': False,
                   'mtpExcitationTerm': 0,
                   'activeMTP': False},
+            # Effect of anybody configuration
+            ###################################################################
+            ###################################################################
             '26': {'contactConfiguration': 'specific7',
                   'guessType': 'dataDriven',
                   'targetSpeed': 1.33,
@@ -349,6 +359,9 @@ def getSettings_predictsim_mtp():
                   'adjustAchillesTendonCompliance': False,
                   'mtpExcitationTerm': 1000000,
                   'activeMTP': True},
+            # Effect of tendon compliance (N=100)
+            ###################################################################
+            ###################################################################
             '30': {'contactConfiguration': 'specific',
                   'guessType': 'dataDriven',
                   'targetSpeed': 1.33,
@@ -357,7 +370,8 @@ def getSettings_predictsim_mtp():
                   'adjustAchillesTendonCompliance': True,
                   'AchillesTendonCompliance': 0.9*35,
                   'mtpExcitationTerm': 1000000,
-                  'activeMTP': True},            
+                  'activeMTP': True},  
+            # lower cost than 30
             '31': {'contactConfiguration': 'specific',
                   'guessType': 'quasiRandom',
                   'targetSpeed': 1.33,
@@ -367,6 +381,7 @@ def getSettings_predictsim_mtp():
                   'AchillesTendonCompliance': 0.9*35,
                   'mtpExcitationTerm': 1000000,
                   'activeMTP': True},
+            ###################################################################
             '32': {'contactConfiguration': 'specific',
                   'guessType': 'dataDriven',
                   'targetSpeed': 1.33,
@@ -385,6 +400,7 @@ def getSettings_predictsim_mtp():
                   'AchillesTendonCompliance': 0.8*35,
                   'mtpExcitationTerm': 1000000,
                   'activeMTP': True},
+            ###################################################################
             '34': {'contactConfiguration': 'specific',
                   'guessType': 'dataDriven',
                   'targetSpeed': 1.33,
@@ -403,6 +419,7 @@ def getSettings_predictsim_mtp():
                   'AchillesTendonCompliance': 0.7*35,
                   'mtpExcitationTerm': 1000000,
                   'activeMTP': True},
+            ###################################################################
             '36': {'contactConfiguration': 'specific',
                   'guessType': 'dataDriven',
                   'targetSpeed': 1.33,
@@ -421,6 +438,7 @@ def getSettings_predictsim_mtp():
                   'AchillesTendonCompliance': 0.6*35,
                   'mtpExcitationTerm': 1000000,
                   'activeMTP': True},
+            ###################################################################
             '38': {'contactConfiguration': 'specific',
                   'guessType': 'dataDriven',
                   'targetSpeed': 1.33,
@@ -439,6 +457,7 @@ def getSettings_predictsim_mtp():
                   'AchillesTendonCompliance': 0.5*35,
                   'mtpExcitationTerm': 1000000,
                   'activeMTP': True},
+            ###################################################################
             '40': {'contactConfiguration': 'specific',
                   'guessType': 'dataDriven',
                   'targetSpeed': 1.33,
@@ -457,6 +476,7 @@ def getSettings_predictsim_mtp():
                   'AchillesTendonCompliance': 0.4*35,
                   'mtpExcitationTerm': 1000000,
                   'activeMTP': True},
+            ###################################################################
             '42': {'contactConfiguration': 'specific',
                   'guessType': 'dataDriven',
                   'targetSpeed': 1.33,
@@ -474,7 +494,10 @@ def getSettings_predictsim_mtp():
                   'adjustAchillesTendonCompliance': True,
                   'AchillesTendonCompliance': 0.3*35,
                   'mtpExcitationTerm': 1000000,
-                  'activeMTP': True},                  
+                  'activeMTP': True},   
+            # Effect of mtpExcitationTerm (N=100)
+            ###################################################################
+            ###################################################################              
             '44': {'contactConfiguration': 'specific',
                   'guessType': 'dataDriven',
                   'targetSpeed': 1.33,
@@ -506,40 +529,26 @@ def getSettings_predictsim_mtp():
                   'tol': 4,
                   'adjustAchillesTendonCompliance': False,
                   'mtpExcitationTerm': 1,
-                  'activeMTP': True},                  
+                  'activeMTP': True},
+            # Effect of passive MTP (generic)
+            ###################################################################
+            ###################################################################
+            # lower cost than 25
             '48': {'contactConfiguration': 'specific',
                   'guessType': 'dataDriven',
                   'targetSpeed': 1.33,
-                  'N': 150,
+                  'N': 100,
                   'tol': 4,
                   'adjustAchillesTendonCompliance': False,
-                  'mtpExcitationTerm': 1000000,
-                  'activeMTP': True},   
-            # lower cost than "2", lowest cost among 0-3
+                  'mtpExcitationTerm': 0,
+                  'activeMTP': False}, 
             '49': {'contactConfiguration': 'specific',
                   'guessType': 'quasiRandom',
                   'targetSpeed': 1.33,
-                  'N': 150,
+                  'N': 100,
                   'tol': 4,
                   'adjustAchillesTendonCompliance': False,
-                  'mtpExcitationTerm': 1000000,
-                  'activeMTP': True},
-            '50': {'contactConfiguration': 'generic',
-                  'guessType': 'dataDriven',
-                  'targetSpeed': 1.33,
-                  'N': 150,
-                  'tol': 4,
-                  'adjustAchillesTendonCompliance': False,
-                  'mtpExcitationTerm': 1000000,
-                  'activeMTP': True}, 
-            # lower cost than 12, lowest cost among 6-7-12-13
-            '51': {'contactConfiguration': 'generic',
-                  'guessType': 'quasiRandom',
-                  'targetSpeed': 1.33,
-                  'N': 150,
-                  'tol': 4,
-                  'adjustAchillesTendonCompliance': False,
-                  'mtpExcitationTerm': 1000000,
-                  'activeMTP': True}
+                  'mtpExcitationTerm': 0,
+                  'activeMTP': False},
             }
     return settings
