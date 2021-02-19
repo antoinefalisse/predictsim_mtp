@@ -362,6 +362,8 @@ bar_w = 1
 inds_no_mtp = [2, 4]
 inds_mtp = [6, 8]
 
+test = ()
+
 fig, (ax1, ax2) = plt.subplots(1, 2)
 # ax1
 for count0, case in enumerate(cases_no_mtp):    
@@ -401,8 +403,8 @@ va = [ 0, -.075, 0, 0, -.075, 0 ]
 for t, y in zip( ax2.get_xticklabels( ), va ):
     t.set_y( y )
     
-ax2.set_yticks([ 0, 1, 2, 3, 4, 5])
-ax2.set_ylabel("Optimal cost value)", fontsize=fontsize_label)
+ax2.set_yticks([ 0, 100, 200, 300, 400])
+ax2.set_ylabel("Optimal cost value", fontsize=fontsize_label)
 ax2.tick_params(axis='y', labelsize=fontsize_tick)
 ax2.spines['right'].set_visible(False)
 ax2.spines['top'].set_visible(False)
