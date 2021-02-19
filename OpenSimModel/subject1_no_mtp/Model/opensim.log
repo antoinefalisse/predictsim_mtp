@@ -1,0 +1,10 @@
+[2021-02-18 18:33:52.735] [info] Updating Model file from 30000 to latest format...
+[2021-02-18 18:33:52.812] [info] Loaded model subject1_Scaled from file C:\Users\u0101727\Documents\MyRepositories\predictsim_mtp\OpenSimModel\subject1_no_mtp\Model\subject1_no_mtp_cm0.osim
+[2021-02-18 18:33:52.838] [info] ControllerSet 'Controllers' was renamed and is being reset to 'controllerset'.
+[2021-02-18 18:33:52.840] [info] ComponentSet 'MiscComponents' was renamed and is being reset to 'componentset'.
+[2021-02-18 18:40:09.223] [info] Updating Model file from 30000 to latest format...
+[2021-02-18 18:40:09.295] [info] Loaded model subject1_Scaled from file C:\Users\u0101727\Documents\MyRepositories\predictsim_mtp\OpenSimModel\subject1_no_mtp\Model\subject1_no_mtp_cm3.osim
+[2021-02-18 18:40:09.315] [info] ControllerSet 'Controllers' was renamed and is being reset to 'controllerset'.
+[2021-02-18 18:40:09.317] [info] ComponentSet 'MiscComponents' was renamed and is being reset to 'componentset'.
+[2021-02-18 18:44:49.349] [info] Loaded model subject1_Scaled from file C:\Users\u0101727\Documents\MyRepositories\predictsim_mtp\OpenSimModel\subject1_mtp\Model\subject1_mtp_OS4_cm0.osim
+[2021-02-18 18:47:33.037] [info] Loaded model subject1_Scaled from file C:\Users\u0101727\Documents\MyRepositories\predictsim_mtp\OpenSimModel\subject1_mtp\Model\subject1_mtp_OS4_cm3.osim

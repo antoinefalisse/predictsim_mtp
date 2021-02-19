@@ -17,9 +17,9 @@ elif os.environ['COMPUTERNAME'] == 'DESKTOP-OC47A62':
 import casadi as ca
 import numpy as np
 
-solveProblem = True
+solveProblem = False
 saveResults = True
-analyzeResults = False
+analyzeResults = True
 loadResults = True
 writeMotion = True
 saveTrajectories = True
@@ -29,7 +29,7 @@ loadPolynomialData = True
 plotPolynomials = False
 subject = 'subject1_mtp'
 
-cases = [str(i) for i in range(50, 66)]
+cases = [str(i) for i in range(50, 80)]
 # cases = [str(i) for i in range(66, 80)]
 
 from settings_predictsim import getSettings_predictsim_mtp   

@@ -556,6 +556,7 @@ def getSettings_predictsim_mtp():
             # New simulations with passive mtp as nominal case
             ###################################################################
             ###################################################################
+            # Same as 24-25
             # Effect of contact configuration
             '50': {'contactConfiguration': 'generic',
                   'guessType': 'dataDriven',
@@ -729,6 +730,7 @@ def getSettings_predictsim_mtp():
                   'adjustAchillesTendonCompliance': False,
                   'mtpExcitationTerm': 10,
                   'activeMTP': True},                  
+            ###################################################################
             '68': {'contactConfiguration': 'specific',
                   'guessType': 'dataDriven',
                   'targetSpeed': 1.33,
@@ -745,6 +747,7 @@ def getSettings_predictsim_mtp():
                   'adjustAchillesTendonCompliance': False,
                   'mtpExcitationTerm': 100,
                   'activeMTP': True},
+            ###################################################################
             '70': {'contactConfiguration': 'specific',
                   'guessType': 'dataDriven',
                   'targetSpeed': 1.33,
@@ -761,6 +764,7 @@ def getSettings_predictsim_mtp():
                   'adjustAchillesTendonCompliance': False,
                   'mtpExcitationTerm': 10000,
                   'activeMTP': True},
+            ###################################################################
             '72': {'contactConfiguration': 'specific',
                   'guessType': 'dataDriven',
                   'targetSpeed': 1.33,

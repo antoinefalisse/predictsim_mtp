@@ -5,27 +5,22 @@ import matplotlib.pyplot as plt
 # %% Settings 
 
 # 1. Effect of generic vs specific (N=100)
-# cases = ['13', '3']
+# cases = ['24', '48']
 
 # 2. Effect of tendon compliance (with N=100): specific
+# 2.a ACTIVE MTP
 # cases = ['3','31','32','34','36','38','41','43']
+# 2.b PASSIVE MTP
+# cases = ['48','52','55','57','58','60','62','65']
 
 # 3. Effect of weight on MTP excitation term (with N=100): specific
-cases = ['48', '47', '45', '3']
+cases = ['48', '47', '67', '69', '45', '71', '73', '3']
 
-# 4. Effect of Passive vs active (1e6) (with N=100): specific
-# cases = ['48', '3']
-
-# 5. Effect of mesh density (with N=100): specific
+# 4. Effect of mesh density (with N=100): specific
+# 4.a ACTIVE MTP
 # cases = ['7', '13']
-
-# 5. Better knee (local optima): 6, 8, 12, 25
-# cases = ['4', '6']
-
-# 6. Effect of Passive vs active (1e6): generic
-# cases = ['24', '13']
-
-
+# 4.b PASSIVE MTP
+# cases = ['75', '48','76','78']
 
 mainName = "predictsim_mtp"
 subject = "subject1"
@@ -227,6 +222,7 @@ color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))
 for count, case in enumerate(cases):
     c_c = next(color)
     print(optimaltrajectories[case]["COT"])
+    print(optimaltrajectories[case]["objective"])
     ax1.scatter(count, optimaltrajectories[case]["COT"], s=80, color=c_c)
     ax2.scatter(count, optimaltrajectories[case]["objective"], s=80, color=c_c)
 ax1.set_title("Cost of Transport")
