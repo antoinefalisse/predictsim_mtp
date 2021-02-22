@@ -28,7 +28,7 @@ plotPolynomials = False
 subject = 'subject1_no_mtp'
 
 # cases = [str(i) for i in range(12)]
-cases = ['5','4']
+cases = ['4']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
@@ -1735,6 +1735,12 @@ for case in cases:
         COT_maintenance_GC = maintenanceHeatRate_int / modelMass / distTraveled_opt_GC
         COT_shortening_GC = shorteningHeatRate_int / modelMass / distTraveled_opt_GC
         COT_mechanical_GC = mechanicalWorkRate_int / modelMass / distTraveled_opt_GC 
+        
+        # %% Compute stride length and width.
+        # The stride length is the distance covered by the calcaneus origin.
+        dist_r = ca.norm_2(F1_out[idxCalcOr3D_r, -1]-F1_out[idxCalcOr3D_r, 0])
+        dist_l = ca.norm_2(F1_out[idxCalcOr3D_l, -1]-F1_out[idxCalcOr3D_l, 0])
+        stride_length_GC = dist_r.full()[0][0] + dist_l.full()[0][0]
             
          # %% Save trajectories for further analysis
         if saveTrajectories: 
@@ -1767,7 +1773,8 @@ for case in cases:
                                 'GC_percent': GC_percent,
                                 'objective': stats['iterations']['obj'][-1],
                                 'objective_terms': objective_terms,
-                                'iter_count': stats['iter_count']}              
+                                'iter_count': stats['iter_count'],
+                                "stride_length_GC": stride_length_GC}              
             np.save(os.path.join(pathTrajectories, 'optimaltrajectories.npy'),
                     optimaltrajectories)
             

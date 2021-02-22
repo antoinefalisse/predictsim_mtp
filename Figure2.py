@@ -367,8 +367,10 @@ test = ()
 fig, (ax1, ax2) = plt.subplots(1, 2)
 # ax1
 for count0, case in enumerate(cases_no_mtp):    
+    print(optimaltrajectories_no_mtp[case]["COT"])
     ax1.bar(inds_no_mtp[count0], optimaltrajectories_no_mtp[case]["COT"], bar_w, 0, color=color_no_mtp[count0])
 for count1, case in enumerate(cases_mtp):
+    print(optimaltrajectories[case]["COT"])
     ax1.bar(inds_mtp[count1], optimaltrajectories[case]["COT"], bar_w, 0, color=color_mtp[count1])
 ind = np.arange(count0+1+count1+1)
 
@@ -388,9 +390,11 @@ ax1.spines['right'].set_visible(False)
 ax1.spines['top'].set_visible(False)
 
 # ax2
-for count0, case in enumerate(cases_no_mtp):    
+for count0, case in enumerate(cases_no_mtp):   
+    print(optimaltrajectories_no_mtp[case]["objective"])
     ax2.bar(inds_no_mtp[count0], optimaltrajectories_no_mtp[case]["objective"], bar_w, color=color_no_mtp[count0])
 for count1, case in enumerate(cases_mtp):
+    print(optimaltrajectories[case]["objective"])
     ax2.bar(inds_mtp[count1], optimaltrajectories[case]["objective"], bar_w, color=color_mtp[count1])
 ind = np.arange(count0+1+count1+1)
 

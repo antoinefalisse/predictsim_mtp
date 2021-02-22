@@ -12,9 +12,10 @@ import matplotlib.pyplot as plt
 # cases = ['3','31','32','34','36','38','41','43']
 # 2.b PASSIVE MTP
 # cases = ['48','52','55','57','58','60','62','65']
+cases = ['48','52','54','56','58','60','62','64'] # data-driven guess only - more consistent stride lengths...
 
 # 3. Effect of weight on MTP excitation term (with N=100): specific
-cases = ['48', '47', '67', '69', '45', '71', '73', '3']
+# cases = ['48', '47', '67', '69', '45', '71', '73', '3']
 
 # 4. Effect of mesh density (with N=100): specific
 # 4.a ACTIVE MTP
@@ -221,8 +222,8 @@ fig, (ax1, ax2) = plt.subplots(1, 2)
 color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
 for count, case in enumerate(cases):
     c_c = next(color)
-    print(optimaltrajectories[case]["COT"])
-    print(optimaltrajectories[case]["objective"])
+    # print(optimaltrajectories[case]["COT"])
+    # print(optimaltrajectories[case]["objective"])
     ax1.scatter(count, optimaltrajectories[case]["COT"], s=80, color=c_c)
     ax2.scatter(count, optimaltrajectories[case]["objective"], s=80, color=c_c)
 ax1.set_title("Cost of Transport")
@@ -377,3 +378,15 @@ ax32.set_xticks(x_locations)
 ax32.set_xticklabels(xticklabels)
 ax33.set_xticks(x_locations)
 ax33.set_xticklabels(xticklabels)
+
+# %% Metabolic cost and cost function value
+fig, ax = plt.subplots()     
+color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
+for count, case in enumerate(cases):
+    ax.scatter(count,
+               optimaltrajectories[case]['stride_length_GC'], color=next(color), s=80)  
+# ax.set(xlabel='Gait cycle (%)', ylabel='(Nm)',
+#         title='MTP activations')
+# ax.set_ylim((kinetic_ylim_lb[i],kinetic_ylim_ub[i]))
+handles, labels = ax.get_legend_handles_labels()
+plt.legend(handles, labels, loc='upper right')

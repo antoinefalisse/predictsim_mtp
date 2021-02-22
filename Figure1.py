@@ -83,7 +83,7 @@ NJointsToPlot_no_mtp = len(jointsToPlot_no_mtp)
 fig, axs = plt.subplots(3, 5, sharex=False)    
 # fig.suptitle('Joint coordinates')
 count = 0 
-for i, ax in enumerate(axs[:, 0]):     
+for i, ax in enumerate(axs[0, :]):     
     if i < NJointsToPlot:
         for c_no_mtp, case in enumerate(cases_no_mtp):
             ax.plot(optimaltrajectories_no_mtp[case]['GC_percent'],
@@ -106,19 +106,19 @@ for i, ax in enumerate(axs[:, 0]):
         ax.set_ylim((kinematic_ylim_lb[i],kinematic_ylim_ub[i]))
         ax.set_yticks([kinematic_ylim_lb[i],0,kinematic_ylim_ub[i]])
         plt.setp(ax.get_yticklabels(), fontsize=fontsize_tick)
-        if i == NJointsToPlot-1:
-            ax.set_xticks([0,50,100])
-            plt.setp(ax.get_xticklabels(), fontsize=fontsize_tick)
-        else:
-            ax.set_xticks([0,50,100]) 
-            ax.set_xticklabels([]) 
+        # if i == NJointsToPlot-1:
+        #     ax.set_xticks([0,50,100])
+        #     plt.setp(ax.get_xticklabels(), fontsize=fontsize_tick)
+        # else:
+        ax.set_xticks([0,50,100]) 
+        ax.set_xticklabels([]) 
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
         handles, labels = ax.get_legend_handles_labels()
         # plt.legend(handles, labels, loc='upper right')
-plt.setp(axs[1, 0:2], xlabel='Gait cycle (%)')
-plt.setp(axs[2, 2:5], xlabel='Gait cycle (%)')
-plt.setp(axs[0:2, 0], ylabel='(deg)')
+plt.setp(axs[1, :], xlabel='Gait cycle (%)')
+# plt.setp(axs[2, 2:5], xlabel='Gait cycle (%)')
+plt.setp(axs[0:1, 0], ylabel='(deg)')
 fig.align_ylabels()
 
 # %% Muscle activations
@@ -143,8 +143,7 @@ muscleTitles = ['glut_med1_r', 'Gluteus medius', 'glut_med3_r', 'Gluteus minimus
                'per_long_r', 'per_tert_r', 'ext_dig_r', 'ext_hal_r', 'ercspn_r', 
                'intobl_r', 'extobl_r']
 muscles = optimaltrajectories[cases_mtp[0]]['muscles']
-musclesToPlot = ['rect_fem_r', 'vas_med_r', 'vas_lat_r',
-                 'med_gas_r', 'soleus_r', 'tib_ant_r']
+musclesToPlot = ['vas_med_r','med_gas_r', 'soleus_r']
 NMusclesToPlot = len(musclesToPlot)
 idxMusclesToPlot = getJointIndices(muscles, musclesToPlot)
 mappingEMG = {'glut_med1_r': 'GluMed_r', 
@@ -188,7 +187,7 @@ mappingEMG = {'glut_med1_r': 'GluMed_r',
 
 # fig, axs = plt.subplots(8, 6, sharex=True)    
 # fig.suptitle('Muscle activations')
-for i, ax in enumerate(axs[0:2,2:].flat):
+for i, ax in enumerate(axs[0:1,2:].flat):
     # color_mtp=iter(plt.cm.rainbow(np.linspace(0,1,len(cases_mtp))))  
     # color_no_mtp=iter(plt.cm.rainbow(np.linspace(0,1,len(cases_no_mtp))))  
     if i < NMusclesToPlot:
@@ -243,7 +242,7 @@ for i, ax in enumerate(axs[0:2,2:].flat):
     # handles, labels = ax.get_legend_handles_labels()
     # plt.legend(handles, labels, loc='upper right')
 # plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
-plt.setp(axs[0:2, 2], ylabel='(-)')
+plt.setp(axs[0:1, 2], ylabel='(-)')
 fig.align_ylabels()
 
 # %% Kinetics
@@ -252,7 +251,7 @@ kinetic_ylim_lb = [-50,-110]
 # fig, axs = plt.subplots(4, 6, sharex=True)    
 # fig.suptitle('Joint kinetics')
 count = 0 
-for i, ax in enumerate(axs[:,1]):
+for i, ax in enumerate(axs[1,:]):
     if i < NJointsToPlot:
         for c_no_mtp, case in enumerate(cases_no_mtp):
             ax.plot(optimaltrajectories_no_mtp[case]['GC_percent'],
@@ -276,16 +275,16 @@ for i, ax in enumerate(axs[:,1]):
         plt.setp(ax.get_yticklabels(), fontsize=fontsize_tick)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
-        if i == NJointsToPlot-1:
-            ax.set_xticks([0,50,100])
-            plt.setp(ax.get_xticklabels(), fontsize=fontsize_tick)
-        else:
-            ax.set_xticks([0,50,100]) 
-            ax.set_xticklabels([]) 
+        # if i == NJointsToPlot-1:
+        ax.set_xticks([0,50,100])
+        plt.setp(ax.get_xticklabels(), fontsize=fontsize_tick)
+        # else:
+        #     ax.set_xticks([0,50,100]) 
+        #     ax.set_xticklabels([]) 
         # handles, labels = ax.get_legend_handles_labels()
         # plt.legend(handles, labels, loc='upper right')
 # plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
-plt.setp(axs[0:2, 1], ylabel='(Nm)')
+plt.setp(axs[1, 0], ylabel='(Nm)')
 fig.align_ylabels()
 
 # %% Ground reaction forces
@@ -299,7 +298,7 @@ NGRFToPlot = len(GRFToPlot)
 idxGRFToPlot = getJointIndices(GRF_labels, GRFToPlot)
 # fig, axs = plt.subplots(2, 3, sharex=True)    
 # fig.suptitle('Ground reaction forces')
-for i, ax in enumerate(axs[2,2:]):
+for i, ax in enumerate(axs[1,2:]):
     if i < NGRFToPlot:
         
         for c_no_mtp, case in enumerate(cases_no_mtp):
@@ -329,7 +328,7 @@ for i, ax in enumerate(axs[2,2:]):
         # handles, labels = ax.get_legend_handles_labels()
         # plt.legend(handles, labels, loc='upper right')
 # plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
-plt.setp(axs[2, 2], ylabel='(N)')
+plt.setp(axs[1, 2], ylabel='(N)')
 fig.align_ylabels()
 
 for ax in axs.flat:
@@ -339,7 +338,7 @@ for ax in axs.flat:
 
 
 # # %%
-for ax in (axs[2,0:2].flat):
+for ax in (axs[2,:].flat):
     ax.set_visible(False)
     
 fig.set_size_inches(16,12)
