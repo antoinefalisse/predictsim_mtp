@@ -11,18 +11,19 @@ import pandas as pd
 import matplotlib.pyplot as plt  
 
 
-model = "no_mtp"
+model = "mtp"
+subject = "subject2"
 saveExperimentalData = True
-plotData = True
+plotData = False
 
 trials = {}
-trials["subject1"] = {}
-trials["subject1"]["names"] = ['gait_61', 'gait_63', 'gait_64', 'gait_14',
+trials[subject] = {}
+trials[subject]["names"] = ['gait_61', 'gait_63', 'gait_64', 'gait_14',
                                'gait_15', 'gait_23', 'gait_25', 'gait_27',
                                'gait_60', 'gait_65']
 # timeIC2 indicates the first initial contact after the force plate, this
 # is visually extracted from OpenSim.
-trials["subject1"]["timeIC2"] = [2.87, 1.86, 2.14, 4.27, 
+trials[subject]["timeIC2"] = [2.87, 1.86, 2.14, 4.27, 
                                  3.2, 2.41, 2.2, 2.92, 
                                  2.26, 2.1]
 # Headers commonly used in .mot files. 
@@ -167,12 +168,12 @@ for subject in trials:
     EMG[subject] = {}
     experimentalData[subject] = {}
     
-    GRF_all = np.zeros((N, NGRFs + 1, len(trials["subject1"]["names"])))
-    kinetics_all = np.zeros((N, NJoints + 1, len(trials["subject1"]["names"])))
-    kinematics_all = np.zeros((N, NJoints + 1, len(trials["subject1"]["names"])))
-    EMG_all = np.zeros((N, len(channels_rl) + 1, len(trials["subject1"]["names"])))    
+    GRF_all = np.zeros((N, NGRFs + 1, len(trials[subject]["names"])))
+    kinetics_all = np.zeros((N, NJoints + 1, len(trials[subject]["names"])))
+    kinematics_all = np.zeros((N, NJoints + 1, len(trials[subject]["names"])))
+    EMG_all = np.zeros((N, len(channels_rl) + 1, len(trials[subject]["names"])))    
     
-    for idxTrial, trial in enumerate(trials["subject1"]["names"]):
+    for idxTrial, trial in enumerate(trials[subject]["names"]):
         
         # %% GRF
         GRF[subject][trial] = {}        
@@ -197,7 +198,7 @@ for subject in trials:
             raise ValueError('No initial contact identified')
         # Identify index second initial contact
         IC_GRF2 = {}
-        temp = (np.argwhere(GRF[subject][trial][legIC]["time"].to_numpy() <= trials["subject1"]["timeIC2"][idxTrial])[-1])[0]
+        temp = (np.argwhere(GRF[subject][trial][legIC]["time"].to_numpy() <= trials[subject]["timeIC2"][idxTrial])[-1])[0]
         IC_GRF2["time"] = np.round(GRF[subject][trial][legIC]["time"].iloc[temp], 2)        
         IC_GRF2["idx"] = (np.argwhere(GRF[subject][trial][legIC]["time"].to_numpy() >= IC_GRF2["time"])[0])[0]
          
@@ -444,8 +445,8 @@ if plotData:
     fig.suptitle('Ground reaction forces')
     GC_percent = np.linspace(1, 100, N)
     for i, ax in enumerate(axs.flat):
-        color=iter(plt.cm.rainbow(np.linspace(0,1,len(trials["subject1"]["names"]))))   
-        for idxTrial, trial in enumerate(trials["subject1"]["names"]):
+        color=iter(plt.cm.rainbow(np.linspace(0,1,len(trials[subject]["names"]))))   
+        for idxTrial, trial in enumerate(trials[subject]["names"]):
             ax.plot(GC_percent,
                     GRF[subject][trial]["interp"]["adjusted"]["all"][headers["GRF_adj"]["all"][i]], c=next(color), label='case_' + trial)          
             
@@ -465,8 +466,8 @@ if plotData:
     GC_percent = np.linspace(1, 100, N)
     for i, ax in enumerate(axs.flat):
         if i < len(joints):
-            color=iter(plt.cm.rainbow(np.linspace(0,1,len(trials["subject1"]["names"]))))   
-            for idxTrial, trial in enumerate(trials["subject1"]["names"]):
+            color=iter(plt.cm.rainbow(np.linspace(0,1,len(trials[subject]["names"]))))   
+            for idxTrial, trial in enumerate(trials[subject]["names"]):
                 ax.plot(GC_percent,
                         kinematics[subject][trial]["positions"]["interp"]["adjusted"][joints[i]], c=next(color), label='case_' + trial)   
                 
@@ -486,8 +487,8 @@ if plotData:
     GC_percent = np.linspace(1, 100, N)
     for i, ax in enumerate(axs.flat):
         if i < len(joints):
-            color=iter(plt.cm.rainbow(np.linspace(0,1,len(trials["subject1"]["names"]))))   
-            for idxTrial, trial in enumerate(trials["subject1"]["names"]):
+            color=iter(plt.cm.rainbow(np.linspace(0,1,len(trials[subject]["names"]))))   
+            for idxTrial, trial in enumerate(trials[subject]["names"]):
                 if not kinetics[subject][trial]["interp"]["adjusted"][joints[i]][0] == np.NaN:
                     ax.plot(GC_percent,
                             kinetics[subject][trial]["interp"]["adjusted"][joints[i]], c=next(color), label='case_' + trial)    
@@ -508,8 +509,8 @@ if plotData:
     GC_percent = np.linspace(1, 100, N)
     for i, ax in enumerate(axs.flat):
         if i < len(channels):
-            color=iter(plt.cm.rainbow(np.linspace(0,1,len(trials["subject1"]["names"]))))   
-            for idxTrial, trial in enumerate(trials["subject1"]["names"]):
+            color=iter(plt.cm.rainbow(np.linspace(0,1,len(trials[subject]["names"]))))   
+            for idxTrial, trial in enumerate(trials[subject]["names"]):
                 if not EMG[subject][trial]["interp"]["adjusted"][channels[i]][0] == np.NaN:
                     ax.plot(GC_percent,
                             EMG[subject][trial]["interp"]["adjusted"][channels[i]], c=next(color), label='case_' + trial)                        

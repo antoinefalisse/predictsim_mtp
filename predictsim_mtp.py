@@ -13,7 +13,7 @@ loadMTParameters = True
 loadPolynomialData = True
 plotPolynomials = False
 
-cases = ["80"]
+cases = ["80", "81", "82", "83"]
 # cases = [str(i) for i in range(48, 66)]
 # cases = [str(i) for i in range(66, 80)]
 

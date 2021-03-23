@@ -838,7 +838,6 @@ def getSettings_predictsim_mtp():
             # Subject 2
             ###################################################################
             ###################################################################
-            # lower cost than 25
             '80': {'contactConfiguration': 'specific',
                   'guessType': 'dataDriven',
                   'targetSpeed': 1.33,
@@ -849,6 +848,24 @@ def getSettings_predictsim_mtp():
                   'activeMTP': False,
                   'idxSubject': '2'}, 
             '81': {'contactConfiguration': 'specific',
+                  'guessType': 'quasiRandom',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'adjustAchillesTendonCompliance': False,
+                  'mtpExcitationTerm': 0,
+                  'activeMTP': False,
+                  'idxSubject': '2'},
+            '82': {'contactConfiguration': 'generic',
+                  'guessType': 'dataDriven',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'adjustAchillesTendonCompliance': False,
+                  'mtpExcitationTerm': 0,
+                  'activeMTP': False,
+                  'idxSubject': '2'}, 
+            '83': {'contactConfiguration': 'generic',
                   'guessType': 'quasiRandom',
                   'targetSpeed': 1.33,
                   'N': 100,
