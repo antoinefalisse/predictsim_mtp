@@ -83,8 +83,8 @@ class bounds:
             s = pd.concat([abs(upperBoundsPosition[joint]), 
                            abs(lowerBoundsPosition[joint])]).max(level=0)
             scalingPosition.insert(count, joint, s)
-            lowerBoundsPosition[joint] /= scalingPosition[joint]
-            upperBoundsPosition[joint] /= scalingPosition[joint]
+            # lowerBoundsPosition[joint] /= scalingPosition[joint]
+            # upperBoundsPosition[joint] /= scalingPosition[joint]
             
         # Hard bounds at initial position
         lowerBoundsPositionInitial = lowerBoundsPosition.copy()

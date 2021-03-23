@@ -54,6 +54,15 @@ def storage2numpy(storage_file, excess_header_entries=0):
             skip_header=skip_header)
 
     return data
+    
+def storage2df(storage_file, headers):
+    # Extract data
+    data = storage2numpy(storage_file)
+    out = pd.DataFrame(data=data['time'], columns=['time'])    
+    for count, header in enumerate(headers):
+        out.insert(count + 1, header, data[header])    
+    
+    return out
 
 def getIK(storage_file, joints, degrees=False):
     # Extract data
