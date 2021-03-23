@@ -2,14 +2,13 @@ from sys import path
 import os
 import numpy as np
 
-def getMTParameters(pathOS, pathModel, muscles, loadMTParameters, pathMTParameters=0):
+def getMTParameters(pathModel, muscles, loadMTParameters, pathMTParameters=0):
     
     if loadMTParameters:        
         mtParameters = np.load(os.path.join(pathMTParameters, 'mtParameters.npy'), 
                             allow_pickle=True)     
         
-    else: 
-        path.insert(0, pathOS)
+    else:
         import opensim
         model = opensim.Model(pathModel)
         mtParameters = np.zeros([5,len(muscles)])

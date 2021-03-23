@@ -1,6 +1,5 @@
 __pycache__/
-err.log
-out.log
+*.log
 
 **/Results
 
@@ -20,3 +19,11 @@ OpenSimModel/subject1_no_mtp/*
 !OpenSimModel/subject1_no_mtp/IK
 OpenSimModel/subject1_no_mtp/IK/*
 !OpenSimModel/subject1_no_mtp/IK/IK_average_walking_HGC_mtp.mot
+
+!OpenSimModel/subject2_mtp
+OpenSimModel/subject2_mtp/*
+!OpenSimModel/subject2_mtp/experimentalData.npy
+!OpenSimModel/subject2_mtp/Model
+!OpenSimModel/subject2_mtp/IK
+OpenSimModel/subject2_mtp/IK/*
+!OpenSimModel/subject2_mtp/IK/IK_average_walking_HGC_mtp.mot

@@ -1,23 +1,8 @@
-from sys import path
 import os
-if os.environ['COMPUTERNAME'] == 'GBW-L-W2003':
-    path.append(r"C:/Users/u0101727/Documents/Software/CasADi/casadi-windows-py37-v3.5.1-64bit")
-    # Workaround to get OpenSim to work with Python
-    pathOS = "C:/Users/u0101727/Documents/MyRepositories/opensim-fork/install/sdk/Python"
-elif os.environ['COMPUTERNAME'] == 'GBW-D-W0529':
-    path.append(r"D:/u0101727/MySoftware/casadi-windows-py37-v3.5.1-64bit")
-    # Workaround to get OpenSim to work with Python
-    pathOS = "C:/OpenSim_4.1/sdk/Python"
-elif os.environ['COMPUTERNAME'] == 'GBW-D-W2711': 
-    path.append(r"C:/Users/Public/Documents/Software/casadi-windows-py37-v3.5.1-64bit")
-    # Workaround to get OpenSim to work with Python
-    pathOS = "C:/OpenSim_4.1/sdk/Python"
-elif os.environ['COMPUTERNAME'] == 'DESKTOP-OC47A62':
-    pathOS = "C:/OpenSim-4.2-2021-01-09-fc62aad//sdk/Python"
 import casadi as ca
 import numpy as np
 
-solveProblem = False
+solveProblem = True
 saveResults = True
 analyzeResults = True
 loadResults = True
@@ -27,10 +12,9 @@ decomposeCost = True
 loadMTParameters = True
 loadPolynomialData = True
 plotPolynomials = False
-subject = 'subject1_mtp'
 
-# cases = ["24"]
-cases = [str(i) for i in range(48, 66)]
+cases = ["80"]
+# cases = [str(i) for i in range(48, 66)]
 # cases = [str(i) for i in range(66, 80)]
 
 from settings_predictsim import getSettings_predictsim_mtp   
@@ -56,11 +40,20 @@ for case in cases:
     targetSpeed = settings[case]['targetSpeed']
     adjustAchillesTendonCompliance = settings[case]['adjustAchillesTendonCompliance']
     activeMTP = settings[case]['activeMTP']
+    if 'idxSubject' in settings[case]:
+        idxSubject = settings[case]['idxSubject'] 
+    else:
+        idxSubject = "1"        
+    subject = 'subject' + idxSubject + '_mtp'
+
          
     # Paths
     pathMain = os.getcwd()
     pathData = os.path.join(pathMain, 'OpenSimModel', subject)
-    pathModel = os.path.join(pathData, 'Model', subject + ".osim")
+    if idxSubject == 2:
+        pathModel = os.path.join(pathData, 'Model', subject + ".osim")
+    else:
+        pathModel = os.path.join(pathData, 'Model', 'subject' + idxSubject + '_withMTP_scaled.osim')
     pathMTParameters = os.path.join(pathData, 'Model')
     filename = os.path.basename(__file__)
     pathCase = 'Case_' + case    
@@ -93,6 +86,15 @@ for case in cases:
             F = ca.external('F','PredSim_mtpPin_cm8.dll')
             if analyzeResults:
                 F1 = ca.external('F','PredSim_mtpPin_pp_cm8.dll')
+    elif subject == "subject2_mtp":
+        if contactConfiguration == 'generic':
+            F = ca.external('F','s2_withMTP_ge.dll')
+            if analyzeResults:
+                F1 = ca.external('F','s2_withMTP_ge_pp.dll')
+        elif contactConfiguration == 'specific':
+            F = ca.external('F','s2_withMTP_ss.dll')
+            if analyzeResults:
+                F1 = ca.external('F','s2_withMTP_ss_pp.dll')
     os.chdir(pathMain)
     vec1 = np.zeros((93, 1))
     res1 = (F1(vec1)).full()
@@ -147,8 +149,8 @@ for case in cases:
     NSideMuscles = len(rightSideMuscles)
     
     from muscleData import getMTParameters
-    sideMtParameters = getMTParameters(pathOS, pathModel, rightSideMuscles,
-                                   loadMTParameters, pathMTParameters)
+    sideMtParameters = getMTParameters(pathModel, rightSideMuscles,
+                                       loadMTParameters, pathMTParameters)
     mtParameters = np.concatenate((sideMtParameters, sideMtParameters), axis=1)
     
     from muscleData import tendonCompliance
@@ -337,8 +339,8 @@ for case in cases:
     from muscleData import getPolynomialData      
     pathCoordinates = os.path.join(pathData, 'MA', 'dummy_motion.mot')
     pathMuscleAnalysis = os.path.join(pathData, 'MA', 'ResultsMA', 
-                                      'subject1', 
-                                      'subject01_MuscleAnalysis_') 
+                                      'subject' + idxSubject, 
+                                      'subject' + idxSubject + '_MuscleAnalysis_') 
     polynomialData = getPolynomialData(loadPolynomialData, pathMTParameters, 
                                        pathCoordinates, pathMuscleAnalysis,
                                        rightPolynomialJoints, muscles)        

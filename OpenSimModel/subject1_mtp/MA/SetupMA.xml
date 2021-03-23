@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <OpenSimDocument Version="30000">
-	<AnalyzeTool name="subject01">
+	<AnalyzeTool name="subject1">
 		<!--Name of the .osim file used to construct a model.-->
 		<model_file>../Model/subject1.osim</model_file>
 		<!--Replace the model's force set with sets specified in <force_set_files>? If false, the force set is appended to.-->
