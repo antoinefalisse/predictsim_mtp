@@ -1,21 +1,8 @@
-from sys import path
 import os
-if os.environ['COMPUTERNAME'] == 'GBW-L-W2003':
-    path.append(r"C:/Users/u0101727/Documents/Software/CasADi/casadi-windows-py37-v3.5.1-64bit")
-    # Workaround to get OpenSim to work with Python
-    pathOS = "C:/Users/u0101727/Documents/MyRepositories/opensim-fork/install/sdk/Python"
-elif os.environ['COMPUTERNAME'] == 'GBW-D-W0529':
-    path.append(r"D:/u0101727/MySoftware/casadi-windows-py37-v3.5.1-64bit")
-    # Workaround to get OpenSim to work with Python
-    pathOS = "C:/OpenSim_4.1/sdk/Python"
-elif os.environ['COMPUTERNAME'] == 'GBW-D-W2711': 
-    path.append(r"C:/Users/Public/Documents/Software/casadi-windows-py37-v3.5.1-64bit")
-    # Workaround to get OpenSim to work with Python
-    pathOS = "C:/OpenSim_4.1/sdk/Python"
 import casadi as ca
 import numpy as np
 
-solveProblem = False
+solveProblem = True
 saveResults = True
 analyzeResults = True
 loadResults = True
@@ -25,10 +12,9 @@ decomposeCost = True
 loadMTParameters = True
 loadPolynomialData = True
 plotPolynomials = False
-subject = 'subject1_no_mtp'
 
 # cases = [str(i) for i in range(12)]
-cases = ['4']
+cases = ['12', '13', '14', '15']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
@@ -50,11 +36,19 @@ for case in cases:
     contactConfiguration = settings[case]['contactConfiguration']
     guessType = settings[case]['guessType']
     targetSpeed = settings[case]['targetSpeed']
+        
+    idxSubject = "1"
+    if 'idxSubject' in settings[case]:
+        idxSubject = settings[case]['idxSubject'] 
+    subject = 'subject' + idxSubject + '_no_mtp'
           
     # Paths
     pathMain = os.getcwd()
     pathData = os.path.join(pathMain, 'OpenSimModel', subject)
-    pathModel = os.path.join(pathData, 'Model', subject + ".osim")
+    if idxSubject == '1':
+        pathModel = os.path.join(pathData, 'Model', subject + ".osim")
+    elif idxSubject == '2':
+        pathModel = os.path.join(pathData, 'Model', 'subject' + idxSubject + '_withoutMTP_scaled.osim')        
     pathMTParameters = os.path.join(pathData, 'Model')
     filename = os.path.basename(__file__)
     pathCase = 'Case_' + case    
@@ -66,22 +60,32 @@ for case in cases:
     # %% Load external function
     pathExternalFunction = os.path.join(pathMain, 'ExternalFunction')
     os.chdir(pathExternalFunction)
-    if contactConfiguration == 'generic':
-        F = ca.external('F','PredSim_no_mtpPin_cm0.dll')
-        if analyzeResults:
-            F1 = ca.external('F','PredSim_no_mtpPin_pp_cm0.dll')
-    elif contactConfiguration == 'specific':
-        F = ca.external('F','PredSim_no_mtpPin_cm3.dll')
-        if analyzeResults:
-            F1 = ca.external('F','PredSim_no_mtpPin_pp_cm3.dll')
-    elif contactConfiguration == 'generic_cm5':
-        F = ca.external('F','PredSim_no_mtpPin_cm5.dll')
-        if analyzeResults:
-            F1 = ca.external('F','PredSim_no_mtpPin_pp_cm5.dll')
-    elif contactConfiguration == 'generic_cm6':
-        F = ca.external('F','PredSim_no_mtpPin_cm6.dll')
-        if analyzeResults:
-            F1 = ca.external('F','PredSim_no_mtpPin_pp_cm6.dll')
+    if subject == 'subject1_no_mtp':
+        if contactConfiguration == 'generic':
+            F = ca.external('F','PredSim_no_mtpPin_cm0.dll')
+            if analyzeResults:
+                F1 = ca.external('F','PredSim_no_mtpPin_pp_cm0.dll')
+        elif contactConfiguration == 'specific':
+            F = ca.external('F','PredSim_no_mtpPin_cm3.dll')
+            if analyzeResults:
+                F1 = ca.external('F','PredSim_no_mtpPin_pp_cm3.dll')
+        elif contactConfiguration == 'generic_cm5':
+            F = ca.external('F','PredSim_no_mtpPin_cm5.dll')
+            if analyzeResults:
+                F1 = ca.external('F','PredSim_no_mtpPin_pp_cm5.dll')
+        elif contactConfiguration == 'generic_cm6':
+            F = ca.external('F','PredSim_no_mtpPin_cm6.dll')
+            if analyzeResults:
+                F1 = ca.external('F','PredSim_no_mtpPin_pp_cm6.dll')
+    elif subject == 'subject2_no_mtp':
+        if contactConfiguration == 'generic':
+            F = ca.external('F','s2_withoutMTP_ge.dll')
+            if analyzeResults:
+                F1 = ca.external('F','s2_withoutMTP_ge_pp.dll')
+        elif contactConfiguration == 'specific':
+            F = ca.external('F','s2_withoutMTP_ss.dll')
+            if analyzeResults:
+                F1 = ca.external('F','s2_withoutMTP_ss_pp.dll')
     os.chdir(pathMain)  
     # vec1 = -np.zeros((87, 1))
     # res1 = (F1(vec1)).full()
@@ -136,8 +140,8 @@ for case in cases:
     NSideMuscles = len(rightSideMuscles)
     
     from muscleData import getMTParameters
-    sideMtParameters = getMTParameters(pathOS, pathModel, rightSideMuscles,
-                                   loadMTParameters, pathMTParameters)
+    sideMtParameters = getMTParameters(pathModel, rightSideMuscles,
+                                       loadMTParameters, pathMTParameters)
     mtParameters = np.concatenate((sideMtParameters, sideMtParameters), axis=1)
     
     from muscleData import tendonCompliance
@@ -298,8 +302,8 @@ for case in cases:
     from muscleData import getPolynomialData      
     pathCoordinates = os.path.join(pathData, 'MA', 'dummy_motion.mot')
     pathMuscleAnalysis = os.path.join(pathData, 'MA', 'ResultsMA', 
-                                      'subject1', 
-                                      'subject01_MuscleAnalysis_') 
+                                      'subject' + idxSubject,
+                                      'subject' + idxSubject + '_MuscleAnalysis_') 
     polynomialData = getPolynomialData(loadPolynomialData, pathMTParameters, 
                                        pathCoordinates, pathMuscleAnalysis,
                                        rightPolynomialJoints, muscles)        

@@ -2,7 +2,7 @@ import os
 import casadi as ca
 import numpy as np
 
-solveProblem = True
+solveProblem = False
 saveResults = True
 analyzeResults = True
 loadResults = True
@@ -13,7 +13,7 @@ loadMTParameters = True
 loadPolynomialData = True
 plotPolynomials = False
 
-cases = ["80", "81", "82", "83"]
+cases = ["82", "83"]
 # cases = [str(i) for i in range(48, 66)]
 # cases = [str(i) for i in range(66, 80)]
 
@@ -50,9 +50,9 @@ for case in cases:
     # Paths
     pathMain = os.getcwd()
     pathData = os.path.join(pathMain, 'OpenSimModel', subject)
-    if idxSubject == 2:
+    if idxSubject == '1':
         pathModel = os.path.join(pathData, 'Model', subject + ".osim")
-    else:
+    elif idxSubject == '2':
         pathModel = os.path.join(pathData, 'Model', 'subject' + idxSubject + '_withMTP_scaled.osim')
     pathMTParameters = os.path.join(pathData, 'Model')
     filename = os.path.basename(__file__)

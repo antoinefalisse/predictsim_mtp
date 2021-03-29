@@ -4,6 +4,10 @@ import matplotlib.pyplot as plt
 
 # %% Settings 
 
+cases = ['80','83']
+
+
+
 # 1. Effect of generic vs specific (N=100)
 # cases = ['24', '48']
 
@@ -12,7 +16,7 @@ import matplotlib.pyplot as plt
 # cases = ['3','31','32','34','36','38','41','43']
 # 2.b PASSIVE MTP
 # cases = ['48','52','55','57','58','60','62','65']
-cases = ['48','52','54','56','58','60','62','64'] # data-driven guess only - more consistent stride lengths...
+# cases = ['48','52','54','56','58','60','62','64'] # data-driven guess only - more consistent stride lengths...
 
 # 3. Effect of weight on MTP excitation term (with N=100): specific
 # cases = ['48', '47', '67', '69', '45', '71', '73', '3']
@@ -24,7 +28,7 @@ cases = ['48','52','54','56','58','60','62','64'] # data-driven guess only - mor
 # cases = ['75', '48','76','78']
 
 mainName = "predictsim_mtp"
-subject = "subject1"
+subject = "subject2"
 model = "mtp"
 
 # %% Fixed settings

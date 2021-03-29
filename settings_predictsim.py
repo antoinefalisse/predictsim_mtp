@@ -65,7 +65,36 @@ def getSettings_predictsim_no_mtp():
                   'guessType': 'dataDriven',
                   'targetSpeed': 1.33,
                   'N': 100,
-                  'tol': 4}}
+                  'tol': 4},
+            
+            # Subject 2
+            ###################################################################
+            ###################################################################
+            '12': {'contactConfiguration': 'generic',
+                  'guessType': 'dataDriven',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'idxSubject': '2'}, 
+            '13': {'contactConfiguration': 'generic',
+                  'guessType': 'quasiRandom',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'idxSubject': '2'},
+            '14': {'contactConfiguration': 'specific',
+                  'guessType': 'dataDriven',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'idxSubject': '2'}, 
+            '15': {'contactConfiguration': 'specific',
+                  'guessType': 'quasiRandom',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'idxSubject': '2'}
+    }
     return settings
 
 def getSettings_predictsim_mtp():
