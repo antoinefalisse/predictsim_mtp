@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 # %% Settings 
 
-cases = ['80','83']
+cases = ['80','24']
 
 
 

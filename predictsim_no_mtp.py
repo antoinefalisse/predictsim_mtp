@@ -2,7 +2,7 @@ import os
 import casadi as ca
 import numpy as np
 
-solveProblem = True
+solveProblem = False
 saveResults = True
 analyzeResults = True
 loadResults = True
@@ -14,7 +14,7 @@ loadPolynomialData = True
 plotPolynomials = False
 
 # cases = [str(i) for i in range(12)]
-cases = ['12', '13', '14', '15']
+cases = ['16', '17']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
@@ -82,6 +82,10 @@ for case in cases:
             F = ca.external('F','s2_withoutMTP_ge.dll')
             if analyzeResults:
                 F1 = ca.external('F','s2_withoutMTP_ge_pp.dll')
+        elif contactConfiguration == 'generic_low':
+            F = ca.external('F','s2_withoutMTP_gel.dll')
+            if analyzeResults:
+                F1 = ca.external('F','s2_withoutMTP_gel_pp.dll')
         elif contactConfiguration == 'specific':
             F = ca.external('F','s2_withoutMTP_ss.dll')
             if analyzeResults:
