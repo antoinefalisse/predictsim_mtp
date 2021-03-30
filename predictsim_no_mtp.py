@@ -83,9 +83,9 @@ for case in cases:
             if analyzeResults:
                 F1 = ca.external('F','s2_withoutMTP_ge_pp.dll')
         elif contactConfiguration == 'generic_low':
-            F = ca.external('F','s2_withoutMTP_gel.dll')
+            F = ca.external('F','s2_withoutMTP_gl.dll')
             if analyzeResults:
-                F1 = ca.external('F','s2_withoutMTP_gel_pp.dll')
+                F1 = ca.external('F','s2_withoutMTP_gl_pp.dll')
         elif contactConfiguration == 'specific':
             F = ca.external('F','s2_withoutMTP_ss.dll')
             if analyzeResults:
