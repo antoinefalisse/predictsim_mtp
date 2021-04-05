@@ -27,3 +27,11 @@ OpenSimModel/subject2_mtp/*
 !OpenSimModel/subject2_mtp/IK
 OpenSimModel/subject2_mtp/IK/*
 !OpenSimModel/subject2_mtp/IK/IK_average_walking_HGC_mtp.mot
+
+!OpenSimModel/subject2_no_mtp
+OpenSimModel/subject2_no_mtp/*
+!OpenSimModel/subject2_no_mtp/experimentalData.npy
+!OpenSimModel/subject2_no_mtp/Model
+!OpenSimModel/subject2_no_mtp/IK
+OpenSimModel/subject2_no_mtp/IK/*
+!OpenSimModel/subject2_no_mtp/IK/IK_average_walking_HGC_mtp.mot

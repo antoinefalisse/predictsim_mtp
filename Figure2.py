@@ -11,15 +11,24 @@ import matplotlib.pyplot as plt
 # cases_no_mtp = ['0']
 
 # Effect of mtp on generic_CMO (N=100)
-cases_mtp = ['24', '48']
+cases_mtp = ['80', '83']
 cases_mtp_labels = ['With toes - generic contacts', 'With toes - personalized contacts']
-cases_no_mtp = ['5', '4']
+cases_no_mtp = ['12', '15']
 cases_no_mtp_labels = ['Without toes - generic contacts', 'Without toes - personalized contacts']
 # # Effect of mtp on specific_CM3 (N=100)
 # cases_mtp = ['3']
 # cases_no_mtp = ['4']
 
-subject = "subject1"
+# # Effect of mtp on generic_CMO (N=100)
+# cases_mtp = ['24', '48']
+# cases_mtp_labels = ['With toes - generic contacts', 'With toes - personalized contacts']
+# cases_no_mtp = ['5', '4']
+# cases_no_mtp_labels = ['Without toes - generic contacts', 'Without toes - personalized contacts']
+# # # Effect of mtp on specific_CM3 (N=100)
+# # cases_mtp = ['3']
+# # cases_no_mtp = ['4']
+
+subject = "subject2"
 model_mtp = "mtp"
 model_no_mtp = "no_mtp"
 

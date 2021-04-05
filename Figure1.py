@@ -22,7 +22,7 @@ model_mtp = "mtp"
 model_no_mtp = "no_mtp"
 
 color_mtp=['blue', 'red'] 
-linestyle_mtp=[':', ':']
+linestyle_mtp=['-', ':']
 color_no_mtp=['black','orange'] 
 linestyle_no_mtp=['-','--']
 linewidth_s = 6

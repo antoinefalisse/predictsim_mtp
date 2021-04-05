@@ -2,7 +2,7 @@ import os
 import casadi as ca
 import numpy as np
 
-solveProblem = False
+solveProblem = True
 saveResults = True
 analyzeResults = True
 loadResults = True
@@ -14,7 +14,7 @@ loadPolynomialData = True
 plotPolynomials = False
 
 # cases = [str(i) for i in range(12)]
-cases = ['16', '17']
+cases = ['18', '19']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
@@ -41,6 +41,10 @@ for case in cases:
     if 'idxSubject' in settings[case]:
         idxSubject = settings[case]['idxSubject'] 
     subject = 'subject' + idxSubject + '_no_mtp'
+    
+    polynomial_type = 'nominal'
+    if 'polynomial_type' in settings[case]:
+        polynomial_type = settings[case]['polynomial_type'] 
           
     # Paths
     pathMain = os.getcwd()
@@ -308,9 +312,16 @@ for case in cases:
     pathMuscleAnalysis = os.path.join(pathData, 'MA', 'ResultsMA', 
                                       'subject' + idxSubject,
                                       'subject' + idxSubject + '_MuscleAnalysis_') 
+    
+    if polynomial_type == 'nominal':
+        suffix_pol = ''    
+    elif polynomial_type == 'old':
+        suffix_pol = '_old'    
+        
     polynomialData = getPolynomialData(loadPolynomialData, pathMTParameters, 
                                        pathCoordinates, pathMuscleAnalysis,
-                                       rightPolynomialJoints, muscles)        
+                                       rightPolynomialJoints, muscles,
+                                       suffix_pol)        
     if loadPolynomialData:
         polynomialData = polynomialData.item()
     
