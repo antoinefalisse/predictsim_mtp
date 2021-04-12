@@ -2,7 +2,7 @@ import os
 import casadi as ca
 import numpy as np
 
-solveProblem = False
+solveProblem = True
 saveResults = True
 analyzeResults = True
 loadResults = True
@@ -13,7 +13,7 @@ loadMTParameters = True
 loadPolynomialData = True
 plotPolynomials = False
 
-cases = ["82", "83"]
+cases = ["84"]
 # cases = [str(i) for i in range(48, 66)]
 # cases = [str(i) for i in range(66, 80)]
 
@@ -28,6 +28,9 @@ for case in cases:
                'mtpExcitationTerm': settings[case]['mtpExcitationTerm'],
                'passiveJointTorqueTerm': 1000, 
                'controls': 0.001}     
+    
+    if 'metabolicEnergyRateTerm' in settings[case]:
+        weights['metabolicEnergyRateTerm'] = settings[case]['metabolicEnergyRateTerm']        
 
     # Other settings
     tol = settings[case]['tol']

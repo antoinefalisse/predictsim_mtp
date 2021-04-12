@@ -120,7 +120,14 @@ def getSettings_predictsim_no_mtp():
                   'N': 100,
                   'tol': 4,
                   'idxSubject': '2',
-                  'polynomial_type': 'old'}
+                  'polynomial_type': 'old'},
+            '20': {'contactConfiguration': 'specific',
+                  'guessType': 'dataDriven',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'idxSubject': '2',
+                  'metabolicEnergyRateTerm': 1000}
             
             
     }
@@ -931,7 +938,17 @@ def getSettings_predictsim_mtp():
                   'adjustAchillesTendonCompliance': False,
                   'mtpExcitationTerm': 0,
                   'activeMTP': False,
-                  'idxSubject': '2'}}
+                  'idxSubject': '2'},
+            '84': {'contactConfiguration': 'specific',
+                  'guessType': 'dataDriven',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'adjustAchillesTendonCompliance': False,
+                  'mtpExcitationTerm': 0,
+                  'activeMTP': False,
+                  'idxSubject': '2',
+                  'metabolicEnergyRateTerm': 1000}}
     
     
     

@@ -14,7 +14,7 @@ loadPolynomialData = True
 plotPolynomials = False
 
 # cases = [str(i) for i in range(12)]
-cases = ['18', '19']
+cases = ['20']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
@@ -25,7 +25,10 @@ for case in cases:
                'jointAccelerationTerm': 50000,
                'armExcitationTerm': 1000000, 
                'passiveJointTorqueTerm': 1000, 
-               'controls': 0.001}  
+               'controls': 0.001}
+    
+    if 'metabolicEnergyRateTerm' in settings[case]:
+        weights['metabolicEnergyRateTerm'] = settings[case]['metabolicEnergyRateTerm']
 
     # Other settings
     tol = settings[case]['tol']
