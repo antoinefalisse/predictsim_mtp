@@ -127,7 +127,21 @@ def getSettings_predictsim_no_mtp():
                   'N': 100,
                   'tol': 4,
                   'idxSubject': '2',
-                  'metabolicEnergyRateTerm': 1000}
+                  'metabolicEnergyRateTerm': 1000},
+            '21': {'contactConfiguration': 'generic',
+                  'guessType': 'dataDriven',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'idxSubject': '2',
+                  'metabolicEnergyRateTerm': 5000},
+            '22': {'contactConfiguration': 'specific',
+                  'guessType': 'dataDriven',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'idxSubject': '2',
+                  'metabolicEnergyRateTerm': 5000}
             
             
     }
