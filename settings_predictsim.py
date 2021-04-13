@@ -149,6 +149,13 @@ def getSettings_predictsim_no_mtp():
                   'tol': 4,
                   'idxSubject': '2',
                   'activationTerm': 10000},
+            '24': {'contactConfiguration': 'specific',
+                  'guessType': 'dataDriven',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'idxSubject': '2',
+                  'metabolicEnergyRateTerm': 10000}
             
             
     }
