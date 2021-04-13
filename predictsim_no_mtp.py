@@ -2,7 +2,7 @@ import os
 import casadi as ca
 import numpy as np
 
-solveProblem = True
+solveProblem = False
 saveResults = True
 analyzeResults = True
 loadResults = True
@@ -29,6 +29,9 @@ for case in cases:
     
     if 'metabolicEnergyRateTerm' in settings[case]:
         weights['metabolicEnergyRateTerm'] = settings[case]['metabolicEnergyRateTerm']
+        
+    if 'activationTerm' in settings[case]:
+        weights['activationTerm'] = settings[case]['activationTerm']
 
     # Other settings
     tol = settings[case]['tol']
