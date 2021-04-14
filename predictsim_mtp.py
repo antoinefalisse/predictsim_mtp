@@ -48,7 +48,13 @@ for case in cases:
     else:
         idxSubject = "1"        
     subject = 'subject' + idxSubject + '_mtp'
-
+    
+    shorterKneeExtMA = False
+    if 'shorterKneeExtMA' in settings[case]:
+        shorterKneeExtMA = settings[case]['shorterKneeExtMA']
+        percent_shorter = 0
+        if 'perc_shorter' in settings[case]:
+            perc_shorter = settings[case]['perc_shorter'] / 100
          
     # Paths
     pathMain = os.getcwd()
@@ -378,6 +384,14 @@ for case in cases:
                                      f_polynomial, polynomialData, 
                                      momentArmIndices,
                                      trunkMomentArmPolynomialIndices)
+        
+    # %% Special case: shorter moment arms knee extensors
+    if shorterKneeExtMA:
+        knee_extensors = ['rect_fem_r', 'vas_med_r', 'vas_int_r', 'vas_lat_r']
+        idx_knee_ext_l = [rightSideMuscles.index(i) for i in knee_extensors]
+        idx_knee_ext_r = [i + NSideMuscles for i in idx_knee_ext_l]    
+        idx_ma_knee_ext = [
+            momentArmIndices['knee_angle_l'].index(i) for i in idx_knee_ext_l]
     
     # %% Metabolic energy model
     modelMass = 62
@@ -1051,15 +1065,41 @@ for case in cases:
                     passiveJointTorque_hip_rotation_rj)
             eq_constr.append(diffTj_hip_rotation_r)
             # Knee angle: left
-            Fj_knee_angle_l = Fj[momentArmIndices['knee_angle_l']] 
-            mTj_knee_angle_l = f_NKneeSumProd(dMj_knee_angle_l, Fj_knee_angle_l)
+            Fj_knee_angle_l = Fj[momentArmIndices['knee_angle_l']]
+            if shorterKneeExtMA:
+                dMj_knee_angle_l_shorter = ca.MX(dMj_knee_angle_l.shape[0], 1)
+                for c_knee_ext in range(dMj_knee_angle_l.shape[0]):
+                    if c_knee_ext in idx_ma_knee_ext:
+                        dMj_knee_angle_l_shorter[c_knee_ext, 0] = (
+                            (1-perc_shorter) * dMj_knee_angle_l[c_knee_ext, 0])                       
+                    else:
+                        dMj_knee_angle_l_shorter[c_knee_ext, 0] = (
+                            dMj_knee_angle_l[c_knee_ext, 0])
+                mTj_knee_angle_l = f_NKneeSumProd(dMj_knee_angle_l_shorter,
+                                                  Fj_knee_angle_l)
+            else:
+                mTj_knee_angle_l = f_NKneeSumProd(dMj_knee_angle_l,
+                                                  Fj_knee_angle_l)
             diffTj_knee_angle_l = f_diffTorques(
                     Tj[joints.index('knee_angle_l')], mTj_knee_angle_l, 
                     passiveJointTorque_knee_angle_lj)
             eq_constr.append(diffTj_knee_angle_l)
             # Knee angle: right
-            Fj_knee_angle_r = Fj[momentArmIndices['knee_angle_r']]
-            mTj_knee_angle_r = f_NKneeSumProd(dMj_knee_angle_r, Fj_knee_angle_r)
+            Fj_knee_angle_r = Fj[momentArmIndices['knee_angle_r']]            
+            if shorterKneeExtMA:
+                dMj_knee_angle_r_shorter = ca.MX(dMj_knee_angle_r.shape[0], 1)
+                for c_knee_ext in range(dMj_knee_angle_r.shape[0]):
+                    if c_knee_ext in idx_ma_knee_ext:
+                        dMj_knee_angle_r_shorter[c_knee_ext, 0] = (
+                            (1-perc_shorter) * dMj_knee_angle_r[c_knee_ext, 0])                        
+                    else:
+                        dMj_knee_angle_r_shorter[c_knee_ext, 0] = (
+                            dMj_knee_angle_r[c_knee_ext, 0])
+                mTj_knee_angle_r = f_NKneeSumProd(dMj_knee_angle_r_shorter,
+                                                  Fj_knee_angle_r)
+            else:
+                mTj_knee_angle_r = f_NKneeSumProd(dMj_knee_angle_r,
+                                                  Fj_knee_angle_r)
             diffTj_knee_angle_r = f_diffTorques(
                     Tj[joints.index('knee_angle_r')], mTj_knee_angle_r, 
                     passiveJointTorque_knee_angle_rj)
