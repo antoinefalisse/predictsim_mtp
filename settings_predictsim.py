@@ -121,6 +121,8 @@ def getSettings_predictsim_no_mtp():
                   'tol': 4,
                   'idxSubject': '2',
                   'polynomial_type': 'old'},
+            
+            
             '20': {'contactConfiguration': 'specific',
                   'guessType': 'dataDriven',
                   'targetSpeed': 1.33,

@@ -2,7 +2,7 @@ import os
 import casadi as ca
 import numpy as np
 
-solveProblem = True
+solveProblem = False
 saveResults = True
 analyzeResults = True
 loadResults = True
@@ -1702,7 +1702,7 @@ for case in cases:
                  
             if stats['success'] == True:
                 assert np.alltrue(
-                    np.abs(hillEquilibriumk_GC.full()) <= 1e-4), "Hill"
+                    np.abs(hillEquilibriumk_GC.full()) <= 1.2e-4), "Hill"
                  
             normFiberLength_GC[:,k] = normFiberLengthk_GC.full().flatten()
             fiberVelocity_GC[:,k] = fiberVelocityk_GC.full().flatten()

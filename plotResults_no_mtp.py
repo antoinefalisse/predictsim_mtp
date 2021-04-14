@@ -7,7 +7,9 @@ import matplotlib.pyplot as plt
 # cases = ['12', '17', '15']
 # cases = ['12', '19']
 # cases = ['12', '18']
+# cases = ['15','20', '22', '24']
 cases = ['15','23']
+
 
 mainName = "predictsim_no_mtp"
 subject = "subject2"
