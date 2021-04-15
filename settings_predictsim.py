@@ -166,6 +166,24 @@ def getSettings_predictsim_no_mtp():
                   'tol': 4,
                   'idxSubject': '2',
                   'shorterKneeExtMA': True,
+                  'perc_shorter': 10},
+            
+            '26': {'contactConfiguration': 'generic',
+                  'guessType': 'dataDriven',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'idxSubject': '2',
+                  'shorterKneeExtMA': True,
+                  'perc_shorter': 10},
+            
+            '27': {'contactConfiguration': 'generic',
+                  'guessType': 'dataDriven',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'idxSubject': '2',
+                  'shorterKneeExtMA': True,
                   'perc_shorter': 10}
             
             
