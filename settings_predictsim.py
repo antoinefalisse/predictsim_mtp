@@ -175,7 +175,7 @@ def getSettings_predictsim_no_mtp():
                   'tol': 4,
                   'idxSubject': '2',
                   'shorterKneeExtMA': True,
-                  'perc_shorter': 10},
+                  'perc_shorter': 20},
             
             '27': {'contactConfiguration': 'generic',
                   'guessType': 'dataDriven',
@@ -184,7 +184,7 @@ def getSettings_predictsim_no_mtp():
                   'tol': 4,
                   'idxSubject': '2',
                   'shorterKneeExtMA': True,
-                  'perc_shorter': 10}
+                  'perc_shorter': 30}
             
             
     }
