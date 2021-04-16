@@ -14,7 +14,7 @@ loadPolynomialData = True
 plotPolynomials = False
 
 # cases = [str(i) for i in range(12)]
-cases = ['26', '27']
+cases = ['28']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
@@ -55,6 +55,12 @@ for case in cases:
     shorterKneeExtMA = False
     if 'shorterKneeExtMA' in settings[case]:
         shorterKneeExtMA = settings[case]['shorterKneeExtMA']
+        percent_shorter = 0
+        if 'perc_shorter' in settings[case]:
+            perc_shorter = settings[case]['perc_shorter'] / 100
+    shorterKneeExtMT = False
+    if 'shorterKneeExtMT' in settings[case]:
+        shorterKneeExtMT = settings[case]['shorterKneeExtMT']
         percent_shorter = 0
         if 'perc_shorter' in settings[case]:
             perc_shorter = settings[case]['perc_shorter'] / 100
@@ -368,12 +374,13 @@ for case in cases:
                                      trunkMomentArmPolynomialIndices)
         
     # %% Special case: shorter moment arms knee extensors
-    if shorterKneeExtMA:
+    if shorterKneeExtMA or shorterKneeExtMT:
         knee_extensors = ['rect_fem_r', 'vas_med_r', 'vas_int_r', 'vas_lat_r']
         idx_knee_ext_l = [rightSideMuscles.index(i) for i in knee_extensors]
         idx_knee_ext_r = [i + NSideMuscles for i in idx_knee_ext_l]    
         idx_ma_knee_ext = [
-            momentArmIndices['knee_angle_l'].index(i) for i in idx_knee_ext_l]
+            momentArmIndices['knee_angle_l'].index(i) for i in idx_knee_ext_l]        
+        idx_mt_knee_ext = idx_knee_ext_l + idx_knee_ext_r        
     
     # %% Metabolic energy model
     modelMass = 62
@@ -752,12 +759,34 @@ for case in cases:
             vMTj_lr = ca.vertcat(vMTj_l[leftPolynomialMuscleIndices], 
                                  vMTj_r[rightPolynomialMuscleIndices])
             
-            #######################################################################
-            # Derive Hill-equilibrium        
-            [hillEquilibriumj, Fj, activeFiberForcej, passiveFiberForcej,
-             normActiveFiberLengthForcej, normFiberLengthj, fiberVelocityj] = (
-             f_hillEquilibrium(akj[:, j+1], lMTj_lr, vMTj_lr, normFkj_nsc[:, j+1], 
-                               normFDtj_nsc[:, j]))  
+            if shorterKneeExtMT:
+                lMTj_shorter_lr = ca.MX(lMTj_lr.shape[0],lMTj_lr.shape[1]) 
+                vMTj_shorter_lr = ca.MX(vMTj_lr.shape[0],vMTj_lr.shape[1]) 
+                for c_knee_ext in range(lMTj_lr.shape[0]):
+                    if c_knee_ext in idx_mt_knee_ext:
+                        lMTj_shorter_lr[c_knee_ext, 0] = (
+                            (1-perc_shorter) * lMTj_lr[c_knee_ext, 0])
+                        vMTj_shorter_lr[c_knee_ext, 0] = (
+                            (1-perc_shorter) * vMTj_lr[c_knee_ext, 0]) 
+                    else:
+                        lMTj_shorter_lr[c_knee_ext, 0] = (
+                            lMTj_lr[c_knee_ext, 0])
+                        vMTj_shorter_lr[c_knee_ext, 0] = (
+                            vMTj_lr[c_knee_ext, 0])
+                #######################################################################
+                # Derive Hill-equilibrium        
+                [hillEquilibriumj, Fj, activeFiberForcej, passiveFiberForcej,
+                 normActiveFiberLengthForcej, normFiberLengthj, fiberVelocityj] = (
+                 f_hillEquilibrium(akj[:, j+1], lMTj_shorter_lr, vMTj_shorter_lr, normFkj_nsc[:, j+1], 
+                                   normFDtj_nsc[:, j])) 
+                        
+            else:
+                #######################################################################
+                # Derive Hill-equilibrium        
+                [hillEquilibriumj, Fj, activeFiberForcej, passiveFiberForcej,
+                 normActiveFiberLengthForcej, normFiberLengthj, fiberVelocityj] = (
+                 f_hillEquilibrium(akj[:, j+1], lMTj_lr, vMTj_lr, normFkj_nsc[:, j+1], 
+                                   normFDtj_nsc[:, j]))  
             
             #######################################################################
             # Get metabolic energy rate
