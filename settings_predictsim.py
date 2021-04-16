@@ -184,6 +184,7 @@ def getSettings_predictsim_no_mtp():
                   'shorterKneeExtMA': True,
                   'perc_shorter': 30},  
             
+            #####
             '28': {'contactConfiguration': 'generic',
                   'guessType': 'dataDriven',
                   'targetSpeed': 1.33,
@@ -223,6 +224,26 @@ def getSettings_predictsim_no_mtp():
                   'shorterKneeExtMA': True,
                   'shorterKneeExtMT': True,
                   'perc_shorter': 25},
+            
+            '32': {'contactConfiguration': 'generic',
+                  'guessType': 'dataDriven',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'idxSubject': '2',
+                  'shorterKneeExtMA': True,
+                  'shorterKneeExtMT': True,
+                  'perc_shorter': 30},
+            
+            '33': {'contactConfiguration': 'generic',
+                  'guessType': 'quasiRandom',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'idxSubject': '2',
+                  'shorterKneeExtMA': True,
+                  'shorterKneeExtMT': True,
+                  'perc_shorter': 30},
             
             # '28': {'contactConfiguration': 'generic',
             #       'guessType': 'dataDriven',
