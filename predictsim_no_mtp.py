@@ -14,7 +14,7 @@ loadPolynomialData = True
 plotPolynomials = False
 
 # cases = [str(i) for i in range(12)]
-cases = ['28']
+cases = ['29']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
@@ -1540,17 +1540,43 @@ for case in cases:
                     lMTj_opt_lr = ca.vertcat(lMTj_opt_l[leftPolynomialMuscleIndices], 
                                              lMTj_opt_r[rightPolynomialMuscleIndices])
                     vMTj_opt_lr = ca.vertcat(vMTj_opt_l[leftPolynomialMuscleIndices], 
-                                             vMTj_opt_r[rightPolynomialMuscleIndices])                    
+                                             vMTj_opt_r[rightPolynomialMuscleIndices])   
                     
-                    ###########################################################
-                    # Derive Hill-equilibrium        
-                    [hillEquilibriumj_opt, Fj_opt, activeFiberForcej_opt, 
-                     passiveFiberForcej_opt, normActiveFiberLengthForcej_opt, 
-                     normFiberLengthj_opt, fiberVelocityj_opt] = (
-                         f_hillEquilibrium(akj_opt[:, j+1], lMTj_opt_lr, 
-                                           vMTj_opt_lr,
-                                           normFkj_opt_nsc[:, j+1], 
-                                           normFDtj_opt_nsc[:, j]))   
+                    if shorterKneeExtMT:
+                        lMTj_opt_shorter_lr = ca.DM(lMTj_opt_lr.shape[0],lMTj_opt_lr.shape[1]) 
+                        vMTj_opt_shorter_lr = ca.DM(vMTj_opt_lr.shape[0],vMTj_opt_lr.shape[1]) 
+                        for c_knee_ext in range(lMTj_opt_lr.shape[0]):
+                            if c_knee_ext in idx_mt_knee_ext:
+                                lMTj_opt_shorter_lr[c_knee_ext, 0] = (
+                                    (1-perc_shorter) * lMTj_opt_lr[c_knee_ext, 0])
+                                vMTj_opt_shorter_lr[c_knee_ext, 0] = (
+                                    (1-perc_shorter) * vMTj_opt_lr[c_knee_ext, 0]) 
+                            else:
+                                lMTj_opt_shorter_lr[c_knee_ext, 0] = (
+                                    lMTj_opt_lr[c_knee_ext, 0])
+                                vMTj_opt_shorter_lr[c_knee_ext, 0] = (
+                                    vMTj_opt_lr[c_knee_ext, 0])
+                        ###########################################################
+                        # Derive Hill-equilibrium        
+                        [hillEquilibriumj_opt, Fj_opt, activeFiberForcej_opt, 
+                         passiveFiberForcej_opt, normActiveFiberLengthForcej_opt, 
+                         normFiberLengthj_opt, fiberVelocityj_opt] = (
+                             f_hillEquilibrium(akj_opt[:, j+1], lMTj_opt_shorter_lr, 
+                                               vMTj_opt_shorter_lr,
+                                               normFkj_opt_nsc[:, j+1], 
+                                               normFDtj_opt_nsc[:, j])) 
+                                
+                    else:
+                    
+                        ###########################################################
+                        # Derive Hill-equilibrium        
+                        [hillEquilibriumj_opt, Fj_opt, activeFiberForcej_opt, 
+                         passiveFiberForcej_opt, normActiveFiberLengthForcej_opt, 
+                         normFiberLengthj_opt, fiberVelocityj_opt] = (
+                             f_hillEquilibrium(akj_opt[:, j+1], lMTj_opt_lr, 
+                                               vMTj_opt_lr,
+                                               normFkj_opt_nsc[:, j+1], 
+                                               normFDtj_opt_nsc[:, j]))   
                     
                     ###########################################################
                     # Get metabolic energy rate
@@ -1769,15 +1795,39 @@ for case in cases:
             lMTk_GC_lr = ca.vertcat(lMTk_GC_l[leftPolynomialMuscleIndices], 
                                      lMTk_GC_r[rightPolynomialMuscleIndices])
             vMTk_GC_lr = ca.vertcat(vMTk_GC_l[leftPolynomialMuscleIndices], 
-                                     vMTk_GC_r[rightPolynomialMuscleIndices])                    
+                                     vMTk_GC_r[rightPolynomialMuscleIndices])
+
+            if shorterKneeExtMT:
+                lMTk_shorter_GC_lr = ca.DM(lMTk_GC_lr.shape[0],lMTk_GC_lr.shape[1]) 
+                vMTk_shorter_GC_lr = ca.DM(vMTk_GC_lr.shape[0],vMTk_GC_lr.shape[1]) 
+                for c_knee_ext in range(lMTk_GC_lr.shape[0]):
+                    if c_knee_ext in idx_mt_knee_ext:
+                        lMTk_shorter_GC_lr[c_knee_ext, 0] = (
+                            (1-perc_shorter) * lMTk_GC_lr[c_knee_ext, 0])
+                        vMTk_shorter_GC_lr[c_knee_ext, 0] = (
+                            (1-perc_shorter) * vMTk_GC_lr[c_knee_ext, 0]) 
+                    else:
+                        lMTk_shorter_GC_lr[c_knee_ext, 0] = (
+                            lMTk_GC_lr[c_knee_ext, 0])
+                        vMTk_shorter_GC_lr[c_knee_ext, 0] = (
+                            vMTk_GC_lr[c_knee_ext, 0])
+                ###################################################################
+                # Derive Hill-equilibrium        
+                [hillEquilibriumk_GC, Fk_GC, activeFiberForcek_GC, 
+                 passiveFiberForcek_GC, normActiveFiberLengthForcek_GC, 
+                 normFiberLengthk_GC, fiberVelocityk_GC] = (
+                     f_hillEquilibrium(A_GC[:, k], lMTk_shorter_GC_lr, vMTk_shorter_GC_lr,
+                                       F_GC[:, k], FDt_GC[:, k]))  
+                                
+            else:                 
             
-            ###################################################################
-            # Derive Hill-equilibrium        
-            [hillEquilibriumk_GC, Fk_GC, activeFiberForcek_GC, 
-             passiveFiberForcek_GC, normActiveFiberLengthForcek_GC, 
-             normFiberLengthk_GC, fiberVelocityk_GC] = (
-                 f_hillEquilibrium(A_GC[:, k], lMTk_GC_lr, vMTk_GC_lr,
-                                   F_GC[:, k], FDt_GC[:, k]))  
+                ###################################################################
+                # Derive Hill-equilibrium        
+                [hillEquilibriumk_GC, Fk_GC, activeFiberForcek_GC, 
+                 passiveFiberForcek_GC, normActiveFiberLengthForcek_GC, 
+                 normFiberLengthk_GC, fiberVelocityk_GC] = (
+                     f_hillEquilibrium(A_GC[:, k], lMTk_GC_lr, vMTk_GC_lr,
+                                       F_GC[:, k], FDt_GC[:, k]))  
                  
             if stats['success'] == True:
                 assert np.alltrue(
