@@ -55,13 +55,13 @@ for case in cases:
     shorterKneeExtMA = False
     if 'shorterKneeExtMA' in settings[case]:
         shorterKneeExtMA = settings[case]['shorterKneeExtMA']
-        percent_shorter = 0
+        perc_shorter = 0
         if 'perc_shorter' in settings[case]:
             perc_shorter = settings[case]['perc_shorter'] / 100
     shorterKneeExtMT = False
     if 'shorterKneeExtMT' in settings[case]:
         shorterKneeExtMT = settings[case]['shorterKneeExtMT']
-        percent_shorter = 0
+        perc_shorter = 0
         if 'perc_shorter' in settings[case]:
             perc_shorter = settings[case]['perc_shorter'] / 100
           
@@ -181,9 +181,10 @@ for case in cases:
     specificTension = np.concatenate((sideSpecificTension, 
                                       sideSpecificTension), axis=1)
     
-    from functionCasADi import hillEquilibrium
-    f_hillEquilibrium = hillEquilibrium(mtParameters, tendonCompliance, 
-                                        specificTension)
+    if not shorterKneeExtMT:
+        from functionCasADi import hillEquilibrium
+        f_hillEquilibrium = hillEquilibrium(mtParameters, tendonCompliance, 
+                                            specificTension)
     # Time constants
     activationTimeConstant = 0.015
     deactivationTimeConstant = 0.06
@@ -380,7 +381,15 @@ for case in cases:
         idx_knee_ext_r = [i + NSideMuscles for i in idx_knee_ext_l]    
         idx_ma_knee_ext = [
             momentArmIndices['knee_angle_l'].index(i) for i in idx_knee_ext_l]        
-        idx_mt_knee_ext = idx_knee_ext_l + idx_knee_ext_r        
+        idx_mt_knee_ext = idx_knee_ext_l + idx_knee_ext_r 
+        
+        # Also decrease lmopt and lts
+        if shorterKneeExtMT:            
+            mtParameters[1:3, idx_mt_knee_ext] = (
+                (1-perc_shorter) * mtParameters[1:3, idx_mt_knee_ext])
+            from functionCasADi import hillEquilibrium
+            f_hillEquilibrium = hillEquilibrium(mtParameters, tendonCompliance, 
+                                                specificTension)
     
     # %% Metabolic energy model
     modelMass = 62
