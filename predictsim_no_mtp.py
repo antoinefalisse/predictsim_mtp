@@ -13,8 +13,8 @@ loadMTParameters = True
 loadPolynomialData = True
 plotPolynomials = False
 
-# cases = [str(i) for i in range(12)]
-cases = ['38']
+cases = [str(i) for i in range(40, 44)]
+# cases = ['40', '41', '42', '43']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
