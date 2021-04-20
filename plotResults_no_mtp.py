@@ -4,12 +4,8 @@ import matplotlib.pyplot as plt
 
 # %% Settings 
 # Effect of contact configuration (with N=100)
-# cases = ['12', '17', '15']
-# cases = ['12', '19']
-# cases = ['12', '18']
-# cases = ['15','20', '22', '24']
-cases = ['30', '31']
-
+# cases = ['12', '29', '30', '33']
+cases = ['12', '25']
 
 mainName = "predictsim_no_mtp"
 subject = "subject2"
@@ -211,3 +207,42 @@ ax2.set_xticklabels(xticklabels)
 # plt.legend(handles, labels, loc='upper right')
 # handles, labels = ax2.get_legend_handles_labels()
 # plt.legend(handles, labels, loc='upper right')
+
+# %% Muscle fiber lengths
+NMusclesToPlot = len(musclesToPlot)
+idxMusclesToPlot = getJointIndices(muscles, musclesToPlot)
+fig, axs = plt.subplots(8, 6, sharex=True)    
+fig.suptitle('Normalized muscle fiber lengths')
+for i, ax in enumerate(axs.flat):
+    color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
+    if i < NMusclesToPlot:
+        for case in cases:
+            ax.plot(optimaltrajectories[case]['GC_percent'],
+                    optimaltrajectories[case]['norm_fiber_lengths'][idxMusclesToPlot[i]:idxMusclesToPlot[i]+1, :].T, c=next(color), label='case_' + case)
+        ax.set_title(muscles[idxMusclesToPlot[i]])
+        ax.set_ylim((0,2))
+        handles, labels = ax.get_legend_handles_labels()
+        plt.legend(handles, labels, loc='upper right')
+plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
+plt.setp(axs[:, 0], ylabel='(-)')
+fig.align_ylabels()
+
+# %% Muscle fiber velocity
+NMusclesToPlot = len(musclesToPlot)
+idxMusclesToPlot = getJointIndices(muscles, musclesToPlot)
+fig, axs = plt.subplots(8, 6, sharex=True)    
+fig.suptitle('Muscle fiber velocities')
+for i, ax in enumerate(axs.flat):
+    color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
+    if i < NMusclesToPlot:
+        for case in cases:
+            ax.plot(optimaltrajectories[case]['GC_percent'],
+                    optimaltrajectories[case]['fiber_velocity'][idxMusclesToPlot[i]:idxMusclesToPlot[i]+1, :].T, c=next(color), label='case_' + case)
+        ax.set_title(muscles[idxMusclesToPlot[i]])
+        ax.set_ylim((-1,1))
+        handles, labels = ax.get_legend_handles_labels()
+        plt.legend(handles, labels, loc='upper right')
+plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
+plt.setp(axs[:, 0], ylabel='(-)')
+fig.align_ylabels()
+

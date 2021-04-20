@@ -4,7 +4,7 @@ import numpy as np
 
 solveProblem = True
 saveResults = True
-analyzeResults = False
+analyzeResults = True
 loadResults = True
 writeMotion = True
 saveTrajectories = True
@@ -14,7 +14,7 @@ loadPolynomialData = True
 plotPolynomials = False
 
 # cases = [str(i) for i in range(12)]
-cases = ['34', '35']
+cases = ['36']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
@@ -63,6 +63,12 @@ for case in cases:
         shorterKneeExtMT = settings[case]['shorterKneeExtMT']
         perc_shorter = 0
         if 'perc_shorter' in settings[case]:
+            perc_shorter = settings[case]['perc_shorter'] / 100 
+    shorterKneePol = False
+    if 'shorterKneePol' in settings[case]:
+        shorterKneePol = settings[case]['shorterKneePol']
+        perc_shorter = 0
+        if 'perc_shorter' in settings[case]:
             perc_shorter = settings[case]['perc_shorter'] / 100
           
     # Paths
@@ -71,7 +77,8 @@ for case in cases:
     if idxSubject == '1':
         pathModel = os.path.join(pathData, 'Model', subject + ".osim")
     elif idxSubject == '2':
-        pathModel = os.path.join(pathData, 'Model', 'subject' + idxSubject + '_withoutMTP_scaled.osim')        
+        pathModel = os.path.join(pathData, 'Model', 'subject' + idxSubject + 
+                                 '_withoutMTP_scaled.osim')        
     pathMTParameters = os.path.join(pathData, 'Model')
     filename = os.path.basename(__file__)
     pathCase = 'Case_' + case    
@@ -166,6 +173,9 @@ for case in cases:
     NMuscles = len(bothSidesMuscles)
     NSideMuscles = len(rightSideMuscles)
     
+    if shorterKneeExtMA or shorterKneeExtMT or shorterKneePol:
+        knee_extensors = ['rect_fem_r', 'vas_med_r', 'vas_int_r', 'vas_lat_r']
+    
     from muscleData import getMTParameters
     sideMtParameters = getMTParameters(pathModel, rightSideMuscles,
                                        loadMTParameters, pathMTParameters)
@@ -181,10 +191,11 @@ for case in cases:
     specificTension = np.concatenate((sideSpecificTension, 
                                       sideSpecificTension), axis=1)
     
-    if not shorterKneeExtMT:
+    if not shorterKneeExtMT and not shorterKneePol:
         from functionCasADi import hillEquilibrium
         f_hillEquilibrium = hillEquilibrium(mtParameters, tendonCompliance, 
                                             specificTension)
+        
     # Time constants
     activationTimeConstant = 0.015
     deactivationTimeConstant = 0.06
@@ -344,6 +355,13 @@ for case in cases:
                                        suffix_pol)        
     if loadPolynomialData:
         polynomialData = polynomialData.item()
+        
+    if shorterKneePol:
+        # Here we adjust the polynomial coefficients to reflect changes in
+        # moment arms. We do not change the first coefficient, as it is not
+        # used for the moment arms
+        for kneeExt in knee_extensors:
+            polynomialData[kneeExt]['coefficients'][1:] *= (1-perc_shorter)
     
     NPolynomial = len(leftPolynomialJoints)
     f_polynomial = polynomialApproximation(muscles, polynomialData, NPolynomial)
@@ -375,7 +393,7 @@ for case in cases:
                                      trunkMomentArmPolynomialIndices)
         
     # %% Special case: shorter moment arms knee extensors
-    if shorterKneeExtMA or shorterKneeExtMT:
+    if shorterKneeExtMA or shorterKneeExtMT or shorterKneePol:
         knee_extensors = ['rect_fem_r', 'vas_med_r', 'vas_int_r', 'vas_lat_r']
         idx_knee_ext_l = [rightSideMuscles.index(i) for i in knee_extensors]
         idx_knee_ext_r = [i + NSideMuscles for i in idx_knee_ext_l]    
@@ -383,13 +401,13 @@ for case in cases:
             momentArmIndices['knee_angle_l'].index(i) for i in idx_knee_ext_l]        
         idx_mt_knee_ext = idx_knee_ext_l + idx_knee_ext_r 
         
-        # Also decrease lmopt and lts
-        if shorterKneeExtMT:            
-            mtParameters[1:3, idx_mt_knee_ext] = (
-                (1-perc_shorter) * mtParameters[1:3, idx_mt_knee_ext])
+        # Also decrease lmopt, lts, and vMax
+        if shorterKneeExtMT or shorterKneePol:          
+            mtParameters[1:3, idx_mt_knee_ext] *= (1-perc_shorter)
+            mtParameters[4, idx_mt_knee_ext] *= (1-perc_shorter)
             from functionCasADi import hillEquilibrium
-            f_hillEquilibrium = hillEquilibrium(mtParameters, tendonCompliance, 
-                                                specificTension)
+            f_hillEquilibrium = hillEquilibrium(
+                mtParameters, tendonCompliance,specificTension)
     
     # %% Metabolic energy model
     modelMass = 62
@@ -1790,7 +1808,7 @@ for case in cases:
             # Right leg
             Qsk_GC_r = Qs_GC_deg[rightPolynomialJointIndices, k]
             Qdotsk_GC_r = Qdots_GC_deg[rightPolynomialJointIndices, k]
-            [lMTk_GC_r, vMTk_GC_r, _] = f_polynomial(Qsk_GC_r, Qdotsk_GC_r)
+            [lMTk_GC_r, vMTk_GC_r, dMk_GC_r] = f_polynomial(Qsk_GC_r, Qdotsk_GC_r)
             # Both legs        
             lMTk_GC_lr = ca.vertcat(lMTk_GC_l[leftPolynomialMuscleIndices], 
                                      lMTk_GC_r[rightPolynomialMuscleIndices])
@@ -1828,6 +1846,17 @@ for case in cases:
                  normFiberLengthk_GC, fiberVelocityk_GC] = (
                      f_hillEquilibrium(A_GC[:, k], lMTk_GC_lr, vMTk_GC_lr,
                                        F_GC[:, k], FDt_GC[:, k]))  
+                     
+            dMk_GC_knee_angle_r = dMk_GC_r[momentArmIndices['knee_angle_l'] ,3]     
+            if shorterKneeExtMA:
+                dMk_GC_knee_angle_r_shorter = ca.DM(dMk_GC_knee_angle_r.shape[0], 1)
+                for c_knee_ext in range(dMk_GC_knee_angle_r.shape[0]):
+                    if c_knee_ext in idx_ma_knee_ext:
+                        dMk_GC_knee_angle_r_shorter[c_knee_ext, 0] = (
+                            (1-perc_shorter) * dMk_GC_knee_angle_r[c_knee_ext, 0])                        
+                    else:
+                        dMk_GC_knee_angle_r_shorter[c_knee_ext, 0] = (
+                            dMk_GC_knee_angle_r[c_knee_ext, 0])                     
                  
             if stats['success'] == True:
                 assert np.alltrue(
