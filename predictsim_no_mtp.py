@@ -14,7 +14,7 @@ loadPolynomialData = True
 plotPolynomials = False
 
 # cases = [str(i) for i in range(12)]
-cases = ['37']
+cases = ['36']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
@@ -191,7 +191,7 @@ for case in cases:
     specificTension = np.concatenate((sideSpecificTension, 
                                       sideSpecificTension), axis=1)
     
-    if not shorterKneeExtMT and not shorterKneePol:
+    if not shorterKneeExtMT:
         from functionCasADi import hillEquilibrium
         f_hillEquilibrium = hillEquilibrium(mtParameters, tendonCompliance, 
                                             specificTension)
@@ -360,13 +360,78 @@ for case in cases:
         # Here we adjust the polynomial coefficients to reflect changes in
         # moment arms. We do not change the first coefficient, as it is not
         # used for the moment arms
+        # import copy
+        # polynomialData_shorter = copy.deepcopy(polynomialData)
         for kneeExt in knee_extensors:
             polynomialData[kneeExt]['coefficients'][1:] *= (1-perc_shorter)
     
     NPolynomial = len(leftPolynomialJoints)
     f_polynomial = polynomialApproximation(muscles, polynomialData, NPolynomial)
+    # f_polynomial_shorter = polynomialApproximation(muscles, polynomialData_shorter, NPolynomial)
     leftPolynomialJointIndices = getJointIndices(joints, leftPolynomialJoints)
     rightPolynomialJointIndices = getJointIndices(joints, rightPolynomialJoints)
+    
+    # Test polynomials
+    
+    # range_knee = np.linspace(-120, 10, 1000)
+    # range_knee *= (np.pi/180)
+    # Qdotsin_test = np.zeros((len(leftPolynomialJoints),))
+    # lMT_test = np.zeros((NSideMuscles+3, range_knee.shape[0]))
+    # vMT_test = np.zeros((NSideMuscles+3, range_knee.shape[0]))
+    # dM_test = np.zeros((NSideMuscles+3, len(leftPolynomialJoints), range_knee.shape[0]))
+    # lMT_test_shorter = np.zeros((NSideMuscles+3, range_knee.shape[0]))
+    # vMT_test_shorter = np.zeros((NSideMuscles+3, range_knee.shape[0]))
+    # dM_test_shorter = np.zeros((NSideMuscles+3, len(leftPolynomialJoints), range_knee.shape[0]))
+    # for i in range(range_knee.shape[0]):
+    #     Qsin_test = np.zeros((len(leftPolynomialJoints),))
+    #     Qsin_test[leftPolynomialJoints.index('knee_angle_l')] = range_knee[i]
+    #     [c_lMT_test, c_vMT_test, c_dM_test] = f_polynomial(Qsin_test, Qdotsin_test)        
+    #     lMT_test[:, i] = (c_lMT_test.full()).flatten()
+    #     vMT_test[:, i] = (c_vMT_test.full()).flatten()
+    #     dM_test [:,:,i] = (c_dM_test.full())
+        
+    #     [c_lMT_test, c_vMT_test, c_dM_test] = f_polynomial_shorter(Qsin_test, Qdotsin_test)        
+    #     lMT_test_shorter[:, i] = (c_lMT_test.full()).flatten()
+    #     vMT_test_shorter[:, i] = (c_vMT_test.full()).flatten()
+    #     dM_test_shorter [:,:,i] = (c_dM_test.full())
+    
+    # import matplotlib.pyplot as plt  
+    # fig, axs = plt.subplots(7, 7, sharex=True)    
+    # fig.suptitle('Muscles')
+    # for i, ax in enumerate(axs.flat):
+    #     if i < NSideMuscles:
+    #         # color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
+    #         for case in cases:
+    #             ax.plot(lMT_test[i,:], c='black')            
+    #             ax.plot(lMT_test_shorter[i,:], c='orange')        
+    #         ax.set_title(muscles[i])
+    #         # ax.set_ylim((kinematic_ylim_lb[i],kinematic_ylim_ub[i]))
+    #         handles, labels = ax.get_legend_handles_labels()
+    #         plt.legend(handles, labels, loc='upper right')
+    # plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
+    # plt.setp(axs[:, 0], ylabel='(m)')
+    # fig.align_ylabels()
+    
+    # test1 = lMT_test_shorter / lMT_test
+    
+    # fig, axs = plt.subplots(7, 7, sharex=True)    
+    # fig.suptitle('Muscles')
+    # for i, ax in enumerate(axs.flat):
+    #     if i < NSideMuscles:
+    #         # color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
+    #         for case in cases:
+    #             ax.plot(dM_test[i,leftPolynomialJoints.index('knee_angle_l'),:], c='black')            
+    #             ax.plot(dM_test_shorter[i,leftPolynomialJoints.index('knee_angle_l'),:], c='orange')        
+    #         ax.set_title(muscles[i])
+    #         # ax.set_ylim((kinematic_ylim_lb[i],kinematic_ylim_ub[i]))
+    #         handles, labels = ax.get_legend_handles_labels()
+    #         plt.legend(handles, labels, loc='upper right')
+    # plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
+    # plt.setp(axs[:, 0], ylabel='(m)')
+    # fig.align_ylabels()
+    
+    # test2 = dM_test_shorter[:,leftPolynomialJoints.index('knee_angle_l'),:] / dM_test[:,leftPolynomialJoints.index('knee_angle_l'),:]
+    
     
     leftPolynomialMuscleIndices = list(range(43)) +  list(range(46, 49))
     rightPolynomialMuscleIndices = list(range(46))
@@ -393,7 +458,7 @@ for case in cases:
                                      trunkMomentArmPolynomialIndices)
         
     # %% Special case: shorter moment arms knee extensors
-    if shorterKneeExtMA or shorterKneeExtMT or shorterKneePol:
+    if shorterKneeExtMA or shorterKneeExtMT:
         knee_extensors = ['rect_fem_r', 'vas_med_r', 'vas_int_r', 'vas_lat_r']
         idx_knee_ext_l = [rightSideMuscles.index(i) for i in knee_extensors]
         idx_knee_ext_r = [i + NSideMuscles for i in idx_knee_ext_l]    
@@ -402,7 +467,7 @@ for case in cases:
         idx_mt_knee_ext = idx_knee_ext_l + idx_knee_ext_r 
         
         # Also decrease lmopt, lts, and vMax
-        if shorterKneeExtMT or shorterKneePol:          
+        if shorterKneeExtMT:          
             mtParameters[1:3, idx_mt_knee_ext] *= (1-perc_shorter)
             mtParameters[4, idx_mt_knee_ext] *= (1-perc_shorter)
             from functionCasADi import hillEquilibrium
