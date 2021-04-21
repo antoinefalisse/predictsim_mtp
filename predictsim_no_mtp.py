@@ -4,7 +4,7 @@ import numpy as np
 
 solveProblem = True
 saveResults = True
-analyzeResults = True
+analyzeResults = False
 loadResults = True
 writeMotion = True
 saveTrajectories = True
@@ -13,8 +13,8 @@ loadMTParameters = True
 loadPolynomialData = True
 plotPolynomials = False
 
-cases = [str(i) for i in range(48, 52)]
-# cases = ['40', '41', '42', '43']
+# cases = [str(i) for i in range(44, 52)]
+cases = ['43', '52', '53', '54', '55']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
@@ -459,7 +459,6 @@ for case in cases:
         
     # %% Special case: shorter moment arms knee extensors
     if shorterKneeExtMA or shorterKneeExtMT:
-        knee_extensors = ['rect_fem_r', 'vas_med_r', 'vas_int_r', 'vas_lat_r']
         idx_knee_ext_l = [rightSideMuscles.index(i) for i in knee_extensors]
         idx_knee_ext_r = [i + NSideMuscles for i in idx_knee_ext_l]    
         idx_ma_knee_ext = [
@@ -1711,7 +1710,7 @@ for case in cases:
         
         assert np.alltrue(
                 np.abs(JAll_opt[0][0] - stats['iterations']['obj'][-1]) 
-                <= 1e-6), "decomposition cost"
+                <= 1e-5), "decomposition cost"
         
         # %% Reconstruct gait cycle
         from variousFunctions import getIdxIC_3D
