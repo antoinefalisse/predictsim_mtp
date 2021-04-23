@@ -116,8 +116,8 @@ for case in cases:
             if analyzeResults:
                 F1 = ca.external('F','s2_withMTP_ss_pp.dll')
     os.chdir(pathMain)
-    vec1 = np.zeros((93, 1))
-    res1 = (F1(vec1)).full()
+    # vec1 = np.zeros((93, 1))
+    # res1 = (F1(vec1)).full()
     
     # Helper indices
     # origins bodies 
