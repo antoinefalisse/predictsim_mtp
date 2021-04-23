@@ -21,8 +21,8 @@ import matplotlib.pyplot as plt
 # cases_mtp = ['13', '3']
 # cases_no_mtp = ['5', '4']
 
-cases_mtp = ['80', '83', ]
-cases_no_mtp = ['12','15']
+cases_mtp = ['91']
+cases_no_mtp = ['42','44']
 
 
 

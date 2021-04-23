@@ -2,9 +2,9 @@ import os
 import casadi as ca
 import numpy as np
 
-solveProblem = False
+solveProblem = True
 saveResults = True
-analyzeResults = True
+analyzeResults = False
 loadResults = True
 writeMotion = True
 saveTrajectories = True
@@ -13,8 +13,8 @@ loadMTParameters = True
 loadPolynomialData = True
 plotPolynomials = False
 
-# cases = [str(i) for i in range(44, 52)]
-cases = ['43', '52', '53', '54', '55']
+cases = [str(i) for i in range(56, 66)]
+# cases = ['62']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
@@ -340,14 +340,22 @@ for case in cases:
     
     from muscleData import getPolynomialData      
     pathCoordinates = os.path.join(pathData, 'MA', 'dummy_motion.mot')
-    pathMuscleAnalysis = os.path.join(pathData, 'MA', 'ResultsMA', 
-                                      'subject' + idxSubject,
-                                      'subject' + idxSubject + '_MuscleAnalysis_') 
     
     if polynomial_type == 'nominal':
         suffix_pol = ''    
     elif polynomial_type == 'old':
-        suffix_pol = '_old'    
+        suffix_pol = '_old'
+    elif polynomial_type == 'FK':
+        suffix_pol = '_FK'  
+    
+    pathMuscleAnalysis = os.path.join(pathData, 'MA', 'ResultsMA', 
+                                      'subject' + idxSubject + suffix_pol,
+                                      'subject' + idxSubject + '_MuscleAnalysis_') 
+    
+    # if polynomial_type == 'nominal':
+    #     suffix_pol = ''    
+    # elif polynomial_type == 'old':
+    #     suffix_pol = '_old'    
         
     polynomialData = getPolynomialData(loadPolynomialData, pathMTParameters, 
                                        pathCoordinates, pathMuscleAnalysis,

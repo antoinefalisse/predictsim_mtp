@@ -4,7 +4,7 @@ import numpy as np
 
 solveProblem = True
 saveResults = True
-analyzeResults = True
+analyzeResults = False
 loadResults = True
 writeMotion = True
 saveTrajectories = True
@@ -13,9 +13,11 @@ loadMTParameters = True
 loadPolynomialData = True
 plotPolynomials = False
 
-cases = ["109"]
-# cases = [str(i) for i in range(89, 109)]
-# cases = [str(i) for i in range(99, 104)]
+# cases = ["139"]
+# cases = [str(i) for i in range(111, 143)]
+cases = [str(i) for i in range(111, 122)]
+# cases = [str(i) for i in range(122, 133)]
+# cases = [str(i) for i in range(133, 143)]
 
 from settings_predictsim import getSettings_predictsim_mtp   
 settings = getSettings_predictsim_mtp() 
@@ -61,11 +63,16 @@ for case in cases:
         perc_shorter = 0
         if 'perc_shorter' in settings[case]:
             perc_shorter = settings[case]['perc_shorter'] / 100
+    shorterKneePol = False
     if 'shorterKneePol' in settings[case]:
         shorterKneePol = settings[case]['shorterKneePol']
         perc_shorter = 0
         if 'perc_shorter' in settings[case]:
             perc_shorter = settings[case]['perc_shorter'] / 100
+            
+    polynomial_type = 'nominal'
+    if 'polynomial_type' in settings[case]:
+        polynomial_type = settings[case]['polynomial_type']
          
     # Paths
     pathMain = os.getcwd()
@@ -362,12 +369,18 @@ for case in cases:
     
     from muscleData import getPolynomialData      
     pathCoordinates = os.path.join(pathData, 'MA', 'dummy_motion.mot')
+    
+    if polynomial_type == 'nominal':
+        suffix_pol = ''    
+    elif polynomial_type == 'FK':
+        suffix_pol = '_FK'      
+    
     pathMuscleAnalysis = os.path.join(pathData, 'MA', 'ResultsMA', 
-                                      'subject' + idxSubject, 
+                                      'subject' + idxSubject + suffix_pol, 
                                       'subject' + idxSubject + '_MuscleAnalysis_') 
     polynomialData = getPolynomialData(loadPolynomialData, pathMTParameters, 
                                        pathCoordinates, pathMuscleAnalysis,
-                                       rightPolynomialJoints, muscles)        
+                                       rightPolynomialJoints, muscles, suffix_pol)        
     if loadPolynomialData:
         polynomialData = polynomialData.item()
     
