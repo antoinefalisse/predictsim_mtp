@@ -2,9 +2,9 @@ import os
 import casadi as ca
 import numpy as np
 
-solveProblem = True
+solveProblem = False
 saveResults = True
-analyzeResults = False
+analyzeResults = True
 loadResults = True
 writeMotion = True
 saveTrajectories = True

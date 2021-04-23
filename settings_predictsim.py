@@ -1608,7 +1608,31 @@ def getSettings_predictsim_mtp():
                   'activeMTP': False,
                   'idxSubject': '2',
                   'shorterKneePol': True,
-                  'perc_shorter': 30}}
+                  'perc_shorter': 30},
+            
+            '109': {'contactConfiguration': 'generic',
+                  'guessType': 'dataDriven',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'adjustAchillesTendonCompliance': False,
+                  'mtpExcitationTerm': 0,
+                  'activeMTP': False,
+                  'idxSubject': '2',
+                  'shorterKneePol': True,
+                  'perc_shorter': 25},
+            
+            '110': {'contactConfiguration': 'generic',
+                  'guessType': 'quasiRandom',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'adjustAchillesTendonCompliance': False,
+                  'mtpExcitationTerm': 0,
+                  'activeMTP': False,
+                  'idxSubject': '2',
+                  'shorterKneePol': True,
+                  'perc_shorter': 25},}
     
     
     

@@ -4,7 +4,7 @@ import numpy as np
 
 solveProblem = True
 saveResults = True
-analyzeResults = False
+analyzeResults = True
 loadResults = True
 writeMotion = True
 saveTrajectories = True
@@ -13,9 +13,9 @@ loadMTParameters = True
 loadPolynomialData = True
 plotPolynomials = False
 
-# cases = ["85", '86']
-cases = [str(i) for i in range(89, 99)]
-# cases = [str(i) for i in range(99, 109)]
+cases = ["109"]
+# cases = [str(i) for i in range(89, 109)]
+# cases = [str(i) for i in range(99, 104)]
 
 from settings_predictsim import getSettings_predictsim_mtp   
 settings = getSettings_predictsim_mtp() 
