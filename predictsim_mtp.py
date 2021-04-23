@@ -13,8 +13,8 @@ loadMTParameters = True
 loadPolynomialData = True
 plotPolynomials = False
 
-# cases = ["85", '86']
-cases = [str(i) for i in range(89, 99)]
+cases = ["97", '98']
+# cases = [str(i) for i in range(89, 99)]
 # cases = [str(i) for i in range(99, 109)]
 
 from settings_predictsim import getSettings_predictsim_mtp   
@@ -116,8 +116,8 @@ for case in cases:
             if analyzeResults:
                 F1 = ca.external('F','s2_withMTP_ss_pp.dll')
     os.chdir(pathMain)
-    vec1 = np.zeros((93, 1))
-    res1 = (F1(vec1)).full()
+    # vec1 = np.zeros((93, 1))
+    # res1 = (F1(vec1)).full()
     
     # Helper indices
     # origins bodies 
