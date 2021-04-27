@@ -93,6 +93,71 @@ class bounds:
         upperBoundsPositionInitial['pelvis_tx'] = [0]
                 
         return (upperBoundsPosition, lowerBoundsPosition, scalingPosition,
+                upperBoundsPositionInitial, lowerBoundsPositionInitial)
+    
+    def getBoundsPosition_extended(self):
+        self.splineQs()
+        upperBoundsPosition = pd.DataFrame()   
+        lowerBoundsPosition = pd.DataFrame() 
+        scalingPosition = pd.DataFrame() 
+        for count, joint in enumerate(self.joints):  
+            if (joint == 'mtp_angle_l') or (joint == 'mtp_angle_r'):
+                upperBoundsPosition.insert(count, joint, [1.05])
+                lowerBoundsPosition.insert(count, joint, [-0.5])                 
+            else:              
+                if (self.joints.count(joint[:-1] + 'l')) == 1:        
+                    ub = max(max(self.Qs_spline[joint[:-1] + 'l']), 
+                             max(self.Qs_spline[joint[:-1] + 'r']))
+                    lb = min(min(self.Qs_spline[joint[:-1] + 'l']), 
+                             min(self.Qs_spline[joint[:-1] + 'r']))                              
+                else:
+                    ub = max(self.Qs_spline[joint])
+                    lb = min(self.Qs_spline[joint])
+                r = abs(ub - lb)
+                ub = ub + 2*r
+                lb = lb - 2*r                        
+                upperBoundsPosition.insert(count, joint, [ub])
+                lowerBoundsPosition.insert(count, joint, [lb]) 
+                # Special cases
+                if joint == 'pelvis_tx':
+                    upperBoundsPosition[joint] = [2]
+                    lowerBoundsPosition[joint] = [0]
+                elif joint == 'pelvis_ty':
+                    upperBoundsPosition[joint] = [1.1]
+                    lowerBoundsPosition[joint] = [0.75]
+                elif joint == 'pelvis_tz':
+                    upperBoundsPosition[joint] = [0.1]
+                    lowerBoundsPosition[joint] = [-0.1]
+                elif (joint == 'elbow_flex_l') or (joint == 'elbow_flex_r'):
+                    lowerBoundsPosition[joint] = [0]
+                elif ((joint == 'arm_add_l') or (joint == 'arm_rot_l') or 
+                      (joint == 'arm_add_r') or (joint == 'arm_rot_r')):
+                    ub = max(max(self.Qs_spline[joint[:-1] + 'l']), 
+                             max(self.Qs_spline[joint[:-1] + 'r']))
+                    upperBoundsPosition[joint] = [ub]
+                elif joint == 'pelvis_tilt':
+                    lowerBoundsPosition[joint] = [-20*np.pi/180]
+                # Running cases
+                if self.targetSpeed > 1.33:
+                    if joint == 'arm_flex_r':
+                        lowerBoundsPosition[joint] = [-50*np.pi/180]
+                    if joint == 'arm_flex_l':
+                        lowerBoundsPosition[joint] = [-50*np.pi/180]
+                
+            # Scaling                       
+            s = pd.concat([abs(upperBoundsPosition[joint]), 
+                           abs(lowerBoundsPosition[joint])]).max(level=0)
+            scalingPosition.insert(count, joint, s)
+            lowerBoundsPosition[joint] /= scalingPosition[joint]
+            upperBoundsPosition[joint] /= scalingPosition[joint]
+            
+        # Hard bounds at initial position
+        lowerBoundsPositionInitial = lowerBoundsPosition.copy()
+        lowerBoundsPositionInitial['pelvis_tx'] = [0]
+        upperBoundsPositionInitial = upperBoundsPosition.copy()
+        upperBoundsPositionInitial['pelvis_tx'] = [0]
+                
+        return (upperBoundsPosition, lowerBoundsPosition, scalingPosition,
                 upperBoundsPositionInitial, lowerBoundsPositionInitial) 
     
     def getBoundsVelocity(self):

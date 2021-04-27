@@ -12,9 +12,11 @@ decomposeCost = True
 loadMTParameters = True
 loadPolynomialData = True
 plotPolynomials = False
+plotGuessVsBounds = False
+visualizeResultsAgainstBounds = False
 
 # cases = [str(i) for i in range(56, 66)]
-cases = ['66','67']
+cases = ['68']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
@@ -70,6 +72,10 @@ for case in cases:
         perc_shorter = 0
         if 'perc_shorter' in settings[case]:
             perc_shorter = settings[case]['perc_shorter'] / 100
+          
+    boundsType = 'nominal' 
+    if 'boundsType' in settings[case]:
+        boundsType = settings[case]['boundsType']
           
     # Paths
     pathMain = os.getcwd()
@@ -575,8 +581,12 @@ for case in cases:
     uBoundsFj = ca.vec(uBoundsF.to_numpy().T * np.ones((1, d*N))).full()
     lBoundsFj = ca.vec(lBoundsF.to_numpy().T * np.ones((1, d*N))).full()
     
-    uBoundsQs, lBoundsQs, scalingQs, uBoundsQs0, lBoundsQs0 = (
-            bounds.getBoundsPosition())
+    if boundsType == 'extended':
+        uBoundsQs, lBoundsQs, scalingQs, uBoundsQs0, lBoundsQs0 = (
+                bounds.getBoundsPosition_extended())
+    else:
+        uBoundsQs, lBoundsQs, scalingQs, uBoundsQs0, lBoundsQs0 = (
+                bounds.getBoundsPosition())
     
     uBoundsQsk = ca.vec(uBoundsQs.to_numpy().T * np.ones((1, N+1))).full()
     lBoundsQsk = ca.vec(lBoundsQs.to_numpy().T * np.ones((1, N+1))).full()
@@ -772,23 +782,23 @@ for case in cases:
         assert np.alltrue(lBoundsQdotdotsj <= ca.vec(guessQdotdotsCol.to_numpy().T).full()), "lb Joint velocity derivative"
         assert np.alltrue(uBoundsQdotdotsj >= ca.vec(guessQdotdotsCol.to_numpy().T).full()), "ub Joint velocity derivative"
         
-        # if plotGuessVsBounds:            
-        #     # States
-        #     # Muscle activation at mesh points
-        #     from variousFunctions import plotVSBounds
-        #     from variousFunctions import plotVSvaryingBounds
-        #     # Joint position at mesh points
-        #     lb = np.reshape(lBoundsQsk, (NJoints, N+1), order='F')
-        #     ub = np.reshape(uBoundsQsk, (NJoints, N+1), order='F')
-        #     y = guessQs.to_numpy().T
-        #     title='Joint position at mesh points' 
-        #     plotVSvaryingBounds(y,lb,ub,title)             
-        #     # Joint position at collocation points
-        #     lb = np.reshape(lBoundsQsj, (NJoints, d*N), order='F')
-        #     ub = np.reshape(uBoundsQsj, (NJoints, d*N), order='F')
-        #     y = guessQsCol.to_numpy().T
-        #     title='Joint position at collocation points' 
-        #     plotVSvaryingBounds(y,lb,ub,title) 
+        if plotGuessVsBounds:            
+            # States
+            # Muscle activation at mesh points
+            from variousFunctions import plotVSBounds
+            from variousFunctions import plotVSvaryingBounds
+            # Joint position at mesh points
+            lb = np.reshape(lBoundsQsk, (NJoints, N+1), order='F')
+            ub = np.reshape(uBoundsQsk, (NJoints, N+1), order='F')
+            y = guessQs.to_numpy().T
+            title='Joint position at mesh points' 
+            plotVSvaryingBounds(y,lb,ub,title)             
+            # Joint position at collocation points
+            lb = np.reshape(lBoundsQsj, (NJoints, d*N), order='F')
+            ub = np.reshape(uBoundsQsj, (NJoints, d*N), order='F')
+            y = guessQsCol.to_numpy().T
+            title='Joint position at collocation points' 
+            plotVSvaryingBounds(y,lb,ub,title) 
             
         ###########################################################################   
         # Parallel formulation
@@ -2069,77 +2079,77 @@ for case in cases:
             print("WARNING: PROBLEM DID NOT CONVERGE - " 
                   + stats['return_status']) 
             
-         # # if visualizeResultsAgainstBounds:
-         #    # States
-         #    # Muscle activation at mesh points
-         #    from variousFunctions import plotVSBounds
-         #    lb = lBoundsA.to_numpy().T
-         #    ub = uBoundsA.to_numpy().T
-         #    y = a_opt
-         #    title='Muscle activation at mesh points'            
-         #    plotVSBounds(y,lb,ub,title)  
-         #    # Muscle activation at collocation points
-         #    lb = lBoundsA.to_numpy().T
-         #    ub = uBoundsA.to_numpy().T
-         #    y = a_col_opt
-         #    title='Muscle activation at collocation points' 
-         #    plotVSBounds(y,lb,ub,title)  
-         #    # Muscle force at mesh points
-         #    lb = lBoundsF.to_numpy().T
-         #    ub = uBoundsF.to_numpy().T
-         #    y = normF_opt
-         #    title='Muscle force at mesh points' 
-         #    plotVSBounds(y,lb,ub,title)  
-         #    # Muscle force at collocation points
-         #    lb = lBoundsF.to_numpy().T
-         #    ub = uBoundsF.to_numpy().T
-         #    y = normF_col_opt
-         #    title='Muscle force at collocation points' 
-         #    plotVSBounds(y,lb,ub,title)
-             # # Joint position at mesh points
-             # lb = lBoundsQs.to_numpy().T
-             # ub = uBoundsQs.to_numpy().T
-             # y = Qs_opt
-             # title='Joint position at mesh points' 
-             # plotVSBounds(y,lb,ub,title)             
-         #    # Joint position at collocation points
-         #    lb = lBoundsQs.to_numpy().T
-         #    ub = uBoundsQs.to_numpy().T
-         #    y = Qs_col_opt
-         #    title='Joint position at collocation points' 
-         #    plotVSBounds(y,lb,ub,title) 
-         #    # Joint velocity at mesh points
-         #    lb = lBoundsQdots.to_numpy().T
-         #    ub = uBoundsQdots.to_numpy().T
-         #    y = Qdots_opt
-         #    title='Joint velocity at mesh points' 
-         #    plotVSBounds(y,lb,ub,title) 
-         #    # Joint velocity at collocation points
-         #    lb = lBoundsQdots.to_numpy().T
-         #    ub = uBoundsQdots.to_numpy().T
-         #    y = Qdots_col_opt
-         #    title='Joint velocity at collocation points' 
-         #    plotVSBounds(y,lb,ub,title) 
-         #    #######################################################################
-         #    # Controls
-         #    # Muscle activation derivative at mesh points
-         #    lb = lBoundsADt.to_numpy().T
-         #    ub = uBoundsADt.to_numpy().T
-         #    y = aDt_opt
-         #    title='Muscle activation derivative at mesh points' 
-         #    plotVSBounds(y,lb,ub,title)                
-         #    #######################################################################
-         #    # Slack controls
-         #    # Muscle force derivative at collocation points
-         #    lb = lBoundsFDt.to_numpy().T
-         #    ub = uBoundsFDt.to_numpy().T
-         #    y = normFDt_col_opt
-         #    title='Muscle force derivative at collocation points' 
-         #    plotVSBounds(y,lb,ub,title)
-         #    # Joint velocity derivative (acceleration) at collocation points
-         #    lb = lBoundsQdotdots.to_numpy().T
-         #    ub = uBoundsQdotdots.to_numpy().T
-         #    y = Qdotdots_col_opt
-         #    title='Joint velocity derivative (acceleration) at collocation points' 
-         #    plotVSBounds(y,lb,ub,title)
-            
+        if visualizeResultsAgainstBounds:
+          # States
+          # Muscle activation at mesh points
+          from variousFunctions import plotVSBounds
+          lb = lBoundsA.to_numpy().T
+          ub = uBoundsA.to_numpy().T
+          y = a_opt
+          title='Muscle activation at mesh points'            
+          plotVSBounds(y,lb,ub,title)  
+          # Muscle activation at collocation points
+          lb = lBoundsA.to_numpy().T
+          ub = uBoundsA.to_numpy().T
+          y = a_col_opt
+          title='Muscle activation at collocation points' 
+          plotVSBounds(y,lb,ub,title)  
+          # Muscle force at mesh points
+          lb = lBoundsF.to_numpy().T
+          ub = uBoundsF.to_numpy().T
+          y = normF_opt
+          title='Muscle force at mesh points' 
+          plotVSBounds(y,lb,ub,title)  
+          # Muscle force at collocation points
+          lb = lBoundsF.to_numpy().T
+          ub = uBoundsF.to_numpy().T
+          y = normF_col_opt
+          title='Muscle force at collocation points' 
+          plotVSBounds(y,lb,ub,title)
+          # Joint position at mesh points
+          lb = lBoundsQs.to_numpy().T
+          ub = uBoundsQs.to_numpy().T
+          y = Qs_opt
+          title='Joint position at mesh points' 
+          plotVSBounds(y,lb,ub,title)             
+          # Joint position at collocation points
+          lb = lBoundsQs.to_numpy().T
+          ub = uBoundsQs.to_numpy().T
+          y = Qs_col_opt
+          title='Joint position at collocation points' 
+          plotVSBounds(y,lb,ub,title) 
+          # Joint velocity at mesh points
+          lb = lBoundsQdots.to_numpy().T
+          ub = uBoundsQdots.to_numpy().T
+          y = Qdots_opt
+          title='Joint velocity at mesh points' 
+          plotVSBounds(y,lb,ub,title) 
+          # Joint velocity at collocation points
+          lb = lBoundsQdots.to_numpy().T
+          ub = uBoundsQdots.to_numpy().T
+          y = Qdots_col_opt
+          title='Joint velocity at collocation points' 
+          plotVSBounds(y,lb,ub,title) 
+          #######################################################################
+          # Controls
+          # Muscle activation derivative at mesh points
+          lb = lBoundsADt.to_numpy().T
+          ub = uBoundsADt.to_numpy().T
+          y = aDt_opt
+          title='Muscle activation derivative at mesh points' 
+          plotVSBounds(y,lb,ub,title)                
+          #######################################################################
+          # Slack controls
+          # Muscle force derivative at collocation points
+          lb = lBoundsFDt.to_numpy().T
+          ub = uBoundsFDt.to_numpy().T
+          y = normFDt_col_opt
+          title='Muscle force derivative at collocation points' 
+          plotVSBounds(y,lb,ub,title)
+          # Joint velocity derivative (acceleration) at collocation points
+          lb = lBoundsQdotdots.to_numpy().T
+          ub = uBoundsQdotdots.to_numpy().T
+          y = Qdotdots_col_opt
+          title='Joint velocity derivative (acceleration) at collocation points' 
+          plotVSBounds(y,lb,ub,title)
+         
