@@ -344,7 +344,7 @@ for case in cases:
                                       'subject' + idxSubject,
                                       'subject' + idxSubject + '_MuscleAnalysis_')
             
-    suffix_pol = ''  
+    suffix_pol = '_old'  
     polynomialData = getPolynomialData(loadPolynomialData, pathMTParameters, 
                                        pathCoordinates, pathMuscleAnalysis,
                                        rightPolynomialJoints, muscles,
@@ -352,7 +352,7 @@ for case in cases:
     if loadPolynomialData:
         polynomialData = polynomialData.item()
         
-    suffix_pol = '_old'    
+    suffix_pol = '_FK'    
     polynomialData_old = getPolynomialData(loadPolynomialData, pathMTParameters, 
                                        pathCoordinates, pathMuscleAnalysis,
                                        rightPolynomialJoints, muscles,
@@ -424,9 +424,9 @@ for case in cases:
             # color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
             for case in cases:
                 ax.plot(range_knee_deg, dM_test[i,leftPolynomialJoints.index('knee_angle_l'),:], c='black')
-                ax.plot(range_knee_deg, dM_test[i,leftPolynomialJoints.index('knee_angle_l'),:]*0.9, c='blue')    
-                ax.plot(range_knee_deg, dM_test[i,leftPolynomialJoints.index('knee_angle_l'),:]*0.8, c='red')    
-                ax.plot(range_knee_deg, dM_test[i,leftPolynomialJoints.index('knee_angle_l'),:]*0.7, c='green')    
+                # ax.plot(range_knee_deg, dM_test[i,leftPolynomialJoints.index('knee_angle_l'),:]*0.9, c='blue')    
+                # ax.plot(range_knee_deg, dM_test[i,leftPolynomialJoints.index('knee_angle_l'),:]*0.8, c='red')    
+                # ax.plot(range_knee_deg, dM_test[i,leftPolynomialJoints.index('knee_angle_l'),:]*0.7, c='green')    
                 ax.plot(range_knee_deg, dM_test_old[i,leftPolynomialJoints.index('knee_angle_l'),:], c='orange')        
             ax.set_title(muscles[i])
             if i < NSideMuscles and i > 41:
@@ -445,3 +445,163 @@ for case in cases:
     fig.align_ylabels()
     
     test2 = dM_test_old[:,leftPolynomialJoints.index('knee_angle_l'),:] / dM_test[:,leftPolynomialJoints.index('knee_angle_l'),:]
+    
+    # %% Ankle
+    
+    # Test polynomials
+    
+    range_ankle = np.linspace(-50, 40, 1000)
+    range_ankle *= (np.pi/180)
+    Qdotsin_test = np.zeros((len(leftPolynomialJoints),))
+    lMT_test = np.zeros((NSideMuscles+3, range_ankle.shape[0]))
+    vMT_test = np.zeros((NSideMuscles+3, range_ankle.shape[0]))
+    dM_test = np.zeros((NSideMuscles+3, len(leftPolynomialJoints), range_ankle.shape[0]))
+    lMT_test_old = np.zeros((NSideMuscles+3, range_ankle.shape[0]))
+    vMT_test_old = np.zeros((NSideMuscles+3, range_ankle.shape[0]))
+    dM_test_old = np.zeros((NSideMuscles+3, len(leftPolynomialJoints), range_ankle.shape[0]))
+    for i in range(range_ankle.shape[0]):
+        Qsin_test = np.zeros((len(leftPolynomialJoints),))
+        Qsin_test[leftPolynomialJoints.index('ankle_angle_l')] = range_ankle[i]
+        [c_lMT_test, c_vMT_test, c_dM_test] = f_polynomial(Qsin_test, Qdotsin_test)        
+        lMT_test[:, i] = (c_lMT_test.full()).flatten()
+        vMT_test[:, i] = (c_vMT_test.full()).flatten()
+        dM_test [:,:,i] = (c_dM_test.full())
+        
+        [c_lMT_test, c_vMT_test, c_dM_test] = f_polynomial_old(Qsin_test, Qdotsin_test)        
+        lMT_test_old[:, i] = (c_lMT_test.full()).flatten()
+        vMT_test_old[:, i] = (c_vMT_test.full()).flatten()
+        dM_test_old [:,:,i] = (c_dM_test.full())
+    
+    range_ankle_deg = range_ankle*180/np.pi
+    import matplotlib.pyplot as plt  
+    fig, axs = plt.subplots(7, 7, sharex=True)    
+    fig.suptitle('Muscles')
+    for i, ax in enumerate(axs.flat):
+        if i < NSideMuscles:
+            # color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
+            for case in cases:
+                ax.plot(range_ankle_deg, lMT_test[i,:], c='black')            
+                ax.plot(range_ankle_deg, lMT_test_old[i,:], c='orange')        
+            ax.set_title(muscles[i])
+            if i < NSideMuscles and i > 41:
+                ax.set_xticks([-120,10])
+                ax.set_xticklabels(['-120','10'])
+                ax.set_xlabel('Knee angle (deg)')
+            else:
+                ax.set_xticks([-120,10]) 
+                ax.set_xticklabels([])
+            # ax.set_ylim((kinematic_ylim_lb[i],kinematic_ylim_ub[i]))
+            handles, labels = ax.get_legend_handles_labels()
+            plt.legend(handles, labels, loc='upper right')
+    plt.setp(axs[-1, :], xlabel='Knee angle (deg)')
+    plt.setp(axs[:, 0], ylabel='(m)')
+    fig.align_ylabels()
+    
+    test1 = lMT_test_old / lMT_test
+        
+    fig, axs = plt.subplots(7, 7, sharex=True)    
+    fig.suptitle('Muscles')
+    for i, ax in enumerate(axs.flat):
+        if i < NSideMuscles:
+            # color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
+            for case in cases:
+                ax.plot(range_ankle_deg, dM_test[i,leftPolynomialJoints.index('ankle_angle_l'),:], c='black')
+                # ax.plot(range_ankle_deg, dM_test[i,leftPolynomialJoints.index('knee_angle_l'),:]*0.9, c='blue')    
+                # ax.plot(range_ankle_deg, dM_test[i,leftPolynomialJoints.index('knee_angle_l'),:]*0.8, c='red')    
+                # ax.plot(range_ankle_deg, dM_test[i,leftPolynomialJoints.index('knee_angle_l'),:]*0.7, c='green')    
+                ax.plot(range_ankle_deg, dM_test_old[i,leftPolynomialJoints.index('ankle_angle_l'),:], c='orange')        
+            ax.set_title(muscles[i])
+            if i < NSideMuscles and i > 41:
+                ax.set_xticks([-50,40])
+                ax.set_xticklabels(['-50','40'])
+                ax.set_xlabel('Ankle angle (deg)')
+            else:
+                ax.set_xticks([-50,40]) 
+                ax.set_xticklabels([]) 
+            # ax.set_ylim((kinematic_ylim_lb[i],kinematic_ylim_ub[i]))
+            handles, labels = ax.get_legend_handles_labels()
+            plt.legend(handles, labels, loc='upper right')
+        
+    # plt.setp(axs[-1, :], xlabel='Knee angle (deg)')
+    plt.setp(axs[:, 0], ylabel='(m)')
+    fig.align_ylabels()
+    
+    # %% Subtalar
+    
+    # Test polynomials
+    
+    range_ankle = np.linspace(-45, 45, 1000)
+    range_ankle *= (np.pi/180)
+    Qdotsin_test = np.zeros((len(leftPolynomialJoints),))
+    lMT_test = np.zeros((NSideMuscles+3, range_ankle.shape[0]))
+    vMT_test = np.zeros((NSideMuscles+3, range_ankle.shape[0]))
+    dM_test = np.zeros((NSideMuscles+3, len(leftPolynomialJoints), range_ankle.shape[0]))
+    lMT_test_old = np.zeros((NSideMuscles+3, range_ankle.shape[0]))
+    vMT_test_old = np.zeros((NSideMuscles+3, range_ankle.shape[0]))
+    dM_test_old = np.zeros((NSideMuscles+3, len(leftPolynomialJoints), range_ankle.shape[0]))
+    for i in range(range_ankle.shape[0]):
+        Qsin_test = np.zeros((len(leftPolynomialJoints),))
+        Qsin_test[leftPolynomialJoints.index('subtalar_angle_l')] = range_ankle[i]
+        [c_lMT_test, c_vMT_test, c_dM_test] = f_polynomial(Qsin_test, Qdotsin_test)        
+        lMT_test[:, i] = (c_lMT_test.full()).flatten()
+        vMT_test[:, i] = (c_vMT_test.full()).flatten()
+        dM_test [:,:,i] = (c_dM_test.full())
+        
+        [c_lMT_test, c_vMT_test, c_dM_test] = f_polynomial_old(Qsin_test, Qdotsin_test)        
+        lMT_test_old[:, i] = (c_lMT_test.full()).flatten()
+        vMT_test_old[:, i] = (c_vMT_test.full()).flatten()
+        dM_test_old [:,:,i] = (c_dM_test.full())
+    
+    # range_ankle_deg = range_ankle*180/np.pi
+    # import matplotlib.pyplot as plt  
+    # fig, axs = plt.subplots(7, 7, sharex=True)    
+    # fig.suptitle('Muscles')
+    # for i, ax in enumerate(axs.flat):
+    #     if i < NSideMuscles:
+    #         # color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
+    #         for case in cases:
+    #             ax.plot(range_ankle_deg, lMT_test[i,:], c='black')            
+    #             ax.plot(range_ankle_deg, lMT_test_old[i,:], c='orange')        
+    #         ax.set_title(muscles[i])
+    #         if i < NSideMuscles and i > 41:
+    #             ax.set_xticks([-120,10])
+    #             ax.set_xticklabels(['-120','10'])
+    #             ax.set_xlabel('Knee angle (deg)')
+    #         else:
+    #             ax.set_xticks([-120,10]) 
+    #             ax.set_xticklabels([])
+    #         # ax.set_ylim((kinematic_ylim_lb[i],kinematic_ylim_ub[i]))
+    #         handles, labels = ax.get_legend_handles_labels()
+    #         plt.legend(handles, labels, loc='upper right')
+    # plt.setp(axs[-1, :], xlabel='Knee angle (deg)')
+    # plt.setp(axs[:, 0], ylabel='(m)')
+    # fig.align_ylabels()
+    
+    # test1 = lMT_test_old / lMT_test
+        
+    fig, axs = plt.subplots(7, 7, sharex=True)    
+    fig.suptitle('Muscles')
+    for i, ax in enumerate(axs.flat):
+        if i < NSideMuscles:
+            # color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
+            for case in cases:
+                ax.plot(range_ankle_deg, dM_test[i,leftPolynomialJoints.index('subtalar_angle_l'),:], c='black')
+                # ax.plot(range_ankle_deg, dM_test[i,leftPolynomialJoints.index('knee_angle_l'),:]*0.9, c='blue')    
+                # ax.plot(range_ankle_deg, dM_test[i,leftPolynomialJoints.index('knee_angle_l'),:]*0.8, c='red')    
+                # ax.plot(range_ankle_deg, dM_test[i,leftPolynomialJoints.index('knee_angle_l'),:]*0.7, c='green')    
+                ax.plot(range_ankle_deg, dM_test_old[i,leftPolynomialJoints.index('subtalar_angle_l'),:], c='orange')        
+            ax.set_title(muscles[i])
+            if i < NSideMuscles and i > 41:
+                ax.set_xticks([-45,45])
+                ax.set_xticklabels(['-45','45'])
+                ax.set_xlabel('Subtalar angle (deg)')
+            else:
+                ax.set_xticks([-45,45]) 
+                ax.set_xticklabels([]) 
+            # ax.set_ylim((kinematic_ylim_lb[i],kinematic_ylim_ub[i]))
+            handles, labels = ax.get_legend_handles_labels()
+            plt.legend(handles, labels, loc='upper right')
+        
+    # plt.setp(axs[-1, :], xlabel='Knee angle (deg)')
+    plt.setp(axs[:, 0], ylabel='(m)')
+    fig.align_ylabels()

@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 # %% Settings 
 # Effect of contact configuration (with N=100)
 # cases = ['12', '29', '30', '33']
-# cases = ['15','44']
-cases = ['42','44']
+cases = ['37']
+# cases = ['15','65']
 
 mainName = "predictsim_no_mtp"
 subject = "subject2"

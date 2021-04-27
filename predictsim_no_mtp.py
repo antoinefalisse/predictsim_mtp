@@ -4,7 +4,7 @@ import numpy as np
 
 solveProblem = True
 saveResults = True
-analyzeResults = False
+analyzeResults = True
 loadResults = True
 writeMotion = True
 saveTrajectories = True
@@ -13,8 +13,8 @@ loadMTParameters = True
 loadPolynomialData = True
 plotPolynomials = False
 
-cases = [str(i) for i in range(56, 66)]
-# cases = ['62']
+# cases = [str(i) for i in range(56, 66)]
+cases = ['66','67']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
@@ -325,6 +325,13 @@ for case in cases:
     from variousFunctions import getIK
     Qs_walk_filt = getIK(pathIK_walk, joints)[1]
     
+    if guessType == 'straight':
+        motion_walk = 'walking'
+        nametrial_walk_id = 'average_' +  motion_walk + '_HGC_mtp_straight'
+        nametrial_walk_IK = 'IK_' + nametrial_walk_id
+        pathIK_walk = os.path.join(pathData, 'IK', nametrial_walk_IK + '.mot')
+        Qs_walk_filt_straight = getIK(pathIK_walk, joints)[1]     
+    
     # %% Arm activation dynamics
     from functionCasADi import armActivationDynamics
     f_armActivationDynamics = armActivationDynamics(NArmJoints)
@@ -620,6 +627,12 @@ for case in cases:
     elif guessType == 'dataDriven':
         from guesses import dataDrivenGuess
         guess = dataDrivenGuess(Qs_walk_filt, N, d, joints, bothSidesMuscles,
+                                targetSpeed, periodicQsJointsA, 
+                                periodicQdotsJointsA, periodicOppositeJoints)
+    elif guessType == 'straight':
+        from guesses import dataDrivenGuess
+        guess = dataDrivenGuess(Qs_walk_filt_straight, N, d, joints,
+                                bothSidesMuscles,
                                 targetSpeed, periodicQsJointsA, 
                                 periodicQdotsJointsA, periodicOppositeJoints)
     # Static parameters
