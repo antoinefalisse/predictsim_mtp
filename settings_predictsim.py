@@ -554,6 +554,23 @@ def getSettings_predictsim_no_mtp():
                   'polynomial_type': 'FK',
                   'boundsType': 'extended'},
             
+            '70': {'contactConfiguration': 'generic',
+                  'guessType': 'quasiRandom',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'idxSubject': '2',
+                  'polynomial_type': 'FK',
+                  'boundsType': 'extended'}, 
+            '71': {'contactConfiguration': 'generic',
+                  'guessType': 'straight',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'idxSubject': '2',
+                  'polynomial_type': 'FK',
+                  'boundsType': 'extended'}, 
+            
     }
     return settings
 
