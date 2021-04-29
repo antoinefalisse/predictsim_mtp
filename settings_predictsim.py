@@ -596,6 +596,19 @@ def getSettings_predictsim_no_mtp():
                   'polynomial_type': 'old',
                   'boundsType': 'extended'},
             
+            '75': {'contactConfiguration': 'specific',
+                  'guessType': 'dataDriven',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'boundsType': 'extended'},
+            '76': {'contactConfiguration': 'generic',
+                  'guessType': 'dataDriven',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'boundsType': 'extended'},
+            
     }
     return settings
 

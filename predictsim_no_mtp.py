@@ -16,7 +16,7 @@ plotGuessVsBounds = False
 visualizeResultsAgainstBounds = False
 
 # cases = [str(i) for i in range(56, 66)]
-cases = ['72']
+cases = ['75']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
@@ -2082,7 +2082,6 @@ for case in cases:
         if visualizeResultsAgainstBounds:
           # States
           # Muscle activation at mesh points
-          from variousFunctions import plotVSBounds
           lb = lBoundsA.to_numpy().T
           ub = uBoundsA.to_numpy().T
           y = a_opt
