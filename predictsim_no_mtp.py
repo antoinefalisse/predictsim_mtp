@@ -2,7 +2,7 @@ import os
 import casadi as ca
 import numpy as np
 
-solveProblem = False
+solveProblem = True
 saveResults = True
 analyzeResults = True
 loadResults = True
@@ -16,7 +16,7 @@ plotGuessVsBounds = False
 visualizeResultsAgainstBounds = False
 
 # cases = [str(i) for i in range(56, 66)]
-cases = ['75','76']
+cases = ['77','78']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
@@ -34,6 +34,13 @@ for case in cases:
         
     if 'activationTerm' in settings[case]:
         weights['activationTerm'] = settings[case]['activationTerm']
+        
+    heavierTorso = False
+    if 'heavierTorso' in settings[case]:
+        heavierTorso = settings[case]['heavierTorso']
+        perc_heavier = 10
+        if 'perc_heavier' in settings[case]:
+            perc_heavier = settings[case]['perc_heavier']        
 
     # Other settings
     tol = settings[case]['tol']
@@ -114,18 +121,29 @@ for case in cases:
             if analyzeResults:
                 F1 = ca.external('F','PredSim_no_mtpPin_pp_cm6.dll')
     elif subject == 'subject2_no_mtp':
-        if contactConfiguration == 'generic':
-            F = ca.external('F','s2_withoutMTP_ge.dll')
-            if analyzeResults:
-                F1 = ca.external('F','s2_withoutMTP_ge_pp.dll')
-        elif contactConfiguration == 'generic_low':
-            F = ca.external('F','s2_withoutMTP_gl.dll')
-            if analyzeResults:
-                F1 = ca.external('F','s2_withoutMTP_gl_pp.dll')
-        elif contactConfiguration == 'specific':
-            F = ca.external('F','s2_withoutMTP_ss.dll')
-            if analyzeResults:
-                F1 = ca.external('F','s2_withoutMTP_ss_pp.dll')
+        if heavierTorso:
+            if contactConfiguration == 'generic':
+                F = ca.external(
+                    'F','s2_withoutMTP_ge_t{}.dll'.format(perc_heavier))
+                if analyzeResults:
+                    F1 = ca.external(
+                        'F','s2_withoutMTP_ge_t{}_pp.dll'.format(perc_heavier))
+            else:
+                raise ValueError("Case not supported")
+            
+        else:
+            if contactConfiguration == 'generic':
+                F = ca.external('F','s2_withoutMTP_ge.dll')
+                if analyzeResults:
+                    F1 = ca.external('F','s2_withoutMTP_ge_pp.dll')
+            elif contactConfiguration == 'generic_low':
+                F = ca.external('F','s2_withoutMTP_gl.dll')
+                if analyzeResults:
+                    F1 = ca.external('F','s2_withoutMTP_gl_pp.dll')
+            elif contactConfiguration == 'specific':
+                F = ca.external('F','s2_withoutMTP_ss.dll')
+                if analyzeResults:
+                    F1 = ca.external('F','s2_withoutMTP_ss_pp.dll')
     os.chdir(pathMain)  
     # vec1 = -np.zeros((87, 1))
     # res1 = (F1(vec1)).full()
@@ -496,6 +514,11 @@ for case in cases:
     
     # %% Metabolic energy model
     modelMass = 62
+    if heavierTorso:
+        genericTorsoMass = 22.128092213621844
+        heavierTorsoMass_diff = genericTorsoMass*perc_heavier/100
+        modelMass += heavierTorsoMass_diff
+        
     maximalIsometricForce = mtParameters[0, :]
     optimalFiberLength = mtParameters[1, :]
     muscleVolume = np.multiply(maximalIsometricForce, optimalFiberLength)
