@@ -597,7 +597,7 @@ def getSettings_predictsim_no_mtp():
                   'boundsType': 'extended'},
             
             
-            # Extend bounds for generic
+            # Extend bounds for generic / subject 1
             '75': {'contactConfiguration': 'generic',
                   'guessType': 'dataDriven',
                   'targetSpeed': 1.33,
@@ -667,6 +667,21 @@ def getSettings_predictsim_no_mtp():
                   'boundsType': 'extended',
                   'heavierTorso': True,
                   'perc_heavier': 30},
+            
+            '83': {'contactConfiguration': 'generic',
+                  'guessType': 'dataDriven',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'idxSubject': '2',
+                  'boundsType': 'extended'},
+            '84': {'contactConfiguration': 'generic',
+                  'guessType': 'quasiRandom',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'idxSubject': '2',
+                  'boundsType': 'extended'},
             
     }
     return settings
