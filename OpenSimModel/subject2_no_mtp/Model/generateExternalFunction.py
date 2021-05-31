@@ -11,7 +11,7 @@ OpenSimModelDir = os.path.dirname(modelDir)
 
 # %% User settings.
 
-modelName = "subject2_withoutMTP_weldRadius_scaled_FK_contactsAsForces_generic_lowerBody08"
+modelName = "subject2_withoutMTP_weldRadius_heavierTorso_scaled_FK_contactsAsForces_generic"
 pathModel = os.path.join(scriptDir, modelName + ".osim")
 pathModelFolder = scriptDir
 

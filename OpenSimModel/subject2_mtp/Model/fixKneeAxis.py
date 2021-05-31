@@ -12,7 +12,7 @@ OpenSimModelDir = os.path.dirname(modelDir)
 # %% User settings.
 
 pathGenericTemplates = os.path.join(OpenSimModelDir, "generic_templates")
-modelName = "subject2_withMTP_weldRadius_scaled"
+modelName = "subject2_withMTP_weldRadius_heavierTorso_scaled"
 pathModel = os.path.join(scriptDir, modelName + ".osim")
 pathOutputModelFolder = scriptDir
 pathOutputModel = os.path.join(scriptDir, modelName + "_FK.osim")

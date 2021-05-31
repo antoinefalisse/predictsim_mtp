@@ -722,6 +722,23 @@ def getSettings_predictsim_no_mtp():
                   'lighterLowerBody': True,
                   'perc_lighter': 20},
             
+            '89': {'contactConfiguration': 'generic',
+                  'guessType': 'dataDriven',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'idxSubject': '2',
+                  'boundsType': 'extended',
+                  'baseModelHeavierTorso': True},
+            '90': {'contactConfiguration': 'generic',
+                  'guessType': 'quasiRandom',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'idxSubject': '2',
+                  'boundsType': 'extended',
+                  'baseModelHeavierTorso': True},
+            
     }
     return settings
 

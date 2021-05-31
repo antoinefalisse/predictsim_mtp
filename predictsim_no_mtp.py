@@ -16,7 +16,7 @@ plotGuessVsBounds = False
 visualizeResultsAgainstBounds = False
 
 # cases = [str(i) for i in range(56, 66)]
-cases = ['85', '86']
+cases = ['89', '90']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
@@ -47,7 +47,11 @@ for case in cases:
         lighterLowerBody = settings[case]['lighterLowerBody']
         perc_lighter = 10
         if 'perc_lighter' in settings[case]:
-            perc_lighter = settings[case]['perc_lighter']      
+            perc_lighter = settings[case]['perc_lighter']  
+            
+    baseModelHeavierTorso = False
+    if 'baseModelHeavierTorso' in settings[case]:
+        baseModelHeavierTorso = settings[case]['baseModelHeavierTorso']
 
     # Other settings
     tol = settings[case]['tol']
@@ -145,6 +149,16 @@ for case in cases:
                 if analyzeResults:
                     F1 = ca.external(
                         'F','s2_withoutMTP_ge_l{}_pp.dll'.format(perc_lighter))
+            else:
+                raise ValueError("Case not supported")
+                
+        elif baseModelHeavierTorso:
+            if contactConfiguration == 'generic':
+                F = ca.external(
+                    'F','s2_withoutMTP_ge_19.dll')
+                if analyzeResults:
+                    F1 = ca.external(
+                        'F','s2_withoutMTP_ge_19_pp.dll')
             else:
                 raise ValueError("Case not supported")
             
