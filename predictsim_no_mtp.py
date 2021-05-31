@@ -16,7 +16,7 @@ plotGuessVsBounds = False
 visualizeResultsAgainstBounds = False
 
 # cases = [str(i) for i in range(56, 66)]
-cases = ['83']
+cases = ['85', '86']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
@@ -40,7 +40,14 @@ for case in cases:
         heavierTorso = settings[case]['heavierTorso']
         perc_heavier = 10
         if 'perc_heavier' in settings[case]:
-            perc_heavier = settings[case]['perc_heavier']        
+            perc_heavier = settings[case]['perc_heavier']      
+            
+    lighterLowerBody = False
+    if 'lighterLowerBody' in settings[case]:
+        lighterLowerBody = settings[case]['lighterLowerBody']
+        perc_lighter = 10
+        if 'perc_lighter' in settings[case]:
+            perc_lighter = settings[case]['perc_lighter']      
 
     # Other settings
     tol = settings[case]['tol']
@@ -128,6 +135,16 @@ for case in cases:
                 if analyzeResults:
                     F1 = ca.external(
                         'F','s2_withoutMTP_ge_t{}_pp.dll'.format(perc_heavier))
+            else:
+                raise ValueError("Case not supported")
+                
+        elif lighterLowerBody:
+            if contactConfiguration == 'generic':
+                F = ca.external(
+                    'F','s2_withoutMTP_ge_l{}.dll'.format(perc_lighter))
+                if analyzeResults:
+                    F1 = ca.external(
+                        'F','s2_withoutMTP_ge_l{}_pp.dll'.format(perc_lighter))
             else:
                 raise ValueError("Case not supported")
             
@@ -518,6 +535,14 @@ for case in cases:
         genericTorsoMass = 22.128092213621844
         heavierTorsoMass_diff = genericTorsoMass*perc_heavier/100
         modelMass += heavierTorsoMass_diff
+    if lighterLowerBody:
+        if perc_lighter == 10:
+            modelMass = 58.012809221362204
+        elif perc_lighter == 20:
+            modelMass = 54.025618442724394
+        else:
+            raise ValueError("Case not considered")
+        
         
     maximalIsometricForce = mtParameters[0, :]
     optimalFiberLength = mtParameters[1, :]
