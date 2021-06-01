@@ -16,7 +16,7 @@ plotGuessVsBounds = False
 visualizeResultsAgainstBounds = False
 
 # cases = [str(i) for i in range(56, 66)]
-cases = ['89', '90']
+cases = ['91', '92']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
@@ -52,6 +52,9 @@ for case in cases:
     baseModelHeavierTorso = False
     if 'baseModelHeavierTorso' in settings[case]:
         baseModelHeavierTorso = settings[case]['baseModelHeavierTorso']
+        baseConfig = ''
+        if 'baseConfig' in settings[case]:
+            baseConfig = settings[case]['baseConfig']
 
     # Other settings
     tol = settings[case]['tol']
@@ -155,10 +158,10 @@ for case in cases:
         elif baseModelHeavierTorso:
             if contactConfiguration == 'generic':
                 F = ca.external(
-                    'F','s2_withoutMTP_ge_19.dll')
+                    'F','s2_withoutMTP_ge_19{}.dll'.format(baseConfig))
                 if analyzeResults:
                     F1 = ca.external(
-                        'F','s2_withoutMTP_ge_19_pp.dll')
+                        'F','s2_withoutMTP_ge_19{}_pp.dll'.format(baseConfig))
             else:
                 raise ValueError("Case not supported")
             
