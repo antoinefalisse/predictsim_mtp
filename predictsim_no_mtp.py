@@ -15,8 +15,8 @@ plotPolynomials = False
 plotGuessVsBounds = False
 visualizeResultsAgainstBounds = False
 
-# cases = [str(i) for i in range(56, 66)]
-cases = ['91', '92']
+# cases = [str(i) for i in range(85, 97)]
+cases = ['97', '98']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
