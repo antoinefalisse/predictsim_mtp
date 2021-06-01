@@ -16,7 +16,7 @@ plotGuessVsBounds = False
 visualizeResultsAgainstBounds = False
 
 # cases = [str(i) for i in range(85, 97)]
-cases = ['97', '98']
+cases = ['101', '102']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
@@ -52,9 +52,9 @@ for case in cases:
     baseModelHeavierTorso = False
     if 'baseModelHeavierTorso' in settings[case]:
         baseModelHeavierTorso = settings[case]['baseModelHeavierTorso']
-        baseConfig = ''
-        if 'baseConfig' in settings[case]:
-            baseConfig = settings[case]['baseConfig']
+    baseConfig = ''
+    if 'baseConfig' in settings[case]:
+        baseConfig = settings[case]['baseConfig']
 
     # Other settings
     tol = settings[case]['tol']
@@ -119,9 +119,9 @@ for case in cases:
     os.chdir(pathExternalFunction)
     if subject == 'subject1_no_mtp':
         if contactConfiguration == 'generic':
-            F = ca.external('F','PredSim_no_mtpPin_cm0.dll')
+            F = ca.external('F','PredSim_no_mtpPin_cm0{}.dll'.format(baseConfig))
             if analyzeResults:
-                F1 = ca.external('F','PredSim_no_mtpPin_pp_cm0.dll')
+                F1 = ca.external('F','PredSim_no_mtpPin_pp_cm0{}.dll'.format(baseConfig))
         elif contactConfiguration == 'specific':
             F = ca.external('F','PredSim_no_mtpPin_cm3.dll')
             if analyzeResults:
