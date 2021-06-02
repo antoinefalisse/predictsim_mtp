@@ -16,7 +16,7 @@ plotGuessVsBounds = False
 visualizeResultsAgainstBounds = False
 
 # cases = [str(i) for i in range(85, 97)]
-cases = ['101', '102']
+cases = ['103']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
@@ -167,9 +167,14 @@ for case in cases:
             
         else:
             if contactConfiguration == 'generic':
-                F = ca.external('F','s2_withoutMTP_ge.dll')
-                if analyzeResults:
-                    F1 = ca.external('F','s2_withoutMTP_ge_pp.dll')
+                if baseConfig == 'ua_corrected':
+                    F = ca.external('F','s2_withoutMTP_gb.dll')
+                    if analyzeResults:
+                        F1 = ca.external('F','s2_withoutMTP_gb_pp.dll')                    
+                else:
+                    F = ca.external('F','s2_withoutMTP_ge.dll')
+                    if analyzeResults:
+                        F1 = ca.external('F','s2_withoutMTP_ge_pp.dll')
             elif contactConfiguration == 'generic_low':
                 F = ca.external('F','s2_withoutMTP_gl.dll')
                 if analyzeResults:

@@ -8,12 +8,15 @@ Created on Tue Jun  1 12:05:28 2021
 import casadi as ca
 import numpy as np
 
-F = ca.external('F','PredSim_no_mtpPin_cm0.dll')
-baseConfig = 'b'
-F1 = ca.external('F','PredSim_no_mtpPin_cm0{}.dll'.format(baseConfig))
+F = ca.external('F','PredSim_no_mtpPin_cm0b.dll')
+baseConfig = 'g'
+# F1 = ca.external('F','PredSim_no_mtpPin_cm0{}.dll'.format(baseConfig))
+F1 = ca.external('F','s2_withoutMTP_ge_19{}.dll'.format(baseConfig))
 
-vec = -np.ones((87, 1))
+vec = -np.zeros((87, 1))
 res = (F(vec)).full()
 res1 = (F1(vec)).full()
+
+temp = np.abs(res - res1)
 
 assert np.alltrue(np.abs(res - res1) < 1e-6), 'test'
