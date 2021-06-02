@@ -818,7 +818,7 @@ def getSettings_predictsim_no_mtp():
             '99': {'contactConfiguration': 'generic',
                   'guessType': 'dataDriven',
                   'targetSpeed': 1.33,
-                  'N': 100,
+                  'N': 20,
                   'tol': 4,
                   'idxSubject': '2',
                   'boundsType': 'extended',
@@ -868,8 +868,10 @@ def getSettings_predictsim_no_mtp():
                   'boundsType': 'extended',
                   'baseConfig': 'ua_corrected'},
             
+            ##################################################################
+            ##################################################################
             # Extend bounds for generic / subject 1
-            # Updated contact implementation
+            # Only difference wrt to 101-102 is pi/2 and gravity
             '105': {'contactConfiguration': 'generic',
                   'guessType': 'dataDriven',
                   'targetSpeed': 1.33,
@@ -884,6 +886,26 @@ def getSettings_predictsim_no_mtp():
                   'tol': 4,
                   'boundsType': 'extended',
                   'baseConfig': 'c'},
+            
+            # Only difference wrt to 105-106 is polynomials
+            '107': {'contactConfiguration': 'generic',
+                  'guessType': 'dataDriven',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'idxSubject': '2',
+                  'boundsType': 'extended',
+                  'baseModelHeavierTorso': True,
+                  'baseConfig': 'f'},
+            '108': {'contactConfiguration': 'generic',
+                  'guessType': 'quasiRandom',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'idxSubject': '2',
+                  'boundsType': 'extended',
+                  'baseModelHeavierTorso': True,
+                  'baseConfig': 'f'}
             
             
     }

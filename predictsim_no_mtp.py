@@ -26,11 +26,11 @@ settings = getSettings_predictsim_no_mtp()
 for case in cases:
     # Weights in cost function
     weights = {'metabolicEnergyRateTerm' : 500,
-               'activationTerm': 2000,
-               'jointAccelerationTerm': 50000,
-               'armExcitationTerm': 1000000, 
-               'passiveJointTorqueTerm': 1000, 
-               'controls': 0.001}
+                'activationTerm': 2000,
+                'jointAccelerationTerm': 50000,
+                'armExcitationTerm': 1000000, 
+                'passiveJointTorqueTerm': 1000, 
+                'controls': 0.001}
     
     if 'metabolicEnergyRateTerm' in settings[case]:
         weights['metabolicEnergyRateTerm'] = settings[case]['metabolicEnergyRateTerm']
