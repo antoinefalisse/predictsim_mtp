@@ -905,7 +905,51 @@ def getSettings_predictsim_no_mtp():
                   'idxSubject': '2',
                   'boundsType': 'extended',
                   'baseModelHeavierTorso': True,
-                  'baseConfig': 'f'}
+                  'baseConfig': 'f'},
+            
+            # Should be the same as 105-106
+            '109': {'contactConfiguration': 'generic',
+                  'guessType': 'dataDriven',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'idxSubject': '2',
+                  'boundsType': 'extended',
+                  'baseModelHeavierTorso': True,
+                  'baseConfig': 'f',
+                  'polynomial_type': 'old'},
+            '110': {'contactConfiguration': 'generic',
+                  'guessType': 'quasiRandom',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'idxSubject': '2',
+                  'boundsType': 'extended',
+                  'baseModelHeavierTorso': True,
+                  'baseConfig': 'f',
+                  'polynomial_type': 'old'},
+            
+            # Should be almost the same as 105-106
+            '111': {'contactConfiguration': 'generic',
+                  'guessType': 'dataDriven',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'idxSubject': '2',
+                  'boundsType': 'extended',
+                  'baseModelHeavierTorso': True,
+                  'baseConfig': 'f',
+                  'polynomial_type': 'FK'},
+            '112': {'contactConfiguration': 'generic',
+                  'guessType': 'quasiRandom',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'idxSubject': '2',
+                  'boundsType': 'extended',
+                  'baseModelHeavierTorso': True,
+                  'baseConfig': 'f',
+                  'polynomial_type': 'FK'}
             
             
     }

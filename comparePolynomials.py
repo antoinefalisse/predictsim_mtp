@@ -486,14 +486,14 @@ for case in cases:
             if i < NSideMuscles and i > 41:
                 ax.set_xticks([-120,10])
                 ax.set_xticklabels(['-120','10'])
-                ax.set_xlabel('Knee angle (deg)')
+                ax.set_xlabel('Ankle angle (deg)')
             else:
                 ax.set_xticks([-120,10]) 
                 ax.set_xticklabels([])
             # ax.set_ylim((kinematic_ylim_lb[i],kinematic_ylim_ub[i]))
             handles, labels = ax.get_legend_handles_labels()
             plt.legend(handles, labels, loc='upper right')
-    plt.setp(axs[-1, :], xlabel='Knee angle (deg)')
+    plt.setp(axs[-1, :], xlabel='Ankle angle (deg)')
     plt.setp(axs[:, 0], ylabel='(m)')
     fig.align_ylabels()
     

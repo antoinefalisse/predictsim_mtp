@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 # %% Settings 
 # Effect of contact configuration (with N=100)
-cases = ['99','100','101','102']
+cases = ['101', '102', '105', '106', '107', '108']
 # cases = ['77','78','79','80','81','82']
 # cases = [str(i) for i in range(83, 97)]
 

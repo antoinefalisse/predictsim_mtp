@@ -16,7 +16,7 @@ plotGuessVsBounds = False
 visualizeResultsAgainstBounds = False
 
 # cases = [str(i) for i in range(85, 97)]
-cases = ['105']
+cases = ['109']
 # cases = ['92','93','94']
 # cases = ['95','96','97']
 # cases = ['98','99','100']
