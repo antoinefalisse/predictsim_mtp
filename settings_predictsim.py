@@ -835,6 +835,7 @@ def getSettings_predictsim_no_mtp():
                   'baseConfig': 'f'},
             
             # Extend bounds for generic / subject 1
+            # Updated contact implementation
             '101': {'contactConfiguration': 'generic',
                   'guessType': 'dataDriven',
                   'targetSpeed': 1.33,
@@ -865,7 +866,24 @@ def getSettings_predictsim_no_mtp():
                   'tol': 4,
                   'idxSubject': '2',
                   'boundsType': 'extended',
-                  'baseConfig': 'ua_corrected'},           
+                  'baseConfig': 'ua_corrected'},
+            
+            # Extend bounds for generic / subject 1
+            # Updated contact implementation
+            '105': {'contactConfiguration': 'generic',
+                  'guessType': 'dataDriven',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'boundsType': 'extended',
+                  'baseConfig': 'c'},
+            '106': {'contactConfiguration': 'generic',
+                  'guessType': 'quasiRandom',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'boundsType': 'extended',
+                  'baseConfig': 'c'},
             
             
     }
