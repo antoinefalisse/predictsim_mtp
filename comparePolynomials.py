@@ -344,7 +344,7 @@ for case in cases:
                                       'subject' + idxSubject,
                                       'subject' + idxSubject + '_MuscleAnalysis_')
             
-    suffix_pol = '_old'  
+    suffix_pol = ''  
     polynomialData = getPolynomialData(loadPolynomialData, pathMTParameters, 
                                        pathCoordinates, pathMuscleAnalysis,
                                        rightPolynomialJoints, muscles,
@@ -352,7 +352,7 @@ for case in cases:
     if loadPolynomialData:
         polynomialData = polynomialData.item()
         
-    suffix_pol = '_FK'    
+    suffix_pol = '_old'    
     polynomialData_old = getPolynomialData(loadPolynomialData, pathMTParameters, 
                                        pathCoordinates, pathMuscleAnalysis,
                                        rightPolynomialJoints, muscles,
