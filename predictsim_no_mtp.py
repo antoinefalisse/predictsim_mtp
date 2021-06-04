@@ -16,7 +16,7 @@ plotGuessVsBounds = False
 visualizeResultsAgainstBounds = False
 
 # cases = [str(i) for i in range(85, 97)]
-cases = ['113']
+cases = ['117','118']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
@@ -176,13 +176,23 @@ for case in cases:
                     if analyzeResults:
                         F1 = ca.external('F','s2_withoutMTP_ge_pp.dll')
             elif contactConfiguration == 'generic_low':
-                F = ca.external('F','s2_withoutMTP_gl.dll')
-                if analyzeResults:
-                    F1 = ca.external('F','s2_withoutMTP_gl_pp.dll')
+                if baseConfig == 'ua_corrected':
+                    F = ca.external('F','s2_withoutMTP_lb.dll')
+                    if analyzeResults:
+                        F1 = ca.external('F','s2_withoutMTP_lb_pp.dll')  
+                else:
+                    F = ca.external('F','s2_withoutMTP_gl.dll')
+                    if analyzeResults:
+                        F1 = ca.external('F','s2_withoutMTP_gl_pp.dll')
             elif contactConfiguration == 'specific':
-                F = ca.external('F','s2_withoutMTP_ss.dll')
-                if analyzeResults:
-                    F1 = ca.external('F','s2_withoutMTP_ss_pp.dll')
+                if baseConfig == 'ua_corrected':
+                    F = ca.external('F','s2_withoutMTP_sb.dll')
+                    if analyzeResults:
+                        F1 = ca.external('F','s2_withoutMTP_sb_pp.dll')  
+                else:
+                    F = ca.external('F','s2_withoutMTP_ss.dll')
+                    if analyzeResults:
+                        F1 = ca.external('F','s2_withoutMTP_ss_pp.dll')
     os.chdir(pathMain)  
     # vec1 = -np.zeros((87, 1))
     # res1 = (F1(vec1)).full()
