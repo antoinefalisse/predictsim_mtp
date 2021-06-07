@@ -15,7 +15,7 @@ plotPolynomials = False
 
 # cases = ["139"]
 # cases = [str(i) for i in range(111, 143)]
-cases = [str(i) for i in range(111, 122)]
+cases = [str(i) for i in range(143, 145)]
 # cases = [str(i) for i in range(122, 133)]
 # cases = [str(i) for i in range(133, 143)]
 
@@ -73,6 +73,14 @@ for case in cases:
     polynomial_type = 'nominal'
     if 'polynomial_type' in settings[case]:
         polynomial_type = settings[case]['polynomial_type']
+        
+    baseConfig = ''
+    if 'baseConfig' in settings[case]:
+        baseConfig = settings[case]['baseConfig']
+        
+    boundsType = 'nominal' 
+    if 'boundsType' in settings[case]:
+        boundsType = settings[case]['boundsType']
          
     # Paths
     pathMain = os.getcwd()
@@ -115,13 +123,24 @@ for case in cases:
                 F1 = ca.external('F','PredSim_mtpPin_pp_cm8.dll')
     elif subject == "subject2_mtp":
         if contactConfiguration == 'generic':
-            F = ca.external('F','s2_withMTP_ge.dll')
-            if analyzeResults:
-                F1 = ca.external('F','s2_withMTP_ge_pp.dll')
+            if baseConfig == 'ua_corrected':
+                F = ca.external('F','s2_withMTP_gb.dll')
+                if analyzeResults:
+                    F1 = ca.external('F','s2_withMTP_gb_pp.dll')                
+            else:
+                F = ca.external('F','s2_withMTP_ge.dll')
+                if analyzeResults:
+                    F1 = ca.external('F','s2_withMTP_ge_pp.dll')
         elif contactConfiguration == 'specific':
-            F = ca.external('F','s2_withMTP_ss.dll')
-            if analyzeResults:
-                F1 = ca.external('F','s2_withMTP_ss_pp.dll')
+            if baseConfig == 'ua_corrected':
+                F = ca.external('F','s2_withMTP_sb.dll')
+                if analyzeResults:
+                    F1 = ca.external('F','s2_withMTP_sb_pp.dll')
+            else:
+                F = ca.external('F','s2_withMTP_ss.dll')
+                if analyzeResults:
+                    F1 = ca.external('F','s2_withMTP_ss_pp.dll')
+                
     os.chdir(pathMain)
     # vec1 = np.zeros((93, 1))
     # res1 = (F1(vec1)).full()
@@ -534,8 +553,12 @@ for case in cases:
     uBoundsFj = ca.vec(uBoundsF.to_numpy().T * np.ones((1, d*N))).full()
     lBoundsFj = ca.vec(lBoundsF.to_numpy().T * np.ones((1, d*N))).full()
     
-    uBoundsQs, lBoundsQs, scalingQs, uBoundsQs0, lBoundsQs0 = (
-            bounds.getBoundsPosition())
+    if boundsType == 'extended':
+        uBoundsQs, lBoundsQs, scalingQs, uBoundsQs0, lBoundsQs0 = (
+                bounds.getBoundsPosition_extended())
+    else:
+        uBoundsQs, lBoundsQs, scalingQs, uBoundsQs0, lBoundsQs0 = (
+                bounds.getBoundsPosition())
     
     uBoundsQsk = ca.vec(uBoundsQs.to_numpy().T * np.ones((1, N+1))).full()
     lBoundsQsk = ca.vec(lBoundsQs.to_numpy().T * np.ones((1, N+1))).full()

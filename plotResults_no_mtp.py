@@ -4,9 +4,11 @@ import matplotlib.pyplot as plt
 
 # %% Settings 
 # Effect of contact configuration (with N=100)
-cases = ['103', '104','113','114']
-# cases = ['77','78','79','80','81','82']
-# cases = [str(i) for i in range(83, 97)]
+# cases = ['103', '104','113','114']
+# cases = ['103', '104', '115', '116', '121', '122', '123', '124']
+# cases = ['103', '104', '121', '122']
+cases = ['115', '116', '123', '124']
+# cases = [str(i) for i in range(121, 125)]
 
 mainName = "predictsim_no_mtp"
 subject = "subject2"

@@ -2,7 +2,7 @@ import os
 import casadi as ca
 import numpy as np
 
-solveProblem = True
+solveProblem = False
 saveResults = True
 analyzeResults = True
 loadResults = True
@@ -15,8 +15,8 @@ plotPolynomials = False
 plotGuessVsBounds = False
 visualizeResultsAgainstBounds = False
 
-# cases = [str(i) for i in range(85, 97)]
-cases = ['117','118']
+cases = [str(i) for i in range(117, 125)]
+# cases = ['117','118']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
