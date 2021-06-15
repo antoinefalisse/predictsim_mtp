@@ -21,8 +21,18 @@ import matplotlib.pyplot as plt
 # cases_mtp = ['13', '3']
 # cases_no_mtp = ['5', '4']
 
-cases_mtp = ['80', '83']
-cases_no_mtp = ['75','84']
+# nominal polynomials, generic contacts
+# cases_mtp = ['143']
+# cases_no_mtp = ['103']
+# FK polynomials, generic contacts
+# cases_mtp = ['145']
+# cases_no_mtp = ['115']
+# nominal polynomials, specific contacts
+# cases_mtp = ['147']
+# cases_no_mtp = ['121']
+# FK polynomials, specific contacts
+cases_mtp = ['145']
+cases_no_mtp = ['115']
 
 
 

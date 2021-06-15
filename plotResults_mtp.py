@@ -5,8 +5,20 @@ import matplotlib.pyplot as plt
 # %% Settings 
 
 # cases = ['48','47']
-cases = ['80']
+# cases = [str(i) for i in range(143, 147)]
+# cases = [str(i) for i in range(147, 151)]
 
+# Generic contacts - when using MK polynomials, less flexion during swing.
+# cases = [str(i) for i in range(143, 147)]
+
+# Specific contacts - when using MK polynomials, less flexion during swing.
+# cases = [str(i) for i in range(147, 151)]
+
+# Generic with FK gives more knee flexion during stance and swing than specific with FK
+# , '149', '150']
+
+# Best: Generic with FK
+# cases = ['145', '146']
 
 
 # 1. Effect of generic vs specific (N=100)

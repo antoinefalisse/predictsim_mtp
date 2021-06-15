@@ -7,9 +7,47 @@ import matplotlib.pyplot as plt
 # cases = ['103', '104','113','114']
 # cases = ['103', '104', '115', '116', '121', '122', '123', '124']
 # cases = ['103', '104', '121', '122']
-cases = ['115', '116', '123', '124']
+# cases = ['115', '116', '123', '124']
 # cases = [str(i) for i in range(121, 125)]
 
+# Impact of the polynomials on the old model
+# cases = ['105', '106', '107', '108']
+# Impact of the polynomials on the new model
+# cases = ['103', '104', '115', '116']
+# Low contact spheres
+# cases = ['117', '118', '119', '120']
+# Specific contact spheres
+# cases = ['121', '122', '123', '124']
+
+# Best: generic FK
+# cases = ['115', '116']
+
+# cases = ['115', '123']
+
+
+# Key messages:
+    # - height contact spheres has a small effect
+    # - FK vs MK polynomials has large effect during swing
+
+# The old and the new model give the almost same results, with the low contact
+# spheres and the FK polynomials.
+cases = ['105', '106', '119', '120']
+
+# When setting the contact spheres a little higher, there is already a little
+# more knee flexion.
+# cases = ['119', '120', '115', '116']
+
+# When using MK polynomials, little effect on stance,but much less flexion during swing.
+# cases = ['115', '116', '103', '104']
+
+# When using specific contacts and FK polynomials, less flexion during swing.
+# cases = ['115', '116', '123', '124']
+
+# When using specific contacts and MK polynomials, no impact.
+# cases = ['103', '104', '121', '122']
+
+
+    
 mainName = "predictsim_no_mtp"
 subject = "subject2"
 model = "mtp"
@@ -65,16 +103,16 @@ fig.align_ylabels()
 # %% Muscle activations
 muscles = optimaltrajectories[cases[0]]['muscles']
 musclesToPlot = ['glut_med1_r', 'glut_med2_r', 'glut_med3_r', 'glut_min1_r', 
-                 'glut_min2_r', 'glut_min3_r', 'semimem_r', 'semiten_r', 
-                 'bifemlh_r', 'bifemsh_r', 'sar_r', 'add_long_r', 'add_brev_r',
-                 'add_mag1_r', 'add_mag2_r', 'add_mag3_r', 'tfl_r', 'pect_r',
-                 'grac_r', 'glut_max1_r', 'glut_max2_r', 'glut_max3_r',
-                 'iliacus_r', 'psoas_r', 'quad_fem_r', 'gem_r', 'peri_r',
-                 'rect_fem_r', 'vas_med_r', 'vas_int_r', 'vas_lat_r',
-                 'med_gas_r', 'lat_gas_r', 'soleus_r', 'tib_post_r',
-                 'flex_dig_r', 'flex_hal_r', 'tib_ant_r', 'per_brev_r',
-                 'per_long_r', 'per_tert_r', 'ext_dig_r', 'ext_hal_r',
-                 'ercspn_r', 'intobl_r', 'extobl_r',]
+                  'glut_min2_r', 'glut_min3_r', 'semimem_r', 'semiten_r', 
+                  'bifemlh_r', 'bifemsh_r', 'sar_r', 'add_long_r', 'add_brev_r',
+                  'add_mag1_r', 'add_mag2_r', 'add_mag3_r', 'tfl_r', 'pect_r',
+                  'grac_r', 'glut_max1_r', 'glut_max2_r', 'glut_max3_r',
+                  'iliacus_r', 'psoas_r', 'quad_fem_r', 'gem_r', 'peri_r',
+                  'rect_fem_r', 'vas_med_r', 'vas_int_r', 'vas_lat_r',
+                  'med_gas_r', 'lat_gas_r', 'soleus_r', 'tib_post_r',
+                  'flex_dig_r', 'flex_hal_r', 'tib_ant_r', 'per_brev_r',
+                  'per_long_r', 'per_tert_r', 'ext_dig_r', 'ext_hal_r',
+                  'ercspn_r', 'intobl_r', 'extobl_r',]
 NMusclesToPlot = len(musclesToPlot)
 idxMusclesToPlot = getJointIndices(muscles, musclesToPlot)
 mappingEMG = {'glut_med1_r': 'GluMed_r', 
