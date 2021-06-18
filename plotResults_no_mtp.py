@@ -20,9 +20,9 @@ import matplotlib.pyplot as plt
 # cases = ['121', '122', '123', '124']
 
 # Best: generic FK
-# cases = ['115', '116']
+# cases = ['119', '120']
 
-# cases = ['115', '123']
+cases = ['105', '5', '119']
 
 
 # Key messages:
@@ -31,7 +31,7 @@ import matplotlib.pyplot as plt
 
 # The old and the new model give the almost same results, with the low contact
 # spheres and the FK polynomials.
-cases = ['105', '106', '119', '120']
+# cases = ['105', '106', '119', '120']
 
 # When setting the contact spheres a little higher, there is already a little
 # more knee flexion.

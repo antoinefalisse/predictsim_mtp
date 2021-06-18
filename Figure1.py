@@ -11,8 +11,8 @@ import matplotlib.pyplot as plt
 # cases_no_mtp = ['0']
 
 # Effect of mtp on generic_CMO (N=100)
-cases_mtp = ['80', '83']
-cases_no_mtp = ['12', '15']
+cases_mtp = ['145']
+cases_no_mtp = ['119', '115']
 # # Effect of mtp on specific_CM3 (N=100)
 # cases_mtp = ['3']
 # cases_no_mtp = ['4']
@@ -21,14 +21,28 @@ subject = "subject2"
 model_mtp = "mtp"
 model_no_mtp = "no_mtp"
 
-color_mtp=['blue', 'red'] 
-linestyle_mtp=['-', ':']
-color_no_mtp=['black','orange'] 
-linestyle_no_mtp=['-','--']
-linewidth_s = 6
+color_mtp=['#ff7f00'] 
+linestyle_mtp=['--']
+color_no_mtp=['black','#4daf4a'] 
+linestyle_no_mtp=['-','-.']
+linewidth_s = 3
 fontsize_tick = 14
 fontsize_label = 15
 fontsize_title = 17
+
+# CB_color_cycle = ['#377eb8', '#ff7f00', '#4daf4a',
+#                   '#f781bf', '#a65628', '#984ea3',
+#                   '#999999', '#e41a1c', '#dede00']
+# 377eb8: blue
+# ff7f00: orange
+# 4daf4a: green
+# f781bf: pink
+# a65628: brown
+# 984ea3: purple
+# 999999: grey
+# e41a1c: red
+# dede00: yellow
+
 
 # %% Fixed settings
 pathMain = os.getcwd()
@@ -269,7 +283,7 @@ for i, ax in enumerate(axs[1,:]):
                             experimentalData_mtp[subject]["kinetics"]["mean"][jointsToPlot[i]] - 2*experimentalData_mtp[subject]["kinetics"]["std"][jointsToPlot[i]],
                             facecolor='grey', alpha=0.4)
             
-        ax.set_title(jointTitles[idxJointsToPlot[i]])
+        # ax.set_title(jointTitles[idxJointsToPlot[i]])
         ax.set_ylim((kinetic_ylim_lb[i],kinetic_ylim_ub[i]))
         ax.set_yticks([kinetic_ylim_lb[i],0,kinetic_ylim_ub[i]])
         plt.setp(ax.get_yticklabels(), fontsize=fontsize_tick)

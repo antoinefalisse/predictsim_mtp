@@ -28,6 +28,8 @@ import matplotlib.pyplot as plt
 # 2.a ACTIVE MTP
 # cases = ['3','31','32','34','36','38','41','43']
 # 2.b PASSIVE MTP
+cases = ['163','164']
+# cases = [str(i) for i in range(151, 165)]
 # cases = ['48','52','55','57','58','60','62','65']
 # cases = ['48','52','54','56','58','60','62','64'] # data-driven guess only - more consistent stride lengths...
 

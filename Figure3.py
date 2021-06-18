@@ -11,13 +11,13 @@ import matplotlib.pyplot as plt
 # cases_no_mtp = ['0']
 
 # Effect of mtp on generic_CMO (N=100)
-cases_mtp = ['48','52','54','56','58','60','62','64']
+cases_mtp = ['145','151','153','155','157','159','161','163']
 cases_no_mtp = []
 # # Effect of mtp on specific_CM3 (N=100)
 # cases_mtp = ['3']
 # cases_no_mtp = ['4']
 
-subject = "subject1"
+subject = "subject2"
 model_mtp = "mtp"
 model_no_mtp = "no_mtp"
 
@@ -25,7 +25,7 @@ color_mtp=['blue']
 linestyle_mtp=[':']
 color_no_mtp=['black','orange'] 
 linestyle_no_mtp=['-','--']
-linewidth_s = 6
+linewidth_s = 3
 fontsize_tick = 14
 fontsize_label = 15
 fontsize_title = 17
@@ -117,8 +117,8 @@ for i, ax in enumerate(axs[0, :]):
         ax.spines['top'].set_visible(False)
         handles, labels = ax.get_legend_handles_labels()
         # plt.legend(handles, labels, loc='upper right')
-plt.setp(axs[1, :2], xlabel='Gait cycle (%)')
-plt.setp(axs[0, 2:], xlabel='Gait cycle (%)')
+plt.setp(axs[1, :4], xlabel='Gait cycle (%)')
+# plt.setp(axs[1, 2:], xlabel='Gait cycle (%)')
 plt.setp(axs[0:1, 0], ylabel='(deg)')
 fig.align_ylabels()
 
@@ -200,24 +200,26 @@ for i, ax in enumerate(axs[0:1,2:].flat):
         for c_mtp, case in enumerate(cases_mtp):
             ax.plot(optimaltrajectories[case]['GC_percent'],
                     optimaltrajectories[case]['muscle_activations'][idxMusclesToPlot[i]:idxMusclesToPlot[i]+1, :].T, c=next(color), linewidth=linewidth_s, label='case_' + case + '_mtp')  
-                        
-            scaling_emg = 0
-            if musclesToPlot[i] in mappingEMG:                
-                # Normalize EMG such that peak mean EMG = peak activation             
-                exp_mean = experimentalData_mtp[subject]["EMG"]["mean"][mappingEMG[musclesToPlot[i]]]
-                exp_mean_peak = np.max(exp_mean)
-                sim = optimaltrajectories[case]['muscle_activations'][idxMusclesToPlot[i], :].T
-                sim_peak = np.max(sim)
-                scaling_emg_t = sim_peak / exp_mean_peak
                 
-                if scaling_emg_t > scaling_emg:
-                    scaling_emg = scaling_emg_t
-                
-                
-        ax.fill_between(experimentalData_mtp[subject]["EMG"]["GC_percent"],
-                experimentalData_mtp[subject]["EMG"]["mean"][mappingEMG[musclesToPlot[i]]] * scaling_emg + 2*experimentalData_mtp[subject]["EMG"]["std"][mappingEMG[musclesToPlot[i]]] * scaling_emg,
-                experimentalData_mtp[subject]["EMG"]["mean"][mappingEMG[musclesToPlot[i]]] * scaling_emg - 2*experimentalData_mtp[subject]["EMG"]["std"][mappingEMG[musclesToPlot[i]]] * scaling_emg,
-                facecolor='grey', alpha=0.4)            
+            
+            if c_mtp == 0:
+            
+                # scaling_emg = 0
+                if musclesToPlot[i] in mappingEMG:                
+                    # Normalize EMG such that peak mean EMG = peak activation             
+                    exp_mean = experimentalData_mtp[subject]["EMG"]["mean"][mappingEMG[musclesToPlot[i]]]
+                    exp_mean_peak = np.max(exp_mean)
+                    sim = optimaltrajectories[case]['muscle_activations'][idxMusclesToPlot[i], :].T
+                    sim_peak = np.max(sim)
+                    scaling_emg = sim_peak / exp_mean_peak
+                    
+                    # if scaling_emg_t > scaling_emg:
+                    #     scaling_emg = scaling_emg_t
+                    
+                ax.fill_between(experimentalData_mtp[subject]["EMG"]["GC_percent"],
+                        experimentalData_mtp[subject]["EMG"]["mean"][mappingEMG[musclesToPlot[i]]] * scaling_emg + 2*experimentalData_mtp[subject]["EMG"]["std"][mappingEMG[musclesToPlot[i]]] * scaling_emg,
+                        experimentalData_mtp[subject]["EMG"]["mean"][mappingEMG[musclesToPlot[i]]] * scaling_emg - 2*experimentalData_mtp[subject]["EMG"]["std"][mappingEMG[musclesToPlot[i]]] * scaling_emg,
+                        facecolor='grey', alpha=0.4)            
             
                     
         
@@ -240,13 +242,13 @@ for i, ax in enumerate(axs[0:1,2:].flat):
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
         ax.set_xticks([0,50,100])
-        if i < NMusclesToPlot and i > 5:
-            ax.set_xticks([0,50,100])
-            ax.set_xticklabels(['0','50','100'])
-            ax.set_xlabel('Gait cycle (%)')
-        else:
-            ax.set_xticks([0,50,100]) 
-            ax.set_xticklabels([]) 
+        # if i < NMusclesToPlot and i > 5:
+        #     ax.set_xticks([0,50,100])
+        #     ax.set_xticklabels(['0','50','100'])
+        #     ax.set_xlabel('Gait cycle (%)')
+        # else:
+        ax.set_xticks([0,50,100]) 
+        ax.set_xticklabels([]) 
     # handles, labels = ax.get_legend_handles_labels()
     # plt.legend(handles, labels, loc='upper right')
 # plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
@@ -278,7 +280,7 @@ for i, ax in enumerate(axs[1,:]):
                         experimentalData_mtp[subject]["kinetics"]["mean"][jointsToPlot[i]] - 2*experimentalData_mtp[subject]["kinetics"]["std"][jointsToPlot[i]],
                         facecolor='grey', alpha=0.4)
             
-        ax.set_title(jointTitles[idxJointsToPlot[i]])
+        # ax.set_title(jointTitles[idxJointsToPlot[i]])
         ax.set_ylim((kinetic_ylim_lb[i],kinetic_ylim_ub[i]))
         ax.set_yticks([kinetic_ylim_lb[i],0,kinetic_ylim_ub[i]])
         plt.setp(ax.get_yticklabels(), fontsize=fontsize_tick)
@@ -296,8 +298,43 @@ for i, ax in enumerate(axs[1,:]):
 plt.setp(axs[1, 0], ylabel='(Nm)')
 fig.align_ylabels()
 
+# %% Muscle fiber lengths
+# NMusclesToPlot = len(musclesToPlot)
+# idxMusclesToPlot = getJointIndices(muscles, musclesToPlot)
+# fig, axs = plt.subplots(8, 6, sharex=True)    
+# fig.suptitle('Normalized muscle fiber lengths')
+for i, ax in enumerate(axs[1:2,2:].flat):
+    # color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))   
+    if i < NMusclesToPlot:
+        color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases_mtp))))
+        for c_mtp, case in enumerate(cases_mtp):
+            ax.plot(optimaltrajectories[case]['GC_percent'],
+                    optimaltrajectories[case]['norm_fiber_lengths'][idxMusclesToPlot[i]:idxMusclesToPlot[i]+1, :].T, c=next(color), linewidth=linewidth_s, label='case_' + case)
+        # ax.set_title(muscleTitles[idxMusclesToPlot[i]])
+        ax.set_ylim((0,2))
+        ax.set_yticks([0,1,2])
+        plt.setp(ax.get_yticklabels(), fontsize=fontsize_tick)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        ax.set_xticks([0,50,100])
+        plt.setp(ax.get_xticklabels(), fontsize=fontsize_tick)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        
+        # if i < NMusclesToPlot and i > 5:
+        #     ax.set_xticks([0,50,100])
+        #     ax.set_xticklabels(['0','50','100'])
+        #     ax.set_xlabel('Gait cycle (%)')
+        # else:
+        #     ax.set_xticks([0,50,100]) 
+        #     ax.set_xticklabels(['0','50','100'])
+            # ax.set_xticklabels([])
+plt.setp(axs[1:2, 2], ylabel='(-)')
+plt.setp(axs[1, :4], xlabel='Gait cycle (%)')
+fig.align_ylabels()
+
 # %% Metabolic cost and cost function value
-ax = axs[1,2]    
+ax = axs[0,4]    
 color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases_mtp))))
 for c_mtp, case in enumerate(cases_mtp):
     # print(optimaltrajectories[case]["COT"])
@@ -307,17 +344,17 @@ for c_mtp, case in enumerate(cases_mtp):
 ax.set_ylabel("COT (J/Kg/m)", fontsize=fontsize_label)
 x_locations = np.linspace(0, len(cases_mtp)-1, len(cases_mtp))
 ax.set_xticks(x_locations)
-xticklabels = ["100%", "90%", "80%", "70%", "60%", "50%", "40%", "30%",]
+xticklabels = ["", "", "", "", "", "", "", "",]
 ax.set_xticklabels(xticklabels, rotation = 90)
 ax.tick_params(axis='x', labelsize=fontsize_tick)
-y_locations = np.linspace(4.1, 4.4, 4)
+y_locations = np.linspace(4.1, 4.5, 3)
 ax.set_yticks(y_locations)
 ax.spines['right'].set_visible(False)
 ax.spines['top'].set_visible(False)
 ax.tick_params(axis='y', labelsize=fontsize_tick)
         
 # %% Stride lengths
-ax = axs[1,3]    
+ax = axs[1,4]    
 color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases_mtp))))
 for c_mtp, case in enumerate(cases_mtp):
     # print(optimaltrajectories[case]["COT"])
@@ -331,7 +368,7 @@ ax.set_xticks(x_locations)
 xticklabels = ["100%", "90%", "80%", "70%", "60%", "50%", "40%", "30%",]
 ax.set_xticklabels(xticklabels, rotation = 90)
 ax.tick_params(axis='x', labelsize=fontsize_tick)
-y_locations = np.linspace(1.42, 1.54, 4)
+y_locations = np.linspace(1.50, 1.70, 3)
 ax.set_yticks(y_locations)
 ax.spines['right'].set_visible(False)
 ax.spines['top'].set_visible(False)
@@ -341,8 +378,8 @@ ax.tick_params(axis='y', labelsize=fontsize_tick)
 for ax in (axs[2,:].flat):
     ax.set_visible(False)
     
-for ax in (axs[:,4].flat):
-    ax.set_visible(False)
+# for ax in (axs[:,4].flat):
+#     ax.set_visible(False)
     
 for ax in axs.flat:
     ax.xaxis.get_label().set_fontsize(fontsize_label)
