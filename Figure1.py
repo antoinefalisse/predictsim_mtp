@@ -2,20 +2,10 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt  
 
-# %% Settings 
-# # Effect of mtp on generic_CMO (N=50)
-# cases_mtp = ['7']
-# cases_no_mtp = ['3']
-# # Effect of mtp on specific_CM3 (N=50)
-# cases_mtp = ['0']
-# cases_no_mtp = ['0']
-
-# Effect of mtp on generic_CMO (N=100)
+# %% Settings
 cases_mtp = ['145']
-cases_no_mtp = ['119', '115']
-# # Effect of mtp on specific_CM3 (N=100)
-# cases_mtp = ['3']
-# cases_no_mtp = ['4']
+# cases_no_mtp = ['119', '115']
+cases_no_mtp = ['115']
 
 subject = "subject2"
 model_mtp = "mtp"

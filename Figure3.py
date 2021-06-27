@@ -11,7 +11,8 @@ import matplotlib.pyplot as plt
 # cases_no_mtp = ['0']
 
 # Effect of mtp on generic_CMO (N=100)
-cases_mtp = ['145','151','153','155','157','159','161','163']
+# cases_mtp = ['145','151','153','155','157','159','161','163']
+cases_mtp = ['145','151','153','156','157','159','162','163']
 cases_no_mtp = []
 # # Effect of mtp on specific_CM3 (N=100)
 # cases_mtp = ['3']

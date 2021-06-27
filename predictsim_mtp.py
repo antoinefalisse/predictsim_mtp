@@ -2,7 +2,7 @@ import os
 import casadi as ca
 import numpy as np
 
-solveProblem = False
+solveProblem = True
 saveResults = True
 analyzeResults = True
 loadResults = True
@@ -13,8 +13,8 @@ loadMTParameters = True
 loadPolynomialData = True
 plotPolynomials = False
 
-# cases = ["139"]
-cases = [str(i) for i in range(151, 165)]
+# cases = ["162"]
+cases = [str(i) for i in range(165, 171)]
 # cases = [str(i) for i in range(159, 165)]
 
 from settings_predictsim import getSettings_predictsim_mtp   
