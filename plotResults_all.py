@@ -126,6 +126,39 @@ plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
 plt.setp(axs[:, 0], ylabel='(deg or m)')
 fig.align_ylabels()
 
+NJointsToPlot = len(jointsToPlot)  
+NJointsToPlot_no_mtp = len(jointsToPlot_no_mtp)   
+fig, axs = plt.subplots(4, 6, sharex=True)    
+fig.suptitle('Joint coordinate accelerations')
+count = 0 
+for i, ax in enumerate(axs.flat):
+    color_mtp=iter(plt.cm.rainbow(np.linspace(0,1,len(cases_mtp))))  
+    color_no_mtp=iter(plt.cm.rainbow(np.linspace(0,1,len(cases_no_mtp))))  
+    if i < NJointsToPlot:
+        for case in cases_mtp:
+            ax.plot(optimaltrajectories[case]['GC_percent'],
+                    optimaltrajectories[case]['coordinate_accelerations'][idxJointsToPlot[i]:idxJointsToPlot[i]+1, :].T, c=next(color_mtp), label='case_' + case + '_mtp')
+            # ax.fill_between(experimentalData_mtp[subject]["kinematics"]["positions"]["GC_percent"],
+            #             experimentalData_mtp[subject]["kinematics"]["positions"]["mean"][jointsToPlot[i]] + 2*experimentalData_mtp[subject]["kinematics"]["positions"]["std"][jointsToPlot[i]],
+            #             experimentalData_mtp[subject]["kinematics"]["positions"]["mean"][jointsToPlot[i]] - 2*experimentalData_mtp[subject]["kinematics"]["positions"]["std"][jointsToPlot[i]],
+            #             facecolor='blue', alpha=0.5)                  
+        if not i == jointsToPlot.index("mtp_angle_r"):
+            for case in cases_no_mtp:
+                ax.plot(optimaltrajectories_no_mtp[case]['GC_percent'],
+                        optimaltrajectories_no_mtp[case]['coordinate_accelerations'][idxJointsToPlot_no_mtp[count]:idxJointsToPlot_no_mtp[count]+1, :].T, c=next(color_no_mtp), linestyle='dashed', label='case_' + case + '_no_mtp')   
+                # ax.fill_between(experimentalData_no_mtp[subject]["kinematics"]["positions"]["GC_percent"],
+                #         experimentalData_no_mtp[subject]["kinematics"]["positions"]["mean"][jointsToPlot_no_mtp[count]] + 2*experimentalData_no_mtp[subject]["kinematics"]["positions"]["std"][jointsToPlot_no_mtp[count]],
+                #         experimentalData_no_mtp[subject]["kinematics"]["positions"]["mean"][jointsToPlot_no_mtp[count]] - 2*experimentalData_no_mtp[subject]["kinematics"]["positions"]["std"][jointsToPlot_no_mtp[count]],
+                #         facecolor='orange', alpha=0.5)
+            count += 1                
+        ax.set_title(joints[idxJointsToPlot[i]])
+        # ax.set_ylim((kinematic_ylim_lb[i],kinematic_ylim_ub[i]))
+        handles, labels = ax.get_legend_handles_labels()
+        plt.legend(handles, labels, loc='upper right')
+plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
+plt.setp(axs[:, 0], ylabel='(deg or m)')
+fig.align_ylabels()
+
 # %% Muscle activations
 muscles = optimaltrajectories[cases_mtp[0]]['muscles']
 musclesToPlot = ['glut_med1_r', 'glut_med2_r', 'glut_med3_r', 'glut_min1_r', 
@@ -377,3 +410,28 @@ ax32.set_xticks(x_locations)
 ax32.set_xticklabels(xticklabels)
 ax33.set_xticks(x_locations)
 ax33.set_xticklabels(xticklabels)
+
+# %% Comparison contribution to COT
+no_mtp_COT_perMuscle_GC = optimaltrajectories_no_mtp[cases_no_mtp[0]]['COT_perMuscle_GC']
+mtp_COT_perMuscle_GC = optimaltrajectories[cases_mtp[0]]['COT_perMuscle_GC']
+
+sum_mtp_COT_perMuscle_GC = np.sum(mtp_COT_perMuscle_GC)
+sum_no_mtp_COT_perMuscle_GC = np.sum(no_mtp_COT_perMuscle_GC)
+
+ratio_noMtp_over_mtp = no_mtp_COT_perMuscle_GC / mtp_COT_perMuscle_GC * 100
+
+idx_sort = np.argsort(ratio_noMtp_over_mtp)
+
+m_sort = []
+r_sort = []
+mtp_sort = []
+no_mtp_sort = []
+mtp_sort_norm = []
+no_mtp_sort_norm = []
+for idx_s in idx_sort:
+    m_sort.append(muscles[idx_s])
+    r_sort.append(ratio_noMtp_over_mtp[idx_s])
+    mtp_sort.append(mtp_COT_perMuscle_GC[idx_s])
+    no_mtp_sort.append(no_mtp_COT_perMuscle_GC[idx_s])
+    mtp_sort_norm.append(mtp_COT_perMuscle_GC[idx_s] / sum_mtp_COT_perMuscle_GC * 100)
+    no_mtp_sort_norm.append(no_mtp_COT_perMuscle_GC[idx_s] / sum_no_mtp_COT_perMuscle_GC * 100)

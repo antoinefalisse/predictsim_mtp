@@ -155,6 +155,18 @@ def getGRM_wrt_groundOrigin(storage_file, fHeaders, pHeaders, mHeaders):
     
     return GRM_wrt_groundOrigin
 
+def getCOP(GRF, GRM):
+    
+    COP = np.zeros((3, GRF.shape[1]))
+    torques = np.zeros((3, GRF.shape[1]))
+    
+    COP[0, :] = GRM[2, :] / GRF[1, :]    
+    COP[2, :] = -GRM[0, :] / GRF[1, :]
+    
+    torques[1, :] = GRM[1, :] - COP[2, :]*GRF[0, :] + COP[0, :]*GRF[2, :]
+    
+    return COP, torques
+
 def getJointIndices(joints, selectedJoints):
     
     jointIndices = []

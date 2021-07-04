@@ -2,7 +2,7 @@ import os
 import casadi as ca
 import numpy as np
 
-solveProblem = True
+solveProblem = False
 saveResults = True
 analyzeResults = True
 loadResults = True
@@ -15,8 +15,8 @@ plotPolynomials = False
 plotGuessVsBounds = False
 visualizeResultsAgainstBounds = False
 
-cases = [str(i) for i in range(125, 131)]
-# cases = ['117','118']
+# cases = [str(i) for i in range(125, 131)]
+cases = ['115']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
@@ -226,8 +226,13 @@ for case in cases:
     idxCalcOr3D_l = list(range(38, 41))
     idxCalcOr3D = idxCalcOr3D_r + idxCalcOr3D_l
     NCalcOr3D = len(idxCalcOr3D)
+    # Ground reaction moments (GRMs)
+    idxGRM_r = list(range(41, 44))
+    idxGRM_l = list(range(44, 47))
+    idxGRM = idxGRM_r + idxGRM_l
+    NGRM = len(idxGRM)
     # Number of outputs
-    NF1_out = idxCalcOr3D_l[-1] + 1
+    NF1_out = idxGRM_l[-1] + 1
     
     # %% Muscle-tendon parameters
     muscles = ['glut_med1_r', 'glut_med2_r', 'glut_med3_r', 'glut_min1_r', 
@@ -1972,14 +1977,15 @@ for case in cases:
             numpy2storage(labels, data, os.path.join(pathResults,'motion.mot'))
             
         # %% Compute metabolic cost of transport for whole gait cycle    
-        Qs_GC_deg = Qs_GC.copy()        
-        Qs_GC_deg[idxRotationalJoints, :] = (
-            Qs_GC_deg[idxRotationalJoints, :] * np.pi / 180)
-        Qdots_GC_deg = Qdots_GC.copy()        
-        Qdots_GC_deg[idxRotationalJoints, :] = (
-            Qdots_GC_deg[idxRotationalJoints, :] * np.pi / 180)     
+        Qs_GC_rad = Qs_GC.copy()        
+        Qs_GC_rad[idxRotationalJoints, :] = (
+            Qs_GC_rad[idxRotationalJoints, :] * np.pi / 180)
+        Qdots_GC_rad = Qdots_GC.copy()        
+        Qdots_GC_rad[idxRotationalJoints, :] = (
+            Qdots_GC_rad[idxRotationalJoints, :] * np.pi / 180)     
         basal_coef = 1.2
-        basal_exp = 1        
+        basal_exp = 1
+        metabolicEnergyRatePerMuscle = np.zeros((NMuscles,2*N))
         totalMetabolicEnergyRate = np.zeros((1,2*N))
         activationHeatRate = np.zeros((1,2*N))
         maintenanceHeatRate = np.zeros((1,2*N))
@@ -1995,12 +2001,12 @@ for case in cases:
             ###################################################################
             # Polynomial approximations
             # Left leg
-            Qsk_GC_l = Qs_GC_deg[leftPolynomialJointIndices, k]
-            Qdotsk_GC_l = Qdots_GC_deg[leftPolynomialJointIndices, k]
+            Qsk_GC_l = Qs_GC_rad[leftPolynomialJointIndices, k]
+            Qdotsk_GC_l = Qdots_GC_rad[leftPolynomialJointIndices, k]
             [lMTk_GC_l, vMTk_GC_l, _] = f_polynomial(Qsk_GC_l, Qdotsk_GC_l)       
             # Right leg
-            Qsk_GC_r = Qs_GC_deg[rightPolynomialJointIndices, k]
-            Qdotsk_GC_r = Qdots_GC_deg[rightPolynomialJointIndices, k]
+            Qsk_GC_r = Qs_GC_rad[rightPolynomialJointIndices, k]
+            Qdotsk_GC_r = Qdots_GC_rad[rightPolynomialJointIndices, k]
             [lMTk_GC_r, vMTk_GC_r, dMk_GC_r] = f_polynomial(Qsk_GC_r, Qdotsk_GC_r)
             # Both legs        
             lMTk_GC_lr = ca.vertcat(lMTk_GC_l[leftPolynomialMuscleIndices], 
@@ -2067,6 +2073,9 @@ for case in cases:
                  fiberVelocityk_GC, activeFiberForcek_GC,
                  passiveFiberForcek_GC, normActiveFiberLengthForcek_GC)
                  
+            metabolicEnergyRatePerMuscle[:, k:k+1] = (
+                metabolicEnergyRatek_GC.full())
+                 
             # Sum over all muscles                     
             metabolicEnergyRatek_allMuscles = np.sum(
                 metabolicEnergyRatek_GC.full())
@@ -2092,6 +2101,8 @@ for case in cases:
             shorteningHeatRate[0, k] = shorteningHeatRatek_allMuscles
             mechanicalWorkRate[0, k] = mechanicalWorkRatek_allMuscles            
         # Integrate
+        metabolicEnergyRatePerMuscle_int = np.trapz(
+            metabolicEnergyRatePerMuscle, tgrid_GC)
         totalMetabolicEnergyRate_int = np.trapz(totalMetabolicEnergyRate,
                                                 tgrid_GC)
         activationHeatRate_int = np.trapz(activationHeatRate,
@@ -2103,21 +2114,83 @@ for case in cases:
         mechanicalWorkRate_int = np.trapz(mechanicalWorkRate,
                                                 tgrid_GC)
         # Total distance traveled
-        distTraveled_opt_GC = (Qs_GC_deg[joints.index('pelvis_tx'),-1] - 
-                               Qs_GC_deg[joints.index('pelvis_tx'),0])
+        distTraveled_opt_GC = (Qs_GC_rad[joints.index('pelvis_tx'),-1] - 
+                               Qs_GC_rad[joints.index('pelvis_tx'),0])
         # Cost of transport (COT)
         COT_GC = totalMetabolicEnergyRate_int / modelMass / distTraveled_opt_GC
         COT_activation_GC = activationHeatRate_int / modelMass / distTraveled_opt_GC
         COT_maintenance_GC = maintenanceHeatRate_int / modelMass / distTraveled_opt_GC
         COT_shortening_GC = shorteningHeatRate_int / modelMass / distTraveled_opt_GC
         COT_mechanical_GC = mechanicalWorkRate_int / modelMass / distTraveled_opt_GC 
+        COT_perMuscle_GC = metabolicEnergyRatePerMuscle_int / modelMass / distTraveled_opt_GC
         
         # %% Compute stride length and width.
         # The stride length is the distance covered by the calcaneus origin.
-        dist_r = ca.norm_2(F1_out[idxCalcOr3D_r, -1]-F1_out[idxCalcOr3D_r, 0])
-        dist_l = ca.norm_2(F1_out[idxCalcOr3D_l, -1]-F1_out[idxCalcOr3D_l, 0])
-        stride_length_GC = dist_r.full()[0][0] + dist_l.full()[0][0]
+        QsQdots_opt_nsc_GC = np.zeros((NJoints*2, N*2))
+        QsQdots_opt_nsc_GC[::2, :] = Qs_GC_rad
+        QsQdots_opt_nsc_GC[1::2, :] = Qdots_GC_rad        
+        Qdotdots_GC_rad = Qdotdots_GC.copy()
+        Qdotdots_GC_rad[idxRotationalJoints, :] = (
+            Qdotdots_GC_rad[idxRotationalJoints, :] * np.pi / 180)        
+        F1_GC = np.zeros((NF1_out, N*2))
+        for k_GC in range(N*2):
+            Tk_GC = F1(ca.vertcat(QsQdots_opt_nsc_GC[:,k_GC],
+                                  Qdotdots_GC_rad[:, k_GC]))
+            F1_GC[:, k_GC] = Tk_GC.full().T
+        
+        stride_length_GC = ca.norm_2(F1_GC[idxCalcOr3D_r, 0] - 
+                                     F1_GC[idxCalcOr3D_r, -1]).full()[0][0]
+        GRF_GC2 = F1_GC[idxGRF, :]
+        GRM_GC2 = F1_GC[idxGRM, :]        
+        
+        # dist_r = ca.norm_2(F1_out[idxCalcOr3D_r, -1]-F1_out[idxCalcOr3D_r, 0])
+        # dist_l = ca.norm_2(F1_out[idxCalcOr3D_l, -1]-F1_out[idxCalcOr3D_l, 0])
+        # stride_length_GC = dist_r.full()[0][0] + dist_l.full()[0][0]
             
+        
+        # %% Write GRF file for visualization in OpenSim GUI    
+        # COP and free moment
+        from variousFunctions import getCOP
+        COPr_GC, freeTr_GC = getCOP(GRF_GC2[:3,:], GRM_GC2[:3,:])
+        COPl_GC, freeTl_GC = getCOP(GRF_GC2[3:,:], GRM_GC2[3:,:])        
+        COP_GC = np.concatenate((COPr_GC, COPl_GC))
+        freeT_GC = np.concatenate((freeTr_GC, freeTl_GC))        
+        
+        if writeMotion:     
+            
+            # post-processing
+            GRF_GC_toPrint = np.copy(GRF_GC2)
+            COP_GC_toPrint = np.copy(COP_GC)
+            freeT_GC_toPrint = np.copy(freeT_GC)
+            
+            idx_r = np.argwhere(GRF_GC_toPrint[1, :] < 30)
+            for tr in range(idx_r.shape[0]):
+                GRF_GC_toPrint[:3, idx_r[tr, 0]] = 0
+                COP_GC_toPrint[:3, idx_r[tr, 0]] = 0
+                freeT_GC_toPrint[:3, idx_r[tr, 0]] = 0
+            idx_l = np.argwhere(GRF_GC_toPrint[4, :] < 30)
+            for tl in range(idx_l.shape[0]):
+                GRF_GC_toPrint[3:, idx_l[tl, 0]] = 0
+                COP_GC_toPrint[3:, idx_l[tl, 0]] = 0
+                freeT_GC_toPrint[3:, idx_l[tl, 0]] = 0            
+            
+            grf_cop_Labels = ['r_ground_force_vx', 'r_ground_force_vy', 'r_ground_force_vz',
+                              'r_ground_force_px', 'r_ground_force_py', 'r_ground_force_pz',
+                              'l_ground_force_vx', 'l_ground_force_vy', 'l_ground_force_vz',
+                              'l_ground_force_px', 'l_ground_force_py', 'l_ground_force_pz']
+            
+            grmLabels = ['r_ground_torque_x', 'r_ground_torque_y', 'r_ground_torque_z',
+                          'l_ground_torque_x', 'l_ground_torque_y', 'l_ground_torque_z']
+                         
+            grLabels = grf_cop_Labels + grmLabels      
+            labels = ['time'] + grLabels
+            data = np.concatenate(
+                (tgrid_GC.T, GRF_GC_toPrint[:3,:].T, COP_GC_toPrint[:3,:].T, 
+                 GRF_GC_toPrint[3:,:].T, COP_GC_toPrint[3:,:].T, 
+                 freeT_GC_toPrint.T), axis=1)             
+            from variousFunctions import numpy2storage
+            numpy2storage(labels, data, os.path.join(pathResults,'GRF.mot'))
+        
          # %% Save trajectories for further analysis
         if saveTrajectories: 
             if not os.path.exists(os.path.join(pathTrajectories,
@@ -2146,6 +2219,7 @@ for case in cases:
                                 'muscles': bothSidesMuscles,
                                 'GRF_labels': GRFNames,
                                 'COT': COT_GC[0],
+                                'COT_perMuscle_GC': COT_perMuscle_GC,
                                 'GC_percent': GC_percent,
                                 'objective': stats['iterations']['obj'][-1],
                                 'objective_terms': objective_terms,

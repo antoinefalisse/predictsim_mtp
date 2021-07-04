@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 # , '149', '150']
 
 # Best: Generic with FK
-# cases = ['145', '146']
+cases = ['145']
 
 
 # 1. Effect of generic vs specific (N=100)
@@ -28,7 +28,7 @@ import matplotlib.pyplot as plt
 # 2.a ACTIVE MTP
 # cases = ['3','31','32','34','36','38','41','43']
 # 2.b PASSIVE MTP
-cases = ['161','162']
+# cases = ['161','162']
 # cases = [str(i) for i in range(151, 165)]
 # cases = ['48','52','55','57','58','60','62','65']
 # cases = ['48','52','54','56','58','60','62','64'] # data-driven guess only - more consistent stride lengths...
@@ -41,6 +41,11 @@ cases = ['161','162']
 # cases = ['7', '13']
 # 4.b PASSIVE MTP
 # cases = ['75', '48','76','78']
+
+# Effect of mesh density (50, 75, 100, 125)
+# cases = ['165','168','145','169']
+
+
 
 mainName = "predictsim_mtp"
 subject = "subject2"
@@ -59,7 +64,7 @@ experimentalData = np.load(os.path.join(pathData, 'experimentalData.npy'),
                            allow_pickle=True).item()
     
 # %% Visualize results
-plt.close('all')
+# plt.close('all')
 
 # %% Joint coordinates
 # kinematic_ylim_ub = [20, 1, 1, 50, 50, 20, 20, 30, 30, 60, 60, 20]

@@ -22,7 +22,11 @@ import matplotlib.pyplot as plt
 # Best: generic FK
 # cases = ['119', '120']
 
-cases = ['105', '5', '119']
+# Effect of mesh density (50, 75, 100, 125)
+# 125, 128, 129
+# cases = ['125','128', '115', '129']
+
+cases = ['115']
 
 
 # Key messages:
