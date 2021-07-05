@@ -2955,6 +2955,7 @@ def getSettings_predictsim_mtp():
                   'baseConfig': 'ua_corrected',
                   'polynomial_type': 'FK'},
             
+            # Higher tolerance
             '171': {'contactConfiguration': 'generic',
                   'guessType': 'dataDriven',
                   'targetSpeed': 1.33,
@@ -2979,6 +2980,28 @@ def getSettings_predictsim_mtp():
                   'boundsType': 'extended',
                   'baseConfig': 'ua_corrected',
                   'polynomial_type': 'FK'},
+            
+            # Model 1 w/ mtp: generic low
+            '173': {'contactConfiguration': 'generic',
+                  'guessType': 'dataDriven',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'adjustAchillesTendonCompliance': False,
+                  'mtpExcitationTerm': 0,
+                  'activeMTP': False,
+                  'boundsType': 'extended',
+                  'baseConfig': 'c'},
+            '174': {'contactConfiguration': 'generic',
+                  'guessType': 'quasiRandom',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'adjustAchillesTendonCompliance': False,
+                  'mtpExcitationTerm': 0,
+                  'activeMTP': False,
+                  'boundsType': 'extended',
+                  'baseConfig': 'c'},
             }
     
     

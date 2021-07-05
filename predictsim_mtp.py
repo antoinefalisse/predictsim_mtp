@@ -13,7 +13,7 @@ loadMTParameters = True
 loadPolynomialData = True
 plotPolynomials = False
 
-cases = ["171", "172"]
+cases = ["173", "174"]
 # cases = [str(i) for i in range(151, 165)]
 # cases = [str(i) for i in range(159, 165)]
 
@@ -100,9 +100,9 @@ for case in cases:
     os.chdir(pathExternalFunction)
     if subject == "subject1_mtp":
         if contactConfiguration == 'generic':
-            F = ca.external('F','PredSim_mtpPin_cm0.dll')
+            F = ca.external('F','PredSim_mtpPin_cm0{}.dll'.format(baseConfig))
             if analyzeResults:
-                F1 = ca.external('F','PredSim_mtpPin_pp_cm0.dll')
+                F1 = ca.external('F','PredSim_mtpPin_pp_cm0{}.dll'.format(baseConfig))
         elif contactConfiguration == 'generic_cm4':
             F = ca.external('F','PredSim_mtpPin_cm4.dll')
             if analyzeResults:
