@@ -2,7 +2,7 @@ import os
 import casadi as ca
 import numpy as np
 
-solveProblem = False
+solveProblem = True
 saveResults = True
 analyzeResults = True
 loadResults = True
@@ -13,7 +13,7 @@ loadMTParameters = True
 loadPolynomialData = True
 plotPolynomials = False
 
-cases = ["145"]
+cases = ["171", "172"]
 # cases = [str(i) for i in range(151, 165)]
 # cases = [str(i) for i in range(159, 165)]
 

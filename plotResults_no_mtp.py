@@ -26,7 +26,8 @@ import matplotlib.pyplot as plt
 # 125, 128, 129
 # cases = ['125','128', '115', '129']
 
-cases = ['115']
+# cases = ['115']
+cases = ['105','106']
 
 
 # Key messages:
