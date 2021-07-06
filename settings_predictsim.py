@@ -1139,6 +1139,25 @@ def getSettings_predictsim_no_mtp():
                   'baseConfig': 'ua_corrected',
                   'polynomial_type': 'FK'},
             
+            '133': {'contactConfiguration': 'generic',
+                  'guessType': 'dataDriven',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 5,
+                  'idxSubject': '2',
+                  'boundsType': 'extended',
+                  'baseConfig': 'ua_corrected',
+                  'polynomial_type': 'FK'},
+            '134': {'contactConfiguration': 'generic',
+                  'guessType': 'quasiRandom',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 5,
+                  'idxSubject': '2',
+                  'boundsType': 'extended',
+                  'baseConfig': 'ua_corrected',
+                  'polynomial_type': 'FK'},
+            
     }
     return settings
 
@@ -2956,6 +2975,7 @@ def getSettings_predictsim_mtp():
                   'polynomial_type': 'FK'},
             
             # Higher tolerance
+            # Restoration failed
             '171': {'contactConfiguration': 'generic',
                   'guessType': 'dataDriven',
                   'targetSpeed': 1.33,
@@ -3002,6 +3022,33 @@ def getSettings_predictsim_mtp():
                   'activeMTP': False,
                   'boundsType': 'extended',
                   'baseConfig': 'c'},
+            
+            # Higher tolerance
+            # Restoration failed
+            '175': {'contactConfiguration': 'generic',
+                  'guessType': 'dataDriven',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 5,
+                  'adjustAchillesTendonCompliance': False,
+                  'mtpExcitationTerm': 0,
+                  'activeMTP': False,
+                  'idxSubject': '2',
+                  'boundsType': 'extended',
+                  'baseConfig': 'ua_corrected',
+                  'polynomial_type': 'FK'},
+            '176': {'contactConfiguration': 'generic',
+                  'guessType': 'quasiRandom',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 5,
+                  'adjustAchillesTendonCompliance': False,
+                  'mtpExcitationTerm': 0,
+                  'activeMTP': False,
+                  'idxSubject': '2',
+                  'boundsType': 'extended',
+                  'baseConfig': 'ua_corrected',
+                  'polynomial_type': 'FK'},
             }
     
     

@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt  
 
 # %% Settings
-cases_mtp = ['145']
+cases_mtp = ['145', '174']
 cases_no_mtp = ['106', '119', '115']
 # cases_no_mtp = ['115']
 
@@ -11,8 +11,8 @@ subject = "subject2"
 model_mtp = "mtp"
 model_no_mtp = "no_mtp"
 
-color_mtp=['#ff7f00'] 
-linestyle_mtp=['--']
+color_mtp=['#ff7f00','#e41a1c'] 
+linestyle_mtp=['--','--']
 color_no_mtp=['black', '#984ea3','#4daf4a'] 
 linestyle_no_mtp=['-','-.','-.']
 linewidth_s = 3

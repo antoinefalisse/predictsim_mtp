@@ -16,7 +16,7 @@ plotGuessVsBounds = False
 visualizeResultsAgainstBounds = False
 
 # cases = [str(i) for i in range(125, 131)]
-cases = ['106']
+cases = ['133', '134']
 
 from settings_predictsim import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
@@ -2211,7 +2211,7 @@ for case in cases:
                                 'muscle_activations': A_GC,
                                 'arm_activations': aArm_GC,
                                 'joint_torques': torques_GC,
-                                'GRF': GRF_GC,
+                                'GRF': GRF_GC2,
                                 'time': tgrid_GC,
                                 'norm_fiber_lengths': normFiberLength_GC,
                                 'fiber_velocity': fiberVelocity_GC,
