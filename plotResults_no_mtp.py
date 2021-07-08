@@ -27,12 +27,15 @@ import matplotlib.pyplot as plt
 # cases = ['115']
 
 
-# Tolerance 4 vs tolerance 6
-# cases = ['115','116','131','132']
+# Tolerance 4 vs tolerance 5-6
+cases = ['115','116','133','134','131','132']
+# change in arm kinematics from tol=5
 # 115: 1860, 287.26900700506275
-# 116: 894
+# 116: 894, 287.5433028232058
+# 133: 2894, 287.18120946746143 
+# 134: 2782, 287.20954416755256
 # 131: 3820 more than x2, 287.17392806771085 improvment of less than 0.05%
-# 132: 3753
+# 132: 3753, 287.2056479760599
 
 # Effect of mesh density (50, 75, 100, 125)
 # 125, 128, 129

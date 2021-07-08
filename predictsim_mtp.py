@@ -2,7 +2,7 @@ import os
 import casadi as ca
 import numpy as np
 
-solveProblem = True
+solveProblem = False
 saveResults = True
 analyzeResults = True
 loadResults = True
@@ -13,7 +13,7 @@ loadMTParameters = True
 loadPolynomialData = True
 plotPolynomials = False
 
-cases = ["175", "176"]
+cases = ["145", "146", "171", "172", "175", "176"]
 # cases = [str(i) for i in range(151, 165)]
 # cases = [str(i) for i in range(159, 165)]
 
@@ -2404,7 +2404,7 @@ for case in cases:
                                 'arm_activations': aArm_GC,
                                 'mtp_activations': aMtp_GC,
                                 'joint_torques': torques_GC,
-                                'GRF': GRF_GC,
+                                'GRF': GRF_GC2,
                                 'time': tgrid_GC,
                                 'norm_fiber_lengths': normFiberLength_GC,
                                 'fiber_velocity': fiberVelocity_GC,
