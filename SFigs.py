@@ -169,6 +169,19 @@ musclesToPlot = ['glut_med1_r', 'glut_med2_r', 'glut_med3_r', 'glut_min1_r',
                  'flex_dig_r', 'flex_hal_r', 'tib_ant_r', 'per_brev_r',
                  'per_long_r', 'per_tert_r', 'ext_dig_r', 'ext_hal_r',
                  'ercspn_r', 'intobl_r', 'extobl_r',]
+
+musclesToPlot_title = ['gluteus med 1', 'gluteus med 2', 'gluteus med 3', 'gluteurs min 1', 
+                 'gluteurs min 2', 'gluteurs min 3', 'semimem', 'semiten', 
+                 'bifemlh', 'bifemsh', 'sartorius', 'adductor long', 'adductor brev',
+                 'adductor mag 1', 'adductor mag 2', 'adductor mag 3', 'tfl', 'pect',
+                 'grac', 'gluteus max  1', 'gluteus max  2', 'gluteus max  3',
+                 'iliacus', 'psoas', 'quad fem', 'gem', 'peri',
+                 'rectus fem', 'vastus  med', 'vastus int', 'vastus lat',
+                 'gastroc med', 'gastroc lat', 'soleus', 'tibialis post',
+                 'flex dig', 'flex hal', 'tibialis ant', 'peroneus brev',
+                 'peroneus long', 'peroneus tert', 'ext dig', 'ext hal',
+                 'ercspn', 'intobl', 'extobl',]
+
 NMusclesToPlot = len(musclesToPlot)
 idxMusclesToPlot = getJointIndices(muscles, musclesToPlot)
 mappingEMG = {'glut_med1_r': 'GluMed_r', 
@@ -210,16 +223,13 @@ mappingEMG = {'glut_med1_r': 'GluMed_r',
               'per_brev_l': 'PerB_l',
               'per_long_l': 'PerL_l'}
 
-fig, axs = plt.subplots(8, 6, sharex=True)    
-fig.suptitle('Muscle activations')
+fig, axs = plt.subplots(8, 6)    
 for i, ax in enumerate(axs.flat):
-    color_mtp=iter(plt.cm.rainbow(np.linspace(0,1,len(cases_mtp))))  
-    color_no_mtp=iter(plt.cm.rainbow(np.linspace(0,1,len(cases_no_mtp))))  
     if i < NMusclesToPlot:
-        for case in cases_mtp:
+        for c_mtp, case in enumerate(cases_mtp):
             ax.plot(optimaltrajectories[case]['GC_percent'],
-                    optimaltrajectories[case]['muscle_activations'][idxMusclesToPlot[i]:idxMusclesToPlot[i]+1, :].T, c=next(color_mtp), label='case_' + case + '_mtp')  
-            if musclesToPlot[i] in mappingEMG:                
+                    optimaltrajectories[case]['muscle_activations'][idxMusclesToPlot[i]:idxMusclesToPlot[i]+1, :].T, c=color_mtp[c_mtp], linestyle=linestyle_no_mtp[c_mtp], linewidth=linewidth_s)   
+            if case == case_4exp and musclesToPlot[i] in mappingEMG:                
                 # Normalize EMG such that peak mean EMG = peak activation             
                 exp_mean = experimentalData_mtp[subject]["EMG"]["mean"][mappingEMG[musclesToPlot[i]]]
                 exp_mean_peak = np.max(exp_mean)
@@ -229,31 +239,52 @@ for i, ax in enumerate(axs.flat):
                 ax.fill_between(experimentalData_mtp[subject]["EMG"]["GC_percent"],
                         experimentalData_mtp[subject]["EMG"]["mean"][mappingEMG[musclesToPlot[i]]] * scaling_emg + 2*experimentalData_mtp[subject]["EMG"]["std"][mappingEMG[musclesToPlot[i]]] * scaling_emg,
                         experimentalData_mtp[subject]["EMG"]["mean"][mappingEMG[musclesToPlot[i]]] * scaling_emg - 2*experimentalData_mtp[subject]["EMG"]["std"][mappingEMG[musclesToPlot[i]]] * scaling_emg,
-                        facecolor='blue', alpha=0.5)            
+                        facecolor='grey', alpha=0.4)            
             
-        for case in cases_no_mtp:
+        for c_no_mtp, case in enumerate(cases_no_mtp):
             ax.plot(optimaltrajectories_no_mtp[case]['GC_percent'],
-                    optimaltrajectories_no_mtp[case]['muscle_activations'][idxMusclesToPlot[i]:idxMusclesToPlot[i]+1, :].T, c=next(color_no_mtp), linestyle='dashed', label='case_' + case + '_no_mtp')            
+                    optimaltrajectories_no_mtp[case]['muscle_activations'][idxMusclesToPlot[i]:idxMusclesToPlot[i]+1, :].T, c=color_no_mtp[c_no_mtp], linestyle=linestyle_no_mtp[c_no_mtp], linewidth=linewidth_s)    
         
-            if musclesToPlot[i] in mappingEMG:                
-                # Normalize EMG such that peak mean EMG = peak activation             
-                exp_mean = experimentalData_no_mtp[subject]["EMG"]["mean"][mappingEMG[musclesToPlot[i]]]
-                exp_mean_peak = np.max(exp_mean)
-                sim = optimaltrajectories_no_mtp[case]['muscle_activations'][idxMusclesToPlot[i], :].T
-                sim_peak = np.max(sim)
-                scaling_emg = sim_peak / exp_mean_peak
-                ax.fill_between(experimentalData_no_mtp[subject]["EMG"]["GC_percent"],
-                        experimentalData_no_mtp[subject]["EMG"]["mean"][mappingEMG[musclesToPlot[i]]] * scaling_emg + 2*experimentalData_no_mtp[subject]["EMG"]["std"][mappingEMG[musclesToPlot[i]]] * scaling_emg,
-                        experimentalData_no_mtp[subject]["EMG"]["mean"][mappingEMG[musclesToPlot[i]]] * scaling_emg - 2*experimentalData_no_mtp[subject]["EMG"]["std"][mappingEMG[musclesToPlot[i]]] * scaling_emg,
-                        facecolor='orange', alpha=0.5)      
+            # if musclesToPlot[i] in mappingEMG:                
+            #     # Normalize EMG such that peak mean EMG = peak activation             
+            #     exp_mean = experimentalData_no_mtp[subject]["EMG"]["mean"][mappingEMG[musclesToPlot[i]]]
+            #     exp_mean_peak = np.max(exp_mean)
+            #     sim = optimaltrajectories_no_mtp[case]['muscle_activations'][idxMusclesToPlot[i], :].T
+            #     sim_peak = np.max(sim)
+            #     scaling_emg = sim_peak / exp_mean_peak
+            #     ax.fill_between(experimentalData_no_mtp[subject]["EMG"]["GC_percent"],
+            #             experimentalData_no_mtp[subject]["EMG"]["mean"][mappingEMG[musclesToPlot[i]]] * scaling_emg + 2*experimentalData_no_mtp[subject]["EMG"]["std"][mappingEMG[musclesToPlot[i]]] * scaling_emg,
+            #             experimentalData_no_mtp[subject]["EMG"]["mean"][mappingEMG[musclesToPlot[i]]] * scaling_emg - 2*experimentalData_no_mtp[subject]["EMG"]["std"][mappingEMG[musclesToPlot[i]]] * scaling_emg,
+            #             facecolor='orange', alpha=0.5)      
         
-        ax.set_title(muscles[idxMusclesToPlot[i]])
+        ax.set_title(musclesToPlot_title[i])
         ax.set_ylim((0,1))
+        ax.set_yticks([0, 1])
+        plt.setp(ax.get_yticklabels(), fontsize=fontsize_tick)
+        ax.set_xticks([0,50,100])
+        if i > 41:
+            ax.set_xticklabels(['0','50','100'], fontsize=fontsize_tick)
+        else:
+            ax.set_xticklabels([]) 
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        
     handles, labels = ax.get_legend_handles_labels()
     plt.legend(handles, labels, loc='upper right')
 plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
 plt.setp(axs[:, 0], ylabel='(-)')
 fig.align_ylabels()
+
+for ax in axs.flat:
+    ax.xaxis.get_label().set_fontsize(fontsize_label)
+    ax.yaxis.get_label().set_fontsize(fontsize_label)
+    ax.title.set_fontsize(fontsize_title)
+
+for ax in (axs[7,4:6].flat):
+    ax.set_visible(False)
+    
+fig.set_size_inches(16,12)
+fig.tight_layout()
 
 # %% Kinetics
 
