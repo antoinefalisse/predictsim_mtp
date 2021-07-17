@@ -120,7 +120,7 @@ for i, ax in enumerate(axs[0, :]):
         # plt.legend(handles, labels, loc='upper right')
 plt.setp(axs[1, :4], xlabel='Gait cycle (%)')
 # plt.setp(axs[1, 2:], xlabel='Gait cycle (%)')
-plt.setp(axs[0:1, 0], ylabel='(deg)')
+plt.setp(axs[0:1, 0], ylabel='Joint angle (deg)')
 fig.align_ylabels()
 
 # %% Muscle activations
@@ -140,7 +140,7 @@ muscleTitles = ['glut_med1_r', 'Gluteus medius', 'glut_med3_r', 'Gluteus minimus
                 'add_mag2_r', 'add_mag3_r', 'tfl_r', 'pect_r', 'grac_r', 
                 'glut_max1_r', 'glut_max2_r', 'glut_max3_r', 'iliacus_r', 'psoas_r',
                 'quad_fem_r', 'gem_r', 'peri_r', 'Rectus femoris', 'Vastus medialis', 
-                'vas_int_r', 'Vastus lateralis', 'Gastrocnemius medialis', 'lat_gas_r', 'Soleus',
+                'vas_int_r', 'Vastus lateralis', 'Gastrocnemius med', 'lat_gas_r', 'Soleus',
                 'tib_post_r', 'flex_dig_r', 'flex_hal_r', 'Tibialis anterior', 'per_brev_r',
                 'per_long_r', 'per_tert_r', 'ext_dig_r', 'ext_hal_r', 'ercspn_r', 
                 'intobl_r', 'extobl_r']
@@ -253,7 +253,7 @@ for i, ax in enumerate(axs[0:1,2:].flat):
     # handles, labels = ax.get_legend_handles_labels()
     # plt.legend(handles, labels, loc='upper right')
 # plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
-plt.setp(axs[0:1, 2], ylabel='(-)')
+plt.setp(axs[0:1, 2], ylabel='Muscle activation (-)')
 fig.align_ylabels()
 
 # %% Kinetics
@@ -296,7 +296,7 @@ for i, ax in enumerate(axs[1,:]):
         # handles, labels = ax.get_legend_handles_labels()
         # plt.legend(handles, labels, loc='upper right')
 # plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
-plt.setp(axs[1, 0], ylabel='(Nm)')
+plt.setp(axs[1, 0], ylabel='Joint torque (Nm)')
 fig.align_ylabels()
 
 # %% Muscle fiber lengths
@@ -330,7 +330,7 @@ for i, ax in enumerate(axs[1:2,2:].flat):
         #     ax.set_xticks([0,50,100]) 
         #     ax.set_xticklabels(['0','50','100'])
             # ax.set_xticklabels([])
-plt.setp(axs[1:2, 2], ylabel='(-)')
+plt.setp(axs[1:2, 2], ylabel='Fiber length (-)')
 plt.setp(axs[1, :4], xlabel='Gait cycle (%)')
 fig.align_ylabels()
 

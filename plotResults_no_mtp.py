@@ -28,7 +28,8 @@ import matplotlib.pyplot as plt
 
 
 # Tolerance 4 vs tolerance 5-6
-cases = ['115','116','133','134','131','132']
+cases = ['115','133','131']
+# cases = ['115','116','133','134','131','132']
 # change in arm kinematics from tol=5
 # 115: 1860, 287.26900700506275
 # 116: 894, 287.5433028232058
@@ -49,6 +50,13 @@ cases = ['115','116','133','134','131','132']
 # 116: 894, 287.5433028232058
 # 129: 2097, 286.71746052483684
 # 130: 988, 287.0064031474223
+
+iter_4 = np.array([1359,1299,1860,894])
+iter_5 = np.array([2406,2559,2894,2782])
+iter_6 = np.array([4452,4812,3820,3753])
+
+np.mean(iter_4/iter_5)
+np.mean(iter_4/iter_6)
 
 # Key messages:
     # - height contact spheres has a small effect

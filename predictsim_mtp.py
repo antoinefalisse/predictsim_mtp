@@ -13,7 +13,7 @@ loadMTParameters = True
 loadPolynomialData = True
 plotPolynomials = False
 
-cases = ["145", "146", "171", "172", "175", "176"]
+cases = ['165','166','167','168','145','146','169','170']
 # cases = [str(i) for i in range(151, 165)]
 # cases = [str(i) for i in range(159, 165)]
 
