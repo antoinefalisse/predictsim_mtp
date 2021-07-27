@@ -143,8 +143,8 @@ for i, ax in enumerate(axs.flat):
         ax.spines['top'].set_visible(False)
 plt.setp(axs[2, 2:6], xlabel='Gait cycle (%)')
 plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
-plt.setp(axs[:, 0], ylabel='joint angle (deg)')
-plt.setp(axs[0, 3], ylabel='joint position (m)')
+plt.setp(axs[:, 0], ylabel='Joint angle (deg)')
+plt.setp(axs[0, 3], ylabel='Joint position (m)')
 fig.align_ylabels()
 for ax in axs.flat:
     ax.xaxis.get_label().set_fontsize(fontsize_label)
@@ -170,12 +170,12 @@ musclesToPlot = ['glut_med1_r', 'glut_med2_r', 'glut_med3_r', 'glut_min1_r',
                  'per_long_r', 'per_tert_r', 'ext_dig_r', 'ext_hal_r',
                  'ercspn_r', 'intobl_r', 'extobl_r',]
 
-musclesToPlot_title = ['gluteus med 1', 'gluteus med 2', 'gluteus med 3', 'gluteurs min 1', 
-                 'gluteurs min 2', 'gluteurs min 3', 'semimem', 'semiten', 
+musclesToPlot_title = ['gluteus med 1', 'gluteus med 2', 'gluteus med 3', 'gluteus  min 1', 
+                 'gluteus  min 2', 'gluteus  min 3', 'semimem', 'semiten', 
                  'bifemlh', 'bifemsh', 'sartorius', 'adductor long', 'adductor brev',
-                 'adductor mag 1', 'adductor mag 2', 'adductor mag 3', 'tfl', 'pect',
-                 'grac', 'gluteus max  1', 'gluteus max  2', 'gluteus max  3',
-                 'iliacus', 'psoas', 'quad fem', 'gem', 'peri',
+                 'adductor mag 1', 'adductor mag 2', 'adductor mag 3', 'tfl', 'pectineus',
+                 'gracilis', 'gluteus max  1', 'gluteus max  2', 'gluteus max  3',
+                 'iliacus', 'psoas', 'quadratus fem', 'gemellus', 'piriformis',
                  'rectus fem', 'vastus  med', 'vastus int', 'vastus lat',
                  'gastroc med', 'gastroc lat', 'soleus', 'tibialis post',
                  'flex dig', 'flex hal', 'tibialis ant', 'peroneus brev',
@@ -272,7 +272,7 @@ for i, ax in enumerate(axs.flat):
     handles, labels = ax.get_legend_handles_labels()
     plt.legend(handles, labels, loc='upper right')
 plt.setp(axs[-1, :], xlabel='Gait cycle (%)')
-plt.setp(axs[:, 0], ylabel='(-)')
+plt.setp(axs[:, 0], ylabel='Act (-)')
 fig.align_ylabels()
 
 for ax in axs.flat:
@@ -340,7 +340,7 @@ for i, ax in enumerate(axs.flat):
         ax.spines['top'].set_visible(False)
 plt.setp(axs[1, 2:6], xlabel='Gait cycle (%)')
 plt.setp(axs[2, :], xlabel='Gait cycle (%)')
-plt.setp(axs[:, 0], ylabel='joint torque (Nm)')
+plt.setp(axs[:, 0], ylabel='Joint torque (Nm)')
 fig.align_ylabels()
 for ax in axs.flat:
     ax.xaxis.get_label().set_fontsize(fontsize_label)
