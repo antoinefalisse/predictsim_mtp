@@ -1,1 +1,0 @@
-GRFs were processed with a 3rd order dual-pass Butterworth filer with a 10Hz cutoff frequency
