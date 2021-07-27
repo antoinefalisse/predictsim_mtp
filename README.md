@@ -1,4 +1,4 @@
-# 3D Predictive Simulations of walking
+# 3D Predictive Simulations of Walking
 
 This repository contains code and data to generate predictive simulations of human walking as described in "Modeling toes contributes to realistic stance knee mechanics in three-dimensional predictive simulations of walking". The paper has been submitted for publication.
 
