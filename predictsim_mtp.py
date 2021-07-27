@@ -13,9 +13,7 @@ loadMTParameters = True
 loadPolynomialData = True
 plotPolynomials = False
 
-cases = ['165','166','167','168','145','146','169','170']
-# cases = [str(i) for i in range(151, 165)]
-# cases = [str(i) for i in range(159, 165)]
+cases = ['145']
 
 from settings_predictsim import getSettings_predictsim_mtp   
 settings = getSettings_predictsim_mtp() 
