@@ -156,7 +156,7 @@ def metabolicsBhargava(slowTwitchRatio, maximalIsometricForce,
     
     return f_metabolicsBhargava
 
-def passiveJointTorque(k, theta, d):
+def passiveTorque(k, theta, d):
     
     # Function variables
     Q = ca.SX.sym('Q', 1)

@@ -158,7 +158,7 @@ def slowTwitchRatio(muscles):
     
     return slowTwitchRatio
 
-def passiveJointTorqueData(joint):    
+def passiveTorqueData(joint):    
     
     kAll = {'hip_flexion_r' : [-2.44, 5.05, 1.51, -21.88],
             'hip_adduction_r': [-0.03, 14.94, 0.03, -14.94], 
@@ -166,7 +166,14 @@ def passiveJointTorqueData(joint):
             'knee_angle_r': [-6.09, 33.94, 11.03, -11.33],
             'ankle_angle_r': [-2.03, 38.11, 0.18, -12.12],
             'subtalar_angle_r': [-60.21, 16.32, 60.21, -16.32],
-            'mtp_angle_r': [-0.9, 14.87, 0.18, -70.08],            
+            'mtp_angle_r': [-0.9, 14.87, 0.18, -70.08],
+            'hip_flexion_l' : [-2.44, 5.05, 1.51, -21.88],
+            'hip_adduction_l': [-0.03, 14.94, 0.03, -14.94], 
+            'hip_rotation_l': [-0.03, 14.94, 0.03, -14.94],
+            'knee_angle_l': [-6.09, 33.94, 11.03, -11.33],
+            'ankle_angle_l': [-2.03, 38.11, 0.18, -12.12],
+            'subtalar_angle_l': [-60.21, 16.32, 60.21, -16.32],
+            'mtp_angle_l': [-0.9, 14.87, 0.18, -70.08],
             'lumbar_extension': [-0.35, 30.72, 0.25, -20.36],
             'lumbar_bending': [-0.25, 20.36, 0.25, -20.36],
             'lumbar_rotation': [-0.25, 20.36, 0.25, -20.36]}
@@ -178,6 +185,13 @@ def passiveJointTorqueData(joint):
                 'ankle_angle_r': [-0.74, 0.52],
                 'subtalar_angle_r': [-0.65, 0.65],
                 'mtp_angle_r': [0, 1.134464013796314],
+                'hip_flexion_l' : [-0.6981, 1.81],
+                'hip_adduction_l': [-0.5, 0.5], 
+                'hip_rotation_l': [-0.92, 0.92],
+                'knee_angle_l': [-2.4, 0.13],
+                'ankle_angle_l': [-0.74, 0.52],
+                'subtalar_angle_l': [-0.65, 0.65],
+                'mtp_angle_l': [0, 1.134464013796314],
                 'lumbar_extension': [-0.5235987755982988, 0.17],
                 'lumbar_bending': [-0.3490658503988659, 0.3490658503988659],
                 'lumbar_rotation': [-0.3490658503988659, 0.3490658503988659]}
