@@ -1,5 +1,3 @@
-from sys import path
-path.append(r"C:/Users/u0101727/Documents/Software/CasADi/casadi-windows-py37-v3.5.1-64bit")
 import casadi as ca
 import numpy as np
 
@@ -40,6 +38,8 @@ def polynomialApproximation(musclesPolynomials, polynomialData, NPolynomial):
 
 def hillEquilibrium(mtParameters, tendonCompliance, specificTension):
     
+    from muscleModel import muscleModel
+    
     NMuscles = mtParameters.shape[1]
     # Function variables
     activation = ca.SX.sym('activation', NMuscles)
@@ -54,9 +54,8 @@ def hillEquilibrium(mtParameters, tendonCompliance, specificTension):
     normActiveFiberLengthForce = ca.SX(NMuscles, 1)
     passiveFiberForce = ca.SX(NMuscles, 1)
     normFiberLength = ca.SX(NMuscles, 1)
-    fiberVelocity = ca.SX(NMuscles, 1)
+    fiberVelocity = ca.SX(NMuscles, 1)    
     
-    from muscleModel import muscleModel
     for m in range(NMuscles):    
         muscle = muscleModel(mtParameters[:, m], activation[m], mtLength[m],
                              mtVelocity[m], normTendonForce[m], 
@@ -145,11 +144,6 @@ def metabolicsBhargava(slowTwitchRatio, maximalIsometricForce,
                 include_negative_mechanical_work)        
         totalHeatRate[m] = metabolics.getTotalHeatRate()
         metabolicEnergyRate[m] = metabolics.getMetabolicEnergyRate()
-        
-#    basal_coef = 1.2 # default in OpenSim
-#    basal_exp = 1 # default in OpenSim
-#    energyModel = (basal_coef * np.power(modelMass, basal_exp) + 
-#                   np.sum(metabolicEnergyRate))
     
     f_metabolicsBhargava = ca.Function('metabolicsBhargava',
                                     [excitation, activation, normFiberLength, 
@@ -185,81 +179,19 @@ def passiveTorqueActuatedJointTorque(k, d):
     f_passiveMtpTorque = ca.Function('f_passiveMtpTorque', [Q, Qdot], 
                                      [passiveJointTorque])
     
-    return f_passiveMtpTorque  
-
-def mySum(N):
-    # Function variables
-    x = ca.SX.sym('x', 1,  N) 
-    mysum = 0;
-    for m in range(N):
-        mysum += x[0, m]
-        
-    f_mySum = ca.Function('f_mySum', [x], [mysum])
-    
-    return f_mySum
-    
+    return f_passiveMtpTorque    
 
 def normSumPow(N, exp):
     
     # Function variables
-    x = ca.SX.sym('x', N,  1)    
-    nsp = 0
-    
-    for m in range(N):
-        nsp += x[m, 0]**exp        
+    x = ca.SX.sym('x', N,  1)
+      
+    nsp = ca.sum1(x**exp)       
     nsp = nsp / N
     
     f_normSumPow = ca.Function('f_normSumPow', [x], [nsp])
     
     return f_normSumPow
-
-def normSumPowDev(N, exp, ref):
-    
-    # Function variables
-    x = ca.SX.sym('x', N,  1)    
-    nsp = 0
-    
-    for m in range(N):
-        nsp += (x[m, 0]-ref)**exp        
-    nsp = nsp / N
-    
-    f_normSumPowDev = ca.Function('f_normSumPowDev', [x], [nsp])
-    
-    return f_normSumPowDev
-
-def sumSqr(N):
-    
-    x = ca.SX.sym('x', N, 1)
-    ss = 0
-    for m in range(N):
-        ss += x[m, 0]**2
-        
-    f_sumSqr = ca.Function('f_sumSqr', [x], [ss])
-    
-    return f_sumSqr
-
-def norm2(N):
-    
-    x = ca.SX.sym('x', N, 1)
-    ss = 0
-    for m in range(N):
-        ss += x[m, 0]**2
-        
-    f_sumSqr = ca.Function('f_sumSqr', [x], [np.sqrt(ss)])
-    
-    return f_sumSqr
-
-def sumProd(N):
-    
-    x1 = ca.SX.sym('x', N, 1) 
-    x2 = ca.SX.sym('x', N, 1) 
-    sp = 0
-    for m in range(N):
-        sp += x1[m, 0] * x2[m, 0]
-        
-    f_sumProd = ca.Function('f_sumProd', [x1, x2], [sp])
-    
-    return f_sumProd
 
 def diffTorques():
     
@@ -275,32 +207,11 @@ def diffTorques():
         
     return f_diffTorques
 
-def normSqrtDiff(dim):
-    
-#    x = ca.SX.sym('x', dim, 1) 
-#    x_ref = ca.SX.sym('x_ref', dim, 1)     
-#    sigma = ca.SX.sym('sigma', dim, 1) 
-#    
-#    nSD = 0
-#    for d in range(dim):
-#        nSD += ((x[d, 0] - x_ref[d, 0])/sigma[d, 0])**2
-#        
-#    f_normSqrtDiff = ca.Function('f_normSqrtDiff', [x, x_ref, sigma], [nSD])
-    
-    x = ca.SX.sym('x', dim, 1) 
-    x_ref = ca.SX.sym('x_ref', dim, 1)  
-    
-    nSD = 0
-    for d in range(dim):
-        nSD += ((x[d, 0] - x_ref[d, 0]))**2
-    nSD = nSD / dim
-        
-    f_normSqrtDiff = ca.Function('f_normSqrtDiff', [x, x_ref], [nSD])
-    
-    return f_normSqrtDiff
-
 def smoothSphereHalfSpaceForce(dissipation, transitionVelocity,
-                 staticFriction, dynamicFriction, viscousFriction, normal):
+                               staticFriction, dynamicFriction, 
+                               viscousFriction, normal):
+    
+    from contactModel import smoothSphereHalfSpaceForce_ca
     
     stiffness = ca.SX.sym('stiffness', 1) 
     radius = ca.SX.sym('radius', 1)     
@@ -311,13 +222,9 @@ def smoothSphereHalfSpaceForce(dissipation, transitionVelocity,
     RBG_inG = ca.SX.sym('RBG_inG', 3, 3) 
     TBG_inG = ca.SX.sym('TBG_inG', 3) 
     
-    from contactModel import smoothSphereHalfSpaceForce_ca
-    
-    contactElement = smoothSphereHalfSpaceForce_ca(stiffness, radius, dissipation,
-                                                transitionVelocity,
-                                                staticFriction,
-                                                dynamicFriction,
-                                                viscousFriction, normal)
+    contactElement = smoothSphereHalfSpaceForce_ca(
+        stiffness, radius, dissipation, transitionVelocity, staticFriction,
+        dynamicFriction, viscousFriction, normal)
     
     contactForce = contactElement.getContactForce(locSphere_inB, posB_inG,
                                                   lVelB_inG, aVelB_inG,
@@ -328,142 +235,4 @@ def smoothSphereHalfSpaceForce(dissipation, transitionVelocity,
                                             posB_inG, lVelB_inG, aVelB_inG,
                                             RBG_inG, TBG_inG], [contactForce])
     
-    return f_smoothSphereHalfSpaceForce    
-
-def muscleMechanicalWorkRate(NMuscles):    
-    # Function variables
-    fiberVelocity = ca.SX.sym('fiberVelocity', NMuscles)
-    activeFiberForce = ca.SX.sym('activeFiberForce', NMuscles)
-    
-    mechanicalWorkRate = ca.SX(NMuscles, 1)
-    
-    for m in range(NMuscles):           
-        mechanicalWorkRate[m] = -activeFiberForce[m] * fiberVelocity[m]
-        
-    f_muscleMechanicalWorkRate = ca.Function('f_muscleMechanicalWorkRate',
-                                             [activeFiberForce, fiberVelocity],
-                                             [mechanicalWorkRate])
-    
-    return f_muscleMechanicalWorkRate
-
-def jointMechanicalWorkRate(NJoints):    
-    # Function variables
-    jointVelocity = ca.SX.sym('jointVelocity', NJoints)
-    jointTorque = ca.SX.sym('jointTorque', NJoints)
-    
-    mechanicalWorkRate = ca.SX(NJoints, 1)
-    
-    for m in range(NJoints):           
-        mechanicalWorkRate[m] = jointTorque[m] * jointVelocity[m]
-        
-    f_jointMechanicalWorkRate = ca.Function('f_jointMechanicalWorkRate',
-                                             [jointTorque, jointVelocity],
-                                             [mechanicalWorkRate])
-    
-    return f_jointMechanicalWorkRate    
-
-# Test f_hillEquilibrium
-#import numpy as np
-#mtParametersT = np.array([[819, 573, 653],
-#                 [0.0520776466291754, 0.0823999283675263, 0.0632190293747345],
-#                 [0.0759262885434707, 0.0516827953074425, 0.0518670055241629],
-#                 [0.139626340000000, 0,	0.331612560000000],
-#                 [0.520776466291754,	0.823999283675263,	0.632190293747345]])
-#tendonComplianceT = np.array([35, 35, 35])
-#tendonShiftT = np.array([0, 0, 0])
-#specificTensionT = np.array([0.74455, 0.75395, 0.75057])
-#f_hillEquilibrium = hillEquilibrium(mtParametersT, tendonComplianceT,
-#                                    tendonShiftT, specificTensionT)
-#
-#activationT = [0.8, 0.7, 0.6]
-#mtLengthT = [1.2, 0.9, 1.3]
-#mtVelocity = [0.8, 0.1, 5.4]
-#normTendonForce = [0.8, 0.4, 0.9]
-#normTendonForceDT = [2.1, 3.4, -5.6]
-#
-#hillEquilibriumT = f_hillEquilibrium(activationT, mtLengthT, mtVelocity,
-#                                     normTendonForce, normTendonForceDT)[0]
-#tendonForceT = f_hillEquilibrium(activationT, mtLengthT, mtVelocity,
-#                                 normTendonForce, normTendonForceDT)[1]
-#activeFiberForceT = f_hillEquilibrium(activationT, mtLengthT, mtVelocity,
-#                                      normTendonForce, normTendonForceDT)[2]
-#passiveFiberForceT = f_hillEquilibrium(activationT, mtLengthT, mtVelocity,
-#                                     normTendonForce, normTendonForceDT)[3]
-#normActiveFiberLengthForceT = f_hillEquilibrium(activationT, mtLengthT,
-#                                                mtVelocity, normTendonForce,
-#                                                normTendonForceDT)[4]
-#maximalFiberVelocityT = f_hillEquilibrium(activationT, mtLengthT, mtVelocity,
-#                                          normTendonForce, 
-#                                          normTendonForceDT)[5]
-#muscleMassT = f_hillEquilibrium(activationT, mtLengthT, mtVelocity, 
-#                                normTendonForce, normTendonForceDT)[6]
-#normFiberLengthT = f_hillEquilibrium(activationT, mtLengthT, mtVelocity, 
-#                                     normTendonForce, normTendonForceDT)[7]
-#fiberVelocityT = f_hillEquilibrium(activationT, mtLengthT, mtVelocity, 
-#                                   normTendonForce, normTendonForceDT)[8]
-#
-#print(hillEquilibriumT)
-#print(tendonForceT)
-#print(activeFiberForceT)
-#print(passiveFiberForceT)
-#print(normActiveFiberLengthForceT)
-#print(maximalFiberVelocityT)
-#print(muscleMassT)
-#print(normFiberLengthT)
-#print(fiberVelocityT)
-
-# Test f_armActivationDynamics
-#f_armActivationDynamics = armActivationDynamics(3)
-#eArmT = [0.8, 0.6, 0.4]
-#aArmT = [0.5, 0.4, 0.3]
-#aArmDtT = f_armActivationDynamics(eArmT, aArmT)
-#
-#print(aArmDtT)
-    
-#import polynomialData
-#from polynomials import polynomials
-#polynomialData = polynomialData.polynomialData()
-#coefficients = polynomialData['glut_med1_r']['coefficients']
-#dimension = polynomialData['glut_med1_r']['dimension']
-#order = polynomialData['glut_med1_r']['order']        
-#spanning = polynomialData['glut_med1_r']['spanning']   
-#
-#
-#polynomial = polynomials(coefficients, dimension, order)
-#
-#qin     = ca.SX.sym('qin', 1, len(spanning));
-##qdotin  = ca.SX.sym('qdotin', 1, len(spanning));
-#
-#idxSpanning = [i for i, e in enumerate(spanning) if e == 1]
-#
-#lmT = polynomial.calcValue(qin[0, idxSpanning])
-#
-#f_polynomial = ca.Function('f_polynomial',[qin],[lmT])
-#
-#qinT = [0.814483478343008, 1.05503342897057, 0.162384573599574,
-#        0.0633034484654646, 0.433004984392647, 0.716775413397760,
-#        -0.0299471169706956, 0.200356847296188, 0.716775413397760]
-#lmTT = f_polynomial(qinT)
-#print(lmTT)
-    
-#Qin = 5
-#Qdotin = 7
-#
-#passiveJointTorque_hfT = f_passiveJointTorque_hip_flexion(Qin, Qdotin)
-#print(passiveJointTorque_hfT)
-#passiveJointTorque_haT = f_passiveJointTorque_hip_adduction(Qin, Qdotin)
-#print(passiveJointTorque_haT)
-#passiveJointTorque_hrT = f_passiveJointTorque_hip_rotation(Qin, Qdotin)
-#print(passiveJointTorque_hrT)
-#passiveJointTorque_kaT = f_passiveJointTorque_knee_angle(Qin, Qdotin)
-#print(passiveJointTorque_kaT)
-#passiveJointTorque_aaT = f_passiveJointTorque_ankle_angle(Qin, Qdotin)
-#print(passiveJointTorque_aaT)
-#passiveJointTorque_saT = f_passiveJointTorque_subtalar_angle(Qin, Qdotin)
-#print(passiveJointTorque_saT)
-#passiveJointTorque_leT = f_passiveJointTorque_lumbar_extension(Qin, Qdotin)
-#print(passiveJointTorque_leT)
-#passiveJointTorque_lbT = f_passiveJointTorque_lumbar_bending(Qin, Qdotin)
-#print(passiveJointTorque_lbT)
-#passiveJointTorque_lrT = f_passiveJointTorque_lumbar_rotation(Qin, Qdotin)
-#print(passiveJointTorque_lrT)
+    return f_smoothSphereHalfSpaceForce 

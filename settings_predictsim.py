@@ -3049,6 +3049,21 @@ def getSettings_predictsim_mtp():
                   'boundsType': 'extended',
                   'baseConfig': 'ua_corrected',
                   'polynomial_type': 'FK'},
+            
+            # For backup
+            '177': {'contactConfiguration': 'generic',
+                  'guessType': 'quasiRandom',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 5,
+                  'adjustAchillesTendonCompliance': False,
+                  'mtpExcitationTerm': 0,
+                  'activeMTP': False,
+                  'idxSubject': '2',
+                  'boundsType': 'extended',
+                  'baseConfig': 'ua_corrected',
+                  'polynomial_type': 'FK',
+                  'modelMass': 62},
             }
     
     

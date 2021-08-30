@@ -46,45 +46,9 @@ def tendonCompliance(NSideMuscles):
 def tendonShift(NSideMuscles):
     tendonShift = np.full((1, NSideMuscles), 0)
     
-    return tendonShift
+    return tendonShift 
 
-def specificTension_2D(muscles):    
-    
-    sigma = {'hamstrings_r' : 0.62222,
-             'bifemsh_r': 1.00500, 
-             'glut_max_r': 0.74455, 
-             'iliopsoas_r': 1.5041, 
-             'rect_fem_r': 0.74936, 
-             'vasti_r': 0.55263, 
-             'gastroc_r': 0.69865, 
-             'soleus_r': 0.62703, 
-             'tib_ant_r': 0.75417}
-    
-    specificTension = np.empty((1, len(muscles)))    
-    for count, muscle in enumerate(muscles):
-        specificTension[0, count] = sigma[muscle]
-    
-    return specificTension
-
-def slowTwitchRatio_2D(muscles):    
-    
-    sigma = {'hamstrings_r' : 0.5425,
-             'bifemsh_r': 0.529, 
-             'glut_max_r': 0.55, 
-             'iliopsoas_r': 0.50, 
-             'rect_fem_r': 0.3865, 
-             'vasti_r': 0.543, 
-             'gastroc_r': 0.566, 
-             'soleus_r': 0.803, 
-             'tib_ant_r': 0.70}
-    
-    slowTwitchRatio = np.empty((1, len(muscles)))    
-    for count, muscle in enumerate(muscles):
-        slowTwitchRatio[0, count] = sigma[muscle]
-    
-    return slowTwitchRatio   
-
-def specificTension_3D(muscles):    
+def specificTension(muscles):    
     
     sigma = {'glut_med1_r' : 0.74455,
              'glut_med2_r': 0.75395, 
@@ -139,7 +103,7 @@ def specificTension_3D(muscles):
     
     return specificTension
 
-def slowTwitchRatio_3D(muscles):    
+def slowTwitchRatio(muscles):    
     
     sigma = {'glut_med1_r' : 0.55,
              'glut_med2_r': 0.55, 
@@ -194,7 +158,7 @@ def slowTwitchRatio_3D(muscles):
     
     return slowTwitchRatio
 
-def passiveJointTorqueData_3D(joint):    
+def passiveJointTorqueData(joint):    
     
     kAll = {'hip_flexion_r' : [-2.44, 5.05, 1.51, -21.88],
             'hip_adduction_r': [-0.03, 14.94, 0.03, -14.94], 
