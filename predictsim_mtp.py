@@ -630,7 +630,7 @@ for case in cases:
     B = [-8.88178419700125e-16, 0.376403062700467, 0.512485826188421, 
          0.111111111111111]
     
-    # %%Formulate ocp
+    # %% Formulate ocp
     if solveProblem: 
         ###########################################################################
         # Initialize opti instance
@@ -741,11 +741,11 @@ for case in cases:
         assert np.alltrue(lBoundsQddsj <= ca.vec(guessQddsCol.to_numpy().T).full()), "lb Joint velocity derivative"
         assert np.alltrue(uBoundsQddsj >= ca.vec(guessQddsCol.to_numpy().T).full()), "ub Joint velocity derivative"
             
-        ###########################################################################   
-        # Parallel formulation
-        # Static parameters
+        ####################################################################### 
+        # Parallel formulation - initialize variables.
+        # Static parameters.
         tf = ca.MX.sym('tf')
-        # States
+        # States.
         ak = ca.MX.sym('ak', nMuscles)
         aj = ca.MX.sym('aj', nMuscles, d)    
         akj = ca.horzcat(ak, aj)    
@@ -761,24 +761,24 @@ for case in cases:
         aArmk = ca.MX.sym('aArmk', nArmJoints)
         aArmj = ca.MX.sym('aArmj', nArmJoints, d)
         aArmkj = ca.horzcat(aArmk, aArmj)
-        # Controls
+        # Controls.
         aDtk = ca.MX.sym('aDtk', nMuscles)    
         eArmk = ca.MX.sym('eArmk', nArmJoints)
-        # Slack controls
+        # Slack controls.
         normFDtj = ca.MX.sym('normFDtj', nMuscles, d);
         Qddsj = ca.MX.sym('Qddsj', nJoints, d)
         
-        ###########################################################################
-        # Time step
+        #######################################################################
+        # Time step.
         h = tf / N
         
-        ###########################################################################
-        # Collocation matrices
+        #######################################################################
+        # Collocation matrices.
         tau = ca.collocation_points(d,'radau');
         [C,D] = ca.collocation_interpolators(tau);
         
-        ###########################################################################
-        # Initialize cost function and constraint vectors
+        #######################################################################
+        # Initialize cost function and constraint vectors.
         J = 0
         eq_constr = []
         ineq_constr1 = []
@@ -788,27 +788,27 @@ for case in cases:
         ineq_constr5 = [] 
         ineq_constr6 = [] 
             
-        ###########################################################################
-        # Loop over collocation points
+        #######################################################################
+        # Loop over collocation points.
         for j in range(d):
-            #######################################################################
-            # Unscale variables
-            # States
+            ###################################################################
+            # Unscale variables.
+            # States.
             normFkj_nsc = normFkj * (scalingF.to_numpy().T * np.ones((1, d+1)))
             Qskj_nsc = Qskj * (scalingQs.to_numpy().T * np.ones((1, d+1)))
             Qdskj_nsc = Qdskj * (scalingQds.to_numpy().T * np.ones((1, d+1)))
-            # Controls
+            # Controls.
             aDtk_nsc = aDtk * (scalingADt.to_numpy().T)
-            # Slack controls
-            normFDtj_nsc = normFDtj * (scalingFDt.to_numpy().T * np.ones((1, d)))
-            Qddsj_nsc = Qddsj * (scalingQdds.to_numpy().T * 
-                                         np.ones((1, d))) 
-            # Qs and Qds are intertwined in external function
+            # Slack controls.
+            normFDtj_nsc = normFDtj * (
+                scalingFDt.to_numpy().T * np.ones((1, d)))
+            Qddsj_nsc = Qddsj * (scalingQdds.to_numpy().T * np.ones((1, d))) 
+            # Qs and Qds are intertwined in external function.
             QsQdskj_nsc = ca.MX(nJoints*2, d+1)
             QsQdskj_nsc[::2, :] = Qskj_nsc
             QsQdskj_nsc[1::2, :] = Qdskj_nsc   
             
-            #######################################################################
+            ###################################################################
             # Polynomial approximations.
             # Left side.
             Qsinj_l = Qskj_nsc[leftPolynomialJointIndices, j+1]
@@ -818,7 +818,7 @@ for case in cases:
             Qsinj_r = Qskj_nsc[rightPolynomialJointIndices, j+1]
             Qdsinj_r = Qdskj_nsc[rightPolynomialJointIndices, j+1]
             [lMTj_r, vMTj_r, dMj_r] = f_polynomial(Qsinj_r, Qdsinj_r)
-            # Both sides.        
+            # Muscle-tendon lengths and velocities.        
             lMTj_lr = ca.vertcat(lMTj_l[leftPolynomialMuscleIndices], 
                                  lMTj_r[rightPolynomialMuscleIndices])
             vMTj_lr = ca.vertcat(vMTj_l[leftPolynomialMuscleIndices], 
@@ -839,9 +839,9 @@ for case in cases:
                     (joint != 'lumbar_extension') and
                     (joint != 'lumbar_bending') and 
                     (joint != 'lumbar_rotation')):
-                        # We need to adjust the momentArmIndices, because for
-                        # the polynomials, they are one-sided. We therefore
-                        # subtract by the number of number of side muscles.
+                        # We need to adjust momentArmIndices for the right side
+                        # since the polynomial indices are 'one-sided'. We 
+                        # subtract by the number of side muscles.
                         c_ma = [
                             i - nSideMuscles for i in momentArmIndices[joint]]
                         dMj[joint] = dMj_r[c_ma,
@@ -849,25 +849,24 @@ for case in cases:
             # Trunk.
             for joint in trunkJoints:
                 dMj[joint] = dMj_l[trunkMomentArmPolynomialIndices, 
-                                   leftPolynomialJoints.index(joint)]    
-            
-            
-            #######################################################################
-            # Derive Hill-equilibrium        
-            [hillEquilibriumj, Fj, activeFiberForcej, passiveFiberForcej,
-             normActiveFiberLengthForcej, normFiberLengthj, fiberVelocityj] = (
-             f_hillEquilibrium(akj[:, j+1], lMTj_lr, vMTj_lr, normFkj_nsc[:, j+1], 
-                               normFDtj_nsc[:, j])) 
-            
-            #######################################################################
-            # Get metabolic energy rate
-            metabolicEnergyRatej = f_metabolicsBhargava(akj[:, j+1], akj[:, j+1], 
-                                         normFiberLengthj, fiberVelocityj, 
-                                         activeFiberForcej, passiveFiberForcej, 
-                                         normActiveFiberLengthForcej)[5]
+                                   leftPolynomialJoints.index(joint)]            
             
             ###################################################################
-            # Get passive joint torques
+            # Hill-equilibrium.       
+            [hillEquilibriumj, Fj, activeFiberForcej, passiveFiberForcej,
+             normActiveFiberLengthForcej, normFiberLengthj, fiberVelocityj] = (
+             f_hillEquilibrium(akj[:, j+1], lMTj_lr, vMTj_lr, 
+                               normFkj_nsc[:, j+1], normFDtj_nsc[:, j])) 
+            
+            ###################################################################
+            # Metabolic energy rate.
+            metabolicEnergyRatej = f_metabolicsBhargava(
+                akj[:, j+1], akj[:, j+1], normFiberLengthj, fiberVelocityj, 
+                activeFiberForcej, passiveFiberForcej, 
+                normActiveFiberLengthForcej)[5]
+            
+            ###################################################################
+            # Passive joint torques.
             passiveTorque_j = {}
             passiveTorquesj = ca.MX(len(passiveTorqueJoints), 1)
             for cj, joint in enumerate(passiveTorqueJoints):
@@ -889,8 +888,8 @@ for case in cases:
                     Qdskj_nsc[joints.index(joint), j+1])
             
             ###################################################################
-            # Cost function
-            metabolicEnergyRateTerm = (f_NMusclesSum2(metabolicEnergyRatej) / 
+            # Cost function.
+            metEnergyRateTerm = (f_NMusclesSum2(metabolicEnergyRatej) / 
                                        modelMass)
             activationTerm = f_NMusclesSum2(akj[:, j+1])
             armExcitationTerm = f_nArmJointsSum2(eArmk)             
@@ -902,7 +901,7 @@ for case in cases:
             forceDtTerm = f_NMusclesSum2(normFDtj[:, j])
             armAccelerationTerm = f_nArmJointsSum2(Qddsj[idxArmJoints, j])
             
-            J += ((weights['metabolicEnergyRateTerm'] * metabolicEnergyRateTerm +
+            J += ((weights['metabolicEnergyRateTerm'] * metEnergyRateTerm +
                    weights['activationTerm'] * activationTerm + 
                    weights['armExcitationTerm'] * armExcitationTerm + 
                    weights['jointAccelerationTerm'] * jointAccelerationTerm +                
@@ -911,38 +910,40 @@ for case in cases:
                           + armAccelerationTerm)) * h * B[j + 1])
             
             ###################################################################
-            # Expression for the state derivatives at the collocation points
+            # Expression for the state derivatives at the collocation points.
             ap = ca.mtimes(akj, C[j+1])        
             normFp_nsc = ca.mtimes(normFkj_nsc, C[j+1])
             Qsp_nsc = ca.mtimes(Qskj_nsc, C[j+1])
             Qdsp_nsc = ca.mtimes(Qdskj_nsc, C[j+1])        
             aArmp = ca.mtimes(aArmkj, C[j+1])
-            # Append collocation equations
-            # Muscle activation dynamics (implicit formulation)
+            # Append collocation equations.
+            # Muscle activation dynamics (implicit formulation).
             eq_constr.append((h*aDtk_nsc - ap))
-            # Muscle contraction dynamics (implicit formulation)  
+            # Muscle contraction dynamics (implicit formulation)  .
             eq_constr.append((h*normFDtj_nsc[:, j] - normFp_nsc) / 
                             scalingF.to_numpy().T)
-            # Skeleton dynamics (explicit formulation) 
-            # Position derivative
+            # Skeleton dynamics (implicit formulation).
+            # Position derivatives.
             eq_constr.append((h*Qdskj_nsc[:, j+1] - Qsp_nsc) / 
                             scalingQs.to_numpy().T)
-            # Velocity derivative
+            # Velocity derivatives.
             eq_constr.append((h*Qddsj_nsc[:, j] - Qdsp_nsc) / 
                             scalingQds.to_numpy().T)
-            # Arm activation dynamics (implicit formulation) 
+            # Arm activation dynamics (explicit formulation).
             aArmDtj = f_armActivationDynamics(eArmk, aArmkj[:, j+1])
             eq_constr.append(h*aArmDtj - aArmp)
             
             ###################################################################
-            # Path constraints        
-            # Call external function (run inverse dynamics)
+            # Path constraints.
+            # Call external function (run inverse dynamics).
             Tj = F(ca.vertcat(QsQdskj_nsc[:, j+1], Qddsj_nsc[:, j]))
-            # Null pelvis residuals
+            
+            ###################################################################
+            # Null pelvis residuals.
             eq_constr.append(Tj[idxGroundPelvisJoints, 0])
             
             ###################################################################
-            # Muscle-driven joint torques
+            # Muscle-driven joint torques.
             for joint in muscleDrivenJoints:                
                 FJ_joint = Fj[momentArmIndices[joint]]
                 mTj_joint = ca.sum1(dMj[joint]*FJ_joint) 
@@ -973,18 +974,18 @@ for case in cases:
                 eq_constr.append(diffTj_joint)          
             
             ###################################################################
-            # Activation dynamics (implicit formulation)
+            # Activation dynamics (implicit formulation).
             act1 = aDtk_nsc + akj[:, j+1] / deactivationTimeConstant
             act2 = aDtk_nsc + akj[:, j+1] / activationTimeConstant
             ineq_constr1.append(act1)
             ineq_constr2.append(act2)
             
             ###################################################################
-            # Contraction dynamics (implicit formulation)
+            # Contraction dynamics (implicit formulation).
             eq_constr.append(hillEquilibriumj)
             
-            #######################################################################
-            # Prevent inter-penetrations of body parts
+            ###################################################################
+            # Prevent collision between body parts.
             diffCalcOrs = ca.sumsqr(Tj[idxCalcOr_r] - Tj[idxCalcOr_l])
             ineq_constr3.append(diffCalcOrs)
             diffFemurHandOrs_r = ca.sumsqr(Tj[idxFemurOr_r] - Tj[idxHandOr_r])
@@ -995,9 +996,9 @@ for case in cases:
             ineq_constr5.append(diffTibiaOrs)
             diffToesOrs = ca.sumsqr(Tj[idxToesOr_r] - Tj[idxToesOr_l])
             ineq_constr6.append(diffToesOrs)
-        # End loop over collocation points
+        # End loop over collocation points.
         
-        ###########################################################################
+        #######################################################################
         # Flatten constraint vectors
         eq_constr = ca.vertcat(*eq_constr)
         ineq_constr1 = ca.vertcat(*ineq_constr1)
@@ -1006,33 +1007,34 @@ for case in cases:
         ineq_constr4 = ca.vertcat(*ineq_constr4)
         ineq_constr5 = ca.vertcat(*ineq_constr5)
         ineq_constr6 = ca.vertcat(*ineq_constr6)
-        # Create function for map construct (parallel computing)
+        # Create function for map construct (parallel computing).
         f_coll = ca.Function('f_coll', [tf, ak, aj, normFk, normFj, Qsk, 
                                         Qsj, Qdsk, Qdsj, aArmk, aArmj,
                                         aDtk, eArmk, normFDtj, Qddsj], 
                 [eq_constr, ineq_constr1, ineq_constr2, ineq_constr3, 
                  ineq_constr4, ineq_constr5, ineq_constr6, J])     
-        # Create map construct
+        # Create map construct (N mesh intervals).
         f_coll_map = f_coll.map(N, parallelMode, nThreads)   
-        # Call function with opti variables and set constraints
-        (coll_eq_constr, coll_ineq_constr1, coll_ineq_constr2, coll_ineq_constr3,
-         coll_ineq_constr4, coll_ineq_constr5, coll_ineq_constr6, Jall) = (
-                 f_coll_map(finalTime, a[:, :-1], a_col, normF[:, :-1], normF_col, 
-                            Qs[:, :-1], Qs_col, Qds[:, :-1], Qds_col, 
-                            aArm[:, :-1], aArm_col, aDt, 
-                            eArm, normFDt_col, Qdds_col))     
-            
+        # Call function with opti variables and set constraints.
+        (coll_eq_constr, coll_ineq_constr1, coll_ineq_constr2,
+         coll_ineq_constr3, coll_ineq_constr4, coll_ineq_constr5,
+         coll_ineq_constr6, Jall) = f_coll_map(
+             finalTime, a[:, :-1], a_col, normF[:, :-1], normF_col, 
+             Qs[:, :-1], Qs_col, Qds[:, :-1], Qds_col, 
+             aArm[:, :-1], aArm_col, aDt, eArm, normFDt_col, Qdds_col)
+        # Set constraints.    
         opti.subject_to(ca.vec(coll_eq_constr) == 0)
         opti.subject_to(ca.vec(coll_ineq_constr1) >= 0)
-        opti.subject_to(ca.vec(coll_ineq_constr2) <= 1 / activationTimeConstant)    
+        opti.subject_to(
+            ca.vec(coll_ineq_constr2) <= 1 / activationTimeConstant)    
         opti.subject_to(opti.bounded(0.0081, ca.vec(coll_ineq_constr3), 4))
         opti.subject_to(opti.bounded(0.0324 , ca.vec(coll_ineq_constr4), 4))
         opti.subject_to(opti.bounded(0.0121, ca.vec(coll_ineq_constr5), 4))
         opti.subject_to(opti.bounded(0.01, ca.vec(coll_ineq_constr6), 4))
                 
-        ###########################################################################
-        # Equality / continuity constraints
-        # Loop over mesh points
+        #######################################################################
+        # Equality / continuity constraints.
+        # Loop over mesh points.
         for k in range(N):
             akj2 = (ca.horzcat(a[:, k], a_col[:, k*d:(k+1)*d]))
             normFkj2 = (ca.horzcat(normF[:, k], normF_col[:, k*d:(k+1)*d]))
@@ -1046,9 +1048,9 @@ for case in cases:
             opti.subject_to(Qds[:, k+1] == ca.mtimes(Qdskj2, D))    
             opti.subject_to(aArm[:, k+1] == ca.mtimes(aArmkj2, D)) 
             
-        ###########################################################################
-        # Periodic constraints 
-        # Joint positions and velocities
+        #######################################################################
+        # Periodic constraints on states.
+        # Joint positions and velocities.
         opti.subject_to(Qs[idxPeriodicQsJointsA ,-1] - 
                         Qs[idxPeriodicQsJointsB, 0] == 0)
         opti.subject_to(Qds[idxPeriodicQdsJointsA ,-1] - 
@@ -1057,31 +1059,31 @@ for case in cases:
                         Qs[idxPeriodicOppositeJoints, 0] == 0)
         opti.subject_to(Qds[idxPeriodicOppositeJoints ,-1] + 
                         Qds[idxPeriodicOppositeJoints, 0] == 0)
-        # Muscle activations
+        # Muscle activations.
         opti.subject_to(a[:, -1] - a[idxPeriodicMuscles, 0] == 0)
-        # Muscle force
+        # Muscle-tendon forces.
         opti.subject_to(normF[:, -1] - normF[idxPeriodicMuscles, 0] == 0)
-        # Arm activations
+        # Arm activations.
         opti.subject_to(aArm[:, -1] - aArm[idxPeriodicArmJoints, 0] == 0)
         
-        ###########################################################################
-        # Average speed constraint
+        #######################################################################
+        # Average speed constraint.
         Qs_nsc = Qs * (scalingQs.to_numpy().T * np.ones((1, N+1)))
         distTraveled =  (Qs_nsc[joints.index('pelvis_tx'), -1] - 
                                 Qs_nsc[joints.index('pelvis_tx'), 0])
         averageSpeed = distTraveled / finalTime
         opti.subject_to(averageSpeed - targetSpeed == 0)
         
-        ###########################################################################
-        # Scale cost function with distance traveled
+        #######################################################################
+        # Scale cost function with distance traveled.
         Jall_sc = ca.sum2(Jall)/distTraveled  
         
-        ###########################################################################
-        # Create NLP solver
+        #######################################################################
+        # Create NLP solver.
         opti.minimize(Jall_sc)
                 
-        ###########################################################################
-        # Solve problem
+        #######################################################################
+        # Solve problem.
         from variousFunctions import solve_with_bounds
         w_opt, stats = solve_with_bounds(opti, tol)
         if saveResults:               
