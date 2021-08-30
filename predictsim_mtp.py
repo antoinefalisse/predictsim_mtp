@@ -866,7 +866,7 @@ for case in cases:
                                          activeFiberForcej, passiveFiberForcej, 
                                          normActiveFiberLengthForcej)[5]
             
-            #######################################################################
+            ###################################################################
             # Get passive joint torques
             passiveTorque_j = {}
             passiveTorquesj = ca.MX(len(passiveTorqueJoints), 1)
@@ -875,40 +875,20 @@ for case in cases:
                     Qskj_nsc[joints.index(joint), j+1], 
                     Qdskj_nsc[joints.index(joint), j+1])
                 passiveTorquesj[cj, 0] = passiveTorque_j[joint]
-    
-            linearpassiveTorque_arm_flex_lj = f_linearPassiveArmTorque(
-                    Qskj_nsc[joints.index('arm_flex_l'), j+1],
-                    Qdskj_nsc[joints.index('arm_flex_l'), j+1])
-            linearpassiveTorque_arm_add_lj = f_linearPassiveArmTorque(
-                    Qskj_nsc[joints.index('arm_add_l'), j+1],
-                    Qdskj_nsc[joints.index('arm_add_l'), j+1])   
-            linearpassiveTorque_arm_rot_lj = f_linearPassiveArmTorque(
-                    Qskj_nsc[joints.index('arm_rot_l'), j+1],
-                    Qdskj_nsc[joints.index('arm_rot_l'), j+1])
-            linearpassiveTorque_arm_flex_rj = f_linearPassiveArmTorque(
-                    Qskj_nsc[joints.index('arm_flex_r'), j+1],
-                    Qdskj_nsc[joints.index('arm_flex_r'), j+1]) 
-            linearpassiveTorque_arm_add_rj = f_linearPassiveArmTorque(
-                    Qskj_nsc[joints.index('arm_add_r'), j+1],
-                    Qdskj_nsc[joints.index('arm_add_r'), j+1])
-            linearpassiveTorque_arm_rot_rj = f_linearPassiveArmTorque(
-                    Qskj_nsc[joints.index('arm_rot_r'), j+1],
-                    Qdskj_nsc[joints.index('arm_rot_r'), j+1]) 
-            linearpassiveTorque_elbow_flex_lj = f_linearPassiveArmTorque(
-                    Qskj_nsc[joints.index('elbow_flex_l'), j+1],
-                    Qdskj_nsc[joints.index('elbow_flex_l'), j+1]) 
-            linearpassiveTorque_elbow_flex_rj = f_linearPassiveArmTorque(
-                    Qskj_nsc[joints.index('elbow_flex_r'), j+1],
-                    Qdskj_nsc[joints.index('elbow_flex_r'), j+1])   
+                
+            linearPassiveTorqueArms_j = {}
+            for joint in armJoints:
+                linearPassiveTorqueArms_j[joint] = f_linearPassiveArmTorque(
+                    Qskj_nsc[joints.index(joint), j+1],
+                    Qdskj_nsc[joints.index(joint), j+1])
+                
+            linearPassiveTorqueMtp_j = {}
+            for joint in mtpJoints:
+                linearPassiveTorqueMtp_j[joint] = f_linearPassiveMtpTorque(
+                    Qskj_nsc[joints.index(joint), j+1],
+                    Qdskj_nsc[joints.index(joint), j+1])
             
-            linearpassiveTorque_mtp_angle_lj = f_linearPassiveMtpTorque(
-                Qskj_nsc[joints.index('mtp_angle_l'), j+1],
-                Qdskj_nsc[joints.index('mtp_angle_l'), j+1])
-            linearpassiveTorque_mtp_angle_rj = f_linearPassiveMtpTorque(
-                Qskj_nsc[joints.index('mtp_angle_r'), j+1],
-                Qdskj_nsc[joints.index('mtp_angle_r'), j+1])
-            
-            #######################################################################
+            ###################################################################
             # Cost function
             metabolicEnergyRateTerm = (f_NMusclesSum2(metabolicEnergyRatej) / 
                                        modelMass)
@@ -930,7 +910,7 @@ for case in cases:
                    weights['controls'] * (forceDtTerm + activationDtTerm 
                           + armAccelerationTerm)) * h * B[j + 1])
             
-            #######################################################################
+            ###################################################################
             # Expression for the state derivatives at the collocation points
             ap = ca.mtimes(akj, C[j+1])        
             normFp_nsc = ca.mtimes(normFkj_nsc, C[j+1])
@@ -954,14 +934,14 @@ for case in cases:
             aArmDtj = f_armActivationDynamics(eArmk, aArmkj[:, j+1])
             eq_constr.append(h*aArmDtj - aArmp)
             
-            #######################################################################
+            ###################################################################
             # Path constraints        
             # Call external function (run inverse dynamics)
             Tj = F(ca.vertcat(QsQdskj_nsc[:, j+1], Qddsj_nsc[:, j]))
             # Null pelvis residuals
             eq_constr.append(Tj[idxGroundPelvisJoints, 0])
             
-            ######################################################################
+            ###################################################################
             # Muscle-driven joint torques
             for joint in muscleDrivenJoints:                
                 FJ_joint = Fj[momentArmIndices[joint]]
@@ -970,84 +950,36 @@ for case in cases:
                     Tj[joints.index(joint)], mTj_joint, passiveTorque_j[joint])
                 eq_constr.append(diffTj_joint)
             
-            #######################################################################
-            # Torque-driven joint torques (arm joints)       
-            diffTJ_arm_flex_l = f_diffTorques(
-                    Tj[joints.index('arm_flex_l')] /
-                    scalingArmE.iloc[0]['arm_flex_l'],
-                    aArmkj[0, j+1], linearpassiveTorque_arm_flex_lj /
-                    scalingArmE.iloc[0]['arm_flex_l'])
-            eq_constr.append(diffTJ_arm_flex_l)
-            diffTJ_arm_add_l = f_diffTorques(
-                    Tj[joints.index('arm_add_l')] /
-                    scalingArmE.iloc[0]['arm_add_l'],
-                    aArmkj[1, j+1], linearpassiveTorque_arm_add_lj /
-                    scalingArmE.iloc[0]['arm_add_l'])
-            eq_constr.append(diffTJ_arm_add_l)
-            diffTJ_arm_rot_l = f_diffTorques(
-                    Tj[joints.index('arm_rot_l')] /
-                    scalingArmE.iloc[0]['arm_rot_l'], 
-                    aArmkj[2, j+1], linearpassiveTorque_arm_rot_lj / 
-                    scalingArmE.iloc[0]['arm_rot_l'])
-            eq_constr.append(diffTJ_arm_rot_l)
-            diffTJ_arm_flex_r = f_diffTorques(
-                    Tj[joints.index('arm_flex_r')] / 
-                    scalingArmE.iloc[0]['arm_flex_r'],
-                    aArmkj[3, j+1], linearpassiveTorque_arm_flex_rj / 
-                    scalingArmE.iloc[0]['arm_flex_r'])
-            eq_constr.append(diffTJ_arm_flex_r)
-            diffTJ_arm_add_r = f_diffTorques(
-                    Tj[joints.index('arm_add_r')] / 
-                    scalingArmE.iloc[0]['arm_add_r'],
-                    aArmkj[4, j+1], linearpassiveTorque_arm_add_rj / 
-                    scalingArmE.iloc[0]['arm_add_r'])
-            eq_constr.append(diffTJ_arm_add_r)
-            diffTJ_arm_rot_r = f_diffTorques(
-                    Tj[joints.index('arm_rot_r')] / 
-                    scalingArmE.iloc[0]['arm_rot_r'],
-                    aArmkj[5, j+1], linearpassiveTorque_arm_rot_rj / 
-                    scalingArmE.iloc[0]['arm_rot_r'])
-            eq_constr.append(diffTJ_arm_rot_r)
-            diffTJ_elbow_flex_l = f_diffTorques(
-                    Tj[joints.index('elbow_flex_l')] / 
-                    scalingArmE.iloc[0]['elbow_flex_l'],
-                    aArmkj[6, j+1], linearpassiveTorque_elbow_flex_lj / 
-                    scalingArmE.iloc[0]['elbow_flex_l'])
-            eq_constr.append(diffTJ_elbow_flex_l)
-            diffTJ_elbow_flex_r = f_diffTorques(
-                    Tj[joints.index('elbow_flex_r')] / 
-                    scalingArmE.iloc[0]['elbow_flex_r'],
-                    aArmkj[7, j+1], linearpassiveTorque_elbow_flex_rj / 
-                    scalingArmE.iloc[0]['elbow_flex_r'])
-            eq_constr.append(diffTJ_elbow_flex_r)     
+            ###################################################################
+            # Torque-driven joint torques (arm joints).
+            for cj, joint in enumerate(armJoints):
+                diffTJ_joint = f_diffTorques(
+                    Tj[joints.index(joint)] /
+                    scalingArmE.iloc[0][joint],
+                    aArmkj[cj, j+1], linearPassiveTorqueArms_j[joint] /
+                    scalingArmE.iloc[0][joint])
+                eq_constr.append(diffTJ_joint)
                 
             ###################################################################
-            # Passive joint torques (mtp joints)     
-            diffTj_mtp_angle_l = f_diffTorques(
-                    Tj[joints.index('mtp_angle_l')] / 
-                    scalingMtpE.iloc[0]['mtp_angle_l'],
+            # Passive joint torques (mtp joints).
+            for joint in mtpJoints:
+                diffTj_joint = f_diffTorques(
+                    Tj[joints.index(joint)] / 
+                    scalingMtpE.iloc[0][joint],
                     0, 
-                    (passiveTorque_j['mtp_angle_l'] + 
-                     linearpassiveTorque_mtp_angle_lj) /
-                    scalingMtpE.iloc[0]['mtp_angle_l'])
-            eq_constr.append(diffTj_mtp_angle_l)
-            diffTj_mtp_angle_r = f_diffTorques(
-                    Tj[joints.index('mtp_angle_r')] / 
-                    scalingMtpE.iloc[0]['mtp_angle_r'], 
-                    0, 
-                    (passiveTorque_j['mtp_angle_r'] + 
-                     linearpassiveTorque_mtp_angle_rj) /
-                    scalingMtpE.iloc[0]['mtp_angle_r'])
-            eq_constr.append(diffTj_mtp_angle_r)                
+                    (passiveTorque_j[joint] + 
+                     linearPassiveTorqueMtp_j[joint]) /
+                    scalingMtpE.iloc[0][joint])
+                eq_constr.append(diffTj_joint)          
             
-            #######################################################################
+            ###################################################################
             # Activation dynamics (implicit formulation)
             act1 = aDtk_nsc + akj[:, j+1] / deactivationTimeConstant
             act2 = aDtk_nsc + akj[:, j+1] / activationTimeConstant
             ineq_constr1.append(act1)
             ineq_constr2.append(act2)
             
-            #######################################################################
+            ###################################################################
             # Contraction dynamics (implicit formulation)
             eq_constr.append(hillEquilibriumj)
             
