@@ -904,7 +904,7 @@ for case in cases:
             ###################################################################
             # Passive joint torques.
             passiveTorque_j = {}
-            passiveTorquesj = ca.MX(len(passiveTorqueJoints), 1)
+            passiveTorquesj = ca.MX(nPassiveTorqueJoints, 1)
             for cj, joint in enumerate(passiveTorqueJoints):
                 passiveTorque_j[joint] = f_passiveTorque[joint](
                     Qskj_nsc[joints.index(joint), j+1], 
@@ -1363,9 +1363,9 @@ for case in cases:
         assert np.alltrue(np.abs(mtpT) < 10**(-tol)), (
             "error mtp torques balance")   
         
-        # %% Decompose cost
+        # %% Decompose optimal cost.
         if decomposeCost:     
-            # Missing matrix B, add manually
+            # Missing matrix B, add manually (again in case only analyzing).
             B = [-8.88178419700125e-16, 0.376403062700467, 0.512485826188421, 
                  0.111111111111111]
             metabolicEnergyRateTerm_opt_all = 0
@@ -1378,101 +1378,120 @@ for case in cases:
             armAccelerationTerm_opt_all = 0
             h_opt = finalTime_opt / N
             for k in range(N):
-                # States 
+                # States.
                 akj_opt = (ca.horzcat(a_opt[:, k], a_col_opt[:, k*d:(k+1)*d]))
-                normFkj_opt = (ca.horzcat(normF_opt[:, k], normF_col_opt[:, k*d:(k+1)*d]))
-                normFkj_opt_nsc = normFkj_opt * (scalingF.to_numpy().T * np.ones((1, d+1)))   
-                Qskj_opt = (ca.horzcat(Qs_opt[:, k], Qs_col_opt[:, k*d:(k+1)*d]))
-                Qskj_opt_nsc = Qskj_opt * (scalingQs.to_numpy().T * np.ones((1, d+1)))
-                Qdskj_opt = (ca.horzcat(Qds_opt[:, k], Qds_col_opt[:, k*d:(k+1)*d]))
-                Qdskj_opt_nsc = Qdskj_opt * (scalingQds.to_numpy().T * np.ones((1, d+1)))
-                # Controls
+                normFkj_opt = (
+                    ca.horzcat(normF_opt[:, k], normF_col_opt[:, k*d:(k+1)*d]))
+                normFkj_opt_nsc = (
+                    normFkj_opt * (scalingF.to_numpy().T * np.ones((1, d+1)))) 
+                Qskj_opt = (
+                    ca.horzcat(Qs_opt[:, k], Qs_col_opt[:, k*d:(k+1)*d]))
+                Qskj_opt_nsc = (
+                    Qskj_opt * (scalingQs.to_numpy().T * np.ones((1, d+1))))
+                Qdskj_opt = (
+                    ca.horzcat(Qds_opt[:, k], Qds_col_opt[:, k*d:(k+1)*d]))
+                Qdskj_opt_nsc = (
+                    Qdskj_opt * (scalingQds.to_numpy().T * np.ones((1, d+1))))
+                # Controls.
                 aDtk_opt = aDt_opt[:, k]
                 aDtk_opt_nsc = aDt_opt_nsc[:, k]
                 eArmk_opt = eArm_opt[:, k]
-                # Slack controls
+                # Slack controls.
                 Qddsj_opt = Qdds_col_opt[:, k*d:(k+1)*d]
-                Qddsj_opt_nsc = Qddsj_opt * (scalingQdds.to_numpy().T * np.ones((1, d)))
+                Qddsj_opt_nsc = (
+                    Qddsj_opt * (scalingQdds.to_numpy().T * np.ones((1, d))))
                 normFDtj_opt = normFDt_col_opt[:, k*d:(k+1)*d] 
-                normFDtj_opt_nsc = normFDtj_opt * (scalingFDt.to_numpy().T * np.ones((1, d)))
-            
+                normFDtj_opt_nsc = (
+                    normFDtj_opt * (scalingFDt.to_numpy().T * np.ones((1, d))))
+                # Qs and Qds are intertwined in external function.
                 QsQdskj_opt_nsc = ca.DM(nJoints*2, d+1)
                 QsQdskj_opt_nsc[::2, :] = Qskj_opt_nsc
                 QsQdskj_opt_nsc[1::2, :] = Qdskj_opt_nsc
                 
-                for j in range(d):                                 
-                    passiveTorque_hip_flexion_rj_opt = f_passiveTorque_hip_flexion(
-                            Qskj_opt_nsc[joints.index('hip_flexion_r'), j+1], 
-                            Qdskj_opt_nsc[joints.index('hip_flexion_r'), j+1])
-                    passiveTorque_hip_flexion_lj_opt = f_passiveTorque_hip_flexion(
-                            Qskj_opt_nsc[joints.index('hip_flexion_l'), j+1], 
-                            Qdskj_opt_nsc[joints.index('hip_flexion_l'), j+1])   
-                    passiveTorque_hip_adduction_rj_opt = f_passiveTorque_hip_adduction(
-                            Qskj_opt_nsc[joints.index('hip_adduction_r'), j+1], 
-                            Qdskj_opt_nsc[joints.index('hip_adduction_r'), j+1])
-                    passiveTorque_hip_adduction_lj_opt = f_passiveTorque_hip_adduction(
-                            Qskj_opt_nsc[joints.index('hip_adduction_l'), j+1], 
-                            Qdskj_opt_nsc[joints.index('hip_adduction_l'), j+1])   
-                    passiveTorque_hip_rotation_rj_opt = f_passiveTorque_hip_rotation(
-                            Qskj_opt_nsc[joints.index('hip_rotation_r'), j+1], 
-                            Qdskj_opt_nsc[joints.index('hip_rotation_r'), j+1])
-                    passiveTorque_hip_rotation_lj_opt = f_passiveTorque_hip_rotation(
-                            Qskj_opt_nsc[joints.index('hip_rotation_l'), j+1], 
-                            Qdskj_opt_nsc[joints.index('hip_rotation_l'), j+1])   
-                    passiveTorque_knee_angle_rj_opt = f_passiveTorque_knee_angle(
-                            Qskj_opt_nsc[joints.index('knee_angle_r'), j+1], 
-                            Qdskj_opt_nsc[joints.index('knee_angle_r'), j+1])
-                    passiveTorque_knee_angle_lj_opt = f_passiveTorque_knee_angle(
-                            Qskj_opt_nsc[joints.index('knee_angle_l'), j+1], 
-                            Qdskj_opt_nsc[joints.index('knee_angle_l'), j+1])        
-                    passiveTorque_ankle_angle_rj_opt = f_passiveTorque_ankle_angle(
-                            Qskj_opt_nsc[joints.index('ankle_angle_r'), j+1], 
-                            Qdskj_opt_nsc[joints.index('ankle_angle_r'), j+1])
-                    passiveTorque_ankle_angle_lj_opt = f_passiveTorque_ankle_angle(
-                            Qskj_opt_nsc[joints.index('ankle_angle_l'), j+1], 
-                            Qdskj_opt_nsc[joints.index('ankle_angle_l'), j+1]) 
-                    passiveTorque_subtalar_angle_rj_opt = f_passiveTorque_subtalar_angle(
-                            Qskj_opt_nsc[joints.index('subtalar_angle_r'), j+1], 
-                            Qdskj_opt_nsc[joints.index('subtalar_angle_r'), j+1])
-                    passiveTorque_subtalar_angle_lj_opt = f_passiveTorque_subtalar_angle(
-                            Qskj_opt_nsc[joints.index('subtalar_angle_l'), j+1], 
-                            Qdskj_opt_nsc[joints.index('subtalar_angle_l'), j+1])
-                    passiveTorque_mtp_angle_rj_opt = f_passiveTorque_mtp_angle(
-                            Qskj_opt_nsc[joints.index('mtp_angle_r'), j+1], 
-                            Qdskj_opt_nsc[joints.index('mtp_angle_r'), j+1])
-                    passiveTorque_mtp_angle_lj_opt = f_passiveTorque_mtp_angle(
-                            Qskj_opt_nsc[joints.index('mtp_angle_l'), j+1], 
-                            Qdskj_opt_nsc[joints.index('mtp_angle_l'), j+1])
-                    passiveTorque_lumbar_extensionj_opt = (
-                            f_passiveTorque_lumbar_extension(
-                            Qskj_opt_nsc[joints.index('lumbar_extension'), j+1], 
-                            Qdskj_opt_nsc[joints.index('lumbar_extension'), j+1])) 
-                    passiveTorque_lumbar_bendingj_opt = (
-                            f_passiveTorque_lumbar_bending(
-                            Qskj_opt_nsc[joints.index('lumbar_bending'), j+1], 
-                            Qdskj_opt_nsc[joints.index('lumbar_bending'), j+1]))
-                    passiveTorque_lumbar_rotationj_opt = (
-                            f_passiveTorque_lumbar_rotation(
-                            Qskj_opt_nsc[joints.index('lumbar_rotation'), j+1], 
-                            Qdskj_opt_nsc[joints.index('lumbar_rotation'), j+1]))                    
-                    passiveTorquesj_opt = ca.vertcat(
-                        passiveTorque_hip_flexion_rj_opt,
-                        passiveTorque_hip_flexion_lj_opt,
-                        passiveTorque_hip_adduction_rj_opt,
-                        passiveTorque_hip_adduction_lj_opt,
-                        passiveTorque_hip_rotation_rj_opt,
-                        passiveTorque_hip_rotation_lj_opt,
-                        passiveTorque_knee_angle_rj_opt,
-                        passiveTorque_knee_angle_lj_opt,
-                        passiveTorque_ankle_angle_rj_opt,
-                        passiveTorque_ankle_angle_lj_opt,
-                        passiveTorque_subtalar_angle_rj_opt,
-                        passiveTorque_subtalar_angle_lj_opt,
-                        passiveTorque_lumbar_extensionj_opt,
-                        passiveTorque_lumbar_bendingj_opt,
-                        passiveTorque_lumbar_rotationj_opt,
-                        passiveTorque_mtp_angle_rj_opt,
-                        passiveTorque_mtp_angle_lj_opt,)
+                
+                
+                for j in range(d):
+                    # Passive joint torques.
+                    passiveTorquesj_opt = np.zeros((nPassiveTorqueJoints, 1))
+                    for cj, joint in enumerate(passiveTorqueJoints):
+                        passiveTorquesj_opt[cj, 0] = f_passiveTorque[joint](
+                            Qskj_opt_nsc[joints.index(joint), j+1], 
+                            Qdskj_opt_nsc[joints.index(joint), j+1])
+
+
+                               
+                    # passiveTorque_hip_flexion_rj_opt = f_passiveTorque_hip_flexion(
+                    #         Qskj_opt_nsc[joints.index('hip_flexion_r'), j+1], 
+                    #         Qdskj_opt_nsc[joints.index('hip_flexion_r'), j+1])
+                    # passiveTorque_hip_flexion_lj_opt = f_passiveTorque_hip_flexion(
+                    #         Qskj_opt_nsc[joints.index('hip_flexion_l'), j+1], 
+                    #         Qdskj_opt_nsc[joints.index('hip_flexion_l'), j+1])   
+                    # passiveTorque_hip_adduction_rj_opt = f_passiveTorque_hip_adduction(
+                    #         Qskj_opt_nsc[joints.index('hip_adduction_r'), j+1], 
+                    #         Qdskj_opt_nsc[joints.index('hip_adduction_r'), j+1])
+                    # passiveTorque_hip_adduction_lj_opt = f_passiveTorque_hip_adduction(
+                    #         Qskj_opt_nsc[joints.index('hip_adduction_l'), j+1], 
+                    #         Qdskj_opt_nsc[joints.index('hip_adduction_l'), j+1])   
+                    # passiveTorque_hip_rotation_rj_opt = f_passiveTorque_hip_rotation(
+                    #         Qskj_opt_nsc[joints.index('hip_rotation_r'), j+1], 
+                    #         Qdskj_opt_nsc[joints.index('hip_rotation_r'), j+1])
+                    # passiveTorque_hip_rotation_lj_opt = f_passiveTorque_hip_rotation(
+                    #         Qskj_opt_nsc[joints.index('hip_rotation_l'), j+1], 
+                    #         Qdskj_opt_nsc[joints.index('hip_rotation_l'), j+1])   
+                    # passiveTorque_knee_angle_rj_opt = f_passiveTorque_knee_angle(
+                    #         Qskj_opt_nsc[joints.index('knee_angle_r'), j+1], 
+                    #         Qdskj_opt_nsc[joints.index('knee_angle_r'), j+1])
+                    # passiveTorque_knee_angle_lj_opt = f_passiveTorque_knee_angle(
+                    #         Qskj_opt_nsc[joints.index('knee_angle_l'), j+1], 
+                    #         Qdskj_opt_nsc[joints.index('knee_angle_l'), j+1])        
+                    # passiveTorque_ankle_angle_rj_opt = f_passiveTorque_ankle_angle(
+                    #         Qskj_opt_nsc[joints.index('ankle_angle_r'), j+1], 
+                    #         Qdskj_opt_nsc[joints.index('ankle_angle_r'), j+1])
+                    # passiveTorque_ankle_angle_lj_opt = f_passiveTorque_ankle_angle(
+                    #         Qskj_opt_nsc[joints.index('ankle_angle_l'), j+1], 
+                    #         Qdskj_opt_nsc[joints.index('ankle_angle_l'), j+1]) 
+                    # passiveTorque_subtalar_angle_rj_opt = f_passiveTorque_subtalar_angle(
+                    #         Qskj_opt_nsc[joints.index('subtalar_angle_r'), j+1], 
+                    #         Qdskj_opt_nsc[joints.index('subtalar_angle_r'), j+1])
+                    # passiveTorque_subtalar_angle_lj_opt = f_passiveTorque_subtalar_angle(
+                    #         Qskj_opt_nsc[joints.index('subtalar_angle_l'), j+1], 
+                    #         Qdskj_opt_nsc[joints.index('subtalar_angle_l'), j+1])
+                    # passiveTorque_mtp_angle_rj_opt = f_passiveTorque_mtp_angle(
+                    #         Qskj_opt_nsc[joints.index('mtp_angle_r'), j+1], 
+                    #         Qdskj_opt_nsc[joints.index('mtp_angle_r'), j+1])
+                    # passiveTorque_mtp_angle_lj_opt = f_passiveTorque_mtp_angle(
+                    #         Qskj_opt_nsc[joints.index('mtp_angle_l'), j+1], 
+                    #         Qdskj_opt_nsc[joints.index('mtp_angle_l'), j+1])
+                    # passiveTorque_lumbar_extensionj_opt = (
+                    #         f_passiveTorque_lumbar_extension(
+                    #         Qskj_opt_nsc[joints.index('lumbar_extension'), j+1], 
+                    #         Qdskj_opt_nsc[joints.index('lumbar_extension'), j+1])) 
+                    # passiveTorque_lumbar_bendingj_opt = (
+                    #         f_passiveTorque_lumbar_bending(
+                    #         Qskj_opt_nsc[joints.index('lumbar_bending'), j+1], 
+                    #         Qdskj_opt_nsc[joints.index('lumbar_bending'), j+1]))
+                    # passiveTorque_lumbar_rotationj_opt = (
+                    #         f_passiveTorque_lumbar_rotation(
+                    #         Qskj_opt_nsc[joints.index('lumbar_rotation'), j+1], 
+                    #         Qdskj_opt_nsc[joints.index('lumbar_rotation'), j+1]))                    
+                    # passiveTorquesj_opt = ca.vertcat(
+                    #     passiveTorque_hip_flexion_rj_opt,
+                    #     passiveTorque_hip_flexion_lj_opt,
+                    #     passiveTorque_hip_adduction_rj_opt,
+                    #     passiveTorque_hip_adduction_lj_opt,
+                    #     passiveTorque_hip_rotation_rj_opt,
+                    #     passiveTorque_hip_rotation_lj_opt,
+                    #     passiveTorque_knee_angle_rj_opt,
+                    #     passiveTorque_knee_angle_lj_opt,
+                    #     passiveTorque_ankle_angle_rj_opt,
+                    #     passiveTorque_ankle_angle_lj_opt,
+                    #     passiveTorque_subtalar_angle_rj_opt,
+                    #     passiveTorque_subtalar_angle_lj_opt,
+                    #     passiveTorque_lumbar_extensionj_opt,
+                    #     passiveTorque_lumbar_bendingj_opt,
+                    #     passiveTorque_lumbar_rotationj_opt,
+                    #     passiveTorque_mtp_angle_rj_opt,
+                    #     passiveTorque_mtp_angle_lj_opt,)
                     
                     ###########################################################
                     # Polynomial approximations
