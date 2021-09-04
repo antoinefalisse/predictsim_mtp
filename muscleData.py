@@ -24,17 +24,17 @@ def getMTParameters(pathModel, muscles, loadMTParameters, pathMTParameters=0):
        
     return mtParameters  
 
-def getPolynomialData(loadPolynomialData, pathPolynomialData, pathCoordinates='', pathMuscleAnalysis='', joints=[], muscles=[], suffix=''):
+def getPolynomialData(loadPolynomialData, pathPolynomialData, pathCoordinates='', pathMuscleAnalysis='', joints=[], muscles=[]):
     
     if loadPolynomialData:
-        polynomialData = np.load(os.path.join(pathPolynomialData, 'polynomialData' + suffix + '.npy'), 
+        polynomialData = np.load(os.path.join(pathPolynomialData, 'polynomialData.npy'), 
                             allow_pickle=True) 
         
     else:       
         from polynomials import getPolynomialCoefficients
         polynomialData = getPolynomialCoefficients(pathCoordinates, pathMuscleAnalysis, joints, muscles)
         if pathPolynomialData != 0:
-            np.save(os.path.join(pathPolynomialData, 'polynomialData' + suffix + '.npy'), polynomialData)
+            np.save(os.path.join(pathPolynomialData, 'polynomialData.npy'), polynomialData)
            
     return polynomialData
 
