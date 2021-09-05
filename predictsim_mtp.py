@@ -2,7 +2,7 @@ import os
 import casadi as ca
 import numpy as np
 
-solveProblem = True
+solveProblem = False
 saveResults = True
 analyzeResults = True
 loadResults = True
@@ -170,7 +170,7 @@ for case in cases:
     deactivationTimeConstant = 0.06
     
     # Indices periodic muscles.
-    idxPeriodicMuscles = (list(range(nSideMuscles, nMuscles)) + 
+    idxPerMuscles = (list(range(nSideMuscles, nMuscles)) + 
                           list(range(0, nSideMuscles)))
     
     # %% Joint part.
@@ -203,7 +203,7 @@ for case in cases:
         'arm_flex_l', 'arm_add_l', 'arm_rot_l',
         'arm_flex_r', 'arm_add_r', 'arm_rot_r', 
         'elbow_flex_l', 'elbow_flex_r']
-    idxRotationalJoints = getJointIndices(joints, rotationalJoints)
+    idxRotJoints = getJointIndices(joints, rotationalJoints)
     
     # Helper lists for periodic constraints.
     # The joint positions in periodicQsJointsA after half a gait cycle should
@@ -221,7 +221,7 @@ for case in cases:
         'arm_flex_l', 'arm_add_l', 'arm_rot_l', 
         'arm_flex_r', 'arm_add_r', 'arm_rot_r', 
         'elbow_flex_l', 'elbow_flex_r']
-    idxPeriodicQsJointsA = getJointIndices(joints, periodicQsJointsA)
+    idxPerQsJointsA = getJointIndices(joints, periodicQsJointsA)
     periodicQsJointsB = [
         'pelvis_tilt', 'pelvis_ty', 
         'hip_flexion_r', 'hip_adduction_r', 'hip_rotation_r', 
@@ -234,7 +234,7 @@ for case in cases:
         'arm_flex_r', 'arm_add_r', 'arm_rot_r', 
         'arm_flex_l', 'arm_add_l', 'arm_rot_l', 
         'elbow_flex_r', 'elbow_flex_l']
-    idxPeriodicQsJointsB = getJointIndices(joints, periodicQsJointsB)
+    idxPerQsJointsB = getJointIndices(joints, periodicQsJointsB)
     
     # The joint velocities in periodicQdsJointsA after half a gait cycle
     # should match the velocities in periodicQdsJointsB at the first time
@@ -252,7 +252,7 @@ for case in cases:
         'arm_flex_l', 'arm_add_l', 'arm_rot_l', 
         'arm_flex_r', 'arm_add_r', 'arm_rot_r', 
         'elbow_flex_l', 'elbow_flex_r']
-    idxPeriodicQdsJointsA = getJointIndices(joints, periodicQdsJointsA)
+    idxPerQdsJointsA = getJointIndices(joints, periodicQdsJointsA)
     periodicQdsJointsB = [
         'pelvis_tilt', 'pelvis_tx', 'pelvis_ty', 
         'hip_flexion_r', 'hip_adduction_r', 'hip_rotation_r', 
@@ -265,13 +265,13 @@ for case in cases:
         'arm_flex_r', 'arm_add_r', 'arm_rot_r', 
         'arm_flex_l', 'arm_add_l', 'arm_rot_l', 
         'elbow_flex_r', 'elbow_flex_l']
-    idxPeriodicQdsJointsB = getJointIndices(joints, periodicQdsJointsB)
+    idxPerQdsJointsB = getJointIndices(joints, periodicQdsJointsB)
     
     # The joint positions and velocities in periodicOppositeJoints after half
     # a gait cycle should be opposite to those at the first time instant.
     periodicOppositeJoints = ['pelvis_list', 'pelvis_rotation', 'pelvis_tz', 
                               'lumbar_bending', 'lumbar_rotation']
-    idxPeriodicOppositeJoints = getJointIndices(joints, periodicOppositeJoints)
+    idxPerOppJoints = getJointIndices(joints, periodicOppositeJoints)
     
     # Arm joints
     armJoints = ['arm_flex_l', 'arm_add_l', 'arm_rot_l', 
@@ -284,7 +284,7 @@ for case in cases:
     periodicArmJoints = ['arm_flex_r', 'arm_add_r', 'arm_rot_r', 
                          'arm_flex_l', 'arm_add_l', 'arm_rot_l', 
                          'elbow_flex_r', 'elbow_flex_l']
-    idxPeriodicArmJoints = getJointIndices(armJoints, periodicArmJoints)
+    idxPerArmJoints = getJointIndices(armJoints, periodicArmJoints)
     
     # All but arm joints.
     noArmJoints = [
@@ -364,9 +364,9 @@ for case in cases:
     # velocities, and moments for the muscle of that side (trunk included).
     f_polynomial = polynomialApproximation(muscles, polynomialData,
                                            nPolynomialJoints)
-    leftPolynomialJointIndices = getJointIndices(joints,
+    leftPolJointIdx = getJointIndices(joints,
                                                  leftPolynomialJoints)
-    rightPolynomialJointIndices = getJointIndices(joints,
+    rightPolJointIdx = getJointIndices(joints,
                                                   rightPolynomialJoints)
     
     # The left and right polynomialMuscleIndices below are used to identify
@@ -375,10 +375,10 @@ for case in cases:
     # side leg muscles + all trunk muscles as output. Here we make sure we
     # only include the side trunk muscles when identifying all side muscles.
     # This is pretty sketchy I know.    
-    rightPolynomialMuscleIndices = [muscles.index(i) for i in rightSideMuscles]
+    rightPolMuscleIdx = [muscles.index(i) for i in rightSideMuscles]
     rightTrunkMuscles = ['ercspn_r', 'intobl_r', 'extobl_r']
     leftTrunkMuscles = ['ercspn_l', 'intobl_l', 'extobl_l']
-    leftPolynomialMuscleIndices = (
+    leftPolMuscleIdx = (
         [muscles.index(i) for i in rightSideMuscles 
          if i not in rightTrunkMuscles] + 
         [muscles.index(i) for i in leftTrunkMuscles])
@@ -607,13 +607,13 @@ for case in cases:
                                 periodicQdsJointsA, periodicOppositeJoints)
 
     # Static parameters.
-    gFinalTime = guess.getgFinalTime()
+    gFinalTime = guess.getGuessFinalTime()
     
     # States.
-    gA = guess.getgActivation(scalingA)
-    gACol = guess.getgActivationCol()
-    gF = guess.getgForce(scalingF)
-    gFCol = guess.getgForceCol()
+    gA = guess.getGuessActivation(scalingA)
+    gACol = guess.getGuessActivationCol()
+    gF = guess.getGuessForce(scalingF)
+    gFCol = guess.getGuessForceCol()
     gQs = guess.getGuessPosition(scalingQs)
     gQsCol = guess.getGuessPositionCol()
     gQds = guess.getGuessVelocity(scalingQds)
@@ -622,14 +622,14 @@ for case in cases:
     gArmACol = guess.getGuessTorqueActuatorActivationCol(armJoints)
     
     # Controls.
-    gADt = guess.getgActivationDerivative(scalingADt)
+    gADt = guess.getGuessActivationDerivative(scalingADt)
     gArmE = guess.getGuessTorqueActuatorExcitation(armJoints)
     
     # Slack controls.
-    gQdds = guess.getgAcceleration(scalingQdds)
-    gQddsCol = guess.getgAccelerationCol()
-    gFDt = guess.getgForceDerivative(scalingFDt)
-    gFDtCol = guess.getgForceDerivativeCol()
+    gQdds = guess.getGuessAcceleration(scalingQdds)
+    gQddsCol = guess.getGuessAccelerationCol()
+    gFDt = guess.getGuessForceDerivative(scalingFDt)
+    gFDtCol = guess.getGuessForceDerivativeCol()
     
     # %% Formulate optimal control problem.
     if solveProblem: 
@@ -847,18 +847,18 @@ for case in cases:
             ###################################################################
             # Polynomial approximations.
             # Left side.
-            Qsinj_l = Qskj_nsc[leftPolynomialJointIndices, j+1]
-            Qdsinj_l = Qdskj_nsc[leftPolynomialJointIndices, j+1]
+            Qsinj_l = Qskj_nsc[leftPolJointIdx, j+1]
+            Qdsinj_l = Qdskj_nsc[leftPolJointIdx, j+1]
             [lMTj_l, vMTj_l, dMj_l] = f_polynomial(Qsinj_l, Qdsinj_l)
             # Right side.
-            Qsinj_r = Qskj_nsc[rightPolynomialJointIndices, j+1]
-            Qdsinj_r = Qdskj_nsc[rightPolynomialJointIndices, j+1]
+            Qsinj_r = Qskj_nsc[rightPolJointIdx, j+1]
+            Qdsinj_r = Qdskj_nsc[rightPolJointIdx, j+1]
             [lMTj_r, vMTj_r, dMj_r] = f_polynomial(Qsinj_r, Qdsinj_r)
             # Muscle-tendon lengths and velocities.        
-            lMTj_lr = ca.vertcat(lMTj_l[leftPolynomialMuscleIndices], 
-                                 lMTj_r[rightPolynomialMuscleIndices])
-            vMTj_lr = ca.vertcat(vMTj_l[leftPolynomialMuscleIndices], 
-                                 vMTj_r[rightPolynomialMuscleIndices])
+            lMTj_lr = ca.vertcat(lMTj_l[leftPolMuscleIdx], 
+                                 lMTj_r[rightPolMuscleIdx])
+            vMTj_lr = ca.vertcat(vMTj_l[leftPolMuscleIdx], 
+                                 vMTj_r[rightPolMuscleIdx])
             # Moment arms.
             dMj = {}
             # Left side.
@@ -1087,20 +1087,20 @@ for case in cases:
         #######################################################################
         # Periodic constraints on states.
         # Joint positions and velocities.
-        opti.subject_to(Qs[idxPeriodicQsJointsA ,-1] - 
-                        Qs[idxPeriodicQsJointsB, 0] == 0)
-        opti.subject_to(Qds[idxPeriodicQdsJointsA ,-1] - 
-                        Qds[idxPeriodicQdsJointsB, 0] == 0)
-        opti.subject_to(Qs[idxPeriodicOppositeJoints ,-1] + 
-                        Qs[idxPeriodicOppositeJoints, 0] == 0)
-        opti.subject_to(Qds[idxPeriodicOppositeJoints ,-1] + 
-                        Qds[idxPeriodicOppositeJoints, 0] == 0)
+        opti.subject_to(Qs[idxPerQsJointsA ,-1] - 
+                        Qs[idxPerQsJointsB, 0] == 0)
+        opti.subject_to(Qds[idxPerQdsJointsA ,-1] - 
+                        Qds[idxPerQdsJointsB, 0] == 0)
+        opti.subject_to(Qs[idxPerOppJoints ,-1] + 
+                        Qs[idxPerOppJoints, 0] == 0)
+        opti.subject_to(Qds[idxPerOppJoints ,-1] + 
+                        Qds[idxPerOppJoints, 0] == 0)
         # Muscle activations.
-        opti.subject_to(a[:, -1] - a[idxPeriodicMuscles, 0] == 0)
+        opti.subject_to(a[:, -1] - a[idxPerMuscles, 0] == 0)
         # Muscle-tendon forces.
-        opti.subject_to(normF[:, -1] - normF[idxPeriodicMuscles, 0] == 0)
+        opti.subject_to(normF[:, -1] - normF[idxPerMuscles, 0] == 0)
         # Arm activations.
-        opti.subject_to(aArm[:, -1] - aArm[idxPeriodicArmJoints, 0] == 0)
+        opti.subject_to(aArm[:, -1] - aArm[idxPerArmJoints, 0] == 0)
         
         #######################################################################
         # Average speed constraint.
@@ -1133,7 +1133,7 @@ for case in cases:
             stats = np.load(os.path.join(pathResults, 'stats.npy'), 
                             allow_pickle=True).item()  
             
-        # %% Extractoptimal results.
+        # %% Extract optimal results.
         NParameters = 1    
         finalTime_opt = w_opt[:NParameters]
         starti = NParameters    
@@ -1206,83 +1206,28 @@ for case in cases:
         assert (np.abs(averageSpeed - targetSpeed) < 10**(-tol)), (
             "Error: Target speed constraint not satisfied")
         
-        # %% Extract joint torques.
-        # linearpassiveTorque_mtp_angle_l_opt = np.zeros((1, N+1))
-        # linearpassiveTorque_mtp_angle_r_opt = np.zeros((1, N+1))        
-        # linearpassiveTorque_arm_flex_l_opt = np.zeros((1, N+1))
-        # linearpassiveTorque_arm_flex_r_opt = np.zeros((1, N+1))        
-        # linearpassiveTorque_arm_add_l_opt = np.zeros((1, N+1))
-        # linearpassiveTorque_arm_add_r_opt = np.zeros((1, N+1))        
-        # linearpassiveTorque_arm_rot_l_opt = np.zeros((1, N+1))
-        # linearpassiveTorque_arm_rot_r_opt = np.zeros((1, N+1))        
-        # linearpassiveTorque_elbow_flex_l_opt = np.zeros((1, N+1))
-        # linearpassiveTorque_elbow_flex_r_opt = np.zeros((1, N+1))
-        
-        # passiveTorque_mtp_angle_l_opt = np.zeros((1, N+1))
-        # passiveTorque_mtp_angle_r_opt = np.zeros((1, N+1))
-        
+        # %% Extract passive joint torques.
+        # Arms.
         linearPassiveTorqueArms_opt = np.zeros((nArmJoints, N+1))        
         for k in range(N+1):
-            for cj, joint in armJoints:
+            for cj, joint in enumerate(armJoints):
                 linearPassiveTorqueArms_opt[cj, k] = f_linearPassiveArmTorque(
                     Qs_opt_nsc[joints.index(joint), k],
                     Qds_opt_nsc[joints.index(joint), k])
-                
-        linearPassiveTorqueMtp_opt = np.zeros((nMtpJoints, N+1))        
+        # Mtps.        
+        linearPassiveTorqueMtp_opt = np.zeros((nMtpJoints, N+1))
+        passiveTorqueMtp_opt = np.zeros((nMtpJoints, N+1))        
         for k in range(N+1):
-            for cj, joint in mtpJoints:
+            for cj, joint in enumerate(mtpJoints):
                 linearPassiveTorqueMtp_opt[cj, k] = f_linearPassiveMtpTorque(
                     Qs_opt_nsc[joints.index(joint), k],
                     Qds_opt_nsc[joints.index(joint), k])
-                
-        passiveTorqueMtp_opt = np.zeros((nMtpJoints, N+1))
-        for k in range(N+1):
-            for cj, joint in mtpJoints:
                 passiveTorqueMtp_opt[cj, k] = f_passiveTorque[joint](
                     Qs_opt_nsc[joints.index(joint), k], 
                     Qds_opt_nsc[joints.index(joint), k])
             
-            
-            # linearpassiveTorque_mtp_angle_l_opt[0, k] = f_linearPassiveMtpTorque(
-            #         Qs_opt_nsc[joints.index('mtp_angle_l'), k],
-            #         Qds_opt_nsc[joints.index('mtp_angle_l'), k])
-            # linearpassiveTorque_mtp_angle_r_opt[0, k] = f_linearPassiveMtpTorque(
-            #         Qs_opt_nsc[joints.index('mtp_angle_r'), k],
-            #         Qds_opt_nsc[joints.index('mtp_angle_r'), k])            
-            # linearpassiveTorque_arm_flex_l_opt[0, k] = f_linearPassiveArmTorque(
-            #         Qs_opt_nsc[joints.index('arm_flex_l'), k],
-            #         Qds_opt_nsc[joints.index('arm_flex_l'), k])
-            # linearpassiveTorque_arm_flex_r_opt[0, k] = f_linearPassiveArmTorque(
-            #         Qs_opt_nsc[joints.index('arm_flex_r'), k],
-            #         Qds_opt_nsc[joints.index('arm_flex_r'), k])            
-            # linearpassiveTorque_arm_add_l_opt[0, k] = f_linearPassiveArmTorque(
-            #         Qs_opt_nsc[joints.index('arm_add_l'), k],
-            #         Qds_opt_nsc[joints.index('arm_add_l'), k])
-            # linearpassiveTorque_arm_add_r_opt[0, k] = f_linearPassiveArmTorque(
-            #         Qs_opt_nsc[joints.index('arm_add_r'), k],
-            #         Qds_opt_nsc[joints.index('arm_add_r'), k])            
-            # linearpassiveTorque_arm_rot_l_opt[0, k] = f_linearPassiveArmTorque(
-            #         Qs_opt_nsc[joints.index('arm_rot_l'), k],
-            #         Qds_opt_nsc[joints.index('arm_rot_l'), k])
-            # linearpassiveTorque_arm_rot_r_opt[0, k] = f_linearPassiveArmTorque(
-            #         Qs_opt_nsc[joints.index('arm_rot_r'), k],
-            #         Qds_opt_nsc[joints.index('arm_rot_r'), k])            
-            # linearpassiveTorque_elbow_flex_l_opt[0, k] = f_linearPassiveArmTorque(
-            #         Qs_opt_nsc[joints.index('elbow_flex_l'), k],
-            #         Qds_opt_nsc[joints.index('elbow_flex_l'), k])
-            # linearpassiveTorque_elbow_flex_r_opt[0, k] = f_linearPassiveArmTorque(
-            #         Qs_opt_nsc[joints.index('elbow_flex_r'), k],
-            #         Qds_opt_nsc[joints.index('elbow_flex_r'), k])
-            
-            # passiveTorque_mtp_angle_l_opt[0, k] = f_passiveTorque['mtp_angle_l'](
-            #         Qs_opt_nsc[joints.index('mtp_angle_l'), k],
-            #         Qds_opt_nsc[joints.index('mtp_angle_l'), k])
-            # passiveTorque_mtp_angle_r_opt[0, k] = f_passiveTorque['mtp_angle_r'](
-            #         Qs_opt_nsc[joints.index('mtp_angle_r'), k],
-            #         Qds_opt_nsc[joints.index('mtp_angle_r'), k]) 
-            
         # %% Extract ground reaction forces.
-        # Also do some sanity checks with non muscle-driven joints.
+        # Also do some sanity checks with non-muscle-driven joints.
         QsQds_opt_nsc = np.zeros((nJoints*2, N+1))
         QsQds_opt_nsc[::2, :] = Qs_opt_nsc
         QsQds_opt_nsc[1::2, :] = Qds_opt_nsc
@@ -1292,16 +1237,14 @@ for case in cases:
         mtpT = np.zeros((nMtpJoints, N))
         for k in range(N):    
             Tj = F1(ca.vertcat(QsQds_opt_nsc[:, k+1], Qdds_opt[:, k]))
-            F1_out[:, k] = Tj.full().T
-            
+            F1_out[:, k] = Tj.full().T            
             for cj, joint in enumerate(armJoints):
                 armT[cj, k] = f_diffTorques(
                     F1_out[joints.index(joint), k] / 
                     scalingArmE.iloc[0][joint],
                     aArm_opt[cj, k+1], 
                     linearPassiveTorqueArms_opt[cj, k+1] /
-                    scalingArmE.iloc[0][joint])
-                
+                    scalingArmE.iloc[0][joint])                
             for cj, joint in enumerate(mtpJoints):
                 mtpT[cj, k] = f_diffTorques(
                     F1_out[joints.index(joint), k] / 
@@ -1309,52 +1252,7 @@ for case in cases:
                     0, 
                     (linearPassiveTorqueMtp_opt[cj, k+1] + 
                      passiveTorqueMtp_opt[cj, k+1]) /
-                    scalingArmE.iloc[0][joint])
-                           
-            # armT[0, k] = f_diffTorques(F1_out[joints.index('arm_flex_l'), k] / 
-            #         scalingArmE.iloc[0]['arm_flex_l'], aArm_opt[0, k+1], 
-            #         linearpassiveTorque_arm_flex_l_opt[0, k+1] / 
-            #         scalingArmE.iloc[0]['arm_flex_l'])                 
-            # armT[1, k] = f_diffTorques(F1_out[joints.index('arm_add_l'), k] / 
-            #         scalingArmE.iloc[0]['arm_add_l'], aArm_opt[1, k+1], 
-            #         linearpassiveTorque_arm_add_l_opt[0, k+1] / 
-            #         scalingArmE.iloc[0]['arm_add_l'])              
-            # armT[2, k] = f_diffTorques(F1_out[joints.index('arm_rot_l'), k] / 
-            #         scalingArmE.iloc[0]['arm_rot_l'], aArm_opt[2, k+1], 
-            #         linearpassiveTorque_arm_rot_l_opt[0, k+1] / 
-            #         scalingArmE.iloc[0]['arm_rot_l'])              
-            # armT[3, k] = f_diffTorques(F1_out[joints.index('arm_flex_r'), k] / 
-            #         scalingArmE.iloc[0]['arm_flex_r'], aArm_opt[3, k+1], 
-            #         linearpassiveTorque_arm_flex_r_opt[0, k+1] / 
-            #         scalingArmE.iloc[0]['arm_flex_r'])              
-            # armT[4, k] = f_diffTorques(F1_out[joints.index('arm_add_r'), k] / 
-            #         scalingArmE.iloc[0]['arm_add_r'], aArm_opt[4, k+1], 
-            #         linearpassiveTorque_arm_add_r_opt[0, k+1] / 
-            #         scalingArmE.iloc[0]['arm_add_r'])             
-            # armT[5, k] = f_diffTorques(F1_out[joints.index('arm_rot_r'), k] / 
-            #         scalingArmE.iloc[0]['arm_rot_r'], aArm_opt[5, k+1], 
-            #         linearpassiveTorque_arm_rot_r_opt[0, k+1] / 
-            #         scalingArmE.iloc[0]['arm_rot_r'])              
-            # armT[6, k] = f_diffTorques(F1_out[joints.index('elbow_flex_l'), k]/ 
-            #         scalingArmE.iloc[0]['elbow_flex_l'], aArm_opt[6, k+1], 
-            #         linearpassiveTorque_elbow_flex_l_opt[0, k+1] / 
-            #         scalingArmE.iloc[0]['elbow_flex_l'])             
-            # armT[7, k] = f_diffTorques(F1_out[joints.index('elbow_flex_r'), k]/ 
-            #         scalingArmE.iloc[0]['elbow_flex_r'], aArm_opt[7, k+1], 
-            #         linearpassiveTorque_elbow_flex_r_opt[0, k+1] / 
-            #         scalingArmE.iloc[0]['elbow_flex_r'])
-            
-            # mtpT[0, k] = f_diffTorques(F1_out[joints.index('mtp_angle_l'), k] / 
-            #         scalingMtpE.iloc[0]['mtp_angle_l'], 0, 
-            #         (linearpassiveTorque_mtp_angle_l_opt[0, k+1] + 
-            #          passiveTorque_mtp_angle_l_opt[0, k+1])/
-            #         scalingMtpE.iloc[0]['mtp_angle_l'])        
-            # mtpT[1, k] = f_diffTorques(F1_out[joints.index('mtp_angle_r'), k] / 
-            #         scalingMtpE.iloc[0]['mtp_angle_r'], 0, 
-            #         (linearpassiveTorque_mtp_angle_r_opt[0, k+1] + 
-            #          passiveTorque_mtp_angle_r_opt[0, k+1]) /
-            #         scalingMtpE.iloc[0]['mtp_angle_r'])
-            
+                    scalingMtpE.iloc[0][joint])            
         # Ground reaction forces.
         GRF_opt = F1_out[idxGRF, :]
         # Sanity checks.
@@ -1407,163 +1305,104 @@ for case in cases:
                 QsQdskj_opt_nsc = ca.DM(nJoints*2, d+1)
                 QsQdskj_opt_nsc[::2, :] = Qskj_opt_nsc
                 QsQdskj_opt_nsc[1::2, :] = Qdskj_opt_nsc
-                
-                
-                
+                # Loop over collocation points.               
                 for j in range(d):
+                    ###########################################################
                     # Passive joint torques.
                     passiveTorquesj_opt = np.zeros((nPassiveTorqueJoints, 1))
                     for cj, joint in enumerate(passiveTorqueJoints):
                         passiveTorquesj_opt[cj, 0] = f_passiveTorque[joint](
                             Qskj_opt_nsc[joints.index(joint), j+1], 
                             Qdskj_opt_nsc[joints.index(joint), j+1])
-
-
-                               
-                    # passiveTorque_hip_flexion_rj_opt = f_passiveTorque_hip_flexion(
-                    #         Qskj_opt_nsc[joints.index('hip_flexion_r'), j+1], 
-                    #         Qdskj_opt_nsc[joints.index('hip_flexion_r'), j+1])
-                    # passiveTorque_hip_flexion_lj_opt = f_passiveTorque_hip_flexion(
-                    #         Qskj_opt_nsc[joints.index('hip_flexion_l'), j+1], 
-                    #         Qdskj_opt_nsc[joints.index('hip_flexion_l'), j+1])   
-                    # passiveTorque_hip_adduction_rj_opt = f_passiveTorque_hip_adduction(
-                    #         Qskj_opt_nsc[joints.index('hip_adduction_r'), j+1], 
-                    #         Qdskj_opt_nsc[joints.index('hip_adduction_r'), j+1])
-                    # passiveTorque_hip_adduction_lj_opt = f_passiveTorque_hip_adduction(
-                    #         Qskj_opt_nsc[joints.index('hip_adduction_l'), j+1], 
-                    #         Qdskj_opt_nsc[joints.index('hip_adduction_l'), j+1])   
-                    # passiveTorque_hip_rotation_rj_opt = f_passiveTorque_hip_rotation(
-                    #         Qskj_opt_nsc[joints.index('hip_rotation_r'), j+1], 
-                    #         Qdskj_opt_nsc[joints.index('hip_rotation_r'), j+1])
-                    # passiveTorque_hip_rotation_lj_opt = f_passiveTorque_hip_rotation(
-                    #         Qskj_opt_nsc[joints.index('hip_rotation_l'), j+1], 
-                    #         Qdskj_opt_nsc[joints.index('hip_rotation_l'), j+1])   
-                    # passiveTorque_knee_angle_rj_opt = f_passiveTorque_knee_angle(
-                    #         Qskj_opt_nsc[joints.index('knee_angle_r'), j+1], 
-                    #         Qdskj_opt_nsc[joints.index('knee_angle_r'), j+1])
-                    # passiveTorque_knee_angle_lj_opt = f_passiveTorque_knee_angle(
-                    #         Qskj_opt_nsc[joints.index('knee_angle_l'), j+1], 
-                    #         Qdskj_opt_nsc[joints.index('knee_angle_l'), j+1])        
-                    # passiveTorque_ankle_angle_rj_opt = f_passiveTorque_ankle_angle(
-                    #         Qskj_opt_nsc[joints.index('ankle_angle_r'), j+1], 
-                    #         Qdskj_opt_nsc[joints.index('ankle_angle_r'), j+1])
-                    # passiveTorque_ankle_angle_lj_opt = f_passiveTorque_ankle_angle(
-                    #         Qskj_opt_nsc[joints.index('ankle_angle_l'), j+1], 
-                    #         Qdskj_opt_nsc[joints.index('ankle_angle_l'), j+1]) 
-                    # passiveTorque_subtalar_angle_rj_opt = f_passiveTorque_subtalar_angle(
-                    #         Qskj_opt_nsc[joints.index('subtalar_angle_r'), j+1], 
-                    #         Qdskj_opt_nsc[joints.index('subtalar_angle_r'), j+1])
-                    # passiveTorque_subtalar_angle_lj_opt = f_passiveTorque_subtalar_angle(
-                    #         Qskj_opt_nsc[joints.index('subtalar_angle_l'), j+1], 
-                    #         Qdskj_opt_nsc[joints.index('subtalar_angle_l'), j+1])
-                    # passiveTorque_mtp_angle_rj_opt = f_passiveTorque_mtp_angle(
-                    #         Qskj_opt_nsc[joints.index('mtp_angle_r'), j+1], 
-                    #         Qdskj_opt_nsc[joints.index('mtp_angle_r'), j+1])
-                    # passiveTorque_mtp_angle_lj_opt = f_passiveTorque_mtp_angle(
-                    #         Qskj_opt_nsc[joints.index('mtp_angle_l'), j+1], 
-                    #         Qdskj_opt_nsc[joints.index('mtp_angle_l'), j+1])
-                    # passiveTorque_lumbar_extensionj_opt = (
-                    #         f_passiveTorque_lumbar_extension(
-                    #         Qskj_opt_nsc[joints.index('lumbar_extension'), j+1], 
-                    #         Qdskj_opt_nsc[joints.index('lumbar_extension'), j+1])) 
-                    # passiveTorque_lumbar_bendingj_opt = (
-                    #         f_passiveTorque_lumbar_bending(
-                    #         Qskj_opt_nsc[joints.index('lumbar_bending'), j+1], 
-                    #         Qdskj_opt_nsc[joints.index('lumbar_bending'), j+1]))
-                    # passiveTorque_lumbar_rotationj_opt = (
-                    #         f_passiveTorque_lumbar_rotation(
-                    #         Qskj_opt_nsc[joints.index('lumbar_rotation'), j+1], 
-                    #         Qdskj_opt_nsc[joints.index('lumbar_rotation'), j+1]))                    
-                    # passiveTorquesj_opt = ca.vertcat(
-                    #     passiveTorque_hip_flexion_rj_opt,
-                    #     passiveTorque_hip_flexion_lj_opt,
-                    #     passiveTorque_hip_adduction_rj_opt,
-                    #     passiveTorque_hip_adduction_lj_opt,
-                    #     passiveTorque_hip_rotation_rj_opt,
-                    #     passiveTorque_hip_rotation_lj_opt,
-                    #     passiveTorque_knee_angle_rj_opt,
-                    #     passiveTorque_knee_angle_lj_opt,
-                    #     passiveTorque_ankle_angle_rj_opt,
-                    #     passiveTorque_ankle_angle_lj_opt,
-                    #     passiveTorque_subtalar_angle_rj_opt,
-                    #     passiveTorque_subtalar_angle_lj_opt,
-                    #     passiveTorque_lumbar_extensionj_opt,
-                    #     passiveTorque_lumbar_bendingj_opt,
-                    #     passiveTorque_lumbar_rotationj_opt,
-                    #     passiveTorque_mtp_angle_rj_opt,
-                    #     passiveTorque_mtp_angle_lj_opt,)
                     
                     ###########################################################
-                    # Polynomial approximations
-                    # Left leg
-                    Qsinj_opt_l = Qskj_opt_nsc[leftPolynomialJointIndices, j+1]
-                    Qdsinj_opt_l = Qdskj_opt_nsc[leftPolynomialJointIndices, j+1]
-                    [lMTj_opt_l, vMTj_opt_l, _] = f_polynomial(Qsinj_opt_l, Qdsinj_opt_l)       
-                    # Right leg
-                    Qsinj_opt_r = Qskj_opt_nsc[rightPolynomialJointIndices, j+1]
-                    Qdsinj_opt_r = Qdskj_opt_nsc[rightPolynomialJointIndices, j+1]
-                    [lMTj_opt_r, vMTj_opt_r, _] = f_polynomial(Qsinj_opt_r, Qdsinj_opt_r)
-                    # Both legs        
-                    lMTj_opt_lr = ca.vertcat(lMTj_opt_l[leftPolynomialMuscleIndices], 
-                                             lMTj_opt_r[rightPolynomialMuscleIndices])
-                    vMTj_opt_lr = ca.vertcat(vMTj_opt_l[leftPolynomialMuscleIndices], 
-                                             vMTj_opt_r[rightPolynomialMuscleIndices])
+                    # Polynomial approximations.
+                    # Left leg.
+                    Qsinj_opt_l = Qskj_opt_nsc[leftPolJointIdx, j+1]
+                    Qdsinj_opt_l = Qdskj_opt_nsc[leftPolJointIdx, j+1]
+                    [lMTj_opt_l, vMTj_opt_l, _] = f_polynomial(Qsinj_opt_l,
+                                                               Qdsinj_opt_l)       
+                    # Right leg.
+                    Qsinj_opt_r = Qskj_opt_nsc[rightPolJointIdx, j+1]
+                    Qdsinj_opt_r = Qdskj_opt_nsc[rightPolJointIdx, j+1]
+                    [lMTj_opt_r, vMTj_opt_r, _] = f_polynomial(Qsinj_opt_r,
+                                                               Qdsinj_opt_r)
+                    # Both legs        .
+                    lMTj_opt_lr = ca.vertcat(lMTj_opt_l[leftPolMuscleIdx], 
+                                             lMTj_opt_r[rightPolMuscleIdx])
+                    vMTj_opt_lr = ca.vertcat(vMTj_opt_l[leftPolMuscleIdx], 
+                                             vMTj_opt_r[rightPolMuscleIdx])
                     
                     ###########################################################
-                    # Derive Hill-equilibrium        
+                    # Derive Hill-equilibrium.
                     [hillEquilibriumj_opt, Fj_opt, activeFiberForcej_opt, 
                      passiveFiberForcej_opt, normActiveFiberLengthForcej_opt, 
                      normFiberLengthj_opt, fiberVelocityj_opt] = (
-                         f_hillEquilibrium(akj_opt[:, j+1], lMTj_opt_lr, 
-                                           vMTj_opt_lr,
-                                           normFkj_opt_nsc[:, j+1], 
-                                           normFDtj_opt_nsc[:, j]))  
+                         f_hillEquilibrium(
+                             akj_opt[:, j+1], lMTj_opt_lr, vMTj_opt_lr,
+                             normFkj_opt_nsc[:, j+1], normFDtj_opt_nsc[:, j]))  
                     
                     ###########################################################
-                    # Get metabolic energy rate
-                    [activationHeatRatej_opt, maintenanceHeatRatej_opt, 
-                     shorteningHeatRatej_opt, mechanicalWorkRatej_opt, _, 
+                    # Get metabolic energy rate.
+                    [actHeatRatej_opt, mtnHeatRatej_opt, 
+                     shHeatRatej_opt, mechWRatej_opt, _, 
                      metabolicEnergyRatej_opt] = f_metabolicsBhargava(
-                         akj_opt[:, j+1], akj_opt[:, j+1], normFiberLengthj_opt, 
-                         fiberVelocityj_opt, activeFiberForcej_opt,
-                         passiveFiberForcej_opt, normActiveFiberLengthForcej_opt)
+                         akj_opt[:, j+1], akj_opt[:, j+1], 
+                         normFiberLengthj_opt, fiberVelocityj_opt, 
+                         activeFiberForcej_opt, passiveFiberForcej_opt,
+                         normActiveFiberLengthForcej_opt)
                     
                     ###########################################################
-                    # Motor control terms.
+                    # Cost function terms.
                     activationTerm_opt = f_NMusclesSum2(akj_opt[:, j+1])  
-                    jointAccelerationTerm_opt = f_nNoArmJointsSum2(Qddsj_opt[idxNoArmJoints, j])          
-                    passiveTorqueTerm_opt = f_nPassiveTorqueJointsSum2(passiveTorquesj_opt)     
+                    jointAccelerationTerm_opt = f_nNoArmJointsSum2(
+                        Qddsj_opt[idxNoArmJoints, j])          
+                    passiveTorqueTerm_opt = f_nPassiveTorqueJointsSum2(
+                        passiveTorquesj_opt)     
                     activationDtTerm_opt = f_NMusclesSum2(aDtk_opt)
                     forceDtTerm_opt = f_NMusclesSum2(normFDtj_opt[:, j])
-                    armAccelerationTerm_opt = f_nArmJointsSum2(Qddsj_opt[idxArmJoints, j])
+                    armAccelerationTerm_opt = f_nArmJointsSum2(
+                        Qddsj_opt[idxArmJoints, j])
                     armExcitationTerm_opt = f_nArmJointsSum2(eArmk_opt) 
-                    metabolicEnergyRateTerm_opt = (f_NMusclesSum2(metabolicEnergyRatej_opt) / modelMass)
+                    metabolicEnergyRateTerm_opt = (
+                        f_NMusclesSum2(metabolicEnergyRatej_opt) / modelMass)
                     
-                    metabolicEnergyRateTerm_opt_all += weights['metabolicEnergyRateTerm'] * metabolicEnergyRateTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
-                    activationTerm_opt_all += weights['activationTerm'] * activationTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
-                    armExcitationTerm_opt_all += weights['armExcitationTerm'] * armExcitationTerm_opt * h_opt * B[j + 1] / distTraveled_opt
-                    jointAccelerationTerm_opt_all += weights['jointAccelerationTerm'] * jointAccelerationTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
-                    passiveTorqueTerm_opt_all += weights['passiveTorqueTerm'] * passiveTorqueTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
-                    activationDtTerm_opt_all += weights['controls'] * activationDtTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
-                    forceDtTerm_opt_all += weights['controls'] * forceDtTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
-                    armAccelerationTerm_opt_all += weights['controls'] * armAccelerationTerm_opt * h_opt * B[j + 1] / distTraveled_opt 
+                    metabolicEnergyRateTerm_opt_all += (
+                        weights['metabolicEnergyRateTerm'] * 
+                        metabolicEnergyRateTerm_opt * h_opt * B[j + 1] / 
+                        distTraveled_opt)
+                    activationTerm_opt_all += (
+                        weights['activationTerm'] * activationTerm_opt * 
+                        h_opt * B[j + 1] / distTraveled_opt)
+                    armExcitationTerm_opt_all += (
+                        weights['armExcitationTerm'] * armExcitationTerm_opt * 
+                        h_opt * B[j + 1] / distTraveled_opt)
+                    jointAccelerationTerm_opt_all += (
+                        weights['jointAccelerationTerm'] * 
+                        jointAccelerationTerm_opt * h_opt * B[j + 1] / 
+                        distTraveled_opt)
+                    passiveTorqueTerm_opt_all += (
+                        weights['passiveTorqueTerm'] * passiveTorqueTerm_opt * 
+                        h_opt * B[j + 1] / distTraveled_opt)
+                    activationDtTerm_opt_all += (
+                        weights['controls'] * activationDtTerm_opt * h_opt * 
+                        B[j + 1] / distTraveled_opt)
+                    forceDtTerm_opt_all += (
+                        weights['controls'] * forceDtTerm_opt * h_opt * 
+                        B[j + 1] / distTraveled_opt)
+                    armAccelerationTerm_opt_all += (
+                        weights['controls'] * armAccelerationTerm_opt * 
+                        h_opt * B[j + 1] / distTraveled_opt)
         
-        objective_terms = {"metabolicEnergyRateTerm": metabolicEnergyRateTerm_opt_all.full(),
-                           "activationTerm": activationTerm_opt_all.full(),
-                           "armExcitationTerm": armExcitationTerm_opt_all.full(),
-                           "jointAccelerationTerm": jointAccelerationTerm_opt_all.full(),
-                           "passiveTorqueTerm": passiveTorqueTerm_opt_all.full(),
-                           "activationDtTerm": activationDtTerm_opt_all.full(),
-                           "forceDtTerm": forceDtTerm_opt_all.full(),
-                           "armAccelerationTerm": armAccelerationTerm_opt_all.full()} 
-        objective_terms_nsc = {"metabolicEnergyRateTerm": metabolicEnergyRateTerm_opt_all.full() / weights['metabolicEnergyRateTerm'],
-                               "activationTerm": activationTerm_opt_all.full() / weights['activationTerm'],
-                               "armExcitationTerm": armExcitationTerm_opt_all.full() / weights['armExcitationTerm'],
-                               "jointAccelerationTerm": jointAccelerationTerm_opt_all.full() / weights['jointAccelerationTerm'],
-                               "passiveTorqueTerm": passiveTorqueTerm_opt_all.full() / weights['passiveTorqueTerm'],
-                               "activationDtTerm": activationDtTerm_opt_all.full() / weights['controls'],
-                               "forceDtTerm": forceDtTerm_opt_all.full() / weights['controls'],
-                               "armAccelerationTerm": armAccelerationTerm_opt_all.full() / weights['controls']}
+        objective_terms = {
+            "metabolicEnergyRateTerm": metabolicEnergyRateTerm_opt_all.full(),
+            "activationTerm": activationTerm_opt_all.full(),
+            "armExcitationTerm": armExcitationTerm_opt_all.full(),
+            "jointAccelerationTerm": jointAccelerationTerm_opt_all.full(),
+            "passiveTorqueTerm": passiveTorqueTerm_opt_all.full(),
+            "activationDtTerm": activationDtTerm_opt_all.full(),
+            "forceDtTerm": forceDtTerm_opt_all.full(),
+            "armAccelerationTerm": armAccelerationTerm_opt_all.full()}
         
         JAll_opt = (metabolicEnergyRateTerm_opt_all.full() +
                      activationTerm_opt_all.full() + 
@@ -1580,22 +1419,22 @@ for case in cases:
                     np.abs(JAll_opt[0][0] - stats['iterations']['obj'][-1]) 
                     <= 1e-6), "decomposition cost"
         
-        # %% Reconstruct gait cycle
+        # %% Reconstruct gait cycle.
         from variousFunctions import getIdxIC_3D
         threshold = 30
         idxIC, legIC = getIdxIC_3D(GRF_opt, threshold)
         if legIC == "undefined":
             np.disp("Problem with gait reconstruction")  
-        idxIC_s = idxIC + 1 # GRF_opt obtained at mesh points starting at k=1
+        idxIC_s = idxIC + 1 # GRF_opt obtained at mesh points starting at k=1.
         idxIC_c = idxIC 
             
-        # Joint coordinates
+        # Joint positions.
         Qs_GC = np.zeros((nJoints, 2*N))
         Qs_GC[:, :N-idxIC_s[0]] = Qs_opt_nsc[:, idxIC_s[0]:-1]
-        Qs_GC[idxPeriodicQsJointsA, N-idxIC_s[0]:N-idxIC_s[0]+N] = (
-                Qs_opt_nsc[idxPeriodicQsJointsB, :-1])
-        Qs_GC[idxPeriodicOppositeJoints, N-idxIC_s[0]:N-idxIC_s[0]+N] = (
-                -Qs_opt_nsc[idxPeriodicOppositeJoints, :-1])
+        Qs_GC[idxPerQsJointsA, N-idxIC_s[0]:N-idxIC_s[0]+N] = (
+                Qs_opt_nsc[idxPerQsJointsB, :-1])
+        Qs_GC[idxPerOppJoints, N-idxIC_s[0]:N-idxIC_s[0]+N] = (
+                -Qs_opt_nsc[idxPerOppJoints, :-1])
         Qs_GC[joints.index('pelvis_tx'), N-idxIC_s[0]:N-idxIC_s[0]+N]  = (
                 Qs_opt_nsc[joints.index('pelvis_tx'), :-1] + 
                 Qs_opt_nsc[joints.index('pelvis_tx'), -1])
@@ -1604,75 +1443,77 @@ for case in cases:
                 Qs_opt_nsc[joints.index('pelvis_tx'),:idxIC_s[0]] + 
                 2*Qs_opt_nsc[joints.index('pelvis_tx'), -1])
         if legIC == "left":
-            Qs_GC[idxPeriodicQsJointsA, :] = Qs_GC[idxPeriodicQsJointsB, :]
-            Qs_GC[idxPeriodicOppositeJoints, :] = (
-                    -Qs_GC[idxPeriodicOppositeJoints, :])
-        Qs_GC[joints.index('pelvis_tx'), :] -= Qs_GC[joints.index('pelvis_tx'), 0]
-        Qs_GC[idxRotationalJoints, :] = Qs_GC[idxRotationalJoints, :] * 180 / np.pi    
+            Qs_GC[idxPerQsJointsA, :] = Qs_GC[idxPerQsJointsB, :]
+            Qs_GC[idxPerOppJoints, :] = (
+                    -Qs_GC[idxPerOppJoints, :])
+        Qs_GC[joints.index('pelvis_tx'), :] -= (
+            Qs_GC[joints.index('pelvis_tx'), 0])
+        Qs_GC[idxRotJoints, :] = Qs_GC[idxRotJoints, :] * 180 / np.pi
     
-        # Joint velocities
+        # Joint velocities.
         Qds_GC = np.zeros((nJoints, 2*N))
         Qds_GC[:, :N-idxIC_s[0]] = Qds_opt_nsc[:, idxIC_s[0]:-1]
-        Qds_GC[idxPeriodicQdsJointsA, N-idxIC_s[0]:N-idxIC_s[0]+N] = (
-                Qds_opt_nsc[idxPeriodicQdsJointsB, :-1])
-        Qds_GC[idxPeriodicQdsJointsA, N-idxIC_s[0]:N-idxIC_s[0]+N] = (
-                Qds_opt_nsc[idxPeriodicQdsJointsB, :-1])
-        Qds_GC[idxPeriodicOppositeJoints, N-idxIC_s[0]:N-idxIC_s[0]+N] = (
-                -Qds_opt_nsc[idxPeriodicOppositeJoints, :-1])
+        Qds_GC[idxPerQdsJointsA, N-idxIC_s[0]:N-idxIC_s[0]+N] = (
+                Qds_opt_nsc[idxPerQdsJointsB, :-1])
+        Qds_GC[idxPerQdsJointsA, N-idxIC_s[0]:N-idxIC_s[0]+N] = (
+                Qds_opt_nsc[idxPerQdsJointsB, :-1])
+        Qds_GC[idxPerOppJoints, N-idxIC_s[0]:N-idxIC_s[0]+N] = (
+                -Qds_opt_nsc[idxPerOppJoints, :-1])
         Qds_GC[:, N-idxIC_s[0]+N:2*N] = Qds_opt_nsc[:,:idxIC_s[0]] 
         if legIC == "left":
-            Qds_GC[idxPeriodicQdsJointsA, :] = Qds_GC[idxPeriodicQdsJointsB, :]
-            Qds_GC[idxPeriodicOppositeJoints, :] = -Qds_GC[idxPeriodicOppositeJoints, :]
-        Qds_GC[idxRotationalJoints, :] = Qds_GC[idxRotationalJoints, :] * 180 / np.pi
+            Qds_GC[idxPerQdsJointsA, :] = Qds_GC[idxPerQdsJointsB, :]
+            Qds_GC[idxPerOppJoints, :] = -Qds_GC[idxPerOppJoints, :]
+        Qds_GC[idxRotJoints, :] = Qds_GC[idxRotJoints, :] * 180 / np.pi
         
-        # Joint accelerations
-        # TODO: don;t think it is correct.
+        # Joint accelerations.
         Qdds_GC = np.zeros((nJoints, 2*N))
         Qdds_GC[:, :N-idxIC_c[0]] = Qdds_opt[:, idxIC_c[0]:]
-        Qdds_GC[idxPeriodicQdsJointsA, N-idxIC_c[0]:N-idxIC_c[0]+N] = (
-                Qdds_opt[idxPeriodicQdsJointsB, :])
-        Qdds_GC[idxPeriodicOppositeJoints, N-idxIC_c[0]:N-idxIC_c[0]+N] = (
-                -Qdds_opt[idxPeriodicOppositeJoints, :])
+        Qdds_GC[idxPerQdsJointsA, N-idxIC_c[0]:N-idxIC_c[0]+N] = (
+                Qdds_opt[idxPerQdsJointsB, :])
+        Qdds_GC[idxPerOppJoints, N-idxIC_c[0]:N-idxIC_c[0]+N] = (
+                -Qdds_opt[idxPerOppJoints, :])
         Qdds_GC[:, N-idxIC_c[0]+N:2*N] = Qdds_opt[:,:idxIC_c[0]] 
         if legIC == "left":
-            Qdds_GC[idxPeriodicQdsJointsA, :] = Qdds_GC[idxPeriodicQdsJointsB, :]
-            Qdds_GC[idxPeriodicOppositeJoints, :] = -Qdds_GC[idxPeriodicOppositeJoints, :]
-        Qdds_GC[idxRotationalJoints, :] = Qdds_GC[idxRotationalJoints, :] * 180 / np.pi
+            Qdds_GC[idxPerQdsJointsA, :] = Qdds_GC[idxPerQdsJointsB, :]
+            Qdds_GC[idxPerOppJoints, :] = -Qdds_GC[idxPerOppJoints, :]
+        Qdds_GC[idxRotJoints, :] = Qdds_GC[idxRotJoints, :] * 180 / np.pi
         
-        # Muscle activations
+        # Muscle activations.
         A_GC = np.zeros((nMuscles, 2*N))
         A_GC[:, :N-idxIC_s[0]] = a_opt[:, idxIC_s[0]:-1]
-        A_GC[:, N-idxIC_s[0]:N-idxIC_s[0]+N] = a_opt[idxPeriodicMuscles, :-1]
+        A_GC[:, N-idxIC_s[0]:N-idxIC_s[0]+N] = a_opt[idxPerMuscles, :-1]
         A_GC[:, N-idxIC_s[0]+N:2*N] = a_opt[:,:idxIC_s[0]] 
         if legIC == "left":
-            A_GC = A_GC[idxPeriodicMuscles, :]
+            A_GC = A_GC[idxPerMuscles, :]
             
-        # Muscle force
+        # Muscle forces.
         F_GC = np.zeros((nMuscles, 2*N))
         F_GC[:, :N-idxIC_s[0]] = normF_opt_nsc[:, idxIC_s[0]:-1]
-        F_GC[:, N-idxIC_s[0]:N-idxIC_s[0]+N] = normF_opt_nsc[idxPeriodicMuscles, :-1]
+        F_GC[:, N-idxIC_s[0]:N-idxIC_s[0]+N] = (
+            normF_opt_nsc[idxPerMuscles, :-1])
         F_GC[:, N-idxIC_s[0]+N:2*N] = normF_opt_nsc[:,:idxIC_s[0]] 
         if legIC == "left":
-            F_GC = F_GC[idxPeriodicMuscles, :]
+            F_GC = F_GC[idxPerMuscles, :]
             
-        # Muscle force derivative
+        # Muscle force derivatives.
         FDt_GC = np.zeros((nMuscles, 2*N))
         FDt_GC[:, :N-idxIC_c[0]] = normFDt_opt_nsc[:, idxIC_c[0]:]
-        FDt_GC[:, N-idxIC_c[0]:N-idxIC_c[0]+N] = normFDt_opt_nsc[idxPeriodicMuscles, :]
+        FDt_GC[:, N-idxIC_c[0]:N-idxIC_c[0]+N] = (
+            normFDt_opt_nsc[idxPerMuscles, :])
         FDt_GC[:, N-idxIC_c[0]+N:2*N] = normFDt_opt_nsc[:,:idxIC_c[0]] 
         if legIC == "left":
-            FDt_GC = FDt_GC[idxPeriodicMuscles, :]
+            FDt_GC = FDt_GC[idxPerMuscles, :]
             
-        # Arm actuator activations
+        # Arm actuator activations.
         aArm_GC = np.zeros((nArmJoints, 2*N))
         aArm_GC[:, :N-idxIC_s[0]] = aArm_opt_nsc[:, idxIC_s[0]:-1]
         aArm_GC[:, N-idxIC_s[0]:N-idxIC_s[0]+N] = (
-                aArm_opt_nsc[idxPeriodicArmJoints, :-1])
+                aArm_opt_nsc[idxPerArmJoints, :-1])
         aArm_GC[:, N-idxIC_s[0]+N:2*N] = aArm_opt_nsc[:,:idxIC_s[0]] 
         if legIC == "left":
-            aArm_GC = aArm_GC[idxPeriodicArmJoints, :]
+            aArm_GC = aArm_GC[idxPerArmJoints, :]
             
-        # Time grid
+        # Time grid.
         tgrid = np.linspace(0, finalTime_opt[0], N+1)
         tgrid_GC = np.zeros((1, 2*N)) 
         tgrid_GC[:,:N] = tgrid[:N].T
@@ -1687,46 +1528,44 @@ for case in cases:
             from variousFunctions import numpy2storage
             numpy2storage(labels, data, os.path.join(pathResults,'motion.mot'))        
             
-        # %% Compute metabolic cost of transport for whole gait cycle    
+        # %% Compute metabolic cost of transport for whole gait cycle.   
         Qs_GC_rad = Qs_GC.copy()        
-        Qs_GC_rad[idxRotationalJoints, :] = (
-            Qs_GC_rad[idxRotationalJoints, :] * np.pi / 180)
+        Qs_GC_rad[idxRotJoints, :] = Qs_GC_rad[idxRotJoints, :] * np.pi / 180
         Qds_GC_rad = Qds_GC.copy()        
-        Qds_GC_rad[idxRotationalJoints, :] = (
-            Qds_GC_rad[idxRotationalJoints, :] * np.pi / 180)     
+        Qds_GC_rad[idxRotJoints, :] = Qds_GC_rad[idxRotJoints, :] * np.pi / 180   
         basal_coef = 1.2
         basal_exp = 1    
-        metabolicEnergyRatePerMuscle = np.zeros((nMuscles,2*N))
-        totalMetabolicEnergyRate = np.zeros((1,2*N))
-        activationHeatRate = np.zeros((1,2*N))
-        maintenanceHeatRate = np.zeros((1,2*N))
-        shorteningHeatRate = np.zeros((1,2*N))
-        mechanicalWorkRate = np.zeros((1,2*N))
+        metERatePerMuscle = np.zeros((nMuscles,2*N))
+        tolMetERate = np.zeros((1,2*N))
+        actHeatRate = np.zeros((1,2*N))
+        mtnHeatRate = np.zeros((1,2*N))
+        shHeatRate = np.zeros((1,2*N))
+        mechWRate = np.zeros((1,2*N))
         normFiberLength_GC = np.zeros((nMuscles,2*N))
         fiberVelocity_GC = np.zeros((nMuscles,2*N))
-        activationHeatRate_GC = np.zeros((nMuscles,2*N))
-        maintenanceHeatRate_GC = np.zeros((nMuscles,2*N))
-        shorteningHeatRate_GC = np.zeros((nMuscles,2*N))
-        mechanicalWorkRate_GC = np.zeros((nMuscles,2*N))
+        actHeatRate_GC = np.zeros((nMuscles,2*N))
+        mtnHeatRate_GC = np.zeros((nMuscles,2*N))
+        shHeatRate_GC = np.zeros((nMuscles,2*N))
+        mechWRate_GC = np.zeros((nMuscles,2*N))
         for k in range(2*N):
             ###################################################################
-            # Polynomial approximations
-            # Left leg
-            Qsk_GC_l = Qs_GC_rad[leftPolynomialJointIndices, k]
-            Qdsk_GC_l = Qds_GC_rad[leftPolynomialJointIndices, k]
+            # Polynomial approximations.
+            # Left leg.
+            Qsk_GC_l = Qs_GC_rad[leftPolJointIdx, k]
+            Qdsk_GC_l = Qds_GC_rad[leftPolJointIdx, k]
             [lMTk_GC_l, vMTk_GC_l, _] = f_polynomial(Qsk_GC_l, Qdsk_GC_l)       
-            # Right leg
-            Qsk_GC_r = Qs_GC_rad[rightPolynomialJointIndices, k]
-            Qdsk_GC_r = Qds_GC_rad[rightPolynomialJointIndices, k]
+            # Right leg.
+            Qsk_GC_r = Qs_GC_rad[rightPolJointIdx, k]
+            Qdsk_GC_r = Qds_GC_rad[rightPolJointIdx, k]
             [lMTk_GC_r, vMTk_GC_r, _] = f_polynomial(Qsk_GC_r, Qdsk_GC_r)
-            # Both legs        
-            lMTk_GC_lr = ca.vertcat(lMTk_GC_l[leftPolynomialMuscleIndices], 
-                                     lMTk_GC_r[rightPolynomialMuscleIndices])
-            vMTk_GC_lr = ca.vertcat(vMTk_GC_l[leftPolynomialMuscleIndices], 
-                                     vMTk_GC_r[rightPolynomialMuscleIndices])
+            # Both leg.
+            lMTk_GC_lr = ca.vertcat(lMTk_GC_l[leftPolMuscleIdx], 
+                                     lMTk_GC_r[rightPolMuscleIdx])
+            vMTk_GC_lr = ca.vertcat(vMTk_GC_l[leftPolMuscleIdx], 
+                                     vMTk_GC_r[rightPolMuscleIdx])
             
             ###################################################################
-            # Derive Hill-equilibrium        
+            # Derive Hill-equilibrium.       
             [hillEquilibriumk_GC, Fk_GC, activeFiberForcek_GC, 
              passiveFiberForcek_GC, normActiveFiberLengthForcek_GC, 
              normFiberLengthk_GC, fiberVelocityk_GC] = (
@@ -1735,111 +1574,98 @@ for case in cases:
                  
             if stats['success'] == True:
                 assert np.alltrue(
-                    np.abs(hillEquilibriumk_GC.full()) <= 1e-4), "Hill_" + case
+                    np.abs(hillEquilibriumk_GC.full()) <= 10**(tol)), (
+                        "Error in Hill equilibrium")
                  
             normFiberLength_GC[:,k] = normFiberLengthk_GC.full().flatten()
             fiberVelocity_GC[:,k] = fiberVelocityk_GC.full().flatten()
             
             ###################################################################
-            # Get metabolic energy rate
-            [activationHeatRatek_GC, maintenanceHeatRatek_GC, 
-             shorteningHeatRatek_GC, mechanicalWorkRatek_GC, _, 
+            # Get metabolic energy rate.
+            [actHeatRatek_GC, mtnHeatRatek_GC, 
+             shHeatRatek_GC, mechWRatek_GC, _, 
              metabolicEnergyRatek_GC] = f_metabolicsBhargava(
                  A_GC[:, k], A_GC[:, k], normFiberLengthk_GC, 
                  fiberVelocityk_GC, activeFiberForcek_GC,
                  passiveFiberForcek_GC, normActiveFiberLengthForcek_GC)
                  
-            metabolicEnergyRatePerMuscle[:, k:k+1] = (
+            metERatePerMuscle[:, k:k+1] = (
                 metabolicEnergyRatek_GC.full())
                  
-            # Sum over all muscles                     
+            # Sum over all muscles.                
             metabolicEnergyRatek_allMuscles = np.sum(
                 metabolicEnergyRatek_GC.full())
-            activationHeatRatek_allMuscles = np.sum(
-                activationHeatRatek_GC.full())
-            maintenanceHeatRatek_allMuscles = np.sum(
-                maintenanceHeatRatek_GC.full())
-            shorteningHeatRatek_allMuscles = np.sum(
-                shorteningHeatRatek_GC.full())
-            mechanicalWorkRatek_allMuscles = np.sum(
-                mechanicalWorkRatek_GC.full())
+            actHeatRatek_allMuscles = np.sum(
+                actHeatRatek_GC.full())
+            mtnHeatRatek_allMuscles = np.sum(
+                mtnHeatRatek_GC.full())
+            shHeatRatek_allMuscles = np.sum(
+                shHeatRatek_GC.full())
+            mechWRatek_allMuscles = np.sum(
+                mechWRatek_GC.full())
             
-            activationHeatRate_GC[:,k] = activationHeatRatek_GC.full().flatten()
-            maintenanceHeatRate_GC[:,k] = maintenanceHeatRatek_GC.full().flatten()
-            shorteningHeatRate_GC[:,k] = shorteningHeatRatek_GC.full().flatten()
-            mechanicalWorkRate_GC[:,k] = mechanicalWorkRatek_GC.full().flatten()
+            actHeatRate_GC[:,k] = actHeatRatek_GC.full().flatten()
+            mtnHeatRate_GC[:,k] = mtnHeatRatek_GC.full().flatten()
+            shHeatRate_GC[:,k] = shHeatRatek_GC.full().flatten()
+            mechWRate_GC[:,k] = mechWRatek_GC.full().flatten()
             # Add basal rate
             basalRatek = basal_coef*modelMass**basal_exp
-            totalMetabolicEnergyRate[0, k] = (metabolicEnergyRatek_allMuscles 
+            tolMetERate[0, k] = (metabolicEnergyRatek_allMuscles 
                                               + basalRatek) 
-            activationHeatRate[0, k] = activationHeatRatek_allMuscles
-            maintenanceHeatRate[0, k] = maintenanceHeatRatek_allMuscles
-            shorteningHeatRate[0, k] = shorteningHeatRatek_allMuscles
-            mechanicalWorkRate[0, k] = mechanicalWorkRatek_allMuscles     
+            actHeatRate[0, k] = actHeatRatek_allMuscles
+            mtnHeatRate[0, k] = mtnHeatRatek_allMuscles
+            shHeatRate[0, k] = shHeatRatek_allMuscles
+            mechWRate[0, k] = mechWRatek_allMuscles     
             
         # Integrate
-        metabolicEnergyRatePerMuscle_int = np.trapz(
-            metabolicEnergyRatePerMuscle, tgrid_GC)
-        totalMetabolicEnergyRate_int = np.trapz(totalMetabolicEnergyRate,
-                                                tgrid_GC)
-        activationHeatRate_int = np.trapz(activationHeatRate,
-                                                tgrid_GC)
-        maintenanceHeatRate_int = np.trapz(maintenanceHeatRate,
-                                                tgrid_GC)
-        shorteningHeatRate_int = np.trapz(shorteningHeatRate,
-                                                tgrid_GC)
-        mechanicalWorkRate_int = np.trapz(mechanicalWorkRate,
-                                                tgrid_GC)
+        metERatePerMuscle_int = np.trapz(
+            metERatePerMuscle, tgrid_GC)
+        tolMetERate_int = np.trapz(tolMetERate, tgrid_GC)
+        actHeatRate_int = np.trapz(actHeatRate, tgrid_GC)
+        mtnHeatRate_int = np.trapz(mtnHeatRate, tgrid_GC)
+        shHeatRate_int = np.trapz(shHeatRate, tgrid_GC)
+        mechWRate_int = np.trapz(mechWRate, tgrid_GC)
         # Total distance traveled
-        distTraveled_opt_GC = (Qs_GC_rad[joints.index('pelvis_tx'),-1] - 
+        distTraveled_GC = (Qs_GC_rad[joints.index('pelvis_tx'),-1] - 
                                Qs_GC_rad[joints.index('pelvis_tx'),0])
         # Cost of transport (COT)
-        COT_GC = totalMetabolicEnergyRate_int / modelMass / distTraveled_opt_GC
-        COT_activation_GC = activationHeatRate_int / modelMass / distTraveled_opt_GC
-        COT_maintenance_GC = maintenanceHeatRate_int / modelMass / distTraveled_opt_GC
-        COT_shortening_GC = shorteningHeatRate_int / modelMass / distTraveled_opt_GC
-        COT_mechanical_GC = mechanicalWorkRate_int / modelMass / distTraveled_opt_GC        
-        COT_perMuscle_GC = metabolicEnergyRatePerMuscle_int / modelMass / distTraveled_opt_GC        
+        COT_GC = tolMetERate_int / modelMass / distTraveled_GC
+        COT_activation_GC = actHeatRate_int / modelMass / distTraveled_GC
+        COT_maintenance_GC = mtnHeatRate_int / modelMass / distTraveled_GC
+        COT_shortening_GC = shHeatRate_int / modelMass / distTraveled_GC
+        COT_mechanical_GC = mechWRate_int / modelMass / distTraveled_GC        
+        COT_perMuscle_GC = metERatePerMuscle_int / modelMass / distTraveled_GC        
         
-        # %% Compute stride length and width.
+        # %% Compute stride length.
         QsQds_opt_nsc_GC = np.zeros((nJoints*2, N*2))
         QsQds_opt_nsc_GC[::2, :] = Qs_GC_rad
         QsQds_opt_nsc_GC[1::2, :] = Qds_GC_rad        
         Qdds_GC_rad = Qdds_GC.copy()
-        Qdds_GC_rad[idxRotationalJoints, :] = (
-            Qdds_GC_rad[idxRotationalJoints, :] * np.pi / 180)        
+        Qdds_GC_rad[idxRotJoints, :] = (
+            Qdds_GC_rad[idxRotJoints, :] * np.pi / 180)        
         F1_GC = np.zeros((NF1_out, N*2))
         for k_GC in range(N*2):
             Tk_GC = F1(ca.vertcat(QsQds_opt_nsc_GC[:,k_GC],
                                   Qdds_GC_rad[:, k_GC]))
-            F1_GC[:, k_GC] = Tk_GC.full().T
-        
+            F1_GC[:, k_GC] = Tk_GC.full().T        
         stride_length_GC = ca.norm_2(F1_GC[idxCalcOr3D_r, 0] - 
                                      F1_GC[idxCalcOr3D_r, -1]).full()[0][0]
-        GRF_GC2 = F1_GC[idxGRF, :]
-        GRM_GC2 = F1_GC[idxGRM, :]        
+        GRF_GC = F1_GC[idxGRF, :]
+        GRM_GC = F1_GC[idxGRM, :]
+        torques_GC = F1_GC[getJointIndices(joints, joints), :]        
         
-        # # 
-        torques_GC2 = F1_GC[getJointIndices(joints, joints), :] 
-        # temp = GRF_GC - GRF_GC2
-        # temp2 = np.max(np.abs(torques_GC - torques_GC2))
-        
-        
-        # %% Write GRF file for visualization in OpenSim GUI    
-        # COP and free moment
+        # %% Write GRF file for visualization in OpenSim GUI.  
+        # COP and free moment.
         from variousFunctions import getCOP
-        COPr_GC, freeTr_GC = getCOP(GRF_GC2[:3,:], GRM_GC2[:3,:])
-        COPl_GC, freeTl_GC = getCOP(GRF_GC2[3:,:], GRM_GC2[3:,:])        
+        COPr_GC, freeTr_GC = getCOP(GRF_GC[:3,:], GRM_GC[:3,:])
+        COPl_GC, freeTl_GC = getCOP(GRF_GC[3:,:], GRM_GC[3:,:])        
         COP_GC = np.concatenate((COPr_GC, COPl_GC))
-        freeT_GC = np.concatenate((freeTr_GC, freeTl_GC))        
-        
-        if writeMotion:     
-            
-            # post-processing
-            GRF_GC_toPrint = np.copy(GRF_GC2)
+        freeT_GC = np.concatenate((freeTr_GC, freeTl_GC))
+        if writeMotion:
+            # post-processing.
+            GRF_GC_toPrint = np.copy(GRF_GC)
             COP_GC_toPrint = np.copy(COP_GC)
-            freeT_GC_toPrint = np.copy(freeT_GC)
-            
+            freeT_GC_toPrint = np.copy(freeT_GC)            
             idx_r = np.argwhere(GRF_GC_toPrint[1, :] < 30)
             for tr in range(idx_r.shape[0]):
                 GRF_GC_toPrint[:3, idx_r[tr, 0]] = 0
@@ -1849,16 +1675,15 @@ for case in cases:
             for tl in range(idx_l.shape[0]):
                 GRF_GC_toPrint[3:, idx_l[tl, 0]] = 0
                 COP_GC_toPrint[3:, idx_l[tl, 0]] = 0
-                freeT_GC_toPrint[3:, idx_l[tl, 0]] = 0            
-            
-            grf_cop_Labels = ['r_ground_force_vx', 'r_ground_force_vy', 'r_ground_force_vz',
-                              'r_ground_force_px', 'r_ground_force_py', 'r_ground_force_pz',
-                              'l_ground_force_vx', 'l_ground_force_vy', 'l_ground_force_vz',
-                              'l_ground_force_px', 'l_ground_force_py', 'l_ground_force_pz']
-            
-            grmLabels = ['r_ground_torque_x', 'r_ground_torque_y', 'r_ground_torque_z',
-                          'l_ground_torque_x', 'l_ground_torque_y', 'l_ground_torque_z']
-                         
+                freeT_GC_toPrint[3:, idx_l[tl, 0]] = 0         
+            grf_cop_Labels = [
+                'r_ground_force_vx', 'r_ground_force_vy', 'r_ground_force_vz',
+                'r_ground_force_px', 'r_ground_force_py', 'r_ground_force_pz',
+                'l_ground_force_vx', 'l_ground_force_vy', 'l_ground_force_vz',
+                'l_ground_force_px', 'l_ground_force_py', 'l_ground_force_pz']            
+            grmLabels = [
+                'r_ground_torque_x', 'r_ground_torque_y', 'r_ground_torque_z',
+                'l_ground_torque_x', 'l_ground_torque_y', 'l_ground_torque_z']                         
             grLabels = grf_cop_Labels + grmLabels      
             labels = ['time'] + grLabels
             data = np.concatenate(
@@ -1866,9 +1691,9 @@ for case in cases:
                  GRF_GC_toPrint[3:,:].T, COP_GC_toPrint[3:,:].T, 
                  freeT_GC_toPrint.T), axis=1)             
             from variousFunctions import numpy2storage
-            numpy2storage(labels, data, os.path.join(pathResults,'GRF.mot'))
+            numpy2storage(labels, data, os.path.join(pathResults, 'GRF.mot'))
             
-        # %% Save trajectories for further analysis
+        # %% Save trajectories for further analysis.
         if saveTrajectories: 
             if not os.path.exists(os.path.join(pathTrajectories,
                                                'optimaltrajectories.npy')): 
@@ -1888,8 +1713,8 @@ for case in cases:
                                 'coordinate_accelerations': Qdds_GC,
                                 'muscle_activations': A_GC,
                                 'arm_activations': aArm_GC,
-                                'joint_torques': torques_GC2,
-                                'GRF': GRF_GC2,
+                                'joint_torques': torques_GC,
+                                'GRF': GRF_GC,
                                 'time': tgrid_GC,
                                 'norm_fiber_lengths': normFiberLength_GC,
                                 'fiber_velocity': fiberVelocity_GC,
@@ -1902,13 +1727,12 @@ for case in cases:
                                 'GC_percent': GC_percent,
                                 'objective': stats['iterations']['obj'][-1],
                                 'objective_terms': objective_terms,
-                                'objective_terms_nsc': objective_terms_nsc,
                                 'iter_count': stats['iter_count'],
                                 "stride_length_GC": stride_length_GC}              
             np.save(os.path.join(pathTrajectories, 'optimaltrajectories.npy'),
                     optimaltrajectories)
            
-        # %% Error message
+        # %% Error message.
         if not stats['success'] == True:
             print("WARNING: PROBLEM DID NOT CONVERGE - " 
                   + stats['return_status']) 
