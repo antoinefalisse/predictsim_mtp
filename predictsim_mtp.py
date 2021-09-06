@@ -2,15 +2,13 @@ import os
 import casadi as ca
 import numpy as np
 
-solveProblem = False
+solveProblem = True
 saveResults = True
 analyzeResults = True
 loadResults = True
 writeMotion = True
 saveTrajectories = True
 decomposeCost = True
-loadMTParameters = True
-loadPolynomialData = True
 plotPolynomials = False
 
 cases = ['177']
@@ -18,6 +16,8 @@ cases = ['177']
 from settings_predictsim import getSettings_predictsim_mtp   
 settings = getSettings_predictsim_mtp() 
 for case in cases:
+    
+    # %% Problem settings.
     
     # Default cost term weights.
     weights = {'metabolicEnergyRateTerm' : 500,
@@ -64,6 +64,22 @@ for case in cases:
         nThreads = settings[case]['nThreads']
     parallelMode = "thread" # only supported mode.
     
+    # Model settings.
+    model = 'new_model' # default model
+    if 'model' in settings[case]:
+        model = settings[case]['model']
+        
+    knee_axis = 'FK' # default is fixed knee flexion axis (FK)
+    if 'knee_axis' in settings[case]:
+        knee_axis = settings[case]['knee_axis']
+        
+    adjustAchillesTendonStiffness = False # default Achilles tendon stiffness.
+    if 'adjustAchillesTendonStiffness' in settings[case]:
+        adjustAchillesTendonStiffness = (
+            settings[case]['adjustAchillesTendonStiffness'])
+        
+    modelMass = settings[case]['modelMass']
+    
     # Problem settings.
     targetSpeed = 1.33 # default target walking.
     if 'targetSpeed' in settings[case]:
@@ -72,41 +88,16 @@ for case in cases:
     guessType = 'quasiRandom' # default initial guess mode.
     if 'guessType' in settings[case]:
         guessType = settings[case]['guessType']
-    
-    contactConfiguration = 'generic' # default foot-ground contact model.
-    if 'contactConfiguration' in settings[case]:
-        contactConfiguration = settings[case]['contactConfiguration']
-        
-    adjustAchillesTendonCompliance = False # default Achilles tendon stiffness.
-    if 'adjustAchillesTendonCompliance' in settings[case]:
-        adjustAchillesTendonCompliance = (
-            settings[case]['adjustAchillesTendonCompliance'])
-        
-    if 'idxSubject' in settings[case]:
-        idxSubject = settings[case]['idxSubject'] 
-    else:
-        idxSubject = "1"        
-    subject = 'subject' + idxSubject + '_mtp'
-        
-    baseConfig = ''
-    if 'baseConfig' in settings[case]:
-        baseConfig = settings[case]['baseConfig']
-        
-    boundsType = 'nominal' 
-    if 'boundsType' in settings[case]:
-        boundsType = settings[case]['boundsType']
-        
-    modelMass = settings[case]['modelMass']
          
     # Paths
     pathMain = os.getcwd()
-    pathData = os.path.join(pathMain, 'OpenSimModel', subject)
-    # TODO
-    if idxSubject == '1':
-        pathModel = os.path.join(pathData, 'Model', subject + ".osim")
-    elif idxSubject == '2':
-        pathModel = os.path.join(pathData, 'Model', 'subject' + idxSubject + '_withMTP_scaled.osim')
-    pathMTParameters = os.path.join(pathData, 'Model')
+    pathData = os.path.join(pathMain, 'OpenSimModel', model)
+    pathModelFolder = os.path.join(pathData, 'Model')
+    modelName = '{}_scaled_{}'.format(model, knee_axis)
+    pathModel = os.path.join(pathModelFolder, modelName + '.osim')
+    pathMuscleAnalysis = os.path.join(pathData, 'MA', 'ResultsMA', modelName, 
+                                      modelName + '_MuscleAnalysis_')
+    pathExternalFunction = os.path.join(pathMain, 'ExternalFunction')
     filename = os.path.basename(__file__)
     pathCase = 'Case_' + case    
     pathTrajectories = os.path.join(pathMain, 'Results', filename[:-3]) 
@@ -133,8 +124,15 @@ for case in cases:
     
     # Muscle-tendon parameters.
     from muscleData import getMTParameters
+    # Support loading/saving muscle-tendon parameters such that OpenSim does
+    # not need to be loaded.
+    loadMTParameters = False
+    if os.path.exists(os.path.join(
+            pathModelFolder, 'mtParameters_{}.npy'.format(modelName))):
+        loadMTParameters = True        
     sideMtParameters = getMTParameters(pathModel, rightSideMuscles,
-                                       loadMTParameters, pathMTParameters)
+                                       loadMTParameters, modelName,
+                                       pathModelFolder)
     mtParameters = np.concatenate((sideMtParameters, sideMtParameters),
                                   axis=1)
     
@@ -143,14 +141,14 @@ for case in cases:
     # Same compliance for all tendons by default.
     sideTendonCompliance = tendonCompliance(nSideMuscles)
     # Adjust Achilles tendon stiffness (triceps surae).
-    if adjustAchillesTendonCompliance:
-        AchillesTendonCompliance = settings[case]['AchillesTendonCompliance']
+    if adjustAchillesTendonStiffness:
+        AchillesTendonStiffness = settings[case]['AchillesTendonStiffness']
         musclesAchillesTendon = ['med_gas_r', 'lat_gas_r', 'soleus_r']
         idxMusclesAchillesTendon = [
             rightSideMuscles.index(muscleAchillesTendon) 
             for muscleAchillesTendon in musclesAchillesTendon]
         sideTendonCompliance[0, idxMusclesAchillesTendon] = (
-            AchillesTendonCompliance)                
+            AchillesTendonStiffness)                
     tendonCompliance = np.concatenate((sideTendonCompliance, 
                                        sideTendonCompliance), axis=1)
     
@@ -344,30 +342,30 @@ for case in cases:
     rightPolynomialJoints = [
         'hip_flexion_r', 'hip_adduction_r', 'hip_rotation_r', 'knee_angle_r',
         'ankle_angle_r', 'subtalar_angle_r', 'mtp_angle_r',
-        'lumbar_extension', 'lumbar_bending', 'lumbar_rotation'] 
+        'lumbar_extension', 'lumbar_bending', 'lumbar_rotation']
+    nPolynomialJoints = len(leftPolynomialJoints)
     
     from muscleData import getPolynomialData      
     pathCoordinates = os.path.join(pathData, 'MA', 'dummy_motion.mot')
-    
-    pathMuscleAnalysis = os.path.join(
-        pathData, 'MA', 'ResultsMA', 'subject' + idxSubject, 
-        'subject' + idxSubject + '_MuscleAnalysis_') 
+    loadPolynomialData = False
+    # Support loading/saving polynomial data such that they do not needed to
+    # be recomputed every time.
+    if os.path.exists(os.path.join(
+            pathModelFolder, 'polynomialData_{}.npy'.format(modelName))):
+        loadPolynomialData = True      
     polynomialData = getPolynomialData(
-        loadPolynomialData, pathMTParameters, pathCoordinates, 
-        pathMuscleAnalysis, rightPolynomialJoints, muscles)   
+        loadPolynomialData, pathModelFolder, modelName, pathCoordinates, 
+        pathMuscleAnalysis, rightPolynomialJoints, muscles)
     if loadPolynomialData:
-        polynomialData = polynomialData.item()
+        polynomialData = polynomialData.item()  
     
-    nPolynomialJoints = len(leftPolynomialJoints)
     # The function f_polynomial takes as inputs joint positions and velocities
     # from one side (trunk included), and returns muscle-tendon lengths,
     # velocities, and moments for the muscle of that side (trunk included).
     f_polynomial = polynomialApproximation(muscles, polynomialData,
                                            nPolynomialJoints)
-    leftPolJointIdx = getJointIndices(joints,
-                                                 leftPolynomialJoints)
-    rightPolJointIdx = getJointIndices(joints,
-                                                  rightPolynomialJoints)
+    leftPolJointIdx = getJointIndices(joints, leftPolynomialJoints)
+    rightPolJointIdx = getJointIndices(joints, rightPolynomialJoints)
     
     # The left and right polynomialMuscleIndices below are used to identify
     # the left and right muscles in the output of f_polynomial. Since
@@ -413,22 +411,11 @@ for case in cases:
     # outputs might slightly impact the optimal control problem, since the
     # external function is used for instance when computing the constraint
     # Jacobian; the number of inputs and outputs therefore matters.    
-    pathExternalFunction = os.path.join(pathMain, 'ExternalFunction')
-    if subject == "subject1_mtp":
-        if contactConfiguration == 'generic':
-            F = ca.external('F', os.path.join(
-                pathExternalFunction, 'PredSim_mtpPin_cm0{}.dll'.format(baseConfig)))
-            if analyzeResults:
-                F1 = ca.external('F', os.path.join(
-                    pathExternalFunction, 'PredSim_mtpPin_pp_cm0{}.dll'.format(baseConfig)))
-    elif subject == "subject2_mtp":
-        if contactConfiguration == 'generic':
-            if baseConfig == 'ua_corrected':
-                F = ca.external('F', os.path.join(
-                    pathExternalFunction, 's2_withMTP_gb.dll'))
-                if analyzeResults:
-                    F1 = ca.external('F', os.path.join(
-                        pathExternalFunction, 's2_withMTP_gb_pp.dll'))
+    F = ca.external('F', os.path.join(
+        pathExternalFunction, modelName + '.dll'))
+    if analyzeResults:
+        F1 = ca.external('F', os.path.join(
+            pathExternalFunction, modelName + '_pp.dll'))
     
     # The external function F outputs joint torques, as well as the 2D
     # coordinates of some body origins. The order matters. The joint torques

@@ -1,10 +1,10 @@
 import os
 import numpy as np
 
-def getMTParameters(pathModel, muscles, loadMTParameters, pathMTParameters=0):
+def getMTParameters(pathModel, muscles, loadMTParameters, modelName, pathMTParameters=0):
     
     if loadMTParameters:        
-        mtParameters = np.load(os.path.join(pathMTParameters, 'mtParameters.npy'), 
+        mtParameters = np.load(os.path.join(pathMTParameters, 'mtParameters_{}.npy'.format(modelName)), 
                             allow_pickle=True)     
         
     else:
@@ -20,21 +20,21 @@ def getMTParameters(pathModel, muscles, loadMTParameters, pathMTParameters=0):
            mtParameters[3,i] = muscle.getPennationAngleAtOptimalFiberLength()
            mtParameters[4,i] = muscle.getMaxContractionVelocity()*muscle.getOptimalFiberLength()
         if pathMTParameters != 0:
-           np.save(os.path.join(pathMTParameters, 'mtParameters.npy'), mtParameters)
+           np.save(os.path.join(pathMTParameters, 'mtParameters.npy_{}'.format(modelName)), mtParameters)
        
     return mtParameters  
 
-def getPolynomialData(loadPolynomialData, pathPolynomialData, pathCoordinates='', pathMuscleAnalysis='', joints=[], muscles=[]):
+def getPolynomialData(loadPolynomialData, pathPolynomialData, modelName, pathCoordinates='', pathMuscleAnalysis='', joints=[], muscles=[]):
     
     if loadPolynomialData:
-        polynomialData = np.load(os.path.join(pathPolynomialData, 'polynomialData.npy'), 
+        polynomialData = np.load(os.path.join(pathPolynomialData, 'polynomialData_{}.npy'.format(modelName)), 
                             allow_pickle=True) 
         
     else:       
         from polynomials import getPolynomialCoefficients
         polynomialData = getPolynomialCoefficients(pathCoordinates, pathMuscleAnalysis, joints, muscles)
         if pathPolynomialData != 0:
-            np.save(os.path.join(pathPolynomialData, 'polynomialData.npy'), polynomialData)
+            np.save(os.path.join(pathPolynomialData, 'polynomialData_{}.npy'.format(modelName)), polynomialData)
            
     return polynomialData
 
