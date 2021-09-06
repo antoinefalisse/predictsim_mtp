@@ -38,10 +38,10 @@ def getPolynomialData(loadPolynomialData, pathPolynomialData, modelName, pathCoo
            
     return polynomialData
 
-def tendonCompliance(NSideMuscles):
-    tendonCompliance = np.full((1, NSideMuscles), 35)
+def tendonStiffness(NSideMuscles):
+    tendonStiffness = np.full((1, NSideMuscles), 35)
     
-    return tendonCompliance
+    return tendonStiffness
 
 def tendonShift(NSideMuscles):
     tendonShift = np.full((1, NSideMuscles), 0)

@@ -1,6 +1,36 @@
+'''
+    This script formulates and solves a trajectory optimization problem such
+    as to generate a three-dimensional muscle-driven predictive simulation of
+    human walking.
+    
+    OpenSim is used for modeling the musculoskeletal model but is not needed
+    to run this script. In brief, we use a custom version of OpenSim that
+    supports automatic differentiation. The OpenSim-related part is compiled
+    in advance as a library, which is then imported as an external function
+    (details in Falisse et al. 2019b). If you use a different musculoskeletal
+    model, you will need to use OpenSim's Python API to extract certain model
+    parameters. See here how to setup your environment to use the Python API:
+    https://simtk-confluence.stanford.edu/display/OpenSim/Scripting+in+Python.
+    
+    CasADi is used for automatic differentiation and numerical optimization.
+    Make sure you install CasADi beforehand: https://web.casadi.org/get/.
+    
+    Associated publications:
+        - Falisse et al. (2019a): https://doi.org/10.1098/rsif.2019.0402 
+        - Falisse et al. (2019b): https://doi.org/10.1371/journal.pone.0217730
+        - Falisse et al. (in review): https://doi.org/10.1101/2021.08.13.456292
+        
+    Please contact me if you find bugs or have suggestions to improve this
+    script. There is definitely room for improvement.
+    
+    Author: Antoine Falisse
+    Date: 2021/09
+'''
+
 import os
 import casadi as ca
 import numpy as np
+import copy
 
 solveProblem = True
 saveResults = True
@@ -8,7 +38,6 @@ analyzeResults = True
 loadResults = True
 writeMotion = True
 saveTrajectories = True
-decomposeCost = True
 plotPolynomials = False
 
 cases = ['177']
@@ -17,16 +46,41 @@ from settings_predictsim import getSettings_predictsim_mtp
 settings = getSettings_predictsim_mtp() 
 for case in cases:
     
-    # %% Problem settings.
+    # %% Settings.    
+    ###########################################################################
+    # Model settings.
+    model = 'new_model' # default model
+    if 'model' in settings[case]:
+        model = settings[case]['model']
+        
+    knee_axis = 'FK' # default is fixed knee flexion axis (FK)
+    if 'knee_axis' in settings[case]:
+        knee_axis = settings[case]['knee_axis']
+        
+    adjustAchillesTendonStiffness = False # default Achilles tendon stiffness.
+    if 'adjustAchillesTendonStiffness' in settings[case]:
+        adjustAchillesTendonStiffness = (
+            settings[case]['adjustAchillesTendonStiffness'])
+        
+    modelMass = settings[case]['modelMass']
     
-    # Default cost term weights.
-    weights = {'metabolicEnergyRateTerm' : 500,
+    ###########################################################################
+    # Problem formulation settings.
+    targetSpeed = 1.33 # default target walking.
+    if 'targetSpeed' in settings[case]:
+        targetSpeed = settings[case]['targetSpeed']
+        
+    guessType = 'quasiRandom' # default initial guess mode.
+    if 'guessType' in settings[case]:
+        guessType = settings[case]['guessType']    
+    
+    # Cost term weights.
+    weights = {'metabolicEnergyRateTerm' : 500, # default.
                'activationTerm': 2000,
                'jointAccelerationTerm': 50000,
                'armExcitationTerm': 1000000,
                'passiveTorqueTerm': 1000, 
-               'controls': 0.001}  
-    # Set different weights through settings.
+               'controls': 0.001}
     if 'metabolicEnergyRateTerm' in settings[case]:
         weights['metabolicEnergyRateTerm'] = (
             settings[case]['metabolicEnergyRateTerm'])
@@ -46,7 +100,8 @@ for case in cases:
         weights['controls'] = (
             settings[case]['controls'])
 
-    # Numerical settings
+    ###########################################################################
+    # Numerical settings.
     tol = 4 # default IPOPT convergence tolerance.
     if 'tol' in settings[case]:
         tol = settings[case]['tol']
@@ -63,33 +118,8 @@ for case in cases:
     if 'nThreads' in settings[case]:
         nThreads = settings[case]['nThreads']
     parallelMode = "thread" # only supported mode.
-    
-    # Model settings.
-    model = 'new_model' # default model
-    if 'model' in settings[case]:
-        model = settings[case]['model']
-        
-    knee_axis = 'FK' # default is fixed knee flexion axis (FK)
-    if 'knee_axis' in settings[case]:
-        knee_axis = settings[case]['knee_axis']
-        
-    adjustAchillesTendonStiffness = False # default Achilles tendon stiffness.
-    if 'adjustAchillesTendonStiffness' in settings[case]:
-        adjustAchillesTendonStiffness = (
-            settings[case]['adjustAchillesTendonStiffness'])
-        
-    modelMass = settings[case]['modelMass']
-    
-    # Problem settings.
-    targetSpeed = 1.33 # default target walking.
-    if 'targetSpeed' in settings[case]:
-        targetSpeed = settings[case]['targetSpeed']
-        
-    guessType = 'quasiRandom' # default initial guess mode.
-    if 'guessType' in settings[case]:
-        guessType = settings[case]['guessType']
          
-    # Paths
+    # %% Paths.
     pathMain = os.getcwd()
     pathData = os.path.join(pathMain, 'OpenSimModel', model)
     pathModelFolder = os.path.join(pathData, 'Model')
@@ -97,14 +127,17 @@ for case in cases:
     pathModel = os.path.join(pathModelFolder, modelName + '.osim')
     pathMuscleAnalysis = os.path.join(pathData, 'MA', 'ResultsMA', modelName, 
                                       modelName + '_MuscleAnalysis_')
-    pathExternalFunction = os.path.join(pathMain, 'ExternalFunction')
+    pathExternalFunction = os.path.join(pathModelFolder, 'ExternalFunction')
     filename = os.path.basename(__file__)
     pathCase = 'Case_' + case    
     pathTrajectories = os.path.join(pathMain, 'Results', filename[:-3]) 
     pathResults = os.path.join(pathTrajectories, pathCase)
     os.makedirs(pathResults, exist_ok=True)
     
-    # %% Muscle part.
+    # %% Muscles.
+    # This section is very specific to the OpenSim model being used.
+    # The list 'muscles' includes all right leg muscles, as well both side
+    # trunk muscles.
     muscles = [
         'glut_med1_r', 'glut_med2_r', 'glut_med3_r', 'glut_min1_r', 
         'glut_min2_r', 'glut_min3_r', 'semimem_r', 'semiten_r', 'bifemlh_r',
@@ -125,7 +158,8 @@ for case in cases:
     # Muscle-tendon parameters.
     from muscleData import getMTParameters
     # Support loading/saving muscle-tendon parameters such that OpenSim does
-    # not need to be loaded.
+    # not need to be loaded. In case no muscle-tendon parameters are saved,
+    # they will be loaded from the model using OpenSim's Python API.
     loadMTParameters = False
     if os.path.exists(os.path.join(
             pathModelFolder, 'mtParameters_{}.npy'.format(modelName))):
@@ -133,13 +167,12 @@ for case in cases:
     sideMtParameters = getMTParameters(pathModel, rightSideMuscles,
                                        loadMTParameters, modelName,
                                        pathModelFolder)
-    mtParameters = np.concatenate((sideMtParameters, sideMtParameters),
-                                  axis=1)
+    mtParameters = np.concatenate((sideMtParameters, sideMtParameters), axis=1)
     
-    # Tendon compliance.
-    from muscleData import tendonCompliance
-    # Same compliance for all tendons by default.
-    sideTendonCompliance = tendonCompliance(nSideMuscles)
+    # Tendon stiffness.
+    from muscleData import tendonStiffness
+    # Same stiffness for all tendons by default.
+    sideTendonStiffness = tendonStiffness(nSideMuscles)
     # Adjust Achilles tendon stiffness (triceps surae).
     if adjustAchillesTendonStiffness:
         AchillesTendonStiffness = settings[case]['AchillesTendonStiffness']
@@ -147,10 +180,10 @@ for case in cases:
         idxMusclesAchillesTendon = [
             rightSideMuscles.index(muscleAchillesTendon) 
             for muscleAchillesTendon in musclesAchillesTendon]
-        sideTendonCompliance[0, idxMusclesAchillesTendon] = (
+        sideTendonStiffness[0, idxMusclesAchillesTendon] = (
             AchillesTendonStiffness)                
-    tendonCompliance = np.concatenate((sideTendonCompliance, 
-                                       sideTendonCompliance), axis=1)
+    tendonStiffness = np.concatenate((sideTendonStiffness,
+                                      sideTendonStiffness), axis=1)
     
     # Muscle specific tension.
     from muscleData import specificTension
@@ -160,7 +193,7 @@ for case in cases:
     
     # Hill-equilibrium.
     from functionCasADi import hillEquilibrium
-    f_hillEquilibrium = hillEquilibrium(mtParameters, tendonCompliance, 
+    f_hillEquilibrium = hillEquilibrium(mtParameters, tendonStiffness, 
                                         specificTension)
     
     # Activation dynamics time constants.
@@ -169,10 +202,11 @@ for case in cases:
     
     # Indices periodic muscles.
     idxPerMuscles = (list(range(nSideMuscles, nMuscles)) + 
-                          list(range(0, nSideMuscles)))
+                     list(range(0, nSideMuscles)))
     
-    # %% Joint part.
-    from variousFunctions import getJointIndices
+    # %% Joints.
+    # This section is very specific to the OpenSim model being used.
+    # The list 'joints' includes all coordinates of the model.    
     # All joints.
     joints = ['pelvis_tilt', 'pelvis_list', 'pelvis_rotation',
               'pelvis_tx', 'pelvis_ty', 'pelvis_tz', 
@@ -189,18 +223,11 @@ for case in cases:
     nJoints = len(joints)
     
     # Rotational joints.
-    rotationalJoints = [
-        'pelvis_tilt', 'pelvis_list', 'pelvis_rotation', 
-        'hip_flexion_l', 'hip_adduction_l', 'hip_rotation_l', 
-        'hip_flexion_r', 'hip_adduction_r', 'hip_rotation_r', 
-        'knee_angle_l', 'knee_angle_r',
-        'ankle_angle_l', 'ankle_angle_r', 
-        'subtalar_angle_l', 'subtalar_angle_r', 
-        'mtp_angle_l', 'mtp_angle_r',
-        'lumbar_extension', 'lumbar_bending', 'lumbar_rotation', 
-        'arm_flex_l', 'arm_add_l', 'arm_rot_l',
-        'arm_flex_r', 'arm_add_r', 'arm_rot_r', 
-        'elbow_flex_l', 'elbow_flex_r']
+    rotationalJoints = copy.deepcopy(joints)
+    rotationalJoints.remove('pelvis_tx')
+    rotationalJoints.remove('pelvis_ty')
+    rotationalJoints.remove('pelvis_tz')
+    from variousFunctions import getJointIndices
     idxRotJoints = getJointIndices(joints, rotationalJoints)
     
     # Helper lists for periodic constraints.
@@ -271,7 +298,7 @@ for case in cases:
                               'lumbar_bending', 'lumbar_rotation']
     idxPerOppJoints = getJointIndices(joints, periodicOppositeJoints)
     
-    # Arm joints
+    # Arm joints.
     armJoints = ['arm_flex_l', 'arm_add_l', 'arm_rot_l', 
                  'arm_flex_r', 'arm_add_r', 'arm_rot_r', 
                  'elbow_flex_l', 'elbow_flex_r']
@@ -285,55 +312,42 @@ for case in cases:
     idxPerArmJoints = getJointIndices(armJoints, periodicArmJoints)
     
     # All but arm joints.
-    noArmJoints = [
-        'pelvis_tilt', 'pelvis_list', 'pelvis_rotation',
-        'pelvis_tx', 'pelvis_ty', 'pelvis_tz', 
-        'hip_flexion_l', 'hip_adduction_l', 'hip_rotation_l',
-        'hip_flexion_r', 'hip_adduction_r', 'hip_rotation_r',
-        'knee_angle_l', 'knee_angle_r',
-        'ankle_angle_l', 'ankle_angle_r',
-        'subtalar_angle_l', 'subtalar_angle_r', 
-        'mtp_angle_l', 'mtp_angle_r',
-        'lumbar_extension', 'lumbar_bending', 'lumbar_rotation']
+    noArmJoints = copy.deepcopy(joints)
+    for joint in armJoints:
+        noArmJoints.remove(joint)
     nNoArmJoints = len(noArmJoints)
     idxNoArmJoints = getJointIndices(joints, noArmJoints)
-    
-    # Joints with passive torques.
-    passiveTorqueJoints = [
-        'hip_flexion_l', 'hip_adduction_l', 'hip_rotation_l', 
-        'hip_flexion_r', 'hip_adduction_r', 'hip_rotation_r', 
-        'knee_angle_l', 'knee_angle_r',
-        'ankle_angle_l', 'ankle_angle_r',
-        'subtalar_angle_l', 'subtalar_angle_r',
-        'mtp_angle_l', 'mtp_angle_r',
-        'lumbar_extension', 'lumbar_bending', 'lumbar_rotation']
-    nPassiveTorqueJoints = len(passiveTorqueJoints)
     
     # Ground pelvis joints.
     groundPelvisJoints = ['pelvis_tilt', 'pelvis_list', 'pelvis_rotation',
                           'pelvis_tx', 'pelvis_ty', 'pelvis_tz']
     idxGroundPelvisJoints = getJointIndices(joints, groundPelvisJoints)
+    
+    # Joints with passive torques.
+    passiveTorqueJoints = copy.deepcopy(joints)
+    for joint in groundPelvisJoints:
+        passiveTorqueJoints.remove(joint)
+    for joint in armJoints:
+        passiveTorqueJoints.remove(joint)
+    nPassiveTorqueJoints = len(passiveTorqueJoints)
    
-    # Mtp joints
+    # Mtp joints.
     mtpJoints = ['mtp_angle_l', 'mtp_angle_r']
     nMtpJoints = len(mtpJoints)
    
-    # Trunk joints
+    # Trunk joints.
     trunkJoints = ['lumbar_extension', 'lumbar_bending', 'lumbar_rotation']
     
     # Muscle-driven joints.
-    muscleDrivenJoints = [ 
-        'hip_flexion_l', 'hip_flexion_r', 'hip_adduction_l', 'hip_adduction_r',
-        'hip_rotation_l', 'hip_rotation_r', 'knee_angle_l', 'knee_angle_r', 
-        'ankle_angle_l', 'ankle_angle_r', 
-        'subtalar_angle_l', 'subtalar_angle_r',
-        'lumbar_extension', 'lumbar_bending', 'lumbar_rotation']
+    muscleDrivenJoints = copy.deepcopy(joints)
+    for joint in groundPelvisJoints:
+        muscleDrivenJoints.remove(joint)
+    for joint in armJoints:
+        muscleDrivenJoints.remove(joint)
+    for joint in mtpJoints:
+        muscleDrivenJoints.remove(joint)
     
-    # %% GRF part.    
-    GRFNames = ['GRF_x_r', 'GRF_y_r', 'GRF_z_r',
-                'GRF_x_l','GRF_y_l', 'GRF_z_l']
-    
-    # %% Polynomial part.
+    # %% Polynomials.
     from functionCasADi import polynomialApproximation
     leftPolynomialJoints = [
         'hip_flexion_l', 'hip_adduction_l', 'hip_rotation_l', 'knee_angle_l',
@@ -1248,138 +1262,137 @@ for case in cases:
         assert np.alltrue(np.abs(mtpT) < 10**(-tol)), (
             "error mtp torques balance")   
         
-        # %% Decompose optimal cost.
-        if decomposeCost:     
-            # Missing matrix B, add manually (again in case only analyzing).
-            B = [-8.88178419700125e-16, 0.376403062700467, 0.512485826188421, 
-                 0.111111111111111]
-            metabolicEnergyRateTerm_opt_all = 0
-            activationTerm_opt_all = 0
-            armExcitationTerm_opt_all = 0
-            jointAccelerationTerm_opt_all = 0
-            passiveTorqueTerm_opt_all = 0
-            activationDtTerm_opt_all = 0
-            forceDtTerm_opt_all = 0
-            armAccelerationTerm_opt_all = 0
-            h_opt = finalTime_opt / N
-            for k in range(N):
-                # States.
-                akj_opt = (ca.horzcat(a_opt[:, k], a_col_opt[:, k*d:(k+1)*d]))
-                normFkj_opt = (
-                    ca.horzcat(normF_opt[:, k], normF_col_opt[:, k*d:(k+1)*d]))
-                normFkj_opt_nsc = (
-                    normFkj_opt * (scalingF.to_numpy().T * np.ones((1, d+1)))) 
-                Qskj_opt = (
-                    ca.horzcat(Qs_opt[:, k], Qs_col_opt[:, k*d:(k+1)*d]))
-                Qskj_opt_nsc = (
-                    Qskj_opt * (scalingQs.to_numpy().T * np.ones((1, d+1))))
-                Qdskj_opt = (
-                    ca.horzcat(Qds_opt[:, k], Qds_col_opt[:, k*d:(k+1)*d]))
-                Qdskj_opt_nsc = (
-                    Qdskj_opt * (scalingQds.to_numpy().T * np.ones((1, d+1))))
-                # Controls.
-                aDtk_opt = aDt_opt[:, k]
-                aDtk_opt_nsc = aDt_opt_nsc[:, k]
-                eArmk_opt = eArm_opt[:, k]
-                # Slack controls.
-                Qddsj_opt = Qdds_col_opt[:, k*d:(k+1)*d]
-                Qddsj_opt_nsc = (
-                    Qddsj_opt * (scalingQdds.to_numpy().T * np.ones((1, d))))
-                normFDtj_opt = normFDt_col_opt[:, k*d:(k+1)*d] 
-                normFDtj_opt_nsc = (
-                    normFDtj_opt * (scalingFDt.to_numpy().T * np.ones((1, d))))
-                # Qs and Qds are intertwined in external function.
-                QsQdskj_opt_nsc = ca.DM(nJoints*2, d+1)
-                QsQdskj_opt_nsc[::2, :] = Qskj_opt_nsc
-                QsQdskj_opt_nsc[1::2, :] = Qdskj_opt_nsc
-                # Loop over collocation points.               
-                for j in range(d):
-                    ###########################################################
-                    # Passive joint torques.
-                    passiveTorquesj_opt = np.zeros((nPassiveTorqueJoints, 1))
-                    for cj, joint in enumerate(passiveTorqueJoints):
-                        passiveTorquesj_opt[cj, 0] = f_passiveTorque[joint](
-                            Qskj_opt_nsc[joints.index(joint), j+1], 
-                            Qdskj_opt_nsc[joints.index(joint), j+1])
-                    
-                    ###########################################################
-                    # Polynomial approximations.
-                    # Left leg.
-                    Qsinj_opt_l = Qskj_opt_nsc[leftPolJointIdx, j+1]
-                    Qdsinj_opt_l = Qdskj_opt_nsc[leftPolJointIdx, j+1]
-                    [lMTj_opt_l, vMTj_opt_l, _] = f_polynomial(Qsinj_opt_l,
-                                                               Qdsinj_opt_l)       
-                    # Right leg.
-                    Qsinj_opt_r = Qskj_opt_nsc[rightPolJointIdx, j+1]
-                    Qdsinj_opt_r = Qdskj_opt_nsc[rightPolJointIdx, j+1]
-                    [lMTj_opt_r, vMTj_opt_r, _] = f_polynomial(Qsinj_opt_r,
-                                                               Qdsinj_opt_r)
-                    # Both legs        .
-                    lMTj_opt_lr = ca.vertcat(lMTj_opt_l[leftPolMuscleIdx], 
-                                             lMTj_opt_r[rightPolMuscleIdx])
-                    vMTj_opt_lr = ca.vertcat(vMTj_opt_l[leftPolMuscleIdx], 
-                                             vMTj_opt_r[rightPolMuscleIdx])
-                    
-                    ###########################################################
-                    # Derive Hill-equilibrium.
-                    [hillEquilibriumj_opt, Fj_opt, activeFiberForcej_opt, 
-                     passiveFiberForcej_opt, normActiveFiberLengthForcej_opt, 
-                     normFiberLengthj_opt, fiberVelocityj_opt] = (
-                         f_hillEquilibrium(
-                             akj_opt[:, j+1], lMTj_opt_lr, vMTj_opt_lr,
-                             normFkj_opt_nsc[:, j+1], normFDtj_opt_nsc[:, j]))  
-                    
-                    ###########################################################
-                    # Get metabolic energy rate.
-                    [actHeatRatej_opt, mtnHeatRatej_opt, 
-                     shHeatRatej_opt, mechWRatej_opt, _, 
-                     metabolicEnergyRatej_opt] = f_metabolicsBhargava(
-                         akj_opt[:, j+1], akj_opt[:, j+1], 
-                         normFiberLengthj_opt, fiberVelocityj_opt, 
-                         activeFiberForcej_opt, passiveFiberForcej_opt,
-                         normActiveFiberLengthForcej_opt)
-                    
-                    ###########################################################
-                    # Cost function terms.
-                    activationTerm_opt = f_NMusclesSum2(akj_opt[:, j+1])  
-                    jointAccelerationTerm_opt = f_nNoArmJointsSum2(
-                        Qddsj_opt[idxNoArmJoints, j])          
-                    passiveTorqueTerm_opt = f_nPassiveTorqueJointsSum2(
-                        passiveTorquesj_opt)     
-                    activationDtTerm_opt = f_NMusclesSum2(aDtk_opt)
-                    forceDtTerm_opt = f_NMusclesSum2(normFDtj_opt[:, j])
-                    armAccelerationTerm_opt = f_nArmJointsSum2(
-                        Qddsj_opt[idxArmJoints, j])
-                    armExcitationTerm_opt = f_nArmJointsSum2(eArmk_opt) 
-                    metabolicEnergyRateTerm_opt = (
-                        f_NMusclesSum2(metabolicEnergyRatej_opt) / modelMass)
-                    
-                    metabolicEnergyRateTerm_opt_all += (
-                        weights['metabolicEnergyRateTerm'] * 
-                        metabolicEnergyRateTerm_opt * h_opt * B[j + 1] / 
-                        distTraveled_opt)
-                    activationTerm_opt_all += (
-                        weights['activationTerm'] * activationTerm_opt * 
-                        h_opt * B[j + 1] / distTraveled_opt)
-                    armExcitationTerm_opt_all += (
-                        weights['armExcitationTerm'] * armExcitationTerm_opt * 
-                        h_opt * B[j + 1] / distTraveled_opt)
-                    jointAccelerationTerm_opt_all += (
-                        weights['jointAccelerationTerm'] * 
-                        jointAccelerationTerm_opt * h_opt * B[j + 1] / 
-                        distTraveled_opt)
-                    passiveTorqueTerm_opt_all += (
-                        weights['passiveTorqueTerm'] * passiveTorqueTerm_opt * 
-                        h_opt * B[j + 1] / distTraveled_opt)
-                    activationDtTerm_opt_all += (
-                        weights['controls'] * activationDtTerm_opt * h_opt * 
-                        B[j + 1] / distTraveled_opt)
-                    forceDtTerm_opt_all += (
-                        weights['controls'] * forceDtTerm_opt * h_opt * 
-                        B[j + 1] / distTraveled_opt)
-                    armAccelerationTerm_opt_all += (
-                        weights['controls'] * armAccelerationTerm_opt * 
-                        h_opt * B[j + 1] / distTraveled_opt)
+        # %% Decompose optimal cost.  
+        # Missing matrix B, add manually (again in case only analyzing).
+        B = [-8.88178419700125e-16, 0.376403062700467, 0.512485826188421, 
+             0.111111111111111]
+        metabolicEnergyRateTerm_opt_all = 0
+        activationTerm_opt_all = 0
+        armExcitationTerm_opt_all = 0
+        jointAccelerationTerm_opt_all = 0
+        passiveTorqueTerm_opt_all = 0
+        activationDtTerm_opt_all = 0
+        forceDtTerm_opt_all = 0
+        armAccelerationTerm_opt_all = 0
+        h_opt = finalTime_opt / N
+        for k in range(N):
+            # States.
+            akj_opt = (ca.horzcat(a_opt[:, k], a_col_opt[:, k*d:(k+1)*d]))
+            normFkj_opt = (
+                ca.horzcat(normF_opt[:, k], normF_col_opt[:, k*d:(k+1)*d]))
+            normFkj_opt_nsc = (
+                normFkj_opt * (scalingF.to_numpy().T * np.ones((1, d+1)))) 
+            Qskj_opt = (
+                ca.horzcat(Qs_opt[:, k], Qs_col_opt[:, k*d:(k+1)*d]))
+            Qskj_opt_nsc = (
+                Qskj_opt * (scalingQs.to_numpy().T * np.ones((1, d+1))))
+            Qdskj_opt = (
+                ca.horzcat(Qds_opt[:, k], Qds_col_opt[:, k*d:(k+1)*d]))
+            Qdskj_opt_nsc = (
+                Qdskj_opt * (scalingQds.to_numpy().T * np.ones((1, d+1))))
+            # Controls.
+            aDtk_opt = aDt_opt[:, k]
+            aDtk_opt_nsc = aDt_opt_nsc[:, k]
+            eArmk_opt = eArm_opt[:, k]
+            # Slack controls.
+            Qddsj_opt = Qdds_col_opt[:, k*d:(k+1)*d]
+            Qddsj_opt_nsc = (
+                Qddsj_opt * (scalingQdds.to_numpy().T * np.ones((1, d))))
+            normFDtj_opt = normFDt_col_opt[:, k*d:(k+1)*d] 
+            normFDtj_opt_nsc = (
+                normFDtj_opt * (scalingFDt.to_numpy().T * np.ones((1, d))))
+            # Qs and Qds are intertwined in external function.
+            QsQdskj_opt_nsc = ca.DM(nJoints*2, d+1)
+            QsQdskj_opt_nsc[::2, :] = Qskj_opt_nsc
+            QsQdskj_opt_nsc[1::2, :] = Qdskj_opt_nsc
+            # Loop over collocation points.               
+            for j in range(d):
+                ###########################################################
+                # Passive joint torques.
+                passiveTorquesj_opt = np.zeros((nPassiveTorqueJoints, 1))
+                for cj, joint in enumerate(passiveTorqueJoints):
+                    passiveTorquesj_opt[cj, 0] = f_passiveTorque[joint](
+                        Qskj_opt_nsc[joints.index(joint), j+1], 
+                        Qdskj_opt_nsc[joints.index(joint), j+1])
+                
+                ###########################################################
+                # Polynomial approximations.
+                # Left leg.
+                Qsinj_opt_l = Qskj_opt_nsc[leftPolJointIdx, j+1]
+                Qdsinj_opt_l = Qdskj_opt_nsc[leftPolJointIdx, j+1]
+                [lMTj_opt_l, vMTj_opt_l, _] = f_polynomial(Qsinj_opt_l,
+                                                           Qdsinj_opt_l)       
+                # Right leg.
+                Qsinj_opt_r = Qskj_opt_nsc[rightPolJointIdx, j+1]
+                Qdsinj_opt_r = Qdskj_opt_nsc[rightPolJointIdx, j+1]
+                [lMTj_opt_r, vMTj_opt_r, _] = f_polynomial(Qsinj_opt_r,
+                                                           Qdsinj_opt_r)
+                # Both legs        .
+                lMTj_opt_lr = ca.vertcat(lMTj_opt_l[leftPolMuscleIdx], 
+                                         lMTj_opt_r[rightPolMuscleIdx])
+                vMTj_opt_lr = ca.vertcat(vMTj_opt_l[leftPolMuscleIdx], 
+                                         vMTj_opt_r[rightPolMuscleIdx])
+                
+                ###########################################################
+                # Derive Hill-equilibrium.
+                [hillEquilibriumj_opt, Fj_opt, activeFiberForcej_opt, 
+                 passiveFiberForcej_opt, normActiveFiberLengthForcej_opt, 
+                 normFiberLengthj_opt, fiberVelocityj_opt] = (
+                     f_hillEquilibrium(
+                         akj_opt[:, j+1], lMTj_opt_lr, vMTj_opt_lr,
+                         normFkj_opt_nsc[:, j+1], normFDtj_opt_nsc[:, j]))  
+                
+                ###########################################################
+                # Get metabolic energy rate.
+                [actHeatRatej_opt, mtnHeatRatej_opt, 
+                 shHeatRatej_opt, mechWRatej_opt, _, 
+                 metabolicEnergyRatej_opt] = f_metabolicsBhargava(
+                     akj_opt[:, j+1], akj_opt[:, j+1], 
+                     normFiberLengthj_opt, fiberVelocityj_opt, 
+                     activeFiberForcej_opt, passiveFiberForcej_opt,
+                     normActiveFiberLengthForcej_opt)
+                
+                ###########################################################
+                # Cost function terms.
+                activationTerm_opt = f_NMusclesSum2(akj_opt[:, j+1])  
+                jointAccelerationTerm_opt = f_nNoArmJointsSum2(
+                    Qddsj_opt[idxNoArmJoints, j])          
+                passiveTorqueTerm_opt = f_nPassiveTorqueJointsSum2(
+                    passiveTorquesj_opt)     
+                activationDtTerm_opt = f_NMusclesSum2(aDtk_opt)
+                forceDtTerm_opt = f_NMusclesSum2(normFDtj_opt[:, j])
+                armAccelerationTerm_opt = f_nArmJointsSum2(
+                    Qddsj_opt[idxArmJoints, j])
+                armExcitationTerm_opt = f_nArmJointsSum2(eArmk_opt) 
+                metabolicEnergyRateTerm_opt = (
+                    f_NMusclesSum2(metabolicEnergyRatej_opt) / modelMass)
+                
+                metabolicEnergyRateTerm_opt_all += (
+                    weights['metabolicEnergyRateTerm'] * 
+                    metabolicEnergyRateTerm_opt * h_opt * B[j + 1] / 
+                    distTraveled_opt)
+                activationTerm_opt_all += (
+                    weights['activationTerm'] * activationTerm_opt * 
+                    h_opt * B[j + 1] / distTraveled_opt)
+                armExcitationTerm_opt_all += (
+                    weights['armExcitationTerm'] * armExcitationTerm_opt * 
+                    h_opt * B[j + 1] / distTraveled_opt)
+                jointAccelerationTerm_opt_all += (
+                    weights['jointAccelerationTerm'] * 
+                    jointAccelerationTerm_opt * h_opt * B[j + 1] / 
+                    distTraveled_opt)
+                passiveTorqueTerm_opt_all += (
+                    weights['passiveTorqueTerm'] * passiveTorqueTerm_opt * 
+                    h_opt * B[j + 1] / distTraveled_opt)
+                activationDtTerm_opt_all += (
+                    weights['controls'] * activationDtTerm_opt * h_opt * 
+                    B[j + 1] / distTraveled_opt)
+                forceDtTerm_opt_all += (
+                    weights['controls'] * forceDtTerm_opt * h_opt * 
+                    B[j + 1] / distTraveled_opt)
+                armAccelerationTerm_opt_all += (
+                    weights['controls'] * armAccelerationTerm_opt * 
+                    h_opt * B[j + 1] / distTraveled_opt)
         
         objective_terms = {
             "metabolicEnergyRateTerm": metabolicEnergyRateTerm_opt_all.full(),
@@ -1515,7 +1528,7 @@ for case in cases:
             from variousFunctions import numpy2storage
             numpy2storage(labels, data, os.path.join(pathResults,'motion.mot'))        
             
-        # %% Compute metabolic cost of transport for whole gait cycle.   
+        # %% Compute metabolic cost of transport over entire gait cycle.   
         Qs_GC_rad = Qs_GC.copy()        
         Qs_GC_rad[idxRotJoints, :] = Qs_GC_rad[idxRotJoints, :] * np.pi / 180
         Qds_GC_rad = Qds_GC.copy()        
@@ -1623,7 +1636,8 @@ for case in cases:
         COT_mechanical_GC = mechWRate_int / modelMass / distTraveled_GC        
         COT_perMuscle_GC = metERatePerMuscle_int / modelMass / distTraveled_GC        
         
-        # %% Compute stride length.
+        # %% Compute stride length and extract GRFs, GRMs, and joint torques
+        # over the entire gait cycle.
         QsQds_opt_nsc_GC = np.zeros((nJoints*2, N*2))
         QsQds_opt_nsc_GC[::2, :] = Qs_GC_rad
         QsQds_opt_nsc_GC[1::2, :] = Qds_GC_rad        
@@ -1642,7 +1656,7 @@ for case in cases:
         torques_GC = F1_GC[getJointIndices(joints, joints), :]        
         
         # %% Write GRF file for visualization in OpenSim GUI.  
-        # COP and free moment.
+        # Center of pressure (COP) and free torque (freeT).
         from variousFunctions import getCOP
         COPr_GC, freeTr_GC = getCOP(GRF_GC[:3,:], GRM_GC[:3,:])
         COPl_GC, freeTl_GC = getCOP(GRF_GC[3:,:], GRM_GC[3:,:])        
@@ -1670,7 +1684,9 @@ for case in cases:
                 'l_ground_force_px', 'l_ground_force_py', 'l_ground_force_pz']            
             grmLabels = [
                 'r_ground_torque_x', 'r_ground_torque_y', 'r_ground_torque_z',
-                'l_ground_torque_x', 'l_ground_torque_y', 'l_ground_torque_z']                         
+                'l_ground_torque_x', 'l_ground_torque_y', 'l_ground_torque_z']
+            GRFNames = ['GRF_x_r', 'GRF_y_r', 'GRF_z_r',
+                        'GRF_x_l','GRF_y_l', 'GRF_z_l']                         
             grLabels = grf_cop_Labels + grmLabels      
             labels = ['time'] + grLabels
             data = np.concatenate(
