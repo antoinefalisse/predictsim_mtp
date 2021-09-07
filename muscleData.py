@@ -1,12 +1,19 @@
 import os
 import numpy as np
 
-def getMTParameters(pathModel, muscles, loadMTParameters, modelName, pathMTParameters=0):
+# %% Import muscle-tendon parameters.
+# We save the muscle-tendon parameters associated with the model the first time
+# we 'use' the model such that we do not need OpenSim later on. If no
+# muscle-tendon parameters exist, then we extract them from the model using
+# OpenSim's Python API. See here how to setup your environment to use the
+# Python API: https://simtk-confluence.stanford.edu/display/OpenSim/Scripting+in+Python.
+def getMTParameters(pathModel, muscles, loadMTParameters, modelName,
+                    pathMTParameters=0):
     
     if loadMTParameters:        
-        mtParameters = np.load(os.path.join(pathMTParameters, 'mtParameters_{}.npy'.format(modelName)), 
-                            allow_pickle=True)     
-        
+        mtParameters = np.load(os.path.join(
+            pathMTParameters, 'mtParameters_{}.npy'.format(modelName)), 
+            allow_pickle=True)        
     else:
         import opensim
         model = opensim.Model(pathModel)
@@ -18,36 +25,57 @@ def getMTParameters(pathModel, muscles, loadMTParameters, modelName, pathMTParam
            mtParameters[1,i] = muscle.getOptimalFiberLength()
            mtParameters[2,i] = muscle.getTendonSlackLength()
            mtParameters[3,i] = muscle.getPennationAngleAtOptimalFiberLength()
-           mtParameters[4,i] = muscle.getMaxContractionVelocity()*muscle.getOptimalFiberLength()
+           mtParameters[4,i] = (muscle.getMaxContractionVelocity() * 
+                                muscle.getOptimalFiberLength())
         if pathMTParameters != 0:
-           np.save(os.path.join(pathMTParameters, 'mtParameters.npy_{}'.format(modelName)), mtParameters)
+           np.save(
+               os.path.join(pathMTParameters,
+                            'mtParameters.npy_{}'.format(modelName)),
+               mtParameters)
        
     return mtParameters  
 
-def getPolynomialData(loadPolynomialData, pathPolynomialData, modelName, pathCoordinates='', pathMuscleAnalysis='', joints=[], muscles=[]):
+# %% Import data from polynomial approximations.
+# We fit the polynomial coefficients if no polynomial data exist yet, and we
+# save them such that we do not need to do the fitting again.
+def getPolynomialData(loadPolynomialData, pathPolynomialData, modelName,
+                      pathCoordinates='', pathMuscleAnalysis='', joints=[],
+                      muscles=[]):
     
     if loadPolynomialData:
-        polynomialData = np.load(os.path.join(pathPolynomialData, 'polynomialData_{}.npy'.format(modelName)), 
-                            allow_pickle=True) 
+        polynomialData = np.load(
+            os.path.join(
+                pathPolynomialData, 'polynomialData_{}.npy'.format(modelName)), 
+            allow_pickle=True) 
         
     else:       
         from polynomials import getPolynomialCoefficients
-        polynomialData = getPolynomialCoefficients(pathCoordinates, pathMuscleAnalysis, joints, muscles)
+        polynomialData = getPolynomialCoefficients(
+            pathCoordinates, pathMuscleAnalysis, joints, muscles)
         if pathPolynomialData != 0:
-            np.save(os.path.join(pathPolynomialData, 'polynomialData_{}.npy'.format(modelName)), polynomialData)
+            np.save(
+                os.path.join(pathPolynomialData, 
+                             'polynomialData_{}.npy'.format(modelName)),
+                polynomialData)
            
     return polynomialData
 
+# %% Tendon stiffness
+# Default value is 35.
 def tendonStiffness(NSideMuscles):
     tendonStiffness = np.full((1, NSideMuscles), 35)
     
     return tendonStiffness
 
+# Tendon shift to ensure that the tendon force when the normalized tendon
+# lenght is 1 is the same for all tendon stiffnesses.
 def tendonShift(NSideMuscles):
     tendonShift = np.full((1, NSideMuscles), 0)
     
     return tendonShift 
 
+# %% Specific tensions from https://simtk.org/projects/idealassist_run
+# Associated publication: https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0163417
 def specificTension(muscles):    
     
     sigma = {'glut_med1_r' : 0.74455,
@@ -103,6 +131,8 @@ def specificTension(muscles):
     
     return specificTension
 
+# %% Slow twitch ratios from https://simtk.org/projects/idealassist_run
+# Associated publication: https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0163417
 def slowTwitchRatio(muscles):    
     
     sigma = {'glut_med1_r' : 0.55,
@@ -158,6 +188,8 @@ def slowTwitchRatio(muscles):
     
     return slowTwitchRatio
 
+# %% Joint passive / limit torques.
+# Data from https://www.tandfonline.com/doi/abs/10.1080/10255849908907988
 def passiveTorqueData(joint):    
     
     kAll = {'hip_flexion_r' : [-2.44, 5.05, 1.51, -21.88],
@@ -199,7 +231,5 @@ def passiveTorqueData(joint):
     k = kAll[joint] 
     theta = thetaAll[joint]
     
-    return k, theta  
-
-
+    return k, theta
     

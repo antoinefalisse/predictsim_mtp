@@ -38,7 +38,7 @@ def polynomialApproximation(musclesPolynomials, polynomialData, NPolynomial):
 
 def hillEquilibrium(mtParameters, tendonCompliance, specificTension):
     
-    from muscleModel import muscleModel
+    from muscleModels import DeGrooteFregly2016MuscleModel
     
     NMuscles = mtParameters.shape[1]
     # Function variables
@@ -57,7 +57,7 @@ def hillEquilibrium(mtParameters, tendonCompliance, specificTension):
     fiberVelocity = ca.SX(NMuscles, 1)    
     
     for m in range(NMuscles):    
-        muscle = muscleModel(mtParameters[:, m], activation[m], mtLength[m],
+        muscle = DeGrooteFregly2016MuscleModel(mtParameters[:, m], activation[m], mtLength[m],
                              mtVelocity[m], normTendonForce[m], 
                              normTendonForceDT[m], tendonCompliance[:, m],
                              specificTension[:, m])
@@ -120,10 +120,11 @@ def metabolicsBhargava(slowTwitchRatio, maximalIsometricForce,
     slowTwitchExcitation = ca.SX(NMuscles, 1) 
     fastTwitchExcitation = ca.SX(NMuscles, 1) 
     
-    from metabolicEnergyModel import smoothBhargava2004
+    from metabolicEnergyModels import Bhargava2004SmoothedMuscleMetabolics
     
     for m in range(NMuscles):   
-        metabolics = (smoothBhargava2004(excitation[m], activation[m], 
+        metabolics = (Bhargava2004SmoothedMuscleMetabolics(
+            excitation[m], activation[m], 
                                          normFiberLength[m],
                                          fiberVelocity[m],
                                          activeFiberForce[m], 

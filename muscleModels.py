@@ -1,6 +1,6 @@
 import numpy as np
 
-class muscleModel:
+class DeGrooteFregly2016MuscleModel:
     
     def __init__(self, mtParameters, activation, mtLength, mtVelocity,
                  normTendonForce, normTendonForceDT, tendonCompliance,
@@ -194,43 +194,3 @@ class muscleModel:
                                         self.normTendonForce)
         
         return hillEquilibrium
-    
-#def main():
-#    mtParameters = np.array([[2.5],[4.5],[6.5],[8.5],[10.5]])
-#    activation = 0.8
-#    mtLength = 1.4
-#    mtVelocity = 0.8
-#    normTendonForce = 1.5
-#    normTendonForceDT = 15
-#    tendonCompliance = 35
-#    tendonShift = 0
-#    specificTension = 25
-#    
-#    muscle = muscleModel(mtParameters, activation, mtLength, mtVelocity,
-#                         normTendonForce, normTendonForceDT, tendonCompliance,
-#                         tendonShift, specificTension)
-#    
-#    fiberLength, normFiberLength = muscle.getFiberLength()
-#    print(fiberLength)
-#    print(normFiberLength)
-#    
-#    fiberVelocity, normFiberVelocity = muscle.getFiberVelocity()
-#    print(fiberVelocity)
-#    print(normFiberVelocity)
-#    
-#    normActiveFiberLengthForce = muscle.getActiveFiberLengthForce()
-#    print(normActiveFiberLengthForce)
-#    
-#    normActiveFiberForce = muscle.getActiveFiberForce()
-#    print(normActiveFiberForce)
-#    
-#    normPassiveFiberForce = muscle.getPassiveFiberForce()
-#    print(normPassiveFiberForce)
-#    
-#    hillEquilibrium = muscle.deriveHillEquilibrium()
-#    print(hillEquilibrium)
-#    
-#    tendonForce = muscle.getTendonForce()
-#    print(tendonForce)
-#    
-#main()
