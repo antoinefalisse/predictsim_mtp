@@ -1,6 +1,8 @@
 import casadi as ca
 import numpy as np
 
+# %% Returns CasADi function to approximate muscle-tendon lenghts, velocities,
+# and moment arms based on joint positions and velocities.
 def polynomialApproximation(musclesPolynomials, polynomialData, NPolynomial):    
     
     from polynomials import polynomials
@@ -35,7 +37,7 @@ def polynomialApproximation(musclesPolynomials, polynomialData, NPolynomial):
     
     return f_polynomial
         
-
+# %% Returns CasADi function to derive the Hill equilibrium.
 def hillEquilibrium(mtParameters, tendonCompliance, specificTension):
     
     from muscleModels import DeGrooteFregly2016MuscleModel
@@ -57,10 +59,10 @@ def hillEquilibrium(mtParameters, tendonCompliance, specificTension):
     fiberVelocity = ca.SX(NMuscles, 1)    
     
     for m in range(NMuscles):    
-        muscle = DeGrooteFregly2016MuscleModel(mtParameters[:, m], activation[m], mtLength[m],
-                             mtVelocity[m], normTendonForce[m], 
-                             normTendonForceDT[m], tendonCompliance[:, m],
-                             specificTension[:, m])
+        muscle = DeGrooteFregly2016MuscleModel(
+            mtParameters[:, m], activation[m], mtLength[m], mtVelocity[m], 
+            normTendonForce[m], normTendonForceDT[m], tendonCompliance[:, m],
+            specificTension[:, m])
         
         hillEquilibrium[m] = muscle.deriveHillEquilibrium()
         tendonForce[m] = muscle.getTendonForce()
@@ -80,7 +82,10 @@ def hillEquilibrium(mtParameters, tendonCompliance, specificTension):
     
     return f_hillEquilibrium
 
+# %% Returns CasADi function to explicitly describe the simple dynamics
+# governing the arm movements.
 def armActivationDynamics(NArmJoints):
+    
     t = 0.035 # time constant       
     
     eArm = ca.SX.sym('eArm',NArmJoints)
@@ -93,6 +98,7 @@ def armActivationDynamics(NArmJoints):
     
     return f_armActivationDynamics  
 
+# %% Returns CasADi function to compute the metabolic cost of transport.
 def metabolicsBhargava(slowTwitchRatio, maximalIsometricForce,
                        muscleMass, smoothingConstant,
                        use_fiber_length_dep_curve=False,
