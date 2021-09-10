@@ -37,7 +37,7 @@ import copy
 # results. Yet if you solved the optimal control problem and saved the results,
 # you might want to latter only load and process the results without re-solving
 # the problem. Playing with the settings below allows you to do exactly that.
-solveProblem = True # Set True to solve the optimal control problem.
+solveProblem = False # Set True to solve the optimal control problem.
 saveResults = True # Set True to save the results of the optimization.
 analyzeResults = True # Set True to analyze the results.
 loadResults = True # Set True to load the results of the optimization.
@@ -47,7 +47,7 @@ saveOptimalTrajectories = True # Set True to save optimal trajectories
 # Select the case(s) for which you want to solve the associated problem(s) or
 # process the results. Specify the settings of the case(s) in the 
 # 'settings_cases' module. 
-cases = ['177']
+cases = ['178']
 
 # Import settings.
 from settings import getSettings_predictsim_mtp   
@@ -70,6 +70,10 @@ for case in cases:
         adjustAchillesTendonStiffness = (
             settings[case]['adjustAchillesTendonStiffness'])
         
+    withMTP = True # default model includes mtp joints
+    if 'withMTP' in settings[case]:
+        withMTP = settings[case]['withMTP']        
+        
     modelMass = settings[case]['modelMass']
     
     ###########################################################################
@@ -78,7 +82,7 @@ for case in cases:
     if 'targetSpeed' in settings[case]:
         targetSpeed = settings[case]['targetSpeed']
         
-    guessType = 'quasiRandom' # default initial guess mode.
+    guessType = 'coldStart' # default initial guess mode.
     if 'guessType' in settings[case]:
         guessType = settings[case]['guessType']    
     
@@ -131,7 +135,10 @@ for case in cases:
     pathMain = os.getcwd()
     pathData = os.path.join(pathMain, 'OpenSimModel', model)
     pathModelFolder = os.path.join(pathData, 'Model')
-    modelName = '{}_scaled_{}'.format(model, knee_axis)
+    if withMTP:
+        modelName = '{}_scaled_{}'.format(model, knee_axis)
+    else:
+        modelName = '{}_noMTP_scaled_{}'.format(model, knee_axis)
     pathModel = os.path.join(pathModelFolder, modelName + '.osim')
     pathMuscleAnalysis = os.path.join(pathData, 'MA', 'ResultsMA', modelName, 
                                       modelName + '_MuscleAnalysis_')
@@ -232,6 +239,13 @@ for case in cases:
               'arm_flex_l', 'arm_add_l', 'arm_rot_l',
               'arm_flex_r', 'arm_add_r', 'arm_rot_r', 
               'elbow_flex_l', 'elbow_flex_r']
+    # Mtp joints.
+    mtpJoints = ['mtp_angle_l', 'mtp_angle_r']
+    nMtpJoints = len(mtpJoints)
+    
+    if not withMTP:
+        for joint in mtpJoints:
+            joints.remove(joint)
     nJoints = len(joints)
     
     # Rotational joints.
@@ -258,6 +272,9 @@ for case in cases:
         'arm_flex_l', 'arm_add_l', 'arm_rot_l', 
         'arm_flex_r', 'arm_add_r', 'arm_rot_r', 
         'elbow_flex_l', 'elbow_flex_r']
+    if not withMTP:
+        for joint in mtpJoints:
+            periodicQsJointsA.remove(joint)
     idxPerQsJointsA = getJointIndices(joints, periodicQsJointsA)
     periodicQsJointsB = [
         'pelvis_tilt', 'pelvis_ty', 
@@ -271,6 +288,9 @@ for case in cases:
         'arm_flex_r', 'arm_add_r', 'arm_rot_r', 
         'arm_flex_l', 'arm_add_l', 'arm_rot_l', 
         'elbow_flex_r', 'elbow_flex_l']
+    if not withMTP:
+        for joint in mtpJoints:
+            periodicQsJointsB.remove(joint)
     idxPerQsJointsB = getJointIndices(joints, periodicQsJointsB)
     
     # The joint velocities in periodicQdsJointsA after half a gait cycle
@@ -289,6 +309,9 @@ for case in cases:
         'arm_flex_l', 'arm_add_l', 'arm_rot_l', 
         'arm_flex_r', 'arm_add_r', 'arm_rot_r', 
         'elbow_flex_l', 'elbow_flex_r']
+    if not withMTP:
+        for joint in mtpJoints:
+            periodicQdsJointsA.remove(joint)
     idxPerQdsJointsA = getJointIndices(joints, periodicQdsJointsA)
     periodicQdsJointsB = [
         'pelvis_tilt', 'pelvis_tx', 'pelvis_ty', 
@@ -302,6 +325,9 @@ for case in cases:
         'arm_flex_r', 'arm_add_r', 'arm_rot_r', 
         'arm_flex_l', 'arm_add_l', 'arm_rot_l', 
         'elbow_flex_r', 'elbow_flex_l']
+    if not withMTP:
+        for joint in mtpJoints:
+            periodicQdsJointsB.remove(joint)
     idxPerQdsJointsB = getJointIndices(joints, periodicQdsJointsB)
     
     # The joint positions and velocities in periodicOppositeJoints after half
@@ -343,10 +369,6 @@ for case in cases:
         passiveTorqueJoints.remove(joint)
     nPassiveTorqueJoints = len(passiveTorqueJoints)
    
-    # Mtp joints.
-    mtpJoints = ['mtp_angle_l', 'mtp_angle_r']
-    nMtpJoints = len(mtpJoints)
-   
     # Trunk joints.
     trunkJoints = ['lumbar_extension', 'lumbar_bending', 'lumbar_rotation']
     
@@ -356,8 +378,9 @@ for case in cases:
         muscleDrivenJoints.remove(joint)
     for joint in armJoints:
         muscleDrivenJoints.remove(joint)
-    for joint in mtpJoints:
-        muscleDrivenJoints.remove(joint)
+    if withMTP:
+        for joint in mtpJoints:
+            muscleDrivenJoints.remove(joint)
     
     # %% Polynomial approximations.
     # Muscle-tendon lengths, velocities, and moment arms are estimated based
@@ -374,6 +397,9 @@ for case in cases:
         'hip_flexion_r', 'hip_adduction_r', 'hip_rotation_r', 'knee_angle_r',
         'ankle_angle_r', 'subtalar_angle_r', 'mtp_angle_r',
         'lumbar_extension', 'lumbar_bending', 'lumbar_rotation']
+    if not withMTP:
+        leftPolynomialJoints.remove(mtpJoints[0])
+        rightPolynomialJoints.remove(mtpJoints[1])
     nPolynomialJoints = len(leftPolynomialJoints)
     
     from muscleData import getPolynomialData      
@@ -552,7 +578,7 @@ for case in cases:
     
     from bounds import bounds
     bounds = bounds(Qs_walk_filt, joints, rightSideMuscles, armJoints, 
-                    targetSpeed, mtpJoints)
+                    targetSpeed)
     
     # Static parameters.
     ubFinalTime, lbFinalTime = bounds.getBoundsFinalTime()
@@ -614,14 +640,14 @@ for case in cases:
     _, _, scalingMtpE = bounds.getBoundsMtpExcitation()
     
     # %% Initial guess of the optimal control problem.
-    if guessType == 'quasiRandom':
-        from guesses import quasiRandomGuess
-        guess = quasiRandomGuess(N, d, joints, bothSidesMuscles, targetSpeed)
-    elif guessType == 'dataDriven':
-        from guesses import dataDrivenGuess
-        guess = dataDrivenGuess(Qs_walk_filt, N, d, joints, bothSidesMuscles,
-                                targetSpeed, periodicQsJointsA, 
-                                periodicQdsJointsA, periodicOppositeJoints)
+    if guessType == 'coldStart':
+        from guesses import coldStart
+        guess = coldStart(N, d, joints, bothSidesMuscles, targetSpeed)
+    elif guessType == 'hotStart':
+        from guesses import hotStart
+        guess = hotStart(Qs_walk_filt, N, d, joints, bothSidesMuscles,
+                         targetSpeed, periodicQsJointsA, 
+                         periodicQdsJointsA, periodicOppositeJoints)
 
     # Static parameters.
     gFinalTime = guess.getGuessFinalTime()
@@ -707,7 +733,7 @@ for case in cases:
         Qs = opti.variable(nJoints, N+1)
         opti.subject_to(opti.bounded(lbQsk, ca.vec(Qs), ubQsk))
         opti.set_initial(Qs, gQs.to_numpy().T)
-        if not guessType == 'quasiRandom':
+        if not guessType == 'coldStart':
             assert np.alltrue(lbQsk <= ca.vec(gQs.to_numpy().T).full()), (
                 "Error lower bound joint position")
             assert np.alltrue(ubQsk >= ca.vec(gQs.to_numpy().T).full()), (
@@ -716,7 +742,7 @@ for case in cases:
         Qs_col = opti.variable(nJoints, d*N)
         opti.subject_to(opti.bounded(lbQsj, ca.vec(Qs_col), ubQsj))
         opti.set_initial(Qs_col, gQsCol.to_numpy().T)
-        if not guessType == 'quasiRandom':
+        if not guessType == 'coldStart':
             assert np.alltrue(lbQsj <= ca.vec(gQsCol.to_numpy().T).full()), (
                 "Error lower bound joint position collocation points")
             assert np.alltrue(ubQsj >= ca.vec(gQsCol.to_numpy().T).full()), (
@@ -936,11 +962,12 @@ for case in cases:
                     Qskj_nsc[joints.index(joint), j+1],
                     Qdskj_nsc[joints.index(joint), j+1])
                 
-            linearPassiveTorqueMtp_j = {}
-            for joint in mtpJoints:
-                linearPassiveTorqueMtp_j[joint] = f_linearPassiveMtpTorque(
-                    Qskj_nsc[joints.index(joint), j+1],
-                    Qdskj_nsc[joints.index(joint), j+1])
+            if withMTP:
+                linearPassiveTorqueMtp_j = {}
+                for joint in mtpJoints:
+                    linearPassiveTorqueMtp_j[joint] = f_linearPassiveMtpTorque(
+                        Qskj_nsc[joints.index(joint), j+1],
+                        Qdskj_nsc[joints.index(joint), j+1])
             
             ###################################################################
             # Cost function.
@@ -1015,14 +1042,15 @@ for case in cases:
                     scalingArmE.iloc[0][joint])
                 eq_constr.append(diffTJ_joint)
                 
-            # Passive joint torques (mtp joints).
-            for joint in mtpJoints:
-                diffTj_joint = f_diffTorques(
-                    Tj[joints.index(joint)] / scalingMtpE.iloc[0][joint], 0, 
-                    (passiveTorque_j[joint] +  
-                     linearPassiveTorqueMtp_j[joint]) /
-                    scalingMtpE.iloc[0][joint])
-                eq_constr.append(diffTj_joint)          
+            if withMTP:
+                # Passive joint torques (mtp joints).
+                for joint in mtpJoints:
+                    diffTj_joint = f_diffTorques(
+                        Tj[joints.index(joint)] / scalingMtpE.iloc[0][joint], 
+                        0, (passiveTorque_j[joint] +  
+                            linearPassiveTorqueMtp_j[joint]) /
+                        scalingMtpE.iloc[0][joint])
+                    eq_constr.append(diffTj_joint)          
             
             ###################################################################
             # Implicit activation dynamics.
@@ -1248,17 +1276,18 @@ for case in cases:
                 linearPassiveTorqueArms_opt[cj, k] = f_linearPassiveArmTorque(
                     Qs_opt_nsc[joints.index(joint), k],
                     Qds_opt_nsc[joints.index(joint), k])
-        # Mtps.        
-        linearPassiveTorqueMtp_opt = np.zeros((nMtpJoints, N+1))
-        passiveTorqueMtp_opt = np.zeros((nMtpJoints, N+1))        
-        for k in range(N+1):
-            for cj, joint in enumerate(mtpJoints):
-                linearPassiveTorqueMtp_opt[cj, k] = f_linearPassiveMtpTorque(
-                    Qs_opt_nsc[joints.index(joint), k],
-                    Qds_opt_nsc[joints.index(joint), k])
-                passiveTorqueMtp_opt[cj, k] = f_passiveTorque[joint](
-                    Qs_opt_nsc[joints.index(joint), k], 
-                    Qds_opt_nsc[joints.index(joint), k])
+        if withMTP:
+            # Mtps.        
+            linearPassiveTorqueMtp_opt = np.zeros((nMtpJoints, N+1))
+            passiveTorqueMtp_opt = np.zeros((nMtpJoints, N+1))        
+            for k in range(N+1):
+                for cj, joint in enumerate(mtpJoints):
+                    linearPassiveTorqueMtp_opt[cj, k] = f_linearPassiveMtpTorque(
+                        Qs_opt_nsc[joints.index(joint), k],
+                        Qds_opt_nsc[joints.index(joint), k])
+                    passiveTorqueMtp_opt[cj, k] = f_passiveTorque[joint](
+                        Qs_opt_nsc[joints.index(joint), k], 
+                        Qds_opt_nsc[joints.index(joint), k])
                 
         # Ground reactions forces
         QsQds_opt_nsc = np.zeros((nJoints*2, N+1))
@@ -1267,7 +1296,8 @@ for case in cases:
         Qdds_opt = Qdds_col_opt_nsc[:,d-1::d]
         F1_out = np.zeros((NF1_out, N))
         armT = np.zeros((nArmJoints, N))
-        mtpT = np.zeros((nMtpJoints, N))
+        if withMTP:
+            mtpT = np.zeros((nMtpJoints, N))
         for k in range(N):    
             Tj = F1(ca.vertcat(QsQds_opt_nsc[:, k+1], Qdds_opt[:, k]))
             F1_out[:, k] = Tj.full().T            
@@ -1277,22 +1307,24 @@ for case in cases:
                     scalingArmE.iloc[0][joint],
                     aArm_opt[cj, k+1], 
                     linearPassiveTorqueArms_opt[cj, k+1] /
-                    scalingArmE.iloc[0][joint])                
-            for cj, joint in enumerate(mtpJoints):
-                mtpT[cj, k] = f_diffTorques(
-                    F1_out[joints.index(joint), k] / 
-                    scalingMtpE.iloc[0][joint],
-                    0, 
-                    (linearPassiveTorqueMtp_opt[cj, k+1] + 
-                     passiveTorqueMtp_opt[cj, k+1]) /
-                    scalingMtpE.iloc[0][joint])
+                    scalingArmE.iloc[0][joint])
+            if withMTP:
+                for cj, joint in enumerate(mtpJoints):
+                    mtpT[cj, k] = f_diffTorques(
+                        F1_out[joints.index(joint), k] / 
+                        scalingMtpE.iloc[0][joint],
+                        0, 
+                        (linearPassiveTorqueMtp_opt[cj, k+1] + 
+                         passiveTorqueMtp_opt[cj, k+1]) /
+                        scalingMtpE.iloc[0][joint])
         GRF_opt = F1_out[idxGRF, :]
         
         # Sanity checks.
         assert np.alltrue(np.abs(armT) < 10**(-tol)), (
             "Error arm torques balance")
-        assert np.alltrue(np.abs(mtpT) < 10**(-tol)), (
-            "error mtp torques balance")   
+        if withMTP:
+            assert np.alltrue(np.abs(mtpT) < 10**(-tol)), (
+                "error mtp torques balance")   
         
         # %% Reconstruct entire gait cycle starting at right heel-strike.
         from utilities import getIdxIC_3D

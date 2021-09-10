@@ -297,11 +297,11 @@ class polynomial_estimation:
 def getPolynomialCoefficients(pathCoordinates, pathMuscleAnalysis, joints, muscles, order_min=3, order_max=9, threshold=0.003):
     
     # Get joint coordinates.
-    from variousFunctions import getIK
+    from utilities import getIK
     jointCoordinates = (getIK(pathCoordinates, joints)[0]).to_numpy()[:,1::]
     
     # Get muscle-tendon lengths
-    from variousFunctions import getFromStorage
+    from utilities import getFromStorage
     pathMuscleTendonLengths = pathMuscleAnalysis + 'Length.sto'
     muscleTendonLengths = getFromStorage(pathMuscleTendonLengths, muscles).to_numpy()[:,1::] 
     
@@ -377,11 +377,11 @@ def testPolynomials(pathCoordinates, pathMuscleAnalysis, joints, muscles,
                     trunkMomentArmPolynomialIndices=[]):
     
     # Get joint coordinates.
-    from variousFunctions import getIK
+    from utilities import getIK
     jointCoordinates = (getIK(pathCoordinates, joints)[0]).to_numpy()[:,1::]
     
     # Get muscle-tendon lengths
-    from variousFunctions import getFromStorage
+    from utilities import getFromStorage
     pathMuscleTendonLengths = pathMuscleAnalysis + 'Length.sto'
     muscleTendonLengths = getFromStorage(pathMuscleTendonLengths, muscles).to_numpy()[:,1::] 
     

@@ -3050,9 +3050,9 @@ def getSettings_predictsim_mtp():
                   'baseConfig': 'ua_corrected',
                   'polynomial_type': 'FK'},
             
-            # For backup
+            # Should be the same as 176
             '177': {'contactConfiguration': 'generic',
-                  'guessType': 'quasiRandom',
+                  'guessType': 'coldStart',
                   'targetSpeed': 1.33,
                   'N': 100,
                   'tol': 5,
@@ -3063,6 +3063,15 @@ def getSettings_predictsim_mtp():
                   'boundsType': 'extended',
                   'baseConfig': 'ua_corrected',
                   'polynomial_type': 'FK',
+                  'modelMass': 62},
+            
+            # Should be the same as 115 no_mtp
+            '178': {'contactConfiguration': 'generic',
+                  'guessType': 'hotStart',
+                  'targetSpeed': 1.33,
+                  'N': 100,
+                  'tol': 4,
+                  'withMTP': False,
                   'modelMass': 62},
             }
     

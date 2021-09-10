@@ -5,7 +5,7 @@ import numpy as np
 class bounds:
     
     def __init__(self, Qs, joints, muscles, armJoints, targetSpeed, 
-                 mtpJoints=0):
+                 mtpJoints=['mtp_angle_l', 'mtp_angle_r']):
         
         self.Qs = Qs
         self.joints = joints

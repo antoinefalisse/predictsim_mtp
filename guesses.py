@@ -3,8 +3,8 @@ import numpy as np
 import scipy.interpolate as interpolate
 from scipy.interpolate import interp1d
 
-# %% Quasi-random initial guess    
-class quasiRandomGuess:    
+# %% Cold start.    
+class coldStart:    
     def __init__(self, N, d, joints, muscles, targetSpeed):        
         self.N = N
         self.d = d
@@ -184,8 +184,8 @@ class quasiRandomGuess:
                 
         return guessAccelerationCol
     
-# %% Data-driven initial guess    
-class dataDrivenGuess:
+# %% Hot start. 
+class hotStart:
     
     def __init__(self, Qs, N, d, joints, muscles, targetSpeed, 
                  periodicQsJointsA, periodicQdotsJointsA, 

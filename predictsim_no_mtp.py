@@ -2,7 +2,7 @@ import os
 import casadi as ca
 import numpy as np
 
-solveProblem = False
+solveProblem = True
 saveResults = True
 analyzeResults = True
 loadResults = True
@@ -15,9 +15,9 @@ plotPolynomials = False
 plotGuessVsBounds = False
 visualizeResultsAgainstBounds = False
 
-cases = ['106']
+cases = ['115']
 
-from settings_predictsim import getSettings_predictsim_no_mtp   
+from settings import getSettings_predictsim_no_mtp   
 settings = getSettings_predictsim_no_mtp() 
 for case in cases:
     # Weights in cost function
@@ -281,7 +281,7 @@ for case in cases:
                           list(range(0, NSideMuscles)))
     
     # %% Experimental data
-    from variousFunctions import getJointIndices    
+    from utilities import getJointIndices    
     joints = ['pelvis_tilt', 'pelvis_list', 'pelvis_rotation', 'pelvis_tx', 
               'pelvis_ty', 'pelvis_tz', 'hip_flexion_l', 'hip_adduction_l', 
               'hip_rotation_l', 'hip_flexion_r', 'hip_adduction_r', 
@@ -399,7 +399,7 @@ for case in cases:
     nametrial_walk_id = 'average_' +  motion_walk + '_HGC_mtp'
     nametrial_walk_IK = 'IK_' + nametrial_walk_id
     pathIK_walk = os.path.join(pathData, 'IK', nametrial_walk_IK + '.mot')
-    from variousFunctions import getIK
+    from utilities import getIK
     Qs_walk_filt = getIK(pathIK_walk, joints)[1]
     
     if guessType == 'straight':
@@ -527,7 +527,7 @@ for case in cases:
     
     leftPolynomialMuscleIndices = list(range(43)) +  list(range(46, 49))
     rightPolynomialMuscleIndices = list(range(46))
-    from variousFunctions import getMomentArmIndices
+    from utilities import getMomentArmIndices
     momentArmIndices = getMomentArmIndices(rightSideMuscles,
                                            leftPolynomialJoints,
                                            rightPolynomialJoints, polynomialData)
@@ -869,8 +869,8 @@ for case in cases:
         if plotGuessVsBounds:            
             # States
             # Muscle activation at mesh points
-            from variousFunctions import plotVSBounds
-            from variousFunctions import plotVSvaryingBounds
+            from utilities import plotVSBounds
+            from utilities import plotVSvaryingBounds
             # Joint position at mesh points
             lb = np.reshape(lBoundsQsk, (NJoints, N+1), order='F')
             ub = np.reshape(uBoundsQsk, (NJoints, N+1), order='F')
@@ -1472,7 +1472,7 @@ for case in cases:
                 
         ###########################################################################
         # Solve problem
-        from variousFunctions import solve_with_bounds
+        from utilities import solve_with_bounds
         w_opt, stats = solve_with_bounds(opti, tol)
         if saveResults:               
             np.save(os.path.join(pathResults, 'w_opt.npy'), w_opt)
@@ -1846,7 +1846,7 @@ for case in cases:
                 <= 1e-5), "decomposition cost"
         
         # %% Reconstruct gait cycle
-        from variousFunctions import getIdxIC_3D
+        from utilities import getIdxIC_3D
         threshold = 30
         idxIC, legIC = getIdxIC_3D(GRF_opt, threshold)
         if legIC == "undefined":
@@ -1972,7 +1972,7 @@ for case in cases:
                             for bothSidesMuscle in bothSidesMuscles]        
             labels = ['time'] + joints + muscleLabels
             data = np.concatenate((tgrid_GC.T, Qs_GC.T, A_GC.T), axis=1)             
-            from variousFunctions import numpy2storage
+            from utilities import numpy2storage
             numpy2storage(labels, data, os.path.join(pathResults,'motion.mot'))
             
         # %% Compute metabolic cost of transport for whole gait cycle    
@@ -2149,7 +2149,7 @@ for case in cases:
         
         # %% Write GRF file for visualization in OpenSim GUI    
         # COP and free moment
-        from variousFunctions import getCOP
+        from utilities import getCOP
         COPr_GC, freeTr_GC = getCOP(GRF_GC2[:3,:], GRM_GC2[:3,:])
         COPl_GC, freeTl_GC = getCOP(GRF_GC2[3:,:], GRM_GC2[3:,:])        
         COP_GC = np.concatenate((COPr_GC, COPl_GC))
@@ -2187,7 +2187,7 @@ for case in cases:
                 (tgrid_GC.T, GRF_GC_toPrint[:3,:].T, COP_GC_toPrint[:3,:].T, 
                  GRF_GC_toPrint[3:,:].T, COP_GC_toPrint[3:,:].T, 
                  freeT_GC_toPrint.T), axis=1)             
-            from variousFunctions import numpy2storage
+            from utilities import numpy2storage
             numpy2storage(labels, data, os.path.join(pathResults,'GRF.mot'))
         
          # %% Save trajectories for further analysis
