@@ -37,7 +37,7 @@ import copy
 # results. Yet if you solved the optimal control problem and saved the results,
 # you might want to latter only load and process the results without re-solving
 # the problem. Playing with the settings below allows you to do exactly that.
-solveProblem = False # Set True to solve the optimal control problem.
+solveProblem = True # Set True to solve the optimal control problem.
 saveResults = True # Set True to save the results of the optimization.
 analyzeResults = True # Set True to analyze the results.
 loadResults = True # Set True to load the results of the optimization.
@@ -373,12 +373,23 @@ for case in cases:
     trunkJoints = ['lumbar_extension', 'lumbar_bending', 'lumbar_rotation']
     
     # Muscle-driven joints.
-    muscleDrivenJoints = copy.deepcopy(joints)
-    for joint in groundPelvisJoints:
-        muscleDrivenJoints.remove(joint)
-    for joint in armJoints:
-        muscleDrivenJoints.remove(joint)
-    if withMTP:
+    # muscleDrivenJoints = copy.deepcopy(joints)
+    # for joint in groundPelvisJoints:
+    #     muscleDrivenJoints.remove(joint)
+    # for joint in armJoints:
+    #     muscleDrivenJoints.remove(joint)
+    # We here hard code the list to replicate previous results. The order of
+    # of the coordinates is slightly as compared to the list joints, which
+    # results in different constraints order and slightly different iterations.    
+    muscleDrivenJoints = [
+        'hip_flexion_l', 'hip_flexion_r', 'hip_adduction_l', 
+        'hip_adduction_r', 'hip_rotation_l', 'hip_rotation_r',              
+        'knee_angle_l', 'knee_angle_r', 
+        'ankle_angle_l', 'ankle_angle_r', 
+        'subtalar_angle_l', 'subtalar_angle_r', 
+        'mtp_angle_l', 'mtp_angle_r', 
+        'lumbar_extension', 'lumbar_bending', 'lumbar_rotation']    
+    if not withMTP:
         for joint in mtpJoints:
             muscleDrivenJoints.remove(joint)
     
@@ -1282,9 +1293,10 @@ for case in cases:
             passiveTorqueMtp_opt = np.zeros((nMtpJoints, N+1))        
             for k in range(N+1):
                 for cj, joint in enumerate(mtpJoints):
-                    linearPassiveTorqueMtp_opt[cj, k] = f_linearPassiveMtpTorque(
-                        Qs_opt_nsc[joints.index(joint), k],
-                        Qds_opt_nsc[joints.index(joint), k])
+                    linearPassiveTorqueMtp_opt[cj, k] = (
+                        f_linearPassiveMtpTorque(
+                            Qs_opt_nsc[joints.index(joint), k],
+                            Qds_opt_nsc[joints.index(joint), k]))
                     passiveTorqueMtp_opt[cj, k] = f_passiveTorque[joint](
                         Qs_opt_nsc[joints.index(joint), k], 
                         Qds_opt_nsc[joints.index(joint), k])
