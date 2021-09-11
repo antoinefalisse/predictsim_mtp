@@ -7,6 +7,7 @@ def polynomialApproximation(musclesPolynomials, polynomialData, NPolynomial):
     
     from polynomials import polynomials
     
+    # Function variables.
     qin = ca.SX.sym('qin', 1, NPolynomial)
     qdotin  = ca.SX.sym('qdotin', 1, NPolynomial)
     lMT = ca.SX(len(musclesPolynomials), 1)
@@ -43,7 +44,8 @@ def hillEquilibrium(mtParameters, tendonCompliance, specificTension):
     from muscleModels import DeGrooteFregly2016MuscleModel
     
     NMuscles = mtParameters.shape[1]
-    # Function variables
+    
+    # Function variables.
     activation = ca.SX.sym('activation', NMuscles)
     mtLength = ca.SX.sym('mtLength', NMuscles)
     mtVelocity = ca.SX.sym('mtVelocity', NMuscles)
@@ -88,6 +90,7 @@ def armActivationDynamics(NArmJoints):
     
     t = 0.035 # time constant       
     
+    # Function variables.
     eArm = ca.SX.sym('eArm',NArmJoints)
     aArm = ca.SX.sym('aArm',NArmJoints)
     
@@ -107,7 +110,7 @@ def metabolicsBhargava(slowTwitchRatio, maximalIsometricForce,
     
     NMuscles = maximalIsometricForce.shape[0]
     
-    # Function variables
+    # Function variables.
     excitation = ca.SX.sym('excitation', NMuscles)
     activation = ca.SX.sym('activation', NMuscles)
     normFiberLength = ca.SX.sym('normFiberLength', NMuscles)
@@ -163,9 +166,10 @@ def metabolicsBhargava(slowTwitchRatio, maximalIsometricForce,
     
     return f_metabolicsBhargava
 
-def passiveTorque(k, theta, d):
+# %% Returns CasADi function to compute passive (limit) joint torques.
+def getLimitTorques(k, theta, d):
     
-    # Function variables
+    # Function variables.
     Q = ca.SX.sym('Q', 1)
     Qdot = ca.SX.sym('Qdot', 1)
     
@@ -177,8 +181,10 @@ def passiveTorque(k, theta, d):
     
     return f_passiveJointTorque
 
-def passiveTorqueActuatedJointTorque(k, d):
-    # Function variables
+# %% Returns CasADi function to compute linear passive joint torques.
+def getLinearPassiveTorques(k, d):
+    
+    # Function variables.
     Q = ca.SX.sym('Q', 1)
     Qdot = ca.SX.sym('Qdot', 1)
     
@@ -188,9 +194,10 @@ def passiveTorqueActuatedJointTorque(k, d):
     
     return f_passiveMtpTorque    
 
+# %% Returns CasADi function to compute normalized sum of elements to power.
 def normSumPow(N, exp):
     
-    # Function variables
+    # Function variables.
     x = ca.SX.sym('x', N,  1)
       
     nsp = ca.sum1(x**exp)       
@@ -200,8 +207,10 @@ def normSumPow(N, exp):
     
     return f_normSumPow
 
+# %% Returns helper CasADi function to compute difference in torques.
 def diffTorques():
     
+    # Function variables.
     jointTorque = ca.SX.sym('x', 1) 
     muscleTorque = ca.SX.sym('x', 1) 
     passiveTorque = ca.SX.sym('x', 1)
@@ -214,12 +223,16 @@ def diffTorques():
         
     return f_diffTorques
 
+# %% Returns CasADi function to compute foor-grount contact forces.
+# Note: this function is unused for the predictive simulations, but could be
+# useful in other studies.
 def smoothSphereHalfSpaceForce(dissipation, transitionVelocity,
                                staticFriction, dynamicFriction, 
                                viscousFriction, normal):
     
-    from contactModel import smoothSphereHalfSpaceForce_ca
+    from contactModels import smoothSphereHalfSpaceForce_ca
     
+    # Function variables.
     stiffness = ca.SX.sym('stiffness', 1) 
     radius = ca.SX.sym('radius', 1)     
     locSphere_inB = ca.SX.sym('locSphere_inB', 3) 

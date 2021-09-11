@@ -1,5 +1,7 @@
 import numpy as np
 
+# This class implements the muscle model desrcribed in De Groote et al. (2016).
+# https://link.springer.com/article/10.1007%2Fs10439-016-1591-9
 class DeGrooteFregly2016MuscleModel:
     
     def __init__(self, mtParameters, activation, mtLength, mtVelocity,
@@ -69,12 +71,12 @@ class DeGrooteFregly2016MuscleModel:
         assert np.alltrue(
             np.abs(referenceNormTendonForce - 
                    adjustedNormTendonForce_afterShift) 
-            < 1e12), "Error when shifting tendon curve"
+            < 1e-12), "Error when shifting tendon curve"
         
         return self.tendonShift        
             
     def getTendonLength(self):          
-        # Tendon force-length relationship
+        # Tendon force-length relationship.
         self.getTendonShift()
         self.normTendonLength = np.divide(
                 np.log(5*(self.normTendonForce + 0.25 - self.tendonShift)), 
@@ -85,7 +87,7 @@ class DeGrooteFregly2016MuscleModel:
         return self.tendonLength, self.normTendonLength
                 
     def getFiberLength(self):
-        # Hill-type muscle model: geometric relationships    
+        # Hill-type muscle model: geometric relationships.   
         self.getTendonLength()
         w = np.multiply(self.optimalFiberLength, 
                         np.sin(self.optimalPennationAngle))        
@@ -97,7 +99,7 @@ class DeGrooteFregly2016MuscleModel:
         return self.fiberLength, self.normFiberLength         
     
     def getFiberVelocity(self):            
-        # Hill-type muscle model: geometric relationships 
+        # Hill-type muscle model: geometric relationships.
         self.getFiberLength()
         tendonVelocity = np.divide(np.multiply(self.tendonSlackLength, 
                                                self.normTendonForceDT), 
@@ -115,7 +117,7 @@ class DeGrooteFregly2016MuscleModel:
     
     def getActiveFiberLengthForce(self):  
         self.getFiberLength()        
-        # Active muscle force-length relationship
+        # Active muscle force-length relationship.
         b11 = self.paramFLa[0]
         b21 = self.paramFLa[1]
         b31 = self.paramFLa[2]
@@ -143,7 +145,7 @@ class DeGrooteFregly2016MuscleModel:
         
     def getActiveFiberVelocityForce(self):   
         self.getFiberVelocity()        
-        # Active muscle force-velocity relationship
+        # Active muscle force-velocity relationship.
         e1 = self.paramFV[0]
         e2 = self.paramFV[1]
         e3 = self.paramFV[2]
@@ -170,9 +172,8 @@ class DeGrooteFregly2016MuscleModel:
         
     def getPassiveFiberForce(self):
         paramFLp = self.paramFLp
-        self.getFiberLength()
-        
-        # Passive muscle force-length relationship
+        self.getFiberLength()        
+        # Passive muscle force-length relationship.
         e0 = 0.6
         kpe = 4        
         t5 = np.exp(kpe * (self.normFiberLength - 1) / e0)

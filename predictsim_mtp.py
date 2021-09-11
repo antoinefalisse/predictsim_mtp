@@ -37,7 +37,7 @@ import copy
 # results. Yet if you solved the optimal control problem and saved the results,
 # you might want to latter only load and process the results without re-solving
 # the problem. Playing with the settings below allows you to do exactly that.
-solveProblem = True # Set True to solve the optimal control problem.
+solveProblem = False # Set True to solve the optimal control problem.
 saveResults = True # Set True to save the results of the optimization.
 analyzeResults = True # Set True to analyze the results.
 loadResults = True # Set True to load the results of the optimization.
@@ -47,7 +47,7 @@ saveOptimalTrajectories = True # Set True to save optimal trajectories
 # Select the case(s) for which you want to solve the associated problem(s) or
 # process the results. Specify the settings of the case(s) in the 
 # 'settings_cases' module. 
-cases = ['178']
+cases = ['177']
 
 # Import settings.
 from settings import getSettings_predictsim_mtp   
@@ -212,7 +212,7 @@ for case in cases:
     # with "normalized tendon force as a state and the scaled time derivative
     # of the normalized tendon force as a new control simplifying the
     # contraction dynamic equations".
-    from functionCasADi import hillEquilibrium
+    from casadiFunctions import hillEquilibrium
     f_hillEquilibrium = hillEquilibrium(mtParameters, tendonStiffness, 
                                         specificTension)
     
@@ -399,7 +399,7 @@ for case in cases:
     # polynomial coefficients are fitted based on data from OpenSim and saved
     # for the current model. See more info in the instructions about how to
     # estimate the polynomial coefficients with a different model.
-    from functionCasADi import polynomialApproximation
+    from casadiFunctions import polynomialApproximation
     leftPolynomialJoints = [
         'hip_flexion_l', 'hip_adduction_l', 'hip_rotation_l', 'knee_angle_l',
         'ankle_angle_l', 'subtalar_angle_l', 'mtp_angle_l',
@@ -540,37 +540,37 @@ for case in cases:
     slowTwitchRatio = (np.concatenate((sideSlowTwitchRatio, 
                                       sideSlowTwitchRatio), axis=1))[0, :].T
     smoothingConstant = 10
-    from functionCasADi import metabolicsBhargava
+    from casadiFunctions import metabolicsBhargava
     f_metabolicsBhargava = metabolicsBhargava(
         slowTwitchRatio, maximalIsometricForce, muscleMass, smoothingConstant)
     
     # %% Arm activation dynamics.
-    from functionCasADi import armActivationDynamics
+    from casadiFunctions import armActivationDynamics
     f_armActivationDynamics = armActivationDynamics(nArmJoints)
     
     # %% Passive joint torques.
-    from functionCasADi import passiveTorque
+    from casadiFunctions import getLimitTorques
     from muscleData import passiveTorqueData
     damping = 0.1
     f_passiveTorque = {}
     for joint in passiveTorqueJoints:
-        f_passiveTorque[joint] = passiveTorque(
+        f_passiveTorque[joint] = getLimitTorques(
             passiveTorqueData(joint)[0],
             passiveTorqueData(joint)[1], damping)
     
-    from functionCasADi import passiveTorqueActuatedJointTorque
+    from casadiFunctions import getLinearPassiveTorques
     stiffnessArm = 0
     dampingArm = 0.1
-    f_linearPassiveArmTorque = passiveTorqueActuatedJointTorque(stiffnessArm, 
-                                                                dampingArm)
+    f_linearPassiveArmTorque = getLinearPassiveTorques(stiffnessArm, 
+                                                       dampingArm)
     stiffnessMtp = 25
     dampingMtp = 0.4
-    f_linearPassiveMtpTorque = passiveTorqueActuatedJointTorque(stiffnessMtp, 
-                                                                dampingMtp)
+    f_linearPassiveMtpTorque = getLinearPassiveTorques(stiffnessMtp, 
+                                                       dampingMtp)
     
     # %% Other helper CasADi functions.
-    from functionCasADi import normSumPow
-    from functionCasADi import diffTorques
+    from casadiFunctions import normSumPow
+    from casadiFunctions import diffTorques
     f_NMusclesSum2 = normSumPow(nMuscles, 2)
     f_nArmJointsSum2 = normSumPow(nArmJoints, 2)
     f_nNoArmJointsSum2 = normSumPow(nNoArmJoints, 2)

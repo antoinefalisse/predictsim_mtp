@@ -2,6 +2,7 @@ import scipy.interpolate as interpolate
 import pandas as pd
 import numpy as np
 
+# %% This class sets bounds for the optimization variables.
 class bounds:
     
     def __init__(self, Qs, joints, muscles, armJoints, targetSpeed, 
@@ -14,8 +15,7 @@ class bounds:
         self.armJoints = armJoints
         self.mtpJoints = mtpJoints
         
-    def splineQs(self):
-        
+    def splineQs(self):        
         self.Qs_spline = self.Qs.copy()
         self.Qdots_spline = self.Qs.copy()
         self.Qdotdots_spline = self.Qs.copy()
@@ -30,7 +30,7 @@ class bounds:
             splineD2 = spline.derivative(n=2)
             self.Qdotdots_spline[joint] = splineD2(self.Qs['time'])
     
-    def getBoundsPosition(self):
+    def getBoundsPosition(self):        
         self.splineQs()
         upperBoundsPosition = pd.DataFrame()   
         lowerBoundsPosition = pd.DataFrame() 
@@ -53,6 +53,7 @@ class bounds:
                 lb = lb - 2*r                        
                 upperBoundsPosition.insert(count, joint, [ub])
                 lowerBoundsPosition.insert(count, joint, [lb]) 
+                
                 # Special cases
                 if joint == 'pelvis_tx':
                     upperBoundsPosition[joint] = [2]
@@ -72,21 +73,20 @@ class bounds:
                     upperBoundsPosition[joint] = [ub]
                 elif joint == 'pelvis_tilt':
                     lowerBoundsPosition[joint] = [-20*np.pi/180]
-                # Running cases
                 if self.targetSpeed > 1.33:
                     if joint == 'arm_flex_r':
                         lowerBoundsPosition[joint] = [-50*np.pi/180]
                     if joint == 'arm_flex_l':
                         lowerBoundsPosition[joint] = [-50*np.pi/180]
                 
-            # Scaling                       
+            # Scaling.                   
             s = pd.concat([abs(upperBoundsPosition[joint]), 
                            abs(lowerBoundsPosition[joint])]).max(level=0)
             scalingPosition.insert(count, joint, s)
             lowerBoundsPosition[joint] /= scalingPosition[joint]
             upperBoundsPosition[joint] /= scalingPosition[joint]
             
-        # Hard bounds at initial position
+        # Hard bounds at initial position.
         lowerBoundsPositionInitial = lowerBoundsPosition.copy()
         lowerBoundsPositionInitial['pelvis_tx'] = [0]
         upperBoundsPositionInitial = upperBoundsPosition.copy()
@@ -95,7 +95,7 @@ class bounds:
         return (upperBoundsPosition, lowerBoundsPosition, scalingPosition,
                 upperBoundsPositionInitial, lowerBoundsPositionInitial) 
     
-    def getBoundsVelocity(self):
+    def getBoundsVelocity(self):        
         self.splineQs()
         upperBoundsVelocity = pd.DataFrame()   
         lowerBoundsVelocity = pd.DataFrame() 
@@ -119,11 +119,11 @@ class bounds:
                 upperBoundsVelocity.insert(count, joint, [ub])
                 lowerBoundsVelocity.insert(count, joint, [lb])
     
-                # Running cases
+                # Special cases.
                 if self.targetSpeed > 1.33:
                     upperBoundsVelocity['pelvis_tx'] = [4]
 
-            # Scaling                       
+            # Scaling.            
             s = pd.concat([abs(upperBoundsVelocity[joint]), 
                            abs(lowerBoundsVelocity[joint])]).max(level=0)
             scalingVelocity.insert(count, joint, s)
@@ -132,7 +132,7 @@ class bounds:
 
         return upperBoundsVelocity, lowerBoundsVelocity, scalingVelocity
     
-    def getBoundsAcceleration(self):
+    def getBoundsAcceleration(self):        
         self.splineQs()
         upperBoundsAcceleration = pd.DataFrame()   
         lowerBoundsAcceleration = pd.DataFrame() 
@@ -156,7 +156,7 @@ class bounds:
                 upperBoundsAcceleration.insert(count, joint, [ub])
                 lowerBoundsAcceleration.insert(count, joint, [lb])   
             
-            # Scaling                       
+            # Scaling.                
             s = pd.concat([abs(upperBoundsAcceleration[joint]), 
                            abs(lowerBoundsAcceleration[joint])]).max(level=0)
             scalingAcceleration.insert(count, joint, s)
@@ -184,7 +184,7 @@ class bounds:
             lowerBoundsActivation.insert(count + len(self.muscles), 
                                          muscle[:-1] + 'l', lb)  
 
-            # Scaling                       
+            # Scaling.                     
             scalingActivation.insert(count + len(self.muscles), 
                                      muscle[:-1] + 'l', s)  
             upperBoundsActivation[
@@ -212,7 +212,7 @@ class bounds:
             lowerBoundsForce.insert(count + len(self.muscles), 
                                     muscle[:-1] + 'l', lb)  
 
-            # Scaling                       
+            # Scaling.                  
             scalingForce.insert(count + len(self.muscles), 
                                          muscle[:-1] + 'l', s)   
             upperBoundsForce[
@@ -247,7 +247,7 @@ class bounds:
             lowerBoundsActivationDerivative.insert(count + len(self.muscles), 
                                                    muscle[:-1] + 'l', lb) 
 
-            # Scaling                       
+            # Scaling.                      
             scalingActivationDerivative.insert(count + len(self.muscles), 
                                                muscle[:-1] + 'l', s)  
             upperBoundsActivationDerivative[muscle[:-1] + 'l'] /= (
@@ -281,7 +281,7 @@ class bounds:
             lowerBoundsForceDerivative.insert(count + len(self.muscles), 
                                               muscle[:-1] + 'l', lb)   
             
-            # Scaling                       
+            # Scaling.                      
             scalingForceDerivative.insert(count + len(self.muscles), 
                                                muscle[:-1] + 'l', s)  
             upperBoundsForceDerivative[muscle[:-1] + 'l'] /= (
@@ -303,6 +303,7 @@ class bounds:
                                                 columns=self.armJoints)   
         lowerBoundsArmExcitation = pd.DataFrame([lb_vec], 
                                                 columns=self.armJoints)            
+        # Scaling.
         scalingArmExcitation = pd.DataFrame([s_vec], columns=self.armJoints)
         
         return (upperBoundsArmExcitation, lowerBoundsArmExcitation,
@@ -319,6 +320,7 @@ class bounds:
                                                 columns=self.armJoints)   
         lowerBoundsArmActivation = pd.DataFrame([lb_vec], 
                                                 columns=self.armJoints) 
+        # Scaling.
         scalingArmActivation = pd.DataFrame([s_vec], columns=self.armJoints)                  
         
         return (upperBoundsArmActivation, lowerBoundsArmActivation, 
@@ -335,6 +337,7 @@ class bounds:
                                                 columns=self.mtpJoints)   
         lowerBoundsMtpExcitation = pd.DataFrame([lb_vec], 
                                                 columns=self.mtpJoints)            
+        # Scaling.
         scalingMtpExcitation = pd.DataFrame([s_vec], columns=self.mtpJoints)
         
         return (upperBoundsMtpExcitation, lowerBoundsMtpExcitation,
@@ -351,6 +354,7 @@ class bounds:
                                                 columns=self.mtpJoints)   
         lowerBoundsMtpActivation = pd.DataFrame([lb_vec], 
                                                 columns=self.mtpJoints) 
+        # Scaling.
         scalingMtpActivation = pd.DataFrame([s_vec], columns=self.mtpJoints)                  
         
         return (upperBoundsMtpActivation, lowerBoundsMtpActivation, 
@@ -360,4 +364,4 @@ class bounds:
         upperBoundsFinalTime = pd.DataFrame([1], columns=['time'])   
         lowerBoundsFinalTime = pd.DataFrame([0.1], columns=['time'])  
         
-        return upperBoundsFinalTime, lowerBoundsFinalTime   
+        return upperBoundsFinalTime, lowerBoundsFinalTime
