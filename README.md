@@ -10,4 +10,7 @@ A lot of cleaning is still required to make this code user-friendly. I will work
 
 - Create environment: `conda create -n 3dpredsim pip spyder`
 - Activate environment: `activate 3dpredsim`
+- Download code: `git clone https://github.com/antoinefalisse/predictsim_mtp.git`
+- Navigate to the folder: `cd predictsim_mtp`
 - Install required packages: `python -m pip install -r requirements.txt`
+- Run main code: `python main.py`
