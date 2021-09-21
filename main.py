@@ -362,25 +362,24 @@ for case in cases:
     idxGroundPelvisJoints = getJointIndices(joints, groundPelvisJoints)
     
     # Joints with passive torques.
-    passiveTorqueJoints = copy.deepcopy(joints)
-    for joint in groundPelvisJoints:
-        passiveTorqueJoints.remove(joint)
-    for joint in armJoints:
-        passiveTorqueJoints.remove(joint)
+    # We here hard code the list to replicate previous results. 
+    passiveTorqueJoints = [
+        'hip_flexion_r', 'hip_flexion_l', 'hip_adduction_r', 
+        'hip_adduction_l', 'hip_rotation_r', 'hip_rotation_l',              
+        'knee_angle_r', 'knee_angle_l', 
+        'ankle_angle_r', 'ankle_angle_l', 
+        'subtalar_angle_r', 'subtalar_angle_l',
+        'lumbar_extension', 'lumbar_bending', 'lumbar_rotation',
+        'mtp_angle_l', 'mtp_angle_r',]
     nPassiveTorqueJoints = len(passiveTorqueJoints)
    
     # Trunk joints.
     trunkJoints = ['lumbar_extension', 'lumbar_bending', 'lumbar_rotation']
     
     # Muscle-driven joints.
-    # muscleDrivenJoints = copy.deepcopy(joints)
-    # for joint in groundPelvisJoints:
-    #     muscleDrivenJoints.remove(joint)
-    # for joint in armJoints:
-    #     muscleDrivenJoints.remove(joint)
     # We here hard code the list to replicate previous results. The order of
-    # of the coordinates is slightly as compared to the list joints, which
-    # results in different constraints order and slightly different iterations.    
+    # the coordinates is slightly different as compared to the list joints, 
+    # which results in different constraints order and different trajectories.    
     muscleDrivenJoints = [
         'hip_flexion_l', 'hip_flexion_r', 'hip_adduction_l', 
         'hip_adduction_r', 'hip_rotation_l', 'hip_rotation_r',              
