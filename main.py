@@ -370,7 +370,7 @@ for case in cases:
         'ankle_angle_r', 'ankle_angle_l', 
         'subtalar_angle_r', 'subtalar_angle_l',
         'lumbar_extension', 'lumbar_bending', 'lumbar_rotation',
-        'mtp_angle_l', 'mtp_angle_r',]
+        'mtp_angle_l', 'mtp_angle_r']
     nPassiveTorqueJoints = len(passiveTorqueJoints)
    
     # Trunk joints.
