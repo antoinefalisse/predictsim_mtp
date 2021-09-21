@@ -10,6 +10,7 @@ A lot of cleaning is still required to make this code user-friendly. I will work
 
 - Create environment: `conda create -n 3dpredsim pip spyder`
 - Activate environment: `activate 3dpredsim`
+- Navigate to the folder where you want to download the code: eg. `cd Documents`
 - Download code: `git clone https://github.com/antoinefalisse/predictsim_mtp.git`
 - Navigate to the folder: `cd predictsim_mtp`
 - Checkout the cleaning branch: `git checkout cleaning`
