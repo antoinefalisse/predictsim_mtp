@@ -3232,6 +3232,45 @@ def getSettings():
               'N': 100,
               'model': 'old_model',
               'modelMass': 62},
+        
+        # %% Without toes.
+        # New model.
+        '28': {'guessType': 'hotStart',
+              'targetSpeed': 1.33,
+              'N': 100,
+              'modelMass': 62,
+              'withMTP': False},
+        '29': {'guessType': 'coldStart',
+              'targetSpeed': 1.33,
+              'N': 100,
+              'modelMass': 62,
+              'withMTP': False},
+        
+        # Old model.
+        '30': {'guessType': 'hotStart',
+              'targetSpeed': 1.33,
+              'N': 100,
+              'model': 'old_model',
+              'modelMass': 62,
+              'withMTP': False},
+        '31': {'guessType': 'coldStart',
+              'targetSpeed': 1.33,
+              'N': 100,
+              'model': 'old_model',
+              'modelMass': 62,
+              'withMTP': False},
+        
+        # TODO New model: low contact spheres
+        '32': {'guessType': 'hotStart',
+              'targetSpeed': 1.33,
+              'N': 100,
+              'modelMass': 62,
+              'withMTP': False},
+        '33': {'guessType': 'coldStart',
+              'targetSpeed': 1.33,
+              'N': 100,
+              'modelMass': 62,
+              'withMTP': False},
         }    
     
     return settings
