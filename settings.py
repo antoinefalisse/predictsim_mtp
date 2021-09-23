@@ -3079,8 +3079,8 @@
 def getSettings():
         
     settings = {
-        # %% With toes.
-        # New model.
+        # %% With toes.        
+        # New model.        
         # Effect of the mesh density.
         '0': {'guessType': 'hotStart',
               'targetSpeed': 1.33,
@@ -3114,6 +3114,7 @@ def getSettings():
               'targetSpeed': 1.33,
               'N': 125,
               'modelMass': 62},
+        
         # Effect of the convergence tolerance.
         '8': {'guessType': 'hotStart',
               'targetSpeed': 1.33,
@@ -3135,6 +3136,7 @@ def getSettings():
               'N': 100,
               'tol': 6,
               'modelMass': 62},
+        
         # Effect of the Achilles tensond stiffness.
         '12': {'guessType': 'hotStart',
               'targetSpeed': 1.33,
@@ -3260,7 +3262,7 @@ def getSettings():
               'modelMass': 62,
               'withMTP': False},
         
-        # TODO New model: low contact spheres
+        # New model with low contact spheres.
         '32': {'guessType': 'hotStart',
               'targetSpeed': 1.33,
               'N': 100,
