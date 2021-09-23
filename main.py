@@ -73,10 +73,14 @@ for case in cases:
         
     withMTP = True # default model includes mtp joints
     if 'withMTP' in settings[case]:
-        withMTP = settings[case]['withMTP']        
+        withMTP = settings[case]['withMTP']
         
-    modelMass = settings[case]['modelMass']
-    
+    contactConfiguration = 'generic' # default contact configuration
+    if 'contactConfiguration' in settings[case]:
+        contactConfiguration = settings[case]['contactConfiguration']
+        
+    modelMass = settings[case]['modelMass']     
+        
     ###########################################################################
     # Problem formulation settings.
     targetSpeed = 1.33 # default target walking.
@@ -485,11 +489,15 @@ for case in cases:
     else:
         raise ValueError("Platform not supported.")
     
+    suff_F = ''
+    if contactConfiguration == 'generic_low':
+        suff_F = '_' + contactConfiguration
+    
     F = ca.external('F', os.path.join(
-        pathExternalFunction, modelName + ext_F))
+        pathExternalFunction, modelName + suff_F + ext_F))
     if analyzeResults:
         F1 = ca.external('F', os.path.join(
-            pathExternalFunction, modelName + '_pp' + ext_F))
+            pathExternalFunction, modelName + suff_F + '_pp' + ext_F))
     
     # The external function F outputs joint torques, as well as the 2D
     # coordinates of some body origins. The order matters. The joint torques

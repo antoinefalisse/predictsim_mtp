@@ -3265,12 +3265,14 @@ def getSettings():
               'targetSpeed': 1.33,
               'N': 100,
               'modelMass': 62,
-              'withMTP': False},
+              'withMTP': False,
+              'contactConfiguration': 'generic_low'},
         '33': {'guessType': 'coldStart',
               'targetSpeed': 1.33,
               'N': 100,
               'modelMass': 62,
-              'withMTP': False},
+              'withMTP': False,
+              'contactConfiguration': 'generic_low'},
         }    
     
     return settings
