@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt  
 
 # %% Settings
-cases = ['0']
+cases = ['0', '1']
 model = 'new_model'
 
 # %% Fixed settings
