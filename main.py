@@ -46,9 +46,9 @@ writeMotionFiles = True # Set True to write motion files for use in OpenSim GUI
 saveOptimalTrajectories = True # Set True to save optimal trajectories
 
 # Select the case(s) for which you want to solve the associated problem(s) or
-# process the results. Specify the settings of the case(s) in the 
-# 'settings_cases' module. 
-cases = ['0', '1']
+# process the results. Specify the settings of the case(s) in the
+# 'settings' module. 
+cases = [str(i) for i in range(32, 34)]
 
 # Import settings.
 from settings import getSettings   
@@ -73,10 +73,14 @@ for case in cases:
         
     withMTP = True # default model includes mtp joints
     if 'withMTP' in settings[case]:
-        withMTP = settings[case]['withMTP']        
+        withMTP = settings[case]['withMTP']
         
-    modelMass = settings[case]['modelMass']
-    
+    contactConfiguration = 'generic' # default contact configuration
+    if 'contactConfiguration' in settings[case]:
+        contactConfiguration = settings[case]['contactConfiguration']
+        
+    modelMass = settings[case]['modelMass']     
+        
     ###########################################################################
     # Problem formulation settings.
     targetSpeed = 1.33 # default target walking.
@@ -362,25 +366,27 @@ for case in cases:
     idxGroundPelvisJoints = getJointIndices(joints, groundPelvisJoints)
     
     # Joints with passive torques.
-    passiveTorqueJoints = copy.deepcopy(joints)
-    for joint in groundPelvisJoints:
-        passiveTorqueJoints.remove(joint)
-    for joint in armJoints:
-        passiveTorqueJoints.remove(joint)
+    # We here hard code the list to replicate previous results. 
+    passiveTorqueJoints = [
+        'hip_flexion_r', 'hip_flexion_l', 'hip_adduction_r', 
+        'hip_adduction_l', 'hip_rotation_r', 'hip_rotation_l',              
+        'knee_angle_r', 'knee_angle_l', 
+        'ankle_angle_r', 'ankle_angle_l', 
+        'subtalar_angle_r', 'subtalar_angle_l',
+        'lumbar_extension', 'lumbar_bending', 'lumbar_rotation',
+        'mtp_angle_l', 'mtp_angle_r']
+    if not withMTP:
+        for joint in mtpJoints:
+            passiveTorqueJoints.remove(joint)
     nPassiveTorqueJoints = len(passiveTorqueJoints)
    
     # Trunk joints.
     trunkJoints = ['lumbar_extension', 'lumbar_bending', 'lumbar_rotation']
     
     # Muscle-driven joints.
-    # muscleDrivenJoints = copy.deepcopy(joints)
-    # for joint in groundPelvisJoints:
-    #     muscleDrivenJoints.remove(joint)
-    # for joint in armJoints:
-    #     muscleDrivenJoints.remove(joint)
     # We here hard code the list to replicate previous results. The order of
-    # of the coordinates is slightly as compared to the list joints, which
-    # results in different constraints order and slightly different iterations.    
+    # the coordinates is slightly different as compared to the list joints, 
+    # which results in different constraints order and different trajectories.    
     muscleDrivenJoints = [
         'hip_flexion_l', 'hip_flexion_r', 'hip_adduction_l', 
         'hip_adduction_r', 'hip_rotation_l', 'hip_rotation_r',              
@@ -483,11 +489,15 @@ for case in cases:
     else:
         raise ValueError("Platform not supported.")
     
+    suff_F = ''
+    if contactConfiguration == 'generic_low':
+        suff_F = '_' + contactConfiguration
+    
     F = ca.external('F', os.path.join(
-        pathExternalFunction, modelName + ext_F))
+        pathExternalFunction, modelName + suff_F + ext_F))
     if analyzeResults:
         F1 = ca.external('F', os.path.join(
-            pathExternalFunction, modelName + '_pp' + ext_F))
+            pathExternalFunction, modelName + suff_F + '_pp' + ext_F))
     
     # The external function F outputs joint torques, as well as the 2D
     # coordinates of some body origins. The order matters. The joint torques
