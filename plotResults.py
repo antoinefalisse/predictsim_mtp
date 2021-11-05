@@ -3,7 +3,9 @@ import numpy as np
 import matplotlib.pyplot as plt  
 
 # %% Settings
-cases = ['0']
+cases = ['example1', 'example4', 'example6']
+
+# cases = ['example5', 'example6']
 model = 'new_model'
 
 # %% Fixed settings

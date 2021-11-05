@@ -30,7 +30,7 @@ def getMTParameters(pathModel, muscles, loadMTParameters, modelName,
         if pathMTParameters != 0:
            np.save(
                os.path.join(pathMTParameters,
-                            'mtParameters.npy_{}'.format(modelName)),
+                            'mtParameters_{}.npy'.format(modelName)),
                mtParameters)
        
     return mtParameters  

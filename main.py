@@ -27,6 +27,8 @@
     Date: 2021/09
 '''
 
+# TODO: generate MA automatically.
+
 import os
 import casadi as ca
 import numpy as np
@@ -38,7 +40,7 @@ import platform
 # results. Yet if you solved the optimal control problem and saved the results,
 # you might want to latter only load and process the results without re-solving
 # the problem. Playing with the settings below allows you to do exactly that.
-solveProblem = False # Set True to solve the optimal control problem.
+solveProblem = True # Set True to solve the optimal control problem.
 saveResults = True # Set True to save the results of the optimization.
 analyzeResults = True # Set True to analyze the results.
 loadResults = True # Set True to load the results of the optimization.
@@ -48,8 +50,9 @@ saveOptimalTrajectories = True # Set True to save optimal trajectories
 # Select the case(s) for which you want to solve the associated problem(s) or
 # process the results. Specify the settings of the case(s) in the 
 # 'settings' module. 
-cases = [str(i) for i in range(32, 34)]
-
+# cases = ['example0', 'example1', 'example2', 'example3', 'example4']
+cases = ['example7']
+        
 # Import settings.
 from settings import getSettings   
 settings = getSettings()
@@ -62,9 +65,9 @@ for case in cases:
     if 'model' in settings[case]:
         model = settings[case]['model']
         
-    knee_axis = 'FK' # default is fixed knee flexion axis (FK)
+    knee_axis = '' # default knee flexion axis (FK)
     if 'knee_axis' in settings[case]:
-        knee_axis = settings[case]['knee_axis']
+        knee_axis = '_' + settings[case]['knee_axis']
         
     adjustAchillesTendonStiffness = False # default Achilles tendon stiffness.
     if 'adjustAchillesTendonStiffness' in settings[case]:
@@ -138,12 +141,13 @@ for case in cases:
          
     # %% Paths.
     pathMain = os.getcwd()
-    pathData = os.path.join(pathMain, 'OpenSimModel', model)
+    pathOpenSimModel = os.path.join(pathMain, 'OpenSimModel')
+    pathData = os.path.join(pathOpenSimModel, model)
     pathModelFolder = os.path.join(pathData, 'Model')
     if withMTP:
-        modelName = '{}_scaled_{}'.format(model, knee_axis)
+        modelName = '{}_scaled{}'.format(model, knee_axis)
     else:
-        modelName = '{}_noMTP_scaled_{}'.format(model, knee_axis)
+        modelName = '{}_noMTP_scaled{}'.format(model, knee_axis)
     pathModel = os.path.join(pathModelFolder, modelName + '.osim')
     pathMuscleAnalysis = os.path.join(pathData, 'MA', 'ResultsMA', modelName, 
                                       modelName + '_MuscleAnalysis_')
@@ -416,7 +420,8 @@ for case in cases:
     nPolynomialJoints = len(leftPolynomialJoints)
     
     from muscleData import getPolynomialData      
-    pathCoordinates = os.path.join(pathData, 'MA', 'dummy_motion.mot')
+    pathCoordinates = os.path.join(pathOpenSimModel, 'templates', 'MA', 
+                                   'dummy_motion.mot')
     loadPolynomialData = False
     # Support loading/saving polynomial data such that they do not needed to
     # be recomputed every time.
@@ -596,7 +601,8 @@ for case in cases:
     motion_walk = 'walking'
     nametrial_walk_id = 'average_' +  motion_walk + '_HGC_mtp'
     nametrial_walk_IK = 'IK_' + nametrial_walk_id
-    pathIK_walk = os.path.join(pathData, 'IK', nametrial_walk_IK + '.mot')
+    pathIK_walk = os.path.join(pathOpenSimModel, 'templates', 'IK', 
+                               nametrial_walk_IK + '.mot')
     from utilities import getIK
     Qs_walk_filt = getIK(pathIK_walk, joints)[1]
     
@@ -1052,19 +1058,19 @@ for case in cases:
             # Implicit skeleton dynamics.
             # Muscle-driven joint torques 
             for joint in muscleDrivenJoints:                
-                FJ_joint = Fj[momentArmIndices[joint]]
-                mTj_joint = ca.sum1(dMj[joint]*FJ_joint) 
+                Fj_joint = Fj[momentArmIndices[joint]]
+                mTj_joint = ca.sum1(dMj[joint]*Fj_joint) 
                 diffTj_joint = f_diffTorques(
                     Tj[joints.index(joint)], mTj_joint, passiveTorque_j[joint])
                 eq_constr.append(diffTj_joint)
             
             # Torque-driven joint torques (arm joints)
             for cj, joint in enumerate(armJoints):
-                diffTJ_joint = f_diffTorques(
+                diffTj_joint = f_diffTorques(
                     Tj[joints.index(joint)] / scalingArmE.iloc[0][joint],
                     aArmkj[cj, j+1], linearPassiveTorqueArms_j[joint] /
                     scalingArmE.iloc[0][joint])
-                eq_constr.append(diffTJ_joint)
+                eq_constr.append(diffTj_joint)
                 
             if withMTP:
                 # Passive joint torques (mtp joints).
