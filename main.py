@@ -48,10 +48,10 @@ writeMotionFiles = True # Set True to write motion files for use in OpenSim GUI
 saveOptimalTrajectories = True # Set True to save optimal trajectories
 
 # Select the case(s) for which you want to solve the associated problem(s) or
-# process the results. Specify the settings of the case(s) in the 
+# process the results. Specify the settings of the case(s) in the
 # 'settings' module. 
 # cases = ['example0', 'example1', 'example2', 'example3', 'example4']
-cases = ['example7']
+cases = ['34', '35']
         
 # Import settings.
 from settings import getSettings   
@@ -82,7 +82,11 @@ for case in cases:
     if 'contactConfiguration' in settings[case]:
         contactConfiguration = settings[case]['contactConfiguration']
         
-    modelMass = settings[case]['modelMass']     
+    modelMass = settings[case]['modelMass']
+    
+    dampingMtp = 0.4
+    if 'dampingMtp' in settings[case]:
+        dampingMtp = settings[case]['dampingMtp']
         
     ###########################################################################
     # Problem formulation settings.
@@ -582,7 +586,6 @@ for case in cases:
     f_linearPassiveArmTorque = getLinearPassiveTorques(stiffnessArm, 
                                                        dampingArm)
     stiffnessMtp = 25
-    dampingMtp = 0.4
     f_linearPassiveMtpTorque = getLinearPassiveTorques(stiffnessMtp, 
                                                        dampingMtp)
     

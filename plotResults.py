@@ -3,10 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt  
 
 # %% Settings
-cases = ['example1', 'example4', 'example6']
-
-# cases = ['example5', 'example6']
-model = 'new_model'
+cases = ['0', '1']
 
 # %% Fixed settings
 pathMain = os.getcwd()
@@ -16,7 +13,7 @@ optimaltrajectories = np.load(os.path.join(pathTrajectories,
                                            'optimalTrajectories.npy'),
                               allow_pickle=True).item()
 # Load experimental data
-pathData = os.path.join(pathMain, 'OpenSimModel', model)
+pathData = os.path.join(pathMain, 'OpenSimModel', 'new_model')
 experimentalData = np.load(os.path.join(pathData, 'experimentalData.npy'),
                            allow_pickle=True).item()
 subject = 'subject2' # TODO

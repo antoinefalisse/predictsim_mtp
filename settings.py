@@ -1,3 +1,5 @@
+import numpy as np
+
 def getSettings():
         
     settings = {
@@ -115,7 +117,7 @@ def getSettings():
               'modelMass': 62,
               'knee_axis': 'FK'},
         
-        # Effect of the Achilles tensond stiffness.
+        # Effect of the Achilles tendon stiffness.
         '12': {'guessType': 'hotStart',
               'targetSpeed': 1.33,
               'N': 100,
@@ -275,6 +277,22 @@ def getSettings():
               'knee_axis': 'FK',
               'withMTP': False,
               'contactConfiguration': 'generic_low'},
+        
+        # %% Effet of the damping value
+        # Critically damped spring for given mass and stiffness. We subtract
+        # 0.1 because there is already some damping as part of limit torques.
+        '34': {'guessType': 'hotStart',
+               'targetSpeed': 1.33,
+               'N': 100,
+               'modelMass': 62,
+               'knee_axis': 'FK',
+               'dampingMtp': np.sqrt(4*0.17866389231100815*25) - 0.1},
+        '35': {'guessType': 'coldStart',
+               'targetSpeed': 1.33,
+               'N': 100,
+               'modelMass': 62,
+               'knee_axis': 'FK',
+               'dampingMtp': np.sqrt(4*0.17866389231100815*25) - 0.1}        
         }    
     
     return settings
