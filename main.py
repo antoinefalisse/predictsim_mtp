@@ -40,7 +40,7 @@ import platform
 # results. Yet if you solved the optimal control problem and saved the results,
 # you might want to latter only load and process the results without re-solving
 # the problem. Playing with the settings below allows you to do exactly that.
-solveProblem = True # Set True to solve the optimal control problem.
+solveProblem = False # Set True to solve the optimal control problem.
 saveResults = True # Set True to save the results of the optimization.
 analyzeResults = True # Set True to analyze the results.
 loadResults = True # Set True to load the results of the optimization.
@@ -51,7 +51,7 @@ saveOptimalTrajectories = True # Set True to save optimal trajectories
 # process the results. Specify the settings of the case(s) in the
 # 'settings' module. 
 # cases = ['example0', 'example1', 'example2', 'example3', 'example4']
-cases = ['34', '35']
+cases = ['32']
         
 # Import settings.
 from settings import getSettings   
