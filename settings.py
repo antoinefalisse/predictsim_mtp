@@ -292,7 +292,19 @@ def getSettings():
                'N': 100,
                'modelMass': 62,
                'knee_axis': 'FK',
-               'dampingMtp': np.sqrt(4*0.17866389231100815*25) - 0.1}        
+               'dampingMtp': np.sqrt(4*0.17866389231100815*25) - 0.1},
+        '36': {'guessType': 'hotStart',
+               'targetSpeed': 1.33,
+               'N': 100,
+               'modelMass': 62,
+               'knee_axis': 'FK',
+               'dampingMtp': 10},
+        '37': {'guessType': 'coldStart',
+               'targetSpeed': 1.33,
+               'N': 100,
+               'modelMass': 62,
+               'knee_axis': 'FK',
+               'dampingMtp': 10} 
         }    
     
     return settings

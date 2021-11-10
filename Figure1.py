@@ -5,24 +5,14 @@ import matplotlib.pyplot as plt
 from utilities import getJointIndices
 
 # %% Settings
-# cases_mtp = ['174', '145']
-# cases_no_mtp = ['106', '119', '115']
-# case_4exp = '145'
-
-# labels_mtp = ['Old model - low contact spheres - with toes', 
-#               'New model - high contact spheres - with toes'] # '4'
-# labels_no_mtp = ['Old model - low contact spheres - without toes', 
-#                  'New model - low contact spheres - without toes', '32',
-#                  'New model - high contact spheres - without toes'] '28',
-
-# cases_no_mtp = ['115']
+labels = ['Old model - low contact spheres - without toes', 
+          'New model - low contact spheres - without toes',
+          'New model - high contact spheres - without toes',
+          'Old model - low contact spheres - with toes',
+          'New model - high contact spheres - with toes']
 
 cases = ['31', '32', '28', '27', '4']
 case_4exp = '4'
-
-# subject = "subject2"
-# model_mtp = "mtp"
-# model_no_mtp = "no_mtp"
 
 colors=['black', '#984ea3','#4daf4a','#377eb8','#ff7f00'] 
 linestyles=['solid','dashed','dashdot','solid','dashdot']
@@ -30,20 +20,6 @@ linewidth_s = 3
 fontsize_tick = 14
 fontsize_label = 15
 fontsize_title = 17
-
-# CB_color_cycle = ['#377eb8', '#ff7f00', '#4daf4a',
-#                   '#f781bf', '#a65628', '#984ea3',
-#                   '#999999', '#e41a1c', '#dede00']
-# 377eb8: blue
-# ff7f00: orange
-# 4daf4a: green
-# f781bf: pink
-# a65628: brown
-# 984ea3: purple
-# 999999: grey
-# e41a1c: red
-# dede00: yellow
-
 
 # %% Fixed settings
 pathMain = os.getcwd()
@@ -57,6 +33,7 @@ pathData = os.path.join(pathMain, 'OpenSimModel', 'new_model')
 experimentalData = np.load(os.path.join(pathData, 'experimentalData.npy'),
                            allow_pickle=True).item()
 subject = 'subject2' # TODO
+swing = 65
     
 # %% Visualize results
 plt.close('all')
@@ -88,7 +65,8 @@ for i, ax in enumerate(axs[0, :]):
                     experimentalData[subject]["kinematics"]["positions"]["mean"][jointsToPlot[i]] + 2*experimentalData[subject]["kinematics"]["positions"]["std"][jointsToPlot[i]],
                     experimentalData[subject]["kinematics"]["positions"]["mean"][jointsToPlot[i]] - 2*experimentalData[subject]["kinematics"]["positions"]["std"][jointsToPlot[i]],
                     facecolor='grey', alpha=0.4)
-                plotExperimentalData = False                       
+                plotExperimentalData = False  
+        ax.vlines(swing, kinematic_ylim_lb[i], kinematic_ylim_ub[i], color='k')              
         ax.set_title(jointsToPlotTitle[i])
         ax.set_ylim((kinematic_ylim_lb[i],kinematic_ylim_ub[i]))
         ax.set_yticks([kinematic_ylim_lb[i],0,kinematic_ylim_ub[i]])
@@ -186,6 +164,7 @@ for i, ax in enumerate(axs[0:1,2:].flat):
                 ax.plot(experimentalData[subject]["EMG"]["GC_percent"],
                         experimentalData[subject]["EMG"]["mean"][mappingEMG[musclesToPlot[i]]] * scaling_emg, color='grey', linewidth=linewidth_s)
         ax.set_title(muscleTitles[idxMusclesToPlot[i]])
+        ax.vlines(swing, 0, 1, color='k')  
         ax.set_ylim((0,1))
         ax.set_yticks([0,1])
         plt.setp(ax.get_yticklabels(), fontsize=fontsize_tick)
@@ -221,7 +200,8 @@ for i, ax in enumerate(axs[1,:]):
                                 experimentalData[subject]["kinetics"]["mean"][jointsToPlot[i]] + 2*experimentalData[subject]["kinetics"]["std"][jointsToPlot[i]],
                                 experimentalData[subject]["kinetics"]["mean"][jointsToPlot[i]] - 2*experimentalData[subject]["kinetics"]["std"][jointsToPlot[i]],
                                 facecolor='grey', alpha=0.4)
-                plotExperimentalData = False               
+                plotExperimentalData = False    
+        ax.vlines(swing, kinetic_ylim_lb[i], kinetic_ylim_ub[i], color='k')  
         ax.set_ylim((kinetic_ylim_lb[i],kinetic_ylim_ub[i]))
         ax.set_yticks([kinetic_ylim_lb[i],0,kinetic_ylim_ub[i]])
         plt.setp(ax.get_yticklabels(), fontsize=fontsize_tick)
@@ -253,6 +233,7 @@ for i, ax in enumerate(axs[1,2:]):
                                 facecolor='grey', alpha=0.4)                
                 ax.plot(experimentalData[subject]["GRF"]["GC_percent"],
                         experimentalData[subject]["GRF"]["mean"][GRFToPlot[i]], color='grey', linewidth=linewidth_s)
+        ax.vlines(swing, GRF_ylim_lb[i], GRF_ylim_ub[i], color='k')  
         ax.set_title(GRFTitles[idxGRFToPlot[i]])
         ax.set_ylim((GRF_ylim_lb[i],GRF_ylim_ub[i]))
         ax.set_yticks([GRF_ylim_lb[i],0,GRF_ylim_ub[i]])
@@ -270,8 +251,7 @@ for ax in axs.flat:
     ax.yaxis.get_label().set_fontsize(fontsize_label)
     ax.title.set_fontsize(fontsize_title)
 
-
-# # %%
+# %%
 for ax in (axs[2,:].flat):
     ax.set_visible(False)
     
