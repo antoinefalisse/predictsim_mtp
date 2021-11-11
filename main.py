@@ -51,7 +51,7 @@ saveOptimalTrajectories = True # Set True to save optimal trajectories
 # process the results. Specify the settings of the case(s) in the
 # 'settings' module. 
 # cases = ['example0', 'example1', 'example2', 'example3', 'example4']
-cases = [str(i) for i in range(36, 38)]
+cases = [str(i) for i in range(39, 42)]
         
 # Import settings.
 from settings import getSettings   

@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt  
 
 # %% Settings
-cases = ['4', '34']
+cases = ['4', '38', '40', '34', '37', '28']
 
 # %% Fixed settings
 pathMain = os.getcwd()
@@ -37,8 +37,12 @@ for i, ax in enumerate(axs.flat):
         color=iter(plt.cm.rainbow(np.linspace(0,1,len(cases))))
         plotExperimental = True
         for case in cases:
+            c_joints = optimaltrajectories[case]['joints']            
+            if not jointToPlot[i] in c_joints:
+                continue            
+            c_joint_idx = c_joints.index(jointToPlot[i])             
             ax.plot(optimaltrajectories[case]['GC_percent'],
-                    optimaltrajectories[case]['coordinate_values'][idxJointsToPlot[i]:idxJointsToPlot[i]+1, :].T, c=next(color), label='case_' + case)
+                    optimaltrajectories[case]['coordinate_values'][c_joint_idx:c_joint_idx+1, :].T, c=next(color), label='case_' + case)
             if plotExperimental:
                 ax.fill_between(experimentalData[subject]["kinematics"]["positions"]["GC_percent"],
                             experimentalData[subject]["kinematics"]["positions"]["mean"][jointToPlot[i]] + 2*experimentalData[subject]["kinematics"]["positions"]["std"][jointToPlot[i]],
@@ -142,8 +146,12 @@ for i, ax in enumerate(axs.flat):
     if i < NJointsToPlot:
         plotExperimental = True
         for case in cases:
+            c_joints = optimaltrajectories[case]['joints']
+            if not jointToPlot[i] in c_joints:
+                continue
+            c_joint_idx = c_joints.index(jointToPlot[i]) 
             ax.plot(optimaltrajectories[case]['GC_percent'],
-                    optimaltrajectories[case]['joint_torques'][idxJointsToPlot[i]:idxJointsToPlot[i]+1, :].T, c=next(color), label='case_' + case)
+                    optimaltrajectories[case]['joint_torques'][c_joint_idx:c_joint_idx+1, :].T, c=next(color), label='case_' + case)
             if plotExperimental:
                 ax.fill_between(experimentalData[subject]["kinetics"]["GC_percent"],
                             experimentalData[subject]["kinetics"]["mean"][jointToPlot[i]] + 2*experimentalData[subject]["kinetics"]["std"][jointToPlot[i]],
