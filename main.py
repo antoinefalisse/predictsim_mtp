@@ -40,8 +40,8 @@ import platform
 # results. Yet if you solved the optimal control problem and saved the results,
 # you might want to latter only load and process the results without re-solving
 # the problem. Playing with the settings below allows you to do exactly that.
-solveProblem = False # Set True to solve the optimal control problem.
-saveResults = True # Set True to save the results of the optimization.
+solveProblem = True # Set True to solve the optimal control problem.
+saveResults = False # Set True to save the results of the optimization.
 analyzeResults = True # Set True to analyze the results.
 loadResults = True # Set True to load the results of the optimization.
 writeMotionFiles = True # Set True to write motion files for use in OpenSim GUI
@@ -51,7 +51,10 @@ saveOptimalTrajectories = True # Set True to save optimal trajectories
 # process the results. Specify the settings of the case(s) in the
 # 'settings' module. 
 # cases = ['example0', 'example1', 'example2', 'example3', 'example4']
-cases = ['4']
+cases = ['42','43','44','48','50']
+# cases = ['45','46','47','49','51']
+# cases = ['52','53','54','55','56','57','58','59']
+# cases = ['60','61','62','63','64','65','66','67']
         
 # Import settings.
 from settings import getSettings   
@@ -138,7 +141,7 @@ for case in cases:
     if 'd' in settings[case]:
         d = settings[case]['d']    
     
-    nThreads = 8 # default number of threads.
+    nThreads = 10 # default number of threads.
     if 'nThreads' in settings[case]:
         nThreads = settings[case]['nThreads']
     parallelMode = "thread" # only supported mode.
