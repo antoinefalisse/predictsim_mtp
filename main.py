@@ -51,8 +51,8 @@ saveOptimalTrajectories = True # Set True to save optimal trajectories
 # process the results. Specify the settings of the case(s) in the
 # 'settings' module. 
 # cases = ['example0', 'example1', 'example2', 'example3', 'example4']
-cases = ['42','43','44','48','50']
-# cases = ['45','46','47','49','51']
+# cases = ['42','43','44','48','50']
+cases = ['45','46','47','49','51']
 # cases = ['52','53','54','55','56','57','58','59']
 # cases = ['60','61','62','63','64','65','66','67']
         
