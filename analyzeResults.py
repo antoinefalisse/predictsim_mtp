@@ -126,10 +126,6 @@ for i, joint in enumerate(jointsToAnalyze):
         set_interp = interp1d(c_sim_vec, c_sim_stance)
         c_sim_inter = set_interp(c_sim_vec_N)
         
-        plt.figure()
-        plt.plot(c_ref_inter)
-        plt.plot(c_sim_inter)
-        
         # Compute RMSE
         metrics['RMSE']['kinetics'][joint][case] = mean_squared_error(c_ref_inter, c_sim_inter, squared=False)
         metrics['R2']['kinetics'][joint][case] = r2_score(c_ref_inter, c_sim_inter)
@@ -181,3 +177,23 @@ c_sim_noToes_vGRF = np.max(optimaltrajectories['28']['GRF'][1, :].T)
 
 peak_GRF_change = 100 - (c_sim_toes_vGRF/c_sim_noToes_vGRF*100)
 print('Peak decreased by {} %, from {} to {}'.format(round(peak_GRF_change), round(c_sim_noToes_vGRF), round(c_sim_toes_vGRF)))
+
+# %%
+# COT comparison
+COT_withToes = optimaltrajectories['4']['COT_perMuscle']
+COT_withoutToes = optimaltrajectories['28']['COT_perMuscle']
+
+COT_diff = COT_withToes-COT_withoutToes
+sort_COT_idx = np.flip(np.argsort(COT_diff))
+sort_COT = np.flip(np.sort(ratio_COT))
+muscles_names = optimaltrajectories['4']['muscles']
+sort_COT_muscles = []
+for idx in sort_COT_idx:    
+    sort_COT_muscles.append(muscles_names[idx])
+sort_COT_diff = COT_diff[sort_COT_idx]
+COT_quads_added = np.sum(sort_COT_diff[0:8])
+
+COT_withToes_sum = np.sum(COT_withToes)
+COT_withoutToes_sum = np.sum(COT_withoutToes)
+
+COT_quads_added / (COT_withToes_sum-COT_withoutToes_sum)*100
