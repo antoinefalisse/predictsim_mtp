@@ -1,3 +1,8 @@
+'''
+    This script contains muscle-specific functions.
+'''
+
+# %% Import packages.
 import os
 import numpy as np
 
@@ -67,8 +72,8 @@ def tendonStiffness(NSideMuscles):
     
     return tendonStiffness
 
-# Tendon shift to ensure that the tendon force when the normalized tendon
-# lenght is 1 is the same for all tendon stiffnesses.
+# Tendon shift to ensure that the tendon force, when the normalized tendon
+# lenght is 1, is the same for all tendon stiffnesses.
 def tendonShift(NSideMuscles):
     tendonShift = np.full((1, NSideMuscles), 0)
     

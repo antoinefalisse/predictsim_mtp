@@ -1,24 +1,17 @@
+'''
+    This script computes RMSEs for kinematics and kinetics, and compares the
+    results across cases. Focus is on studying the influence of the damping
+    coefficients on the simulations.
+'''
+
+# %% Import packages
 import os
 import numpy as np
 from scipy.interpolate import interp1d
 from sklearn.metrics import mean_squared_error, r2_score
 
 # %% Settings
-labels = ['Old model - low contact spheres - without toes', 
-          'New model - low contact spheres - without toes',
-          'New model - high contact spheres - without toes',
-          'Old model - low contact spheres - with toes',
-          'New model - high contact spheres - with toes']
-
 cases = ['4', '38', '40', '34', '37']
-case_4exp = '4'
-
-colors=['black', '#984ea3','#4daf4a','#377eb8','#ff7f00'] 
-linestyles=['solid','dashed','dashdot','solid','dashdot']
-linewidth_s = 3
-fontsize_tick = 14
-fontsize_label = 15
-fontsize_title = 17
 
 # %% Fixed settings
 pathMain = os.getcwd()
@@ -32,7 +25,7 @@ pathData = os.path.join(pathMain, 'OpenSimModel', 'new_model')
 experimentalData = np.load(os.path.join(pathData, 'experimentalData.npy'),
                            allow_pickle=True).item()
 subject = 'subject2' # TODO
-threshold = 5
+threshold = 5 # vGRF threshold for stance-swing transition
 
 metrics = {}
 metrics['RMSE'] = {}
@@ -47,8 +40,7 @@ signal_range['kinematics'] = {}
 for i, joint in enumerate(jointsToAnalyze):
     metrics['RMSE']['kinematics'][joint] = {}
     metrics['R2']['kinematics'][joint] = {}
-    for c, case in enumerate(cases):    
-            
+    for c, case in enumerate(cases):            
         c_joints = optimaltrajectories[case]['joints']
         c_joint_idx = c_joints.index(joint)
         
@@ -89,12 +81,10 @@ for i, joint in enumerate(jointsToAnalyze):
 metrics['RMSE']['kinetics'] = {}
 metrics['R2']['kinetics'] = {}
 signal_range['kinetics'] = {}
-
 for i, joint in enumerate(jointsToAnalyze):
     metrics['RMSE']['kinetics'][joint] = {}
     metrics['R2']['kinetics'][joint] = {}
-    for c, case in enumerate(cases):    
-            
+    for c, case in enumerate(cases):            
         c_joints = optimaltrajectories[case]['joints']
         c_joint_idx = c_joints.index(joint)
         
@@ -144,78 +134,3 @@ for variable in variables:
             RMSE_change = metrics['RMSE'][variable][joint][case] - metrics['RMSE'][variable][joint][cases[c]]
             changes[variable][joint][case] = np.round(RMSE_change / signal_range[variable][joint] * 100, 1)
             
-            
-            
-    
-
-
-
-
-
-# # %% Analysis results
-# print('Influence of the mass distribution')
-# print('Knee kinematics and kinetics')
-# rmse_change_knee_kinematics_mass = 100 - (metrics['RMSE']['kinematics']['knee_angle_r']['32'] / metrics['RMSE']['kinematics']['knee_angle_r']['31']) * 100
-# rmse_change_knee_kinetics_mass = 100 - (metrics['RMSE']['kinetics']['knee_angle_r']['32'] / metrics['RMSE']['kinetics']['knee_angle_r']['31']) * 100
-# print('RMSE kinematics decreased by {} %, from {} to {}'.format(round(rmse_change_knee_kinematics_mass), round(metrics['RMSE']['kinematics']['knee_angle_r']['31'],1), round(metrics['RMSE']['kinematics']['knee_angle_r']['32'],1)))
-# print('RMSE kinetics decreased by {} %, from {} to {}'.format(round(rmse_change_knee_kinetics_mass), round(metrics['RMSE']['kinetics']['knee_angle_r']['31'],1), round(metrics['RMSE']['kinetics']['knee_angle_r']['32'],1)))
-# print('Ankle kinematics and kinetics')
-# rmse_change_ankle_kinematics_mass = 100 - (metrics['RMSE']['kinematics']['ankle_angle_r']['32'] / metrics['RMSE']['kinematics']['ankle_angle_r']['31']) * 100
-# rmse_change_ankle_kinetics_mass = 100 - (metrics['RMSE']['kinetics']['ankle_angle_r']['32'] / metrics['RMSE']['kinetics']['ankle_angle_r']['31']) * 100
-# print('RMSE kinematics decreased by {}, from {} to {}'.format(round(rmse_change_ankle_kinematics_mass), round(metrics['RMSE']['kinematics']['ankle_angle_r']['31'],1), round(metrics['RMSE']['kinematics']['ankle_angle_r']['32'],1)))
-# print('RMSE kinetics decreased by {} %, from {} to {}'.format(round(rmse_change_ankle_kinetics_mass), round(metrics['RMSE']['kinetics']['ankle_angle_r']['31'],1), round(metrics['RMSE']['kinetics']['ankle_angle_r']['32'],1)))
-
-# print('Influence of the sphere position')
-# print('Knee kinematics and kinetics')
-# rmse_change_knee_kinematics_sphere = 100 - (metrics['RMSE']['kinematics']['knee_angle_r']['28'] / metrics['RMSE']['kinematics']['knee_angle_r']['32']) * 100
-# rmse_change_knee_kinetics_sphere = 100 - (metrics['RMSE']['kinetics']['knee_angle_r']['28'] / metrics['RMSE']['kinetics']['knee_angle_r']['32']) * 100
-# print('RMSE kinematics decreased by {} %, from {} to {}'.format(round(rmse_change_knee_kinematics_sphere), round(metrics['RMSE']['kinematics']['knee_angle_r']['32'],1), round(metrics['RMSE']['kinematics']['knee_angle_r']['28'],1)))
-# print('RMSE kinetics decreased by {} %, from {} to {}'.format(round(rmse_change_knee_kinetics_sphere), round(metrics['RMSE']['kinetics']['knee_angle_r']['32'],1), round(metrics['RMSE']['kinetics']['knee_angle_r']['28'],1)))
-# print('Ankle kinematics and kinetics')
-# rmse_change_ankle_kinematics_sphere = 100 - (metrics['RMSE']['kinematics']['ankle_angle_r']['28'] / metrics['RMSE']['kinematics']['ankle_angle_r']['32']) * 100
-# rmse_change_ankle_kinetics_sphere = 100 - (metrics['RMSE']['kinetics']['ankle_angle_r']['28'] / metrics['RMSE']['kinetics']['ankle_angle_r']['32']) * 100
-# print('RMSE kinematics decreased by {} %, from {} to {}'.format(round(rmse_change_ankle_kinematics_sphere), round(metrics['RMSE']['kinematics']['ankle_angle_r']['32'],1), round(metrics['RMSE']['kinematics']['ankle_angle_r']['28'],1)))
-# print('RMSE kinetics decreased by {} %, from {} to {}'.format(round(rmse_change_ankle_kinetics_sphere), round(metrics['RMSE']['kinetics']['ankle_angle_r']['32'],1), round(metrics['RMSE']['kinetics']['ankle_angle_r']['28'],1)))
-
-# print('Influence of the toes')
-# print('Knee kinematics and kinetics')
-# rmse_change_knee_kinematics_toes = 100 - (metrics['RMSE']['kinematics']['knee_angle_r']['4'] / metrics['RMSE']['kinematics']['knee_angle_r']['28']) * 100
-# rmse_change_knee_kinetics_toes = 100 - (metrics['RMSE']['kinetics']['knee_angle_r']['4'] / metrics['RMSE']['kinetics']['knee_angle_r']['28']) * 100
-# print('RMSE kinematics decreased by {} %, from {} to {}'.format(round(rmse_change_knee_kinematics_toes), round(metrics['RMSE']['kinematics']['knee_angle_r']['28'],1), round(metrics['RMSE']['kinematics']['knee_angle_r']['4'],1)))
-# print('RMSE kinetics decreased by {} %, from {} to {}'.format(round(rmse_change_knee_kinetics_toes), round(metrics['RMSE']['kinetics']['knee_angle_r']['28'],1), round(metrics['RMSE']['kinetics']['knee_angle_r']['4'],1)))
-# print('Ankle kinematics and kinetics')
-# rmse_change_ankle_kinematics_toes = 100 - (metrics['RMSE']['kinematics']['ankle_angle_r']['4'] / metrics['RMSE']['kinematics']['ankle_angle_r']['28']) * 100
-# rmse_change_ankle_kinetics_toes = 100 - (metrics['RMSE']['kinetics']['ankle_angle_r']['4'] / metrics['RMSE']['kinetics']['ankle_angle_r']['28']) * 100
-# print('RMSE kinematics decreased by {} %, from {} to {}'.format(round(rmse_change_ankle_kinematics_toes), round(metrics['RMSE']['kinematics']['ankle_angle_r']['28'],1), round(metrics['RMSE']['kinematics']['ankle_angle_r']['4'],1)))
-# print('RMSE kinetics decreased by {} %, from {} to {}'.format(round(rmse_change_ankle_kinetics_toes), round(metrics['RMSE']['kinetics']['ankle_angle_r']['28'],1), round(metrics['RMSE']['kinetics']['ankle_angle_r']['4'],1)))
-
-# # %% First peak GRF
-# # Experimental
-# c_ref_vGRF_max = np.max(experimentalData[subject]["GRF"]["mean"]['GRF_y_r'].to_numpy())
-# # Simulation with toes
-# c_sim_toes_vGRF = np.max(optimaltrajectories['4']['GRF'][1, :].T)
-# # Simulation without toes
-# c_sim_noToes_vGRF = np.max(optimaltrajectories['28']['GRF'][1, :].T)
-
-# peak_GRF_change = 100 - (c_sim_toes_vGRF/c_sim_noToes_vGRF*100)
-# print('Peak decreased by {} %, from {} to {}'.format(round(peak_GRF_change), round(c_sim_noToes_vGRF), round(c_sim_toes_vGRF)))
-
-# # %%
-# # COT comparison
-# COT_withToes = optimaltrajectories['4']['COT_perMuscle']
-# COT_withoutToes = optimaltrajectories['28']['COT_perMuscle']
-
-# COT_diff = COT_withToes-COT_withoutToes
-# sort_COT_idx = np.flip(np.argsort(COT_diff))
-# sort_COT = np.flip(np.sort(ratio_COT))
-# muscles_names = optimaltrajectories['4']['muscles']
-# sort_COT_muscles = []
-# for idx in sort_COT_idx:    
-#     sort_COT_muscles.append(muscles_names[idx])
-# sort_COT_diff = COT_diff[sort_COT_idx]
-# COT_quads_added = np.sum(sort_COT_diff[0:8])
-
-# COT_withToes_sum = np.sum(COT_withToes)
-# COT_withoutToes_sum = np.sum(COT_withoutToes)
-
-# COT_quads_added / (COT_withToes_sum-COT_withoutToes_sum)*100

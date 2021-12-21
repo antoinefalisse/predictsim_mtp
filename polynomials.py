@@ -1,3 +1,10 @@
+'''
+    This script contains classes and functions to support the approximation of
+    muscle-tendon lengths, velocities, and moment arms using polynomial
+    functions of joint positions and velocities.
+'''
+
+# %% Import packages.
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -284,11 +291,6 @@ def getPolynomialCoefficients(pathCoordinates, pathMuscleAnalysis, joints,
         
         is_fullfilled = False
         order = order_min
-        knee_ext = ['vas_med_r', 'vas_int_r', 'vas_lat_r']
-        if muscle in knee_ext:
-            order = 5
-        else:
-            order = 3
         while not is_fullfilled:
             
             polynomial = polynomial_estimation(muscle_dimension, order)

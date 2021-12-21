@@ -1,17 +1,20 @@
+'''
+    This script computes RMSEs for kinematics and kinetics, and compares the
+    results across cases. Focus is on studying the influence of modeling
+    choices on the simulations.
+'''
+
+# %% Import packages
 import os
 import numpy as np
 from scipy.interpolate import interp1d
 from sklearn.metrics import mean_squared_error, r2_score
 
 # %% Settings
-labels = ['Old model - low contact spheres - without toes', 
-          'New model - low contact spheres - without toes',
-          'New model - high contact spheres - without toes',
-          'Old model - low contact spheres - with toes',
-          'New model - high contact spheres - with toes']
-
-# cases = ['31', '32', '28', '27', '4'] # old damping
-cases = ['31', '32', '28', '66', '40'] # new damping
+# higher damping (d=2)
+cases = ['31', '32', '28', '66', '40']
+# lower damping (d=0.4)
+# cases = ['31', '32', '28', '27', '4']
 
 old_model_without_toes = '31'
 new_model_without_toes = '32'
@@ -19,16 +22,8 @@ new_model_without_toes_high = '28'
 old_model_with_toes = '66'
 new_model_with_toes = '40'
 
-# cases = ['40','53','54','56','59','60','62','64'] # Effect of Achilles tendon stiffness
-
-colors=['black', '#984ea3','#4daf4a','#377eb8','#ff7f00'] 
-linestyles=['solid','dashed','dashdot','solid','dashdot']
-linewidth_s = 3
-fontsize_tick = 14
-fontsize_label = 15
-fontsize_title = 17
-
-
+# Effect of Achilles tendon stiffness
+# cases = ['40','53','54','56','59','60','62','64']
 
 # %% Fixed settings
 pathMain = os.getcwd()
@@ -42,8 +37,8 @@ pathData = os.path.join(pathMain, 'OpenSimModel', 'new_model')
 experimentalData = np.load(os.path.join(pathData, 'experimentalData.npy'),
                            allow_pickle=True).item()
 subject = 'subject2' # TODO
-threshold = 5
-N = 100
+threshold = 5 # vGRF threshold for stance-swing transition
+N = 100 # # data points for interpolation
 
 metrics = {}
 metrics['RMSE'] = {}
@@ -51,8 +46,8 @@ metrics['R2'] = {}
 signal_range = {}
 
 for case in cases:
-    print(np.round(optimaltrajectories[case]['COT'],2))
-    print(optimaltrajectories[case]['iter_count'])
+    print('COT case {}: {}'.format(case, np.round(optimaltrajectories[case]['COT'],2)))
+    print('# iterations case {}: {}'.format(case, optimaltrajectories[case]['iter_count']))
 
 # %% Kinematics
 jointsToAnalyze = ['knee_angle_r',  'ankle_angle_r']
@@ -62,8 +57,7 @@ signal_range['kinematics'] = {}
 for i, joint in enumerate(jointsToAnalyze):
     metrics['RMSE']['kinematics'][joint] = {}
     metrics['R2']['kinematics'][joint] = {}
-    for c, case in enumerate(cases):    
-            
+    for c, case in enumerate(cases):            
         c_joints = optimaltrajectories[case]['joints']
         c_joint_idx = c_joints.index(joint)
         
@@ -107,8 +101,7 @@ signal_range['kinetics'] = {}
 for i, joint in enumerate(jointsToAnalyze):
     metrics['RMSE']['kinetics'][joint] = {}
     metrics['R2']['kinetics'][joint] = {}
-    for c, case in enumerate(cases):    
-            
+    for c, case in enumerate(cases):            
         c_joints = optimaltrajectories[case]['joints']
         c_joint_idx = c_joints.index(joint)
         
@@ -145,7 +138,7 @@ for i, joint in enumerate(jointsToAnalyze):
         metrics['RMSE']['kinetics'][joint][case] = mean_squared_error(c_ref_inter, c_sim_inter, squared=False)
         metrics['R2']['kinetics'][joint][case] = r2_score(c_ref_inter, c_sim_inter)
         
-# %% Percent change as a function of signal range wrt previous case
+# %% Percent change as a function of signal range with respect to previous case
 variables = ['kinematics', 'kinetics']
 joints = ['knee_angle_r', 'ankle_angle_r']
 changes = {}
@@ -273,8 +266,7 @@ c_sim_noToes_vGRF = np.max(optimaltrajectories[new_model_without_toes_high]['GRF
 peak_GRF_change = 100 - (c_sim_toes_vGRF/c_sim_noToes_vGRF*100)
 print('Peak decreased by {} %, from {} to {}'.format(round(peak_GRF_change), round(c_sim_noToes_vGRF), round(c_sim_toes_vGRF)))
 
-# %%
-# COT comparison
+# %% COT comparison
 COT_withToes = optimaltrajectories[new_model_with_toes]['COT_perMuscle']
 COT_withoutToes = optimaltrajectories[new_model_without_toes_high]['COT_perMuscle']
 

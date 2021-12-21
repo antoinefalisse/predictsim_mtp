@@ -1,12 +1,17 @@
+'''
+    This script contains helper functions used in this project. Not all
+    functions are still in use, but they might be in the future.
+'''
+
+# %% Import packages.
 import numpy as np
 import pandas as pd
 from scipy import signal
 from scipy.interpolate import interp1d
-from sys import path
-path.append(r"C:/Users/u0101727/Documents/Software/CasADi/casadi-windows-py37-v3.5.1-64bit")
 import casadi as ca
 import matplotlib.pyplot as plt  
 
+# %% Storage file to numpy array.
 # Found here: https://github.com/chrisdembia/perimysium/
 def storage2numpy(storage_file, excess_header_entries=0):
     """Returns the data from a storage file in a numpy format. Skips all lines
@@ -55,6 +60,7 @@ def storage2numpy(storage_file, excess_header_entries=0):
 
     return data
     
+# %% Storage file to dataframe.
 def storage2df(storage_file, headers):
     # Extract data
     data = storage2numpy(storage_file)
@@ -64,6 +70,7 @@ def storage2df(storage_file, headers):
     
     return out
 
+# %% Extract IK results from storage file.
 def getIK(storage_file, joints, degrees=False):
     # Extract data
     data = storage2numpy(storage_file)
@@ -92,6 +99,7 @@ def getIK(storage_file, joints, degrees=False):
     
     return Qs, QsFilt
 
+# %% Extract activations from storage file.
 def getActivations(storage_file, muscles):
     # Extract data
     data = storage2numpy(storage_file)
@@ -101,6 +109,7 @@ def getActivations(storage_file, muscles):
                 
     return activations
 
+# %% Extract ground reaction forces from storage file.
 def getGRF(storage_file, headers):
     # Extract data
     data = storage2numpy(storage_file)
@@ -110,6 +119,7 @@ def getGRF(storage_file, headers):
     
     return GRFs
 
+# %% Extract ID results from storage file.
 def getID(storage_file, headers):
     # Extract data
     data = storage2numpy(storage_file)
@@ -123,6 +133,7 @@ def getID(storage_file, headers):
     
     return out
 
+# %% Extract from storage file.
 def getFromStorage(storage_file, headers):
     # Extract data
     data = storage2numpy(storage_file)
@@ -132,6 +143,7 @@ def getFromStorage(storage_file, headers):
     
     return out
 
+# %% Compute ground reaction moments (GRM).
 def getGRM_wrt_groundOrigin(storage_file, fHeaders, pHeaders, mHeaders):
     # Extract data
     data = storage2numpy(storage_file)
@@ -155,6 +167,7 @@ def getGRM_wrt_groundOrigin(storage_file, fHeaders, pHeaders, mHeaders):
     
     return GRM_wrt_groundOrigin
 
+# %% Compite center of pressure (COP).
 def getCOP(GRF, GRM):
     
     COP = np.zeros((3, GRF.shape[1]))
@@ -167,6 +180,7 @@ def getCOP(GRF, GRM):
     
     return COP, torques
 
+# %% Get indices from list.
 def getJointIndices(joints, selectedJoints):
     
     jointIndices = []
@@ -175,6 +189,7 @@ def getJointIndices(joints, selectedJoints):
             
     return jointIndices
 
+# %% Get moment arm indices.
 def getMomentArmIndices(rightMuscles, leftPolynomialJoints,
                         rightPolynomialJoints, polynomialData):
          
@@ -195,6 +210,7 @@ def getMomentArmIndices(rightMuscles, leftPolynomialJoints,
         
     return momentArmIndices
 
+# %% Solve OCP using bounds instead of constraints.
 def solve_with_bounds(opti, tolerance):
     # Get guess
     guess = opti.debug.value(opti.x, opti.initial())
@@ -222,9 +238,9 @@ def solve_with_bounds(opti, tolerance):
     ubg = opti.ubg
     ubg = opti.value(ubg)
     # Detect  f2(p)x+f1(p)==0
-    # This is important should you have scaled variables: x = 10*opti.variable()
-    # with a constraint -10 < x < 10. Because in the reformulation we read out the
-    # original variable and thus we need to scale the bounds appropriately.
+    # This is important if  you have scaled variables: x = 10*opti.variable()
+    # with a constraint -10 < x < 10. Because in the reformulation we read out
+    # the original variable and thus we need to scale the bounds appropriately.
     g = opti.g
     gf = ca.Function('gf', [opti.x, opti.p], [g[idx_is_simple, 0], 
                             ca.jtimes(g[idx_is_simple, 0], opti.x, 
@@ -275,6 +291,7 @@ def solve_with_bounds(opti, tolerance):
     
     return w_opt, stats
 
+# %% Solve OCP with constraints.
 def solve_with_constraints(opti, tolerance):
     s_opts = {"hessian_approximation": "limited-memory",
               "mu_strategy": "adaptive",
@@ -286,13 +303,7 @@ def solve_with_constraints(opti, tolerance):
     
     return sol
 
-# Test
-#storage_file = 'IK_average_running_HGC.mot'
-#joints = ['pelvis_tx','pelvis_tilt', 'pelvis_rotation']
-#
-#data = storage2numpy(storage_file)
-#Qs, Qsfilt = getIK(storage_file, joints)
-    
+# %% Write storage file from numpy array.    
 def numpy2storage(labels, data, storage_file):
     
     assert data.shape[1] == len(labels), "# labels doesn't match columns"
@@ -314,8 +325,9 @@ def numpy2storage(labels, data, storage_file):
             f.write('%20.8f\t' %data[i, j])
         f.write('\n')
         
-    f.close()  
+    f.close()
     
+# %% Interpolate dataframe and return numpy array.    
 def interpolateDataFrame2Numpy(dataFrame, tIn, tEnd, N):   
     
     tOut = np.linspace(tIn, tEnd, N)
@@ -326,6 +338,7 @@ def interpolateDataFrame2Numpy(dataFrame, tIn, tEnd, N):
         
     return dataInterp    
 
+# %% Interpolate dataframe.
 def interpolateDataFrame(dataFrame, tIn, tEnd, N):   
     
     tOut = np.linspace(tIn, tEnd, N)    
@@ -334,22 +347,27 @@ def interpolateDataFrame(dataFrame, tIn, tEnd, N):
         set_interp = interp1d(dataFrame['time'], dataFrame[col])        
         dataInterp.insert(i, col, set_interp(tOut))
         
-    return dataInterp   
+    return dataInterp
 
+# %% Scale dataframe.
 def scaleDataFrame(dataFrame, scaling, headers):
     dataFrame_scaled = pd.DataFrame(data=dataFrame['time'], columns=['time'])  
     for count, header in enumerate(headers): 
-        dataFrame_scaled.insert(count+1, header, dataFrame[header] / scaling.iloc[0][header])
+        dataFrame_scaled.insert(count+1, header, 
+                                dataFrame[header] / scaling.iloc[0][header])
         
     return dataFrame_scaled
 
+# %% Unscale dataframe.
 def unscaleDataFrame2(dataFrame, scaling, headers):
     dataFrame_scaled = pd.DataFrame(data=dataFrame['time'], columns=['time'])  
     for count, header in enumerate(headers): 
-        dataFrame_scaled.insert(count+1, header, dataFrame[header] * scaling.iloc[0][header])
+        dataFrame_scaled.insert(count+1, header, 
+                                dataFrame[header] * scaling.iloc[0][header])
         
     return dataFrame_scaled
 
+# %% Plot variables against their bounds.
 def plotVSBounds(y,lb,ub,title=''):    
     ny = np.floor(np.sqrt(y.shape[0]))   
     fig, axs = plt.subplots(int(ny), int(ny+1), sharex=True)    
@@ -361,7 +379,8 @@ def plotVSBounds(y,lb,ub,title=''):
             ax.hlines(lb[i,0],x[0],x[-1],'r')
             ax.hlines(ub[i,0],x[0],x[-1],'b')
     plt.show()
-            
+         
+# %% Plot variables against their bounds, which might be time-dependent.
 def plotVSvaryingBounds(y,lb,ub,title=''):    
     ny = np.floor(np.sqrt(y.shape[0]))   
     fig, axs = plt.subplots(int(ny), int(ny+1), sharex=True)    
@@ -374,6 +393,7 @@ def plotVSvaryingBounds(y,lb,ub,title=''):
             ax.plot(x,ub[i,:],'b')
     plt.show()
             
+# %% Plot paraeters.
 def plotParametersVSBounds(y,lb,ub,title='',xticklabels=[]):    
     x = np.linspace(1,y.shape[0],y.shape[0])   
     plt.figure()
@@ -385,6 +405,7 @@ def plotParametersVSBounds(y,lb,ub,title='',xticklabels=[]):
     ax.set_xticklabels(xticklabels) 
     ax.set_title(title)
     
+# %% Calculate number of subplots.
 def nSubplots(N):
     
     ny_0 = (np.sqrt(N)) 
@@ -399,6 +420,7 @@ def nSubplots(N):
             
     return ny_a, ny_b
 
+# %% Compute index initial contact from GRFs.
 def getIdxIC_3D(GRF_opt, threshold):    
     idxIC = np.nan
     N = GRF_opt.shape[1]
@@ -417,21 +439,26 @@ def getIdxIC_3D(GRF_opt, threshold):
         legIC = "right"
             
     return idxIC, legIC
-            
+      
+# %% Compute RMSE.      
 def getRMSE(predictions, targets):
     return np.sqrt(((predictions - targets) ** 2).mean())
 
+# %% Compute RMSE normalized by signal range.
 def getRMSENormMinMax(predictions, targets):    
     ROM = np.max(targets) - np.min(targets)    
     return (np.sqrt(((predictions - targets) ** 2).mean()))/ROM
 
+# %% Compute RMSE normalized by standard deviation.
 def getRMSENormStd(predictions, targets):    
     std = np.std(targets)
     return (np.sqrt(((predictions - targets) ** 2).mean()))/std
 
+# %% Compute R2.
 def getR2(predictions, targets):
     return (np.corrcoef(predictions, targets)[0,1])**2 
 
+# %% Return some metrics.
 def getMetrics(predictions, targets):
     r2 = np.zeros((predictions.shape[0]))
     rmse = np.zeros((predictions.shape[0]))
@@ -444,10 +471,12 @@ def getMetrics(predictions, targets):
         rmseNormStd[i] = getRMSENormStd(predictions[i,:],targets[i,:])        
     return r2, rmse, rmseNormMinMax, rmseNormStd
 
+# %% Euler integration error.
 def eulerIntegration(xk_0, xk_1, uk, delta_t):
     
     return (xk_1 - xk_0) - uk * delta_t
 
+# %% Get initial contacts.
 def getInitialContact(GRF_y, time, threshold):
     
     idxIC = np.argwhere(GRF_y >= threshold)[0]
@@ -456,6 +485,4 @@ def getInitialContact(GRF_y, time, threshold):
     timeIC_round2 = np.round(timeIC, 2)
     idxIC_round2 = np.argwhere(time >= timeIC_round2)[0]
     
-    return idxIC, timeIC, idxIC_round2, timeIC_round2
-    
-    
+    return idxIC, timeIC, idxIC_round2, timeIC_round2    

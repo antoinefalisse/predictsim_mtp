@@ -1,9 +1,11 @@
-import numpy as np
 '''
-import scipy.interpolate as interpolate
-import casadi as ca
+    This script contains classes that implement metabolics models.
 '''
 
+# %% Import packages.
+import numpy as np
+
+# %% Smooth approximation of metabolics model from Bhargava et al. (2004).
 class Bhargava2004SmoothedMuscleMetabolics:
     
     def __init__(self, excitation, activation, normFiberLength, fiberVelocity,
