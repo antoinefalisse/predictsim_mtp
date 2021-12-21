@@ -3,7 +3,9 @@ import numpy as np
 import matplotlib.pyplot as plt  
 
 # %% Settings 
-cases = ['4','12','14','17','18','20','23','24']
+# cases = ['4','12','14','17','18','20','23','24'] # old damping
+cases = ['40','53','54','56','59','60','62','64'] # new damping
+# cases = ['40','62']
 
 linewidth_s = 3
 fontsize_tick = 14
@@ -25,7 +27,7 @@ subject = 'subject2' # TODO
 swing = 65
     
 # %% Visualize results.
-plt.close('all')
+# plt.close('all')
 
 # %% Joint coordinates.
 jointTitles = ['Pelvis tilt', 'Pelvis list', 'Pelvis rotation', 'Pelvis tx', 

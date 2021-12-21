@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt  
 
 # %% Settings
-cases = ['4', '38', '40', '34', '37', '28']
+cases = ['40', '41', '42', '43', '44', '45', '46', '47']
 
 # %% Fixed settings
 pathMain = os.getcwd()

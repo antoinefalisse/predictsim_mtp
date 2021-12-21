@@ -1,10 +1,7 @@
 import os
 import numpy as np
-import matplotlib.pyplot as plt
 from scipy.interpolate import interp1d
 from sklearn.metrics import mean_squared_error, r2_score
-
-from utilities import getJointIndices
 
 # %% Settings
 labels = ['Old model - low contact spheres - without toes', 
@@ -13,8 +10,16 @@ labels = ['Old model - low contact spheres - without toes',
           'Old model - low contact spheres - with toes',
           'New model - high contact spheres - with toes']
 
-cases = ['31', '32', '28', '27', '4']
-case_4exp = '4'
+# cases = ['31', '32', '28', '27', '4'] # old damping
+cases = ['31', '32', '28', '66', '40'] # new damping
+
+old_model_without_toes = '31'
+new_model_without_toes = '32'
+new_model_without_toes_high = '28'
+old_model_with_toes = '66'
+new_model_with_toes = '40'
+
+# cases = ['40','53','54','56','59','60','62','64'] # Effect of Achilles tendon stiffness
 
 colors=['black', '#984ea3','#4daf4a','#377eb8','#ff7f00'] 
 linestyles=['solid','dashed','dashdot','solid','dashdot']
@@ -22,6 +27,8 @@ linewidth_s = 3
 fontsize_tick = 14
 fontsize_label = 15
 fontsize_title = 17
+
+
 
 # %% Fixed settings
 pathMain = os.getcwd()
@@ -36,16 +43,22 @@ experimentalData = np.load(os.path.join(pathData, 'experimentalData.npy'),
                            allow_pickle=True).item()
 subject = 'subject2' # TODO
 threshold = 5
+N = 100
 
 metrics = {}
 metrics['RMSE'] = {}
 metrics['R2'] = {}
+signal_range = {}
+
+for case in cases:
+    print(np.round(optimaltrajectories[case]['COT'],2))
+    print(optimaltrajectories[case]['iter_count'])
 
 # %% Kinematics
 jointsToAnalyze = ['knee_angle_r',  'ankle_angle_r']
 metrics['RMSE']['kinematics'] = {}
 metrics['R2']['kinematics'] = {}
-
+signal_range['kinematics'] = {}
 for i, joint in enumerate(jointsToAnalyze):
     metrics['RMSE']['kinematics'][joint] = {}
     metrics['R2']['kinematics'][joint] = {}
@@ -64,9 +77,10 @@ for i, joint in enumerate(jointsToAnalyze):
         c_ref_stance = c_ref[:c_ref_idx_tr]
         # Interpolate over 100 data points
         c_ref_vec = np.linspace(0, c_ref_stance.shape[0]-1, c_ref_stance.shape[0])
-        c_ref_vec_N = np.linspace(0, c_ref_stance.shape[0]-1, 100)
+        c_ref_vec_N = np.linspace(0, c_ref_stance.shape[0]-1, N)
         set_interp = interp1d(c_ref_vec, c_ref_stance)
-        c_ref_inter = set_interp(c_ref_vec_N)
+        c_ref_inter = set_interp(c_ref_vec_N)        
+        signal_range['kinematics'][joint] = np.max(c_ref_inter) - np.min(c_ref_inter) 
         
         # Simulated data
         c_sim = optimaltrajectories[case]['coordinate_values'][c_joint_idx:c_joint_idx+1, :].flatten()
@@ -78,7 +92,7 @@ for i, joint in enumerate(jointsToAnalyze):
         c_sim_stance = c_sim[:c_sim_idx_tr]
         # Interpolate over 100 data points
         c_sim_vec = np.linspace(0, c_sim_stance.shape[0]-1, c_sim_stance.shape[0])
-        c_sim_vec_N = np.linspace(0, c_sim_stance.shape[0]-1, 100)
+        c_sim_vec_N = np.linspace(0, c_sim_stance.shape[0]-1, N)
         set_interp = interp1d(c_sim_vec, c_sim_stance)
         c_sim_inter = set_interp(c_sim_vec_N)
         
@@ -89,7 +103,7 @@ for i, joint in enumerate(jointsToAnalyze):
 # %% Kinetics
 metrics['RMSE']['kinetics'] = {}
 metrics['R2']['kinetics'] = {}
-
+signal_range['kinetics'] = {}
 for i, joint in enumerate(jointsToAnalyze):
     metrics['RMSE']['kinetics'][joint] = {}
     metrics['R2']['kinetics'][joint] = {}
@@ -108,9 +122,10 @@ for i, joint in enumerate(jointsToAnalyze):
         c_ref_stance = c_ref[:c_ref_idx_tr]
         # Interpolate over 100 data points
         c_ref_vec = np.linspace(0, c_ref_stance.shape[0]-1, c_ref_stance.shape[0])
-        c_ref_vec_N = np.linspace(0, c_ref_stance.shape[0]-1, 100)
+        c_ref_vec_N = np.linspace(0, c_ref_stance.shape[0]-1, N)
         set_interp = interp1d(c_ref_vec, c_ref_stance)
         c_ref_inter = set_interp(c_ref_vec_N)
+        signal_range['kinetics'][joint] = np.max(c_ref_inter) - np.min(c_ref_inter) 
         
         # Simulated data
         c_sim = optimaltrajectories[case]['joint_torques'][c_joint_idx:c_joint_idx+1, :].flatten()
@@ -122,71 +137,150 @@ for i, joint in enumerate(jointsToAnalyze):
         c_sim_stance = c_sim[:c_sim_idx_tr]
         # Interpolate over 100 data points
         c_sim_vec = np.linspace(0, c_sim_stance.shape[0]-1, c_sim_stance.shape[0])
-        c_sim_vec_N = np.linspace(0, c_sim_stance.shape[0]-1, 100)
+        c_sim_vec_N = np.linspace(0, c_sim_stance.shape[0]-1, N)
         set_interp = interp1d(c_sim_vec, c_sim_stance)
         c_sim_inter = set_interp(c_sim_vec_N)
         
         # Compute RMSE
         metrics['RMSE']['kinetics'][joint][case] = mean_squared_error(c_ref_inter, c_sim_inter, squared=False)
         metrics['R2']['kinetics'][joint][case] = r2_score(c_ref_inter, c_sim_inter)
+        
+# %% Percent change as a function of signal range wrt previous case
+variables = ['kinematics', 'kinetics']
+joints = ['knee_angle_r', 'ankle_angle_r']
+changes = {}
+changes_baseline = {}
+for variable in variables:
+    changes[variable] = {}
+    changes_baseline[variable] = {}
+    for joint in joints:
+        changes[variable][joint] = {}
+        changes_baseline[variable][joint] = {}
+        for c, case in enumerate(cases[1:]):            
+            RMSE_change = metrics['RMSE'][variable][joint][case] - metrics['RMSE'][variable][joint][cases[c]]
+            changes[variable][joint][case] = np.round(RMSE_change / signal_range[variable][joint] * 100, 1)
+            
+            RMSE_change_baseline = metrics['RMSE'][variable][joint][case] - metrics['RMSE'][variable][joint][cases[0]]
+            changes_baseline[variable][joint][case] = np.round(RMSE_change_baseline / signal_range[variable][joint] * 100, 1)   
 
 # %% Analysis results
 print('Influence of the mass distribution')
 print('Knee kinematics and kinetics')
-rmse_change_knee_kinematics_mass = 100 - (metrics['RMSE']['kinematics']['knee_angle_r']['32'] / metrics['RMSE']['kinematics']['knee_angle_r']['31']) * 100
-rmse_change_knee_kinetics_mass = 100 - (metrics['RMSE']['kinetics']['knee_angle_r']['32'] / metrics['RMSE']['kinetics']['knee_angle_r']['31']) * 100
-print('RMSE kinematics decreased by {} %, from {} to {}'.format(round(rmse_change_knee_kinematics_mass), round(metrics['RMSE']['kinematics']['knee_angle_r']['31'],1), round(metrics['RMSE']['kinematics']['knee_angle_r']['32'],1)))
-print('RMSE kinetics decreased by {} %, from {} to {}'.format(round(rmse_change_knee_kinetics_mass), round(metrics['RMSE']['kinetics']['knee_angle_r']['31'],1), round(metrics['RMSE']['kinetics']['knee_angle_r']['32'],1)))
+rmse_change_knee_kinematics_mass = 100 - (metrics['RMSE']['kinematics']['knee_angle_r'][new_model_without_toes] / metrics['RMSE']['kinematics']['knee_angle_r'][old_model_without_toes]) * 100
+rmse_change_knee_kinetics_mass = 100 - (metrics['RMSE']['kinetics']['knee_angle_r'][new_model_without_toes] / metrics['RMSE']['kinetics']['knee_angle_r'][old_model_without_toes]) * 100
+rmse_change_knee_kinematics_mass_signal = np.abs(metrics['RMSE']['kinematics']['knee_angle_r'][new_model_without_toes] - metrics['RMSE']['kinematics']['knee_angle_r'][old_model_without_toes])/signal_range['kinematics']['knee_angle_r']*100
+rmse_change_knee_kinetics_mass_signal = np.abs(metrics['RMSE']['kinetics']['knee_angle_r'][new_model_without_toes] - metrics['RMSE']['kinetics']['knee_angle_r'][old_model_without_toes])/signal_range['kinetics']['knee_angle_r']*100
+print('RMSE kinematics decreased by {}%, from {} to {}, change is {}% of signal range'.format(
+    round(rmse_change_knee_kinematics_mass), 
+    round(metrics['RMSE']['kinematics']['knee_angle_r'][old_model_without_toes],1), 
+    round(metrics['RMSE']['kinematics']['knee_angle_r'][new_model_without_toes],1), 
+    round(rmse_change_knee_kinematics_mass_signal,1)))
+print('RMSE kinetics decreased by {}%, from {} to {}, change is {}% of signal range'.format(
+    round(rmse_change_knee_kinetics_mass), 
+    round(metrics['RMSE']['kinetics']['knee_angle_r'][old_model_without_toes],1), 
+    round(metrics['RMSE']['kinetics']['knee_angle_r'][new_model_without_toes],1),
+    round(rmse_change_knee_kinetics_mass_signal,1)))
 print('Ankle kinematics and kinetics')
-rmse_change_ankle_kinematics_mass = 100 - (metrics['RMSE']['kinematics']['ankle_angle_r']['32'] / metrics['RMSE']['kinematics']['ankle_angle_r']['31']) * 100
-rmse_change_ankle_kinetics_mass = 100 - (metrics['RMSE']['kinetics']['ankle_angle_r']['32'] / metrics['RMSE']['kinetics']['ankle_angle_r']['31']) * 100
-print('RMSE kinematics decreased by {}, from {} to {}'.format(round(rmse_change_ankle_kinematics_mass), round(metrics['RMSE']['kinematics']['ankle_angle_r']['31'],1), round(metrics['RMSE']['kinematics']['ankle_angle_r']['32'],1)))
-print('RMSE kinetics decreased by {} %, from {} to {}'.format(round(rmse_change_ankle_kinetics_mass), round(metrics['RMSE']['kinetics']['ankle_angle_r']['31'],1), round(metrics['RMSE']['kinetics']['ankle_angle_r']['32'],1)))
+rmse_change_ankle_kinematics_mass = 100 - (metrics['RMSE']['kinematics']['ankle_angle_r'][new_model_without_toes] / metrics['RMSE']['kinematics']['ankle_angle_r'][old_model_without_toes]) * 100
+rmse_change_ankle_kinetics_mass = 100 - (metrics['RMSE']['kinetics']['ankle_angle_r'][new_model_without_toes] / metrics['RMSE']['kinetics']['ankle_angle_r'][old_model_without_toes]) * 100
+rmse_change_ankle_kinematics_mass_signal = np.abs(metrics['RMSE']['kinematics']['ankle_angle_r'][new_model_without_toes] - metrics['RMSE']['kinematics']['ankle_angle_r'][old_model_without_toes])/signal_range['kinematics']['ankle_angle_r']*100
+rmse_change_ankle_kinetics_mass_signal = np.abs(metrics['RMSE']['kinetics']['ankle_angle_r'][new_model_without_toes] - metrics['RMSE']['kinetics']['ankle_angle_r'][old_model_without_toes])/signal_range['kinetics']['ankle_angle_r']*100
+print('RMSE kinematics decreased by {}%, from {} to {}, change is {}% of signal range'.format(
+    round(rmse_change_ankle_kinematics_mass), 
+    round(metrics['RMSE']['kinematics']['ankle_angle_r'][old_model_without_toes],1), 
+    round(metrics['RMSE']['kinematics']['ankle_angle_r'][new_model_without_toes],1), 
+    round(rmse_change_ankle_kinematics_mass_signal,1)))
+print('RMSE kinetics decreased by {}%, from {} to {}, change is {}% of signal range'.format(
+    round(rmse_change_ankle_kinetics_mass), 
+    round(metrics['RMSE']['kinetics']['ankle_angle_r'][old_model_without_toes],1), 
+    round(metrics['RMSE']['kinetics']['ankle_angle_r'][new_model_without_toes],1),
+    round(rmse_change_ankle_kinetics_mass_signal,1)))
 
 print('Influence of the sphere position')
 print('Knee kinematics and kinetics')
-rmse_change_knee_kinematics_sphere = 100 - (metrics['RMSE']['kinematics']['knee_angle_r']['28'] / metrics['RMSE']['kinematics']['knee_angle_r']['32']) * 100
-rmse_change_knee_kinetics_sphere = 100 - (metrics['RMSE']['kinetics']['knee_angle_r']['28'] / metrics['RMSE']['kinetics']['knee_angle_r']['32']) * 100
-print('RMSE kinematics decreased by {} %, from {} to {}'.format(round(rmse_change_knee_kinematics_sphere), round(metrics['RMSE']['kinematics']['knee_angle_r']['32'],1), round(metrics['RMSE']['kinematics']['knee_angle_r']['28'],1)))
-print('RMSE kinetics decreased by {} %, from {} to {}'.format(round(rmse_change_knee_kinetics_sphere), round(metrics['RMSE']['kinetics']['knee_angle_r']['32'],1), round(metrics['RMSE']['kinetics']['knee_angle_r']['28'],1)))
+rmse_change_knee_kinematics_sphere = 100 - (metrics['RMSE']['kinematics']['knee_angle_r'][new_model_without_toes_high] / metrics['RMSE']['kinematics']['knee_angle_r'][new_model_without_toes]) * 100
+rmse_change_knee_kinetics_sphere = 100 - (metrics['RMSE']['kinetics']['knee_angle_r'][new_model_without_toes_high] / metrics['RMSE']['kinetics']['knee_angle_r'][new_model_without_toes]) * 100
+rmse_change_knee_kinematics_signal = np.abs(metrics['RMSE']['kinematics']['knee_angle_r'][new_model_without_toes_high] - metrics['RMSE']['kinematics']['knee_angle_r'][new_model_without_toes])/signal_range['kinematics']['knee_angle_r']*100
+rmse_change_knee_kinetics_sphere_signal = np.abs(metrics['RMSE']['kinetics']['knee_angle_r'][new_model_without_toes_high] - metrics['RMSE']['kinetics']['knee_angle_r'][new_model_without_toes])/signal_range['kinetics']['knee_angle_r']*100
+print('RMSE kinematics decreased by {} %, from {} to {}, change is {}% of signal range'.format(
+    round(rmse_change_knee_kinematics_sphere), 
+    round(metrics['RMSE']['kinematics']['knee_angle_r'][new_model_without_toes],1), 
+    round(metrics['RMSE']['kinematics']['knee_angle_r'][new_model_without_toes_high],1),
+    round(rmse_change_knee_kinematics_signal,1)))
+print('RMSE kinetics decreased by {} %, from {} to {}, change is {}% of signal range'.format(
+    round(rmse_change_knee_kinetics_sphere), 
+    round(metrics['RMSE']['kinetics']['knee_angle_r'][new_model_without_toes],1), 
+    round(metrics['RMSE']['kinetics']['knee_angle_r'][new_model_without_toes_high],1),
+    round(rmse_change_knee_kinetics_sphere_signal,1)))
 print('Ankle kinematics and kinetics')
-rmse_change_ankle_kinematics_sphere = 100 - (metrics['RMSE']['kinematics']['ankle_angle_r']['28'] / metrics['RMSE']['kinematics']['ankle_angle_r']['32']) * 100
-rmse_change_ankle_kinetics_sphere = 100 - (metrics['RMSE']['kinetics']['ankle_angle_r']['28'] / metrics['RMSE']['kinetics']['ankle_angle_r']['32']) * 100
-print('RMSE kinematics decreased by {} %, from {} to {}'.format(round(rmse_change_ankle_kinematics_sphere), round(metrics['RMSE']['kinematics']['ankle_angle_r']['32'],1), round(metrics['RMSE']['kinematics']['ankle_angle_r']['28'],1)))
-print('RMSE kinetics decreased by {} %, from {} to {}'.format(round(rmse_change_ankle_kinetics_sphere), round(metrics['RMSE']['kinetics']['ankle_angle_r']['32'],1), round(metrics['RMSE']['kinetics']['ankle_angle_r']['28'],1)))
+rmse_change_ankle_kinematics_sphere = 100 - (metrics['RMSE']['kinematics']['ankle_angle_r'][new_model_without_toes_high] / metrics['RMSE']['kinematics']['ankle_angle_r'][new_model_without_toes]) * 100
+rmse_change_ankle_kinetics_sphere = 100 - (metrics['RMSE']['kinetics']['ankle_angle_r'][new_model_without_toes_high] / metrics['RMSE']['kinetics']['ankle_angle_r'][new_model_without_toes]) * 100
+rmse_change_ankle_kinematics_signal = np.abs(metrics['RMSE']['kinematics']['ankle_angle_r'][new_model_without_toes_high] - metrics['RMSE']['kinematics']['ankle_angle_r'][new_model_without_toes])/signal_range['kinematics']['ankle_angle_r']*100
+rmse_change_ankle_kinetics_sphere_signal = np.abs(metrics['RMSE']['kinetics']['ankle_angle_r'][new_model_without_toes_high] - metrics['RMSE']['kinetics']['ankle_angle_r'][new_model_without_toes])/signal_range['kinetics']['ankle_angle_r']*100
+print('RMSE kinematics decreased by {} %, from {} to {}, change is {}% of signal range'.format(
+    round(rmse_change_ankle_kinematics_sphere), 
+    round(metrics['RMSE']['kinematics']['ankle_angle_r'][new_model_without_toes],1), 
+    round(metrics['RMSE']['kinematics']['ankle_angle_r'][new_model_without_toes_high],1),
+    round(rmse_change_ankle_kinematics_signal,1)))
+print('RMSE kinetics decreased by {} %, from {} to {}, change is {}% of signal range'.format(
+    round(rmse_change_ankle_kinetics_sphere), 
+    round(metrics['RMSE']['kinetics']['ankle_angle_r'][new_model_without_toes],1), 
+    round(metrics['RMSE']['kinetics']['ankle_angle_r'][new_model_without_toes_high],1),
+    round(rmse_change_ankle_kinetics_sphere_signal,1)))
 
 print('Influence of the toes')
 print('Knee kinematics and kinetics')
-rmse_change_knee_kinematics_toes = 100 - (metrics['RMSE']['kinematics']['knee_angle_r']['4'] / metrics['RMSE']['kinematics']['knee_angle_r']['28']) * 100
-rmse_change_knee_kinetics_toes = 100 - (metrics['RMSE']['kinetics']['knee_angle_r']['4'] / metrics['RMSE']['kinetics']['knee_angle_r']['28']) * 100
-print('RMSE kinematics decreased by {} %, from {} to {}'.format(round(rmse_change_knee_kinematics_toes), round(metrics['RMSE']['kinematics']['knee_angle_r']['28'],1), round(metrics['RMSE']['kinematics']['knee_angle_r']['4'],1)))
-print('RMSE kinetics decreased by {} %, from {} to {}'.format(round(rmse_change_knee_kinetics_toes), round(metrics['RMSE']['kinetics']['knee_angle_r']['28'],1), round(metrics['RMSE']['kinetics']['knee_angle_r']['4'],1)))
+rmse_change_knee_kinematics_toes = 100 - (metrics['RMSE']['kinematics']['knee_angle_r'][new_model_with_toes] / metrics['RMSE']['kinematics']['knee_angle_r'][new_model_without_toes_high]) * 100
+rmse_change_knee_kinetics_toes = 100 - (metrics['RMSE']['kinetics']['knee_angle_r'][new_model_with_toes] / metrics['RMSE']['kinetics']['knee_angle_r'][new_model_without_toes_high]) * 100
+rmse_change_knee_kinematics_toes_signal = np.abs(metrics['RMSE']['kinematics']['knee_angle_r'][new_model_with_toes] - metrics['RMSE']['kinematics']['knee_angle_r'][new_model_without_toes_high])/signal_range['kinematics']['knee_angle_r']*100
+rmse_change_knee_kinetics_toes_signal = np.abs(metrics['RMSE']['kinetics']['knee_angle_r'][new_model_with_toes] - metrics['RMSE']['kinetics']['knee_angle_r'][new_model_without_toes_high])/signal_range['kinetics']['knee_angle_r']*100
+
+print('RMSE kinematics decreased by {} %, from {} to {}, change is {}% of signal range'.format(
+    round(rmse_change_knee_kinematics_toes), 
+    round(metrics['RMSE']['kinematics']['knee_angle_r'][new_model_without_toes_high],1), 
+    round(metrics['RMSE']['kinematics']['knee_angle_r'][new_model_with_toes],1),
+    round(rmse_change_knee_kinematics_toes_signal,1)))
+print('RMSE kinetics decreased by {} %, from {} to {}, change is {}% of signal range'.format(
+    round(rmse_change_knee_kinetics_toes), 
+    round(metrics['RMSE']['kinetics']['knee_angle_r'][new_model_without_toes_high],1), 
+    round(metrics['RMSE']['kinetics']['knee_angle_r'][new_model_with_toes],1),
+    round(rmse_change_knee_kinetics_toes_signal,1)))
 print('Ankle kinematics and kinetics')
-rmse_change_ankle_kinematics_toes = 100 - (metrics['RMSE']['kinematics']['ankle_angle_r']['4'] / metrics['RMSE']['kinematics']['ankle_angle_r']['28']) * 100
-rmse_change_ankle_kinetics_toes = 100 - (metrics['RMSE']['kinetics']['ankle_angle_r']['4'] / metrics['RMSE']['kinetics']['ankle_angle_r']['28']) * 100
-print('RMSE kinematics decreased by {} %, from {} to {}'.format(round(rmse_change_ankle_kinematics_toes), round(metrics['RMSE']['kinematics']['ankle_angle_r']['28'],1), round(metrics['RMSE']['kinematics']['ankle_angle_r']['4'],1)))
-print('RMSE kinetics decreased by {} %, from {} to {}'.format(round(rmse_change_ankle_kinetics_toes), round(metrics['RMSE']['kinetics']['ankle_angle_r']['28'],1), round(metrics['RMSE']['kinetics']['ankle_angle_r']['4'],1)))
+rmse_change_ankle_kinematics_toes = 100 - (metrics['RMSE']['kinematics']['ankle_angle_r'][new_model_with_toes] / metrics['RMSE']['kinematics']['ankle_angle_r'][new_model_without_toes_high]) * 100
+rmse_change_ankle_kinetics_toes = 100 - (metrics['RMSE']['kinetics']['ankle_angle_r'][new_model_with_toes] / metrics['RMSE']['kinetics']['ankle_angle_r'][new_model_without_toes_high]) * 100
+rmse_change_ankle_kinematics_toes_signal = np.abs(metrics['RMSE']['kinematics']['ankle_angle_r'][new_model_with_toes] - metrics['RMSE']['kinematics']['ankle_angle_r'][new_model_without_toes_high])/signal_range['kinematics']['ankle_angle_r']*100
+rmse_change_ankle_kinetics_toes_signal = np.abs(metrics['RMSE']['kinetics']['ankle_angle_r'][new_model_with_toes] - metrics['RMSE']['kinetics']['ankle_angle_r'][new_model_without_toes_high])/signal_range['kinetics']['ankle_angle_r']*100
+
+print('RMSE kinematics decreased by {} %, from {} to {}, change is {}% of signal range'.format(
+    round(rmse_change_ankle_kinematics_toes), 
+    round(metrics['RMSE']['kinematics']['ankle_angle_r'][new_model_without_toes_high],1), 
+    round(metrics['RMSE']['kinematics']['ankle_angle_r'][new_model_with_toes],1),
+    round(rmse_change_ankle_kinematics_toes_signal,1)))
+print('RMSE kinetics decreased by {} %, from {} to {}, change is {}% of signal range'.format(
+    round(rmse_change_ankle_kinetics_toes), 
+    round(metrics['RMSE']['kinetics']['ankle_angle_r'][new_model_without_toes_high],1), 
+    round(metrics['RMSE']['kinetics']['ankle_angle_r'][new_model_with_toes],1),
+    round(rmse_change_ankle_kinetics_toes_signal,1)))
 
 # %% First peak GRF
 # Experimental
 c_ref_vGRF_max = np.max(experimentalData[subject]["GRF"]["mean"]['GRF_y_r'].to_numpy())
 # Simulation with toes
-c_sim_toes_vGRF = np.max(optimaltrajectories['4']['GRF'][1, :].T)
+c_sim_toes_vGRF = np.max(optimaltrajectories[new_model_with_toes]['GRF'][1, :].T)
 # Simulation without toes
-c_sim_noToes_vGRF = np.max(optimaltrajectories['28']['GRF'][1, :].T)
+c_sim_noToes_vGRF = np.max(optimaltrajectories[new_model_without_toes_high]['GRF'][1, :].T)
 
 peak_GRF_change = 100 - (c_sim_toes_vGRF/c_sim_noToes_vGRF*100)
 print('Peak decreased by {} %, from {} to {}'.format(round(peak_GRF_change), round(c_sim_noToes_vGRF), round(c_sim_toes_vGRF)))
 
 # %%
 # COT comparison
-COT_withToes = optimaltrajectories['4']['COT_perMuscle']
-COT_withoutToes = optimaltrajectories['28']['COT_perMuscle']
+COT_withToes = optimaltrajectories[new_model_with_toes]['COT_perMuscle']
+COT_withoutToes = optimaltrajectories[new_model_without_toes_high]['COT_perMuscle']
 
 COT_diff = COT_withToes-COT_withoutToes
 sort_COT_idx = np.flip(np.argsort(COT_diff))
-sort_COT = np.flip(np.sort(ratio_COT))
-muscles_names = optimaltrajectories['4']['muscles']
+muscles_names = optimaltrajectories[new_model_with_toes]['muscles']
 sort_COT_muscles = []
 for idx in sort_COT_idx:    
     sort_COT_muscles.append(muscles_names[idx])
@@ -197,3 +291,6 @@ COT_withToes_sum = np.sum(COT_withToes)
 COT_withoutToes_sum = np.sum(COT_withoutToes)
 
 COT_quads_added / (COT_withToes_sum-COT_withoutToes_sum)*100
+
+np.mean([2045/1248, 2499/849, 2894/1860, 2782/894])
+np.mean([4043/1248, 3967/849, 3860/1860, 3783/894])

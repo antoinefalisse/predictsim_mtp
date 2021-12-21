@@ -37,12 +37,13 @@ threshold = 5
 metrics = {}
 metrics['RMSE'] = {}
 metrics['R2'] = {}
+signal_range = {}
 
 # %% Kinematics
 jointsToAnalyze = ['knee_angle_r',  'ankle_angle_r']
 metrics['RMSE']['kinematics'] = {}
 metrics['R2']['kinematics'] = {}
-
+signal_range['kinematics'] = {}
 for i, joint in enumerate(jointsToAnalyze):
     metrics['RMSE']['kinematics'][joint] = {}
     metrics['R2']['kinematics'][joint] = {}
@@ -64,6 +65,7 @@ for i, joint in enumerate(jointsToAnalyze):
         c_ref_vec_N = np.linspace(0, c_ref_stance.shape[0]-1, 100)
         set_interp = interp1d(c_ref_vec, c_ref_stance)
         c_ref_inter = set_interp(c_ref_vec_N)
+        signal_range['kinematics'][joint] = np.max(c_ref_inter) - np.min(c_ref_inter) 
         
         # Simulated data
         c_sim = optimaltrajectories[case]['coordinate_values'][c_joint_idx:c_joint_idx+1, :].flatten()
@@ -86,6 +88,7 @@ for i, joint in enumerate(jointsToAnalyze):
 # %% Kinetics
 metrics['RMSE']['kinetics'] = {}
 metrics['R2']['kinetics'] = {}
+signal_range['kinetics'] = {}
 
 for i, joint in enumerate(jointsToAnalyze):
     metrics['RMSE']['kinetics'][joint] = {}
@@ -108,6 +111,7 @@ for i, joint in enumerate(jointsToAnalyze):
         c_ref_vec_N = np.linspace(0, c_ref_stance.shape[0]-1, 100)
         set_interp = interp1d(c_ref_vec, c_ref_stance)
         c_ref_inter = set_interp(c_ref_vec_N)
+        signal_range['kinetics'][joint] = np.max(c_ref_inter) - np.min(c_ref_inter) 
         
         # Simulated data
         c_sim = optimaltrajectories[case]['joint_torques'][c_joint_idx:c_joint_idx+1, :].flatten()
@@ -126,6 +130,27 @@ for i, joint in enumerate(jointsToAnalyze):
         # Compute RMSE
         metrics['RMSE']['kinetics'][joint][case] = np.round(mean_squared_error(c_ref_inter, c_sim_inter, squared=False), 2)
         metrics['R2']['kinetics'][joint][case] = r2_score(c_ref_inter, c_sim_inter)
+        
+        
+# %% Percent change as a function of signal range
+variables = ['kinematics', 'kinetics']
+joints = ['knee_angle_r', 'ankle_angle_r']
+changes = {}
+for variable in variables:
+    changes[variable] = {}
+    for joint in joints:
+        changes[variable][joint] = {}
+        for c, case in enumerate(cases[1:]):            
+            RMSE_change = metrics['RMSE'][variable][joint][case] - metrics['RMSE'][variable][joint][cases[c]]
+            changes[variable][joint][case] = np.round(RMSE_change / signal_range[variable][joint] * 100, 1)
+            
+            
+            
+    
+
+
+
+
 
 # # %% Analysis results
 # print('Influence of the mass distribution')
