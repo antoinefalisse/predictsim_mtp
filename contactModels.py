@@ -1,4 +1,10 @@
+'''
+    This script contains classes that implement contact models.
+'''
+
+# %% Import packages.
 import numpy as np
+import casadi as ca
 
 # %% This class implements a smooth approximation of Simbody's Hunt-Crossley
 # contact model: https://github.com/simbody/simbody/blob/master/Simbody/include/simbody/internal/SmoothSphereHalfSpaceForce.h
@@ -66,9 +72,7 @@ class smoothSphereHalfSpaceForce:
         
         return contactForce
 
-# %% CasADi-specific implementation.
-import casadi as ca
-    
+# %% CasADi-specific implementation.  
 class smoothSphereHalfSpaceForce_ca:
     
     def __init__(self, stiffness, radius, dissipation, transitionVelocity,

@@ -1,5 +1,11 @@
+'''
+    This script contains classes that implement muscle models.
+'''
+
+# %% Import packages.
 import numpy as np
 
+# %% DeGrooteFregly2016MuscleModel
 # This class implements the muscle model desrcribed in De Groote et al. (2016).
 # https://link.springer.com/article/10.1007%2Fs10439-016-1591-9
 class DeGrooteFregly2016MuscleModel:

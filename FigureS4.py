@@ -15,6 +15,11 @@ fontsize_tick = 14
 fontsize_label = 15
 fontsize_title = 17
 
+# '984ea3' : purple
+# '4daf4a' : green
+# '377eb8' : blue
+# 'ff7f00' : orange
+
 # %% Fixed settings
 pathMain = os.getcwd()
 # Load results

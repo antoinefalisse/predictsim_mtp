@@ -1,7 +1,13 @@
+'''
+    This script contains several CasADi functions for use when setting up
+    the optimal control problem.
+'''
+
+# %% Import packages.
 import casadi as ca
 import numpy as np
 
-# %% Returns CasADi function to approximate muscle-tendon lenghts, velocities,
+# %% CasADi function to approximate muscle-tendon lenghts, velocities,
 # and moment arms based on joint positions and velocities.
 def polynomialApproximation(musclesPolynomials, polynomialData, NPolynomial):    
     
@@ -38,7 +44,7 @@ def polynomialApproximation(musclesPolynomials, polynomialData, NPolynomial):
     
     return f_polynomial
         
-# %% Returns CasADi function to derive the Hill equilibrium.
+# %% CasADi function to derive the Hill equilibrium.
 def hillEquilibrium(mtParameters, tendonCompliance, specificTension):
     
     from muscleModels import DeGrooteFregly2016MuscleModel
@@ -84,8 +90,8 @@ def hillEquilibrium(mtParameters, tendonCompliance, specificTension):
     
     return f_hillEquilibrium
 
-# %% Returns CasADi function to explicitly describe the simple dynamics
-# governing the arm movements.
+# %% CasADi function to explicitly describe the dynamic equations governing 
+# the arm movements.
 def armActivationDynamics(NArmJoints):
     
     t = 0.035 # time constant       
@@ -101,7 +107,8 @@ def armActivationDynamics(NArmJoints):
     
     return f_armActivationDynamics  
 
-# %% Returns CasADi function to compute the metabolic cost of transport.
+# %% CasADi function to compute the metabolic cost of transport based on 
+# Bhargava et al. (2004).
 def metabolicsBhargava(slowTwitchRatio, maximalIsometricForce,
                        muscleMass, smoothingConstant,
                        use_fiber_length_dep_curve=False,
@@ -166,7 +173,7 @@ def metabolicsBhargava(slowTwitchRatio, maximalIsometricForce,
     
     return f_metabolicsBhargava
 
-# %% Returns CasADi function to compute passive (limit) joint torques.
+# %% CasADi function to compute passive (limit) joint torques.
 def getLimitTorques(k, theta, d):
     
     # Function variables.
@@ -181,7 +188,7 @@ def getLimitTorques(k, theta, d):
     
     return f_passiveJointTorque
 
-# %% Returns CasADi function to compute linear passive joint torques.
+# %% CasADi function to compute linear passive joint torques.
 def getLinearPassiveTorques(k, d):
     
     # Function variables.
@@ -194,7 +201,7 @@ def getLinearPassiveTorques(k, d):
     
     return f_passiveMtpTorque    
 
-# %% Returns CasADi function to compute normalized sum of elements to power.
+# %% CasADi function to compute normalized sum of elements to given power.
 def normSumPow(N, exp):
     
     # Function variables.
@@ -207,7 +214,7 @@ def normSumPow(N, exp):
     
     return f_normSumPow
 
-# %% Returns helper CasADi function to compute difference in torques.
+# %% CasADi function to compute difference in torques.
 def diffTorques():
     
     # Function variables.
@@ -223,7 +230,7 @@ def diffTorques():
         
     return f_diffTorques
 
-# %% Returns CasADi function to compute foor-grount contact forces.
+# %% CasADi function to compute foor-grount contact forces.
 # Note: this function is unused for the predictive simulations, but could be
 # useful in other studies.
 def smoothSphereHalfSpaceForce(dissipation, transitionVelocity,

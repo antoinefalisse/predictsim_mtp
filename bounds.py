@@ -1,8 +1,13 @@
+'''
+    This script contains classes to set bounds to the optimization variables.
+'''
+
+# %% Import packages
 import scipy.interpolate as interpolate
 import pandas as pd
 import numpy as np
 
-# %% This class sets bounds for the optimization variables.
+# %% Class bounds.
 class bounds:
     
     def __init__(self, Qs, joints, muscles, armJoints, targetSpeed, 

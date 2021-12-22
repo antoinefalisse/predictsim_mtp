@@ -1,3 +1,10 @@
+'''
+    This script contains classes to set initial guesses to the optimization
+    variables. Two classes are implemented: one for a hot-start and one for
+    a cold-start.
+'''
+
+# %% Import packages
 import pandas as pd
 import numpy as np
 import scipy.interpolate as interpolate
@@ -6,7 +13,8 @@ from scipy.interpolate import interp1d
 # %% This class sets a cold-start guess for the optimization variables.
 # All variables are constant except for the pelvis moving forward at a
 # constant speed.
-class coldStart:    
+class coldStart:
+    
     def __init__(self, N, d, joints, muscles, targetSpeed):        
         self.N = N
         self.d = d

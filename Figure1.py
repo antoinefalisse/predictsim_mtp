@@ -11,8 +11,11 @@ labels = ['Old model - low contact spheres - without toes',
           'Old model - low contact spheres - with toes',
           'New model - high contact spheres - with toes']
 
-cases = ['31', '32', '28', '27', '4']
-case_4exp = '4'
+# cases = ['31', '32', '28', '27', '4']
+# case_4exp = '4'
+
+cases = ['31', '32', '28', '66', '40']
+case_4exp = '40'
 
 colors=['black', '#984ea3','#4daf4a','#377eb8','#ff7f00'] 
 linestyles=['solid','dashed','dashdot','solid','dashdot']
@@ -36,7 +39,7 @@ subject = 'subject2' # TODO
 swing = 65
     
 # %% Visualize results
-plt.close('all')
+# plt.close('all')
 
 # %% Joint coordinates
 kinematic_ylim_ub = [20, 30,]

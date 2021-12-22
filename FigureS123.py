@@ -8,8 +8,9 @@ from utilities import getJointIndices
 # cases = ['174', '145']
 # cases_no_mtp = ['106', '119', '115']
 # case_4exp = '145'
-cases = ['31', '32', '28', '27', '4']
-case_4exp = '4'
+# cases = ['31', '32', '28', '27', '4']
+cases = ['31', '32', '28', '66', '40']
+case_4exp = '40'
 
 # color_mtp=['#377eb8','#ff7f00'] 
 # linestyle_mtp=['solid','dashdot']
