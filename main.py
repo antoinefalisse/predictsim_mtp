@@ -41,8 +41,8 @@ import platform
 # you might want to latter only load and process the results without re-solving
 # the problem. Playing with the settings below allows you to do exactly that.
 solveProblem = True # Set True to solve the optimal control problem.
-saveResults = False # Set True to save the results of the optimization.
-analyzeResults = True # Set True to analyze the results.
+saveResults = True # Set True to save the results of the optimization.
+analyzeResults = False # Set True to analyze the results.
 loadResults = True # Set True to load the results of the optimization.
 writeMotionFiles = True # Set True to write motion files for use in OpenSim GUI
 saveOptimalTrajectories = True # Set True to save optimal trajectories
