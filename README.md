@@ -16,4 +16,7 @@ A lot of cleaning is still required to make this code user-friendly. I will work
 - Navigate to the folder: `cd predictsim_mtp`
 - Checkout the cleaning branch: `git checkout cleaning`
 - Install required packages: `python -m pip install -r requirements.txt`
-- Run main code: `python main.py`
+
+# Run simulations and plot resulrs:
+- Run main: `python main.py`
+- Run plotResults: `python plotResults.py`

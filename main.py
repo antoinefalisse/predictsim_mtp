@@ -28,6 +28,7 @@
 '''
 
 # TODO: generate MA automatically.
+# TODO: add Gif
 
 import os
 import casadi as ca

@@ -9,7 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt  
 
 # %% User inputs
-cases = ['40', '41', '42', '43', '44', '45', '46', '47']
+cases = ['40']
 
 # %% Paths
 pathMain = os.getcwd()
