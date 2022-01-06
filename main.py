@@ -24,7 +24,7 @@
     script. There is definitely room for improvement.
     
     Author: Antoine Falisse
-    Date: 2021/09
+    Date: 2022/01
 '''
 
 # TODO: generate MA automatically.
@@ -49,12 +49,8 @@ saveOptimalTrajectories = True # Set True to save optimal trajectories
 
 # Select the case(s) for which you want to solve the associated problem(s) or
 # process the results. Specify the settings of the case(s) in the
-# 'settings' module. 
-# cases = ['example0', 'example1', 'example2', 'example3', 'example4']
-# cases = ['42','43','44','48','50']
-# cases = ['45','46','47','49','51']
-cases = [str(i) for i in range(42,68)]
-# cases = ['60','61','62','63','64','65','66','67']
+# 'settings' module.
+cases = [str(i) for i in range(40,41)]
         
 # Import settings.
 from settings import getSettings   

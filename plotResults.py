@@ -1,11 +1,17 @@
+'''
+    This script plots results of the simulations. You should specify which
+    'case' you want to plot in the list 'cases' below.
+'''
+
+# %% Import packages.
 import os
 import numpy as np
 import matplotlib.pyplot as plt  
 
-# %% Settings
+# %% User inputs
 cases = ['40', '41', '42', '43', '44', '45', '46', '47']
 
-# %% Fixed settings
+# %% Paths
 pathMain = os.getcwd()
 # Load results
 pathTrajectories = os.path.join(pathMain, 'Results')
@@ -16,7 +22,7 @@ optimaltrajectories = np.load(os.path.join(pathTrajectories,
 pathData = os.path.join(pathMain, 'OpenSimModel', 'new_model')
 experimentalData = np.load(os.path.join(pathData, 'experimentalData.npy'),
                            allow_pickle=True).item()
-subject = 'subject2' # TODO
+subject = 'new_model'
 
 # %% Joint positions.
 joints = optimaltrajectories[cases[0]]['joints']

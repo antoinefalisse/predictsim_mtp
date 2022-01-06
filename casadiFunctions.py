@@ -230,7 +230,7 @@ def diffTorques():
         
     return f_diffTorques
 
-# %% CasADi function to compute foor-grount contact forces.
+# %% CasADi function to compute foot-ground contact forces.
 # Note: this function is unused for the predictive simulations, but could be
 # useful in other studies.
 def smoothSphereHalfSpaceForce(dissipation, transitionVelocity,

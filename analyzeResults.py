@@ -36,7 +36,7 @@ optimaltrajectories = np.load(os.path.join(pathTrajectories,
 pathData = os.path.join(pathMain, 'OpenSimModel', 'new_model')
 experimentalData = np.load(os.path.join(pathData, 'experimentalData.npy'),
                            allow_pickle=True).item()
-subject = 'subject2' # TODO
+subject = 'new_model'
 threshold = 5 # vGRF threshold for stance-swing transition
 N = 100 # # data points for interpolation
 

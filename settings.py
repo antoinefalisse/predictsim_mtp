@@ -3,49 +3,6 @@ import numpy as np
 def getSettings():
         
     settings = {
-        # %% Example.        
-        # New model.        
-        # Effect of the mesh density.
-        'example0': {'guessType': 'hotStart',
-                    'targetSpeed': 1.33,
-                    'N': 50,
-                    'modelMass': 62,
-                    'model': 'Hamner_modified'},
-        'example1': {'guessType': 'hotStart',
-                    'targetSpeed': 1.33,
-                    'N': 60,
-                    'modelMass': 62,
-                    'model': 'Hamner_modified'},     
-        'example2': {'guessType': 'coldStart',
-                    'targetSpeed': 1.33,
-                    'N': 60,
-                    'modelMass': 62,
-                    'model': 'Hamner_modified'},
-        'example3': {'guessType': 'hotStart',
-                    'targetSpeed': 1.33,
-                    'N': 70,
-                    'modelMass': 62,
-                    'model': 'Hamner_modified'},
-        'example4': {'guessType': 'coldStart',
-                    'targetSpeed': 1.33,
-                    'N': 70,
-                    'modelMass': 62,
-                    'model': 'Hamner_modified'},                    
-        'example5': {'guessType': 'hotStart',
-                    'targetSpeed': 1.33,
-                    'N': 100,
-                    'modelMass': 62,
-                    'model': 'Hamner_modified'},
-        'example6': {'guessType': 'coldStart',
-                    'targetSpeed': 1.33,
-                    'N': 100,
-                    'modelMass': 62,
-                    'model': 'Hamner_modified'},
-        'example7': {'guessType': 'coldStart',
-                    'targetSpeed': 1.33,
-                    'N': 50,
-                    'modelMass': 62,
-                    'model': 'Hamner_modified'},
         
         # %% With toes.        
         # New model.        

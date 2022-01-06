@@ -1,3 +1,8 @@
+'''
+    This script reproduces Fig 1 of the paper.
+'''
+
+# %% Import packages.
 import os
 import numpy as np
 import matplotlib.pyplot as plt  
@@ -35,7 +40,7 @@ optimaltrajectories = np.load(os.path.join(pathTrajectories,
 pathData = os.path.join(pathMain, 'OpenSimModel', 'new_model')
 experimentalData = np.load(os.path.join(pathData, 'experimentalData.npy'),
                            allow_pickle=True).item()
-subject = 'subject2' # TODO
+subject = 'new_model'
 swing = 65
     
 # %% Visualize results
