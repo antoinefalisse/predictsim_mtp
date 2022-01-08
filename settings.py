@@ -286,6 +286,7 @@ def getSettings():
                'modelMass': 62,
                'knee_axis': 'FK',
                'dampingMtp': 1.9},
+        
         # %% New simulations with higher damping values
         # With toes.        
         # New model.        

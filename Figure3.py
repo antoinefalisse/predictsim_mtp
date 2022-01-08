@@ -8,9 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt  
 
 # %% Settings 
-# cases = ['4','12','14','17','18','20','23','24'] # old damping
 cases = ['40','53','54','56','59','60','62','64'] # new damping
-# cases = ['40','62']
 
 linewidth_s = 3
 fontsize_tick = 14
