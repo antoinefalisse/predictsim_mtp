@@ -9,7 +9,6 @@ Here is an example of a predictive simulation of walking, based on a complex mus
 The main script is `main.py` and the easiest is to start exploring the code from there. The code is for use on Windows, but please post an issue if you want support for other platforms as changes are minimal.
 
 # Install requirements
-
 - Open Anaconda prompt
 - Create environment: `conda create -n 3dpredsim pip spyder`
 - Activate environment: `activate 3dpredsim`
@@ -24,3 +23,16 @@ The main script is `main.py` and the easiest is to start exploring the code from
 - `Figure<>.py`: scripts to reproduce figures of the publication.
 - `analyzeResults<>.py`: scripts to get key numbers reported in the publication.
 - The other files are mainly containing classes and functions called in `main.py`.
+
+# Data and Results
+To keep this repository small in size, we do not include raw data and results. Instead we provide `.npy` files with processed data and results. Please find raw data and results on our [SimTK project page](https://simtk.org/projects/predictsim_mtp): 
+- `OpenSimModel/new_model/experimentalData.npy` contains all processed experimental data and was generated from running `extractExperimentalData.py`.
+- `Results/optimaltrajectories.npy` contains all processed results.
+- We do provide results from one case: `Results/Case_40`, which is the default case.
+
+# Visualize simulations in OpenSim
+- Launch OpenSim
+- Open model, eg `OpenSimModel/new_model/Model/new_model_scaled_FK_contacts.osim`
+- Load motion, eg `Results/Case_40/motion.mot`
+- Associate Motion Data, eg `Results/Case_40/GRF.mot`
+
