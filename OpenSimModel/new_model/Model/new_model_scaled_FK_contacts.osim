@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <OpenSimDocument Version="40000">
-	<Model name="subject2_withMTP_scaled">
+	<Model name="new_model_scaled_FK_contacts">
 		<defaults>
 			<ControlLinear name="default">
 				<is_model_control>true</is_model_control>

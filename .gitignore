@@ -1,7 +1,9 @@
 __pycache__/
 *.log
 
-**/Results
+Results/*
+!Results/Case_40
+!Results/optimaltrajectories.npy
 
 OpenSimModel/*
 !OpenSimModel/new_model
