@@ -27,9 +27,6 @@
     Date: 2022/01
 '''
 
-# TODO: generate MA automatically.
-# TODO: add Gif
-
 import os
 import casadi as ca
 import numpy as np
@@ -43,7 +40,7 @@ import platform
 # the problem. Playing with the settings below allows you to do exactly that.
 solveProblem = True # Set True to solve the optimal control problem.
 saveResults = True # Set True to save the results of the optimization.
-analyzeResults = False # Set True to analyze the results.
+analyzeResults = True # Set True to analyze the results.
 loadResults = True # Set True to load the results of the optimization.
 writeMotionFiles = True # Set True to write motion files for use in OpenSim GUI
 saveOptimalTrajectories = True # Set True to save optimal trajectories
