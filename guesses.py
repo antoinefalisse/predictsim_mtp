@@ -1,10 +1,20 @@
+'''
+    This script contains classes to set initial guesses to the optimization
+    variables. Two classes are implemented: one for a hot-start and one for
+    a cold-start.
+'''
+
+# %% Import packages
 import pandas as pd
 import numpy as np
 import scipy.interpolate as interpolate
 from scipy.interpolate import interp1d
 
-# %% Quasi-random initial guess    
-class quasiRandomGuess:    
+# %% This class sets a cold-start guess for the optimization variables.
+# All variables are constant except for the pelvis moving forward at a
+# constant speed.
+class coldStart:
+    
     def __init__(self, N, d, joints, muscles, targetSpeed):        
         self.N = N
         self.d = d
@@ -20,7 +30,7 @@ class quasiRandomGuess:
         
         return self.guessFinalTime
     
-    # Mesh points
+    # Mesh points.
     def getGuessPosition(self, scaling):
         g = [0] * (self.N + 1)
         g_pelvis_tx = np.linspace(0, self.guessFinalTime * self.targetSpeed, 
@@ -117,7 +127,7 @@ class quasiRandomGuess:
             
         return guessTorqueActuatorExcitation 
     
-    # Collocation points   
+    # Collocation points.
     def getGuessActivationCol(self):            
         guessActivationCol = pd.DataFrame(columns=self.muscles)          
         for k in range(self.N):
@@ -184,8 +194,10 @@ class quasiRandomGuess:
                 
         return guessAccelerationCol
     
-# %% Data-driven initial guess    
-class dataDrivenGuess:
+# %% This class sets a hot-start guess for the optimization variables.
+# Joints positions, velocities, and accelerations are based on experimental
+# data. Muscle variables are set to constant values.
+class hotStart:
     
     def __init__(self, Qs, N, d, joints, muscles, targetSpeed, 
                  periodicQsJointsA, periodicQdotsJointsA, 
@@ -201,8 +213,7 @@ class dataDrivenGuess:
         self.periodicOppositeJoints = periodicOppositeJoints
         self.periodicQdotsJointsA = periodicQdotsJointsA
         
-    def splineQs(self):
-        
+    def splineQs(self):        
         self.Qs_spline = self.Qs.copy()
         self.Qdots_spline = self.Qs.copy()
         self.Qdotdots_spline = self.Qs.copy()
@@ -244,42 +255,14 @@ class dataDrivenGuess:
         
         return self.guessFinalTime
     
-    # Mesh points
+    # Mesh points.
     def getGuessPosition(self, scaling, adjustInitialStatePelvis_tx=True):
         self.interpQs()
-        self.guessPosition = pd.DataFrame()  
-#        g = [0] * self.N
-        for count, joint in enumerate(self.joints): 
-#            if (joint == 'mtp_angle_l') or (joint == 'mtp_angle_r'):
-#                self.guessPosition.insert(count, joint, 
-#                                          g / scaling.iloc[0][joint])
-#            else:
-#                self.guessPosition.insert(count, joint, self.Qs_spline[joint] / 
-#                                          scaling.iloc[0][joint])   
-            self.guessPosition.insert(count, joint, self.Qs_spline_interp[joint] / 
-                                      scaling.iloc[0][joint]) 
-        # # Add last mesh point while accounting for periodicity      
-        # self.guessPosition.loc[self.N] = np.NaN            
-        # for joint in self.joints:                           
-        #     if joint in self.periodicQsJointsA:
-        #         if (joint[-2:] == '_r'):
-        #             self.guessPosition.iloc[self.N][joint] = (
-        #                     self.guessPosition.iloc[0][joint[:-1] + 'l'])
-        #         elif (joint[-2:] == '_l'):
-        #             self.guessPosition.iloc[self.N][joint] = (
-        #                     self.guessPosition.iloc[0][joint[:-1] + 'r'])
-        #         else:
-        #             self.guessPosition.iloc[self.N][joint] = (
-        #                     self.guessPosition.iloc[0][joint])
-        #     elif joint in self.periodicOppositeJoints:
-        #         self.guessPosition.iloc[self.N][joint] = (
-        #                 -self.guessPosition.iloc[0][joint])       
-          
-        # dx = (self.guessPosition.iloc[self.N-1]['pelvis_tx'] - 
-        #       self.guessPosition.iloc[self.N-2]['pelvis_tx'])          
-        # self.guessPosition.iloc[self.N]['pelvis_tx'] = (
-        #         self.guessPosition.iloc[self.N-1]['pelvis_tx'] + dx)
-        
+        self.guessPosition = pd.DataFrame()
+        for count, joint in enumerate(self.joints):
+            self.guessPosition.insert(count, joint, 
+                                      self.Qs_spline_interp[joint] / 
+                                      scaling.iloc[0][joint])        
         if adjustInitialStatePelvis_tx:        
             self.guessPosition['pelvis_tx'] -= (
                     self.guessPosition.iloc[0]['pelvis_tx'])
@@ -288,34 +271,11 @@ class dataDrivenGuess:
     
     def getGuessVelocity(self, scaling):
         self.interpQs()
-        self.guessVelocity = pd.DataFrame()  
-#        g = [0] * self.N
-        for count, joint in enumerate(self.joints): 
-#            if (joint == 'mtp_angle_l') or (joint == 'mtp_angle_r'):
-#                self.guessVelocity.insert(count, joint, 
-#                                          g / scaling.iloc[0][joint])
-#            else:                    
-#                self.guessVelocity.insert(count, joint, 
-#                                          self.Qdots_spline[joint] / 
-#                                          scaling.iloc[0][joint])
-            self.guessVelocity.insert(count, joint, self.Qdots_spline_interp[joint] / 
+        self.guessVelocity = pd.DataFrame()
+        for count, joint in enumerate(self.joints):
+            self.guessVelocity.insert(count, joint, 
+                                      self.Qdots_spline_interp[joint] / 
                                       scaling.iloc[0][joint])
-        # # Add last mesh point while accounting for periodicity      
-        # self.guessVelocity.loc[self.N] = np.NaN            
-        # for joint in self.joints:                           
-        #     if joint in self.periodicQdotsJointsA:
-        #         if (joint[-2:] == '_r'):
-        #             self.guessVelocity.iloc[self.N][joint] = (
-        #                     self.guessVelocity.iloc[0][joint[:-1] + 'l'])
-        #         elif (joint[-2:] == '_l'):
-        #             self.guessVelocity.iloc[self.N][joint] = (
-        #                     self.guessVelocity.iloc[0][joint[:-1] + 'r'])
-        #         else:
-        #             self.guessVelocity.iloc[self.N][joint] = (
-        #                     self.guessVelocity.iloc[0][joint])
-        #     elif joint in self.periodicOppositeJoints:
-        #         self.guessVelocity.iloc[self.N][joint] = (
-        #                 -self.guessVelocity.iloc[0][joint]) 
         
         return self.guessVelocity
     
@@ -323,21 +283,14 @@ class dataDrivenGuess:
         self.interpQs()
         self.guessAcceleration = pd.DataFrame()  
         g = [0] * self.N
-        for count, joint in enumerate(self.joints): 
-#            if (joint == 'mtp_angle_l') or (joint == 'mtp_angle_r'):
-#                self.guessAcceleration.insert(count, joint, 
-#                                          g / scaling.iloc[0][joint])
-#            else:     
-#                self.guessAcceleration.insert(count, joint, 
-#                                              self.Qdotdots_spline[joint] / 
-#                                              scaling.iloc[0][joint])                               
+        for count, joint in enumerate(self.joints):                              
             if nullGuessAcceleration:
                 self.guessAcceleration.insert(count, joint,
                                               g / scaling.iloc[0][joint])
             else:
-                self.guessAcceleration.insert(count, joint, 
-                                              self.Qdotdots_spline_interp[joint] /
-                                              scaling.iloc[0][joint]) 
+                self.guessAcceleration.insert(
+                    count, joint, self.Qdotdots_spline_interp[joint] /
+                    scaling.iloc[0][joint]) 
                     
         return self.guessAcceleration
     
@@ -394,7 +347,7 @@ class dataDrivenGuess:
             
         return guessTorqueActuatorExcitation   
     
-    # Collocation points
+    # Collocation points.
     def getGuessActivationCol(self):            
         guessActivationCol = pd.DataFrame(columns=self.muscles)          
         for k in range(self.N):
@@ -460,67 +413,3 @@ class dataDrivenGuess:
                         self.guessAcceleration.iloc[k], ignore_index=True)
                 
         return guessAccelerationCol    
-    
-# %% Contact parameter guess (independent of experimental data - own class)    
-class contactParameterGuess:
-    
-    def getGuessContactParameters_3s_all(self, scaling_v, scaling_r):
-        
-        location_s1 = np.array([0.01, 0, 0])
-        location_s2 = np.array([0.15, -0.01, 0])
-        location_s3 = np.array([0.025, -0.01, 0])
-        
-        radius_s1 = 0.025
-        radius_s2 = 0.025
-        radius_s3 = 0.025
-    
-        stiffness_s1 = 2000000
-        stiffness_s2 = 2000000
-        stiffness_s3 = 2000000
-        
-        contactParameters_unsc = np.concatenate((location_s1, location_s2, location_s3, [radius_s1], [radius_s2], [radius_s3], [stiffness_s1], [stiffness_s2], [stiffness_s3]))
-        guessContactParameters = contactParameters_unsc * scaling_v + scaling_r
-                
-        return guessContactParameters    
-    
-    def getGuessContactParameters_2s_option1(self, scaling_v, scaling_r):
-        
-        location_s1 = np.array([0.01, 0, 0])
-        location_s2 = np.array([0.025, -0.01, 0])
-        
-        radius_s1 = 0.025
-        radius_s2 = 0.025
-    
-        stiffness = 2000000
-        
-        contactParameters_unsc = np.concatenate((location_s1, location_s2, [radius_s1], [radius_s2], [stiffness]))
-        guessContactParameters = contactParameters_unsc * scaling_v + scaling_r
-                
-        return guessContactParameters   
-    
-    def getGuessContactParameters_2s_option2(self, scaling_v, scaling_r):
-        
-        location_s1 = np.array([0.01, 0])
-        location_s2 = np.array([0.025, -0.01])
-        
-        radius = 0.025
-        
-        contactParameters_unsc = np.concatenate((location_s1, location_s2, [radius]))
-        guessContactParameters = contactParameters_unsc * scaling_v + scaling_r
-                
-        return guessContactParameters  
-    
-    def getGuessContactParameters_3s_option2(self, scaling_v, scaling_r):
-        
-        location_s1 = np.array([0.01, 0])
-        location_s2 = np.array([0.025, -0.01])
-        location_s3 = np.array([0.05, -0.01])
-        
-        radius = 0.025
-        
-        contactParameters_unsc = np.concatenate((
-                location_s1, location_s2, location_s3, [radius], [radius]))
-        guessContactParameters = contactParameters_unsc * scaling_v + scaling_r
-                
-        return guessContactParameters  
-    

@@ -1,7 +1,15 @@
-import numpy as np
-import matplotlib.pyplot as plt  
-from mpl_toolkits.mplot3d import Axes3D
+'''
+    This script contains classes and functions to support the approximation of
+    muscle-tendon lengths, velocities, and moment arms using polynomial
+    functions of joint positions and velocities.
+'''
 
+# %% Import packages.
+import numpy as np
+import matplotlib.pyplot as plt
+
+# %% This class evaluates polynomial approximations given the coefficients,
+# the dimension, and the order.
 class polynomials:
     
     def __init__(self, coefficients, dimension, order):
@@ -10,7 +18,7 @@ class polynomials:
         self.dimension = dimension
         self.order = order
         
-        nq = [0, 0 ,0, 0]
+        nq = [0, 0, 0, 0]
         NCoeff = 0
         for nq[0] in range(order + 1):
             if (dimension < 2):
@@ -35,7 +43,7 @@ class polynomials:
                             'but got: {}'.format(len(coefficients)))
             
     def calcValue(self, x):        
-        nq = [0, 0 ,0, 0]
+        nq = [0, 0, 0, 0]
         coeff_nr = 0
         value = 0
         for nq[0] in range(self.order + 1):
@@ -63,7 +71,7 @@ class polynomials:
         return value
     
     def calcDerivative(self, x, derivComponent):
-        nq = [0, 0 ,0, 0]
+        nq = [0, 0, 0, 0]
         coeff_nr = 0
         value = 0
         for nq[0] in range(self.order + 1):
@@ -124,57 +132,10 @@ class polynomials:
                             value += valueP * self.coefficients[coeff_nr]
                         coeff_nr += 1                 
                                                 
-        return value       
-   
-#Qs = np.array([[0.814483478343008, 1.05503342897057, 0.162384573599574], 
-#               [0.0633034484654646, 0.433004984392647, 0.716775413397760],
-#               [-0.0299471169706956, 0.200356847296188, 0.716775413397760]])
-#    
-#
-##QsAll =   getPolynomialApproximations(Qs, 2) 
-#coefficients = [0.118034053273277,
-#-0.0198914859748213,
-#0.00341155611798044,
-#0.000826778689685325,
-#0.000259029436944541,
-#0.0471603344972271,
-#0.0236255120631739,
-#-0.0168342796982147,
-#-0.00251675874700809,
-#-0.00455604318179362,
-#-0.000550918170918716,
-#0.00145644549324444,
-#-0.00461496787325817,
-#-0.00136069333510760,
-#0.000606905109073913,
-#0.0144077096126637,
-#-0.0411208977719301,
-#-0.0115698165867765,
-#0.00479522842080227,
-#-0.0193492989240785,
-#0.00287521952609443,
-#0.0138638477541540,
-#0.00459209584151311,
-#0.00234259120488720,
-#0.00217987210918986,
-#-0.00812437639641265,
-#0.00877916340383921,
-#-5.63115284525812e-05,
-#-0.0156996065563687,
-#-0.0151313191287344,
-#0.00391818335257039,
-#-0.00143098571215378,
-#0.00298434394560463,
-#0.00325245307489826,
-#0.000461919491456800]
-#dimension = 3    
-#order = 4
-#polynomial = polynomials(coefficients, dimension, order)
-#value = polynomial.calcValue(Qs[0, :])
-#value1 = polynomial.calcDerivative(Qs[0, :], 0)
-#value2 = polynomial.calcDerivative(Qs[0, :], 1)
-#value3 = polynomial.calcDerivative(Qs[0, :], 2)
-        
+        return value
+    
+# %% This class evaluates the terms of the polynomial approximations, given
+# the dimension and the order. It is used when fitting the coefficients.        
 class polynomial_estimation:
     
     def __init__(self, dimension, order):
@@ -182,7 +143,7 @@ class polynomial_estimation:
         self.dimension = dimension
         self.order = order
         
-        nq = [0, 0 ,0, 0]
+        nq = [0, 0, 0, 0]
         self.NCoeff = 0
         for nq[0] in range(order + 1):
             if (dimension < 2):
@@ -202,8 +163,8 @@ class polynomial_estimation:
                     for nq[3] in range(nq4_s + 1):
                         self.NCoeff += 1
                     
-    def getVariables(self, x):        
-        nq = [0, 0 ,0, 0]
+    def calcValue(self, x):        
+        nq = [0, 0, 0, 0]
         coeff_nr = 0
         value = np.zeros((x.shape[0], self.NCoeff))
         for nq[0] in range(self.order + 1):
@@ -230,8 +191,8 @@ class polynomial_estimation:
                         
         return value
     
-    def getVariableDerivatives(self, x, derivComponent):
-        nq = [0, 0 ,0, 0]
+    def calcDerivative(self, x, derivComponent):
+        nq = [0, 0, 0, 0]
         coeff_nr = 0
         value = np.zeros((x.shape[0], self.NCoeff))
         for nq[0] in range(self.order + 1):
@@ -294,29 +255,35 @@ class polynomial_estimation:
                                                 
         return value
         
-def getPolynomialCoefficients(pathCoordinates, pathMuscleAnalysis, joints, muscles, order_min=3, order_max=9, threshold=0.003):
+# %% This functions fits the polynomial coefficients.
+def getPolynomialCoefficients(pathCoordinates, pathMuscleAnalysis, joints,
+                              muscles, order_min=3, order_max=9, 
+                              threshold=0.003):
     
     # Get joint coordinates.
-    from variousFunctions import getIK
+    from utilities import getIK
     jointCoordinates = (getIK(pathCoordinates, joints)[0]).to_numpy()[:,1::]
     
-    # Get muscle-tendon lengths
-    from variousFunctions import getFromStorage
+    # Get muscle-tendon lengths.
+    from utilities import getFromStorage
     pathMuscleTendonLengths = pathMuscleAnalysis + 'Length.sto'
-    muscleTendonLengths = getFromStorage(pathMuscleTendonLengths, muscles).to_numpy()[:,1::] 
+    muscleTendonLengths = getFromStorage(
+        pathMuscleTendonLengths, muscles).to_numpy()[:,1::] 
     
-    # Get moment arms
-    momentArms = np.zeros((jointCoordinates.shape[0], len(muscles), len(joints)))
+    # Get moment arms.
+    momentArms = np.zeros((jointCoordinates.shape[0], len(muscles),
+                           len(joints)))
     for i, joint in enumerate(joints):
         pathMomentArm = pathMuscleAnalysis + 'MomentArm_' + joint + '.sto'
-        # getFromStorage outputs time vector as well so [:,1::]
-        momentArms[:, :, i] = getFromStorage(pathMomentArm, muscles).to_numpy()[:,1::] 
-    # Detect which muscles actuate which joints (moment arm different than [-0.0001:0.0001])  
+        # getFromStorage outputs time vector as well, so [:,1::].
+        momentArms[:, :, i] = getFromStorage(
+            pathMomentArm, muscles).to_numpy()[:,1::] 
+    # Detect which muscles actuate which joints.  
     spanningInfo = np.sum(momentArms, axis=0)
-    spanningInfo = np.where(np.logical_and(spanningInfo<=0.0001, spanningInfo>=-0.0001), 0, 1)
+    spanningInfo = np.where(np.logical_and(
+        spanningInfo<=0.0001, spanningInfo>=-0.0001), 0, 1)
         
-    polynomialData = {}
-    
+    polynomialData = {}    
     for i, muscle in enumerate(muscles):
         muscle_momentArms = momentArms[:, i, spanningInfo[i, :]==1]
         muscle_dimension = muscle_momentArms.shape[1]
@@ -327,36 +294,46 @@ def getPolynomialCoefficients(pathCoordinates, pathMuscleAnalysis, joints, muscl
         while not is_fullfilled:
             
             polynomial = polynomial_estimation(muscle_dimension, order)
-            mat = polynomial.getVariables(jointCoordinates[:, spanningInfo[i, :]==1])
-            
-            diff_mat = np.zeros((jointCoordinates.shape[0], mat.shape[1], muscle_dimension))    
-            diff_mat_sq = np.zeros((jointCoordinates.shape[0]*(muscle_dimension), mat.shape[1]))  
+            mat = polynomial.calcValue(
+                jointCoordinates[:, spanningInfo[i, :]==1])            
+            diff_mat = np.zeros(
+                (jointCoordinates.shape[0], mat.shape[1], muscle_dimension))    
+            diff_mat_sq = np.zeros(
+                (jointCoordinates.shape[0]*(muscle_dimension), mat.shape[1]))  
             for j in range(muscle_dimension):
-                diff_mat[:,:,j] = polynomial.getVariableDerivatives(jointCoordinates[:, spanningInfo[i, :]==1], j)
-                diff_mat_sq[jointCoordinates.shape[0]*j:jointCoordinates.shape[0]*(j+1),:] = -(diff_mat[:,:,j]).reshape(-1, diff_mat.shape[1])
+                diff_mat[:,:,j] = polynomial.calcDerivative(
+                    jointCoordinates[:, spanningInfo[i, :]==1], j)
+                diff_mat_sq[
+                    jointCoordinates.shape[0]*j:
+                        jointCoordinates.shape[0]*(j+1),:] = -(
+                            diff_mat[:,:,j]).reshape(-1, diff_mat.shape[1])
             
             A = np.concatenate((mat,diff_mat_sq),axis=0)            
-            B = np.concatenate((muscle_muscleTendonLengths,(muscle_momentArms.T).flatten()))
+            B = np.concatenate((muscle_muscleTendonLengths,
+                                (muscle_momentArms.T).flatten()))
             
-            # Solve least-square problem    
+            # Solve least-square problem    .
             coefficients = np.linalg.lstsq(A,B,rcond=None)[0]
             
-            # Compute difference with model data
-            # Muscle-tendon lengths
+            # Compute difference with model data.
+            # Muscle-tendon lengths.
             muscle_muscleTendonLengths_poly = np.matmul(mat,coefficients)
             muscleTendonLengths_diff_rms = np.sqrt(np.mean(
-                    muscle_muscleTendonLengths - muscle_muscleTendonLengths_poly)**2)
-            # Moment-arms
-            muscle_momentArms_poly = np.zeros((jointCoordinates.shape[0], muscle_dimension))    
+                    muscle_muscleTendonLengths -
+                    muscle_muscleTendonLengths_poly)**2)
+            # Moment-arms.
+            muscle_momentArms_poly = np.zeros((jointCoordinates.shape[0],
+                                               muscle_dimension))    
             for j in range(muscle_dimension):        
                 muscle_momentArms_poly[:,j] = np.matmul(
-                        -(diff_mat[:,:,j]).reshape(-1, diff_mat.shape[1]),coefficients)
-                
+                        -(diff_mat[:,:,j]).reshape(-1, diff_mat.shape[1]),
+                        coefficients)                
             momentArms_diff_rms = np.sqrt(np.mean((
                     muscle_momentArms - muscle_momentArms_poly)**2, axis=0))
             
-            # Check if criterion is satisfied
-            if (muscleTendonLengths_diff_rms <= threshold and np.max(momentArms_diff_rms) <= threshold):
+            # Check if criterion is satisfied.
+            if (muscleTendonLengths_diff_rms <= threshold and 
+                np.max(momentArms_diff_rms) <= threshold):
                 is_fullfilled = True
             elif order == order_max:
                 is_fullfilled = True
@@ -364,35 +341,38 @@ def getPolynomialCoefficients(pathCoordinates, pathMuscleAnalysis, joints, muscl
             else:
                 order += 1
                 
-        polynomialData[muscle] = {'dimension': muscle_dimension, 'order': order,
-                      'coefficients': coefficients, 'spanning': spanningInfo[i, :]}
+        polynomialData[muscle] = {
+            'dimension': muscle_dimension, 'order': order,
+            'coefficients': coefficients, 'spanning': spanningInfo[i, :]}
         
     return polynomialData   
 
 # %% This function plots muscle-tendon lengths and moment arms. Note that this
-# is obviously limited to 3D, so muscles actuating more than 2 DOFs will not be
-# displayed.
+# is limited to 3D, so muscles actuating more than 2 DOFs are not displayed.
 def testPolynomials(pathCoordinates, pathMuscleAnalysis, joints, muscles,
                     f_polynomial, polynomialData, momentArmIndices,
                     trunkMomentArmPolynomialIndices=[]):
     
     # Get joint coordinates.
-    from variousFunctions import getIK
+    from utilities import getIK
     jointCoordinates = (getIK(pathCoordinates, joints)[0]).to_numpy()[:,1::]
     
-    # Get muscle-tendon lengths
-    from variousFunctions import getFromStorage
+    # Get muscle-tendon lengths.
+    from utilities import getFromStorage
     pathMuscleTendonLengths = pathMuscleAnalysis + 'Length.sto'
-    muscleTendonLengths = getFromStorage(pathMuscleTendonLengths, muscles).to_numpy()[:,1::] 
+    muscleTendonLengths = getFromStorage(
+        pathMuscleTendonLengths, muscles).to_numpy()[:,1::] 
     
-    # Get moment arms
-    momentArms = np.zeros((jointCoordinates.shape[0], len(muscles), len(joints)))
+    # Get moment arms.
+    momentArms = np.zeros((jointCoordinates.shape[0], len(muscles), 
+                           len(joints)))
     for i, joint in enumerate(joints):
         pathMomentArm = pathMuscleAnalysis + 'MomentArm_' + joint + '.sto'
-        # getFromStorage outputs time vector as well so [:,1::]
-        momentArms[:, :, i] = getFromStorage(pathMomentArm, muscles).to_numpy()[:,1::]
+        # getFromStorage outputs time vector as well, so [:,1::].
+        momentArms[:, :, i] = getFromStorage(
+            pathMomentArm, muscles).to_numpy()[:,1::]
     
-    # Approximate muscle-tendon lengths
+    # Approximate muscle-tendon lengths and moment-arms.
     lMT = np.zeros((len(muscles),muscleTendonLengths.shape[0]))
     dM = np.zeros((len(muscles),len(joints),muscleTendonLengths.shape[0]))
     dM_all = {}
@@ -434,7 +414,8 @@ def testPolynomials(pathCoordinates, pathMuscleAnalysis, joints, muscles,
             x1 = next(y)
             x2 = next(y)
             ax.scatter(jointCoordinates[:,x1],jointCoordinates[:,x2],lMT[i,:])
-            ax.scatter(jointCoordinates[:,x1],jointCoordinates[:,x2],muscleTendonLengths[:,i],c='r')
+            ax.scatter(jointCoordinates[:,x1],jointCoordinates[:,x2],
+                       muscleTendonLengths[:,i],c='r')
             ax.set_title(muscles[i])
             ax.set_xlabel(joints[x1])
             ax.set_ylabel(joints[x2])   
@@ -454,7 +435,8 @@ def testPolynomials(pathCoordinates, pathMuscleAnalysis, joints, muscles,
                 ny_b = int(ny+1)
         for j in range(NMomentarms):
             if joint[-1] == 'r' or joint[-1] == 'l':
-                muscle_obj_r = muscles[momentArmIndices[joint[:-1] + 'l'][j]][:-1] + 'r'
+                muscle_obj_r = (
+                    muscles[momentArmIndices[joint[:-1] + 'l'][j]][:-1] + 'r')
                 muscle_obj = muscles[momentArmIndices[joint[:-1] + 'l'][j]]
             else:
                 muscle_obj_r = muscles[trunkMomentArmPolynomialIndices[j]]
@@ -466,9 +448,15 @@ def testPolynomials(pathCoordinates, pathMuscleAnalysis, joints, muscles,
                 ax = fig.add_subplot(ny_a, ny_b, j+1)
                 ax.scatter(jointCoordinates[:,x1],dM_all[joint][j,:])
                 if joint[-1] == 'r' or joint[-1] == 'l':
-                    ax.scatter(jointCoordinates[:,x1],momentArms[:,momentArmIndices[joint[:-1] + 'l'][j],i],c='r')
+                    ax.scatter(
+                        jointCoordinates[:,x1],
+                        momentArms[:,momentArmIndices[joint[:-1] + 'l'][j],i],
+                        c='r')
                 else:
-                    ax.scatter(jointCoordinates[:,x1],momentArms[:,trunkMomentArmPolynomialIndices[j],i],c='r')
+                    ax.scatter(
+                        jointCoordinates[:,x1],
+                        momentArms[:,trunkMomentArmPolynomialIndices[j],i],
+                        c='r')
                 ax.set_title(muscle_obj)
                 ax.set_xlabel(joints[x1])
             if polynomialData[muscle_obj_r]['dimension'] == 2:
@@ -477,12 +465,18 @@ def testPolynomials(pathCoordinates, pathMuscleAnalysis, joints, muscles,
                 x1 = next(y)
                 x2 = next(y)
                 ax = fig.add_subplot(ny_a, ny_b, j+1, projection='3d')
-                ax.scatter(jointCoordinates[:,x1],jointCoordinates[:,x2],dM_all[joint][j,:])
+                ax.scatter(jointCoordinates[:,x1],jointCoordinates[:,x2],
+                           dM_all[joint][j,:])
                 if joint[-1] == 'r' or joint[-1] == 'l':
-                    ax.scatter(jointCoordinates[:,x1],jointCoordinates[:,x2],momentArms[:,momentArmIndices[joint[:-1] + 'l'][j],i],c='r')
+                    ax.scatter(
+                        jointCoordinates[:,x1],jointCoordinates[:,x2],
+                        momentArms[:,momentArmIndices[joint[:-1] + 'l'][j],i],
+                        c='r')
                 else:
-                    ax.scatter(jointCoordinates[:,x1],jointCoordinates[:,x2],momentArms[:,trunkMomentArmPolynomialIndices[j],i],c='r')
+                    ax.scatter(
+                        jointCoordinates[:,x1],jointCoordinates[:,x2],
+                        momentArms[:,trunkMomentArmPolynomialIndices[j],i],
+                        c='r')
                 ax.set_title(muscle_obj)
                 ax.set_xlabel(joints[x1])
                 ax.set_ylabel(joints[x2])                  
-            
