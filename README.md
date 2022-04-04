@@ -1,6 +1,6 @@
 # 3D Predictive Simulations of Walking
 
-This repository contains code and data to generate predictive simulations of human walking as described in "_Modeling toes contributes to realistic stance knee mechanics in three-dimensional predictive simulations of walking_". The paper has been submitted for publication. You can find the pre-print [here](https://www.biorxiv.org/content/10.1101/2021.08.13.456292v1).
+This repository contains code and data to generate predictive simulations of human walking as described in [Falisse A, Afschrift M, De Groote F (2022) _Modeling toes contributes to realistic stance knee mechanics in three-dimensional predictive simulations of walking_. PLoS ONE 17(1): e0256311](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0256311).
 
 Here is an example of a predictive simulation of walking, based on a complex musculoskeletal model (31 degrees of freedom, 92 muscles, 6 compliant foot-ground contacts per foot), generated with our framework.
 
@@ -36,3 +36,6 @@ To keep this repository small in size, we do not include raw data and results. I
 - Load motion, eg `Results/Case_40/motion.mot`
 - Associate Motion Data, eg `Results/Case_40/GRF.mot`
 
+# Citation
+Please cite this paper:
+  - Falisse A, Afschrift M, De Groote F (2022) _Modeling toes contributes to realistic stance knee mechanics in three-dimensional predictive simulations of walking_. PLoS ONE 17(1): e0256311. https://doi.org/10.1371/journal.pone.0256311
