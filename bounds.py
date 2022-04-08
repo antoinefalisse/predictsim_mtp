@@ -84,10 +84,10 @@ class bounds:
                     if joint == 'arm_flex_l':
                         lowerBoundsPosition[joint] = [-50*np.pi/180]
                 
-            # Scaling.                   
-            s = pd.concat([abs(upperBoundsPosition[joint]), 
-                           abs(lowerBoundsPosition[joint])]).max(level=0)
-            scalingPosition.insert(count, joint, s)
+            # Scaling.          
+            s = np.max(np.array([abs(upperBoundsPosition[joint])[0],
+                                 abs(lowerBoundsPosition[joint])[0]]))
+            scalingPosition.insert(count, joint, [s])
             lowerBoundsPosition[joint] /= scalingPosition[joint]
             upperBoundsPosition[joint] /= scalingPosition[joint]
             
@@ -128,10 +128,10 @@ class bounds:
                 if self.targetSpeed > 1.33:
                     upperBoundsVelocity['pelvis_tx'] = [4]
 
-            # Scaling.            
-            s = pd.concat([abs(upperBoundsVelocity[joint]), 
-                           abs(lowerBoundsVelocity[joint])]).max(level=0)
-            scalingVelocity.insert(count, joint, s)
+            # Scaling.
+            s = np.max(np.array([abs(upperBoundsVelocity[joint])[0],
+                                 abs(lowerBoundsVelocity[joint])[0]]))            
+            scalingVelocity.insert(count, joint, [s])
             upperBoundsVelocity[joint] /= scalingVelocity[joint]
             lowerBoundsVelocity[joint] /= scalingVelocity[joint]
 
@@ -161,10 +161,10 @@ class bounds:
                 upperBoundsAcceleration.insert(count, joint, [ub])
                 lowerBoundsAcceleration.insert(count, joint, [lb])   
             
-            # Scaling.                
-            s = pd.concat([abs(upperBoundsAcceleration[joint]), 
-                           abs(lowerBoundsAcceleration[joint])]).max(level=0)
-            scalingAcceleration.insert(count, joint, s)
+            # Scaling.
+            s = np.max(np.array([abs(upperBoundsAcceleration[joint])[0],
+                                 abs(lowerBoundsAcceleration[joint])[0]]))
+            scalingAcceleration.insert(count, joint, [s])
             upperBoundsAcceleration[joint] /= scalingAcceleration[joint]
             lowerBoundsAcceleration[joint] /= scalingAcceleration[joint]
 
