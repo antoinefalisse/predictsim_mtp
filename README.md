@@ -18,7 +18,7 @@ The main script is `main.py` and the easiest is to start exploring the code from
 - Install required packages: `python -m pip install -r requirements.txt`
 
 # Overview of main files:
-- `main.py`: basically everything from loading data, formulating the problem, solving it, and processing the results. Yes I know, it is not fantastic pratice to have everything in one place...
+- `main.py`: basically everything from loading data, formulating the problem, solving it, and processing the results. Yes I know, it is not fantastic pratice to have everything in one place. Case 42 ([default](https://github.com/antoinefalisse/predictsim_mtp/blob/master/main.py#L51)) converges in 772 iterations on my windows machine. 
 - `plotResults.py`: plots of simulation results against reference data (eg, joint angles and torques, ground reaction forces, and muscle activations).
 - `Figure<>.py`: scripts to reproduce figures of the publication.
 - `analyzeResults<>.py`: scripts to get key numbers reported in the publication.
