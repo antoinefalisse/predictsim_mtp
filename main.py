@@ -18,7 +18,7 @@
     Associated publications:
         - Falisse et al. (2019a): https://doi.org/10.1098/rsif.2019.0402 
         - Falisse et al. (2019b): https://doi.org/10.1371/journal.pone.0217730
-        - Falisse et al. (in review): https://doi.org/10.1101/2021.08.13.456292
+        - Falisse et al. (2022): https://doi.org/10.1371/journal.pone.0256311
         
     Please contact me if you find bugs or have suggestions to improve this
     script. There is definitely room for improvement.
