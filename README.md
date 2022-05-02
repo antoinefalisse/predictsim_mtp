@@ -28,13 +28,13 @@ The main script is `main.py` and the easiest is to start exploring the code from
 To keep this repository small in size, we do not include raw data and results. Instead we provide `.npy` files with processed data and results. Please find raw data and results on our [SimTK project page](https://simtk.org/projects/predictsim_mtp): 
 - `OpenSimModel/new_model/experimentalData.npy` contains all processed experimental data and was generated from running `extractExperimentalData.py`.
 - `Results/optimaltrajectories.npy` contains all processed results.
-- We do provide results from one case: `Results/Case_40`, which is the default case.
+- We do provide results from one case: `Results/Case_42`, which is the default case.
 
 # Visualize simulations in OpenSim
 - Launch OpenSim
 - Open model, eg `OpenSimModel/new_model/Model/new_model_scaled_FK_contacts.osim`
-- Load motion, eg `Results/Case_40/motion.mot`
-- Associate Motion Data, eg `Results/Case_40/GRF.mot`
+- Load motion, eg `Results/Case_42/motion.mot`
+- Associate Motion Data, eg `Results/Case_42/GRF.mot`
 
 # Citation
 Please cite this paper:
